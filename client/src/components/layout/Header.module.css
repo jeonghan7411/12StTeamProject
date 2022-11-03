@@ -1,15 +1,22 @@
 .header {
-  background-color: RGB(255, 154, 119);
+  background-color: var(--red-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 120px;
   font-size: 20px;
+
+  padding: 0 50px;
 }
 
 .header-wrap-left {
-  margin-left: 50px;
+  margin-right: 50px;
   color: white;
+}
+
+.header-wrap-left h1 {
+  font-size: 30px;
+  cursor: pointer;
 }
 
 .header-wrap-center {
@@ -18,8 +25,71 @@
   justify-content: space-between;
   background-color: white;
   border-radius: 50px;
-  width: 30%;
+  width: 40%;
+  min-width: 500px;
   padding: 10px;
+
+  border-color: var(--red-color);
+}
+
+.header-wrap-center span {
+  font-size: 16px;
+  margin-left: 10px;
+  padding-right: 40px;
+
+  border-right: 1px solid #ccc;
+  color: var(--black-color);
+
+  cursor: pointer;
+}
+
+.header-search-input {
+  width: 300px;
+}
+
+.header-search-input input {
+  width: 100%;
+  border: none;
+
+  font-family: inherit;
+}
+
+.header-search-btn {
+  width: 35px;
+  height: 35px;
+
+  border-radius: 50px;
+  border: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--navy-color);
+}
+
+.header-search-btn:hover {
+  background-color: var(--red-color);
+  color: var(--navy-color);
+  transition: 0.6s;
+}
+
+.header-wrap-right {
+  width: 180px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-control {
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.header-control:hover {
+  color: var(--navy-color);
+  transition: 0.6s;
 }
 
 .header-center-category {

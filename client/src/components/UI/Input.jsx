@@ -28,6 +28,7 @@ const Input = ({
 Input.defalutProps = {
   type: "text",
   isValid: "true",
+  placeholder: "",
 };
 
 export default Input;

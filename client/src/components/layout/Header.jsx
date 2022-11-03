@@ -1,9 +1,14 @@
-import React from "react";
-import Button from "../UI/Button";
-import { FaSearch } from "react-icons/fa";
+import React, { useState } from "react";
 
+import { FaSearch } from "react-icons/fa";
+import { MdOutlineNaturePeople } from "react-icons/md";
+import { TbTruckDelivery } from "react-icons/tb";
+import { RiShoppingCart2Line } from "react-icons/ri";
+import { ImEyePlus } from "react-icons/im";
+
+import Button from "../UI/Button";
+import Input from "../UI/Input";
 import classes from "./Header.module.css";
-import { useState } from "react";
 
 const Header = () => {
   const [isShow, setIsShow] = useState(false);
@@ -11,7 +16,7 @@ const Header = () => {
     <React.Fragment>
       <header className={classes.header}>
         <div className={classes["header-wrap-left"]}>
-          <h1>11번가 옆에 12번가</h1>
+          <h1>12th</h1>
         </div>
 
         <form className={classes["header-wrap-center"]}>
@@ -19,7 +24,7 @@ const Header = () => {
             <span onClick={() => setIsShow(!isShow)}>통합검색</span>
           </div>
           <div className={classes["header-search-input"]}>
-            <input type="text" />
+            <Input type="text" />
           </div>
           <div>
             <Button
@@ -31,10 +36,12 @@ const Header = () => {
         </form>
 
         <div className={classes["header-wrap-right"]}>
-          <span>🐶</span>
-          <span>🐥</span>
-          <span>🐔</span>
-          <span>🐷</span>
+          <MdOutlineNaturePeople className={classes["header-control"]} />
+
+          <TbTruckDelivery className={classes["header-control"]} />
+
+          <RiShoppingCart2Line className={classes["header-control"]} />
+          <ImEyePlus className={classes["header-control"]} />
         </div>
       </header>
 
