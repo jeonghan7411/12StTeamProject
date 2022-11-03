@@ -3,6 +3,10 @@
   height: 600px;
   margin: 100px auto;
 }
-.form-login input {
+.form-login-input input {
   width: 100%;
+  padding: 10px 18px;
+}
+.form-login-input input:focus {
+  outline: 1px solid #ccc;
 }
