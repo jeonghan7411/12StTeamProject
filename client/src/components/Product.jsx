@@ -20,7 +20,7 @@ const Product = () => {
         </h3>
         <p>
           <span className={classes["product-content-discount"]}>28%</span>
-          <span className={classes["product-content-price"]}>10,710</span>
+          <span className={classes["product-content-price"]}>10,710원</span>
           <span className={classes["product-content-costPrice"]}>15000</span>
         </p>
       </div>

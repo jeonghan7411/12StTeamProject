@@ -1,0 +1,17 @@
+.products {
+  padding: 30px 0;
+
+  border-top: 1px solid #ececec;
+}
+
+.products h2 {
+  font-size: 28px;
+  font-weight: bold;
+
+  margin-bottom: 18px;
+}
+
+.products-wrap {
+  display: flex;
+  gap: 2%;
+}
