@@ -13,21 +13,15 @@ const Input = ({
   placeholder,
 }) => {
   return (
-    <div
-      className={`${classes.input} ${className} ${
-        !isValid ? classes.invalid : ""
-      }`}
-    >
-      <input
-        className={className}
-        type={type}
-        id={id}
-        value={value}
-        onChange={onChange}
-        onBlur={onBlur}
-        placeholder={placeholder}
-      />
-    </div>
+    <input
+      className={className}
+      type={type}
+      id={id}
+      value={value}
+      onChange={onChange}
+      onBlur={onBlur}
+      placeholder={placeholder}
+    />
   );
 };
 
