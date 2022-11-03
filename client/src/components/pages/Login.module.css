@@ -1,0 +1,32 @@
+.form-login {
+  width: 400px;
+  height: 600px;
+  margin: 100px auto;
+}
+.form-login-input {
+  margin-bottom: 20px;
+  width: 100%;
+}
+.form-login-input input {
+  width: 100%;
+  padding: 10px 18px;
+}
+.form-login-input input:focus {
+  outline: 1px solid #ccc;
+}
+
+.form-login-handler {
+  display: flex;
+  justify-content: flex-end;
+}
+.form-login-submit {
+  width: 100%;
+  margin-left: 10px;
+  background-color: inherit;
+}
+.form-login-submit input {
+  margin: 0;
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+}
