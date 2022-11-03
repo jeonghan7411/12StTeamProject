@@ -1,3 +1,70 @@
-.mypage {
-  background-color: blue;
+.MyPage {
+}
+
+.mypage-wrap-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 22px;
+  padding: 20px;
+  border-bottom: 1px solid var(--gray-color);
+}
+
+.mypage-title-left {
+  display: flex;
+  align-items: center;
+}
+
+.mypage-title-left span {
+  font-weight: bold;
+  font-size: 28px;
+}
+.mypage-title-left div:last-child {
+  margin-left: 25px;
+}
+
+.mypage-title-right {
+  text-align: center;
+}
+
+.mypage-title-right div:first-child {
+  margin-bottom: 10px;
+  margin-left: 20px;
+  background-color: var(--navy-color);
+  border-radius: 30px;
+  width: 60px;
+  height: 60px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.mypage-title-icon {
+  color: white;
+  margin-top: 10px;
+  font-size: 38px;
+}
+
+.mypage-title-right div:last-child {
+  font-size: 16px;
+}
+
+/* content */
+.mypage-quick-btn {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+.mypage-quick-item {
+  margin: 0 10px;
+  padding: 20px;
+  width: 23%;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: var(--navy-color);
+  color: white;
+}
+
+.mypage-quick-item div:last-child {
+  margin-top: 15px;
+  cursor: pointer;
 }
