@@ -21,23 +21,35 @@ const Login = () => {
         className={classes["form-login"]}
         onSubmit={onSubmitLogin}
       >
-        <Input
-          type={"text"}
-          onChange={(e) => setUserID(e.target.value)}
-          placeholder={"아이디를 입력해주세요"}
-          isValid={true}
-          className={classes["form-login-input"]}
-        />
-        <Input
-          type={"password"}
-          onChange={(e) => setUserID(e.target.value)}
-          placeholder={"비밀번호를 입력해주세요"}
-          isValid={true}
-          className={classes["form-login-input"]}
-        />
-
-        <div>
-          <input type="submit" value={"로그인"} />
+        <div className={classes["form-login-input"]}>
+          <Input
+            type={"text"}
+            onChange={(e) => setUserID(e.target.value)}
+            placeholder={"아이디를 입력해주세요"}
+            isValid={true}
+          />
+        </div>
+        <div className={classes["form-login-input"]}>
+          <Input
+            type={"password"}
+            onChange={(e) => setUserID(e.target.value)}
+            placeholder={"비밀번호를 입력해주세요"}
+            isValid={true}
+          />
+        </div>
+        <div className={classes["form-login-handler"]}>
+          <Input
+            type={"submit"}
+            value={"로그인"}
+            isValid={true}
+            className={classes["form-login-submit"]}
+          ></Input>
+          <Input
+            type={"button"}
+            value={"회원가입"}
+            isValid={true}
+            className={classes["form-login-submit"]}
+          ></Input>
         </div>
       </form>
     </React.Fragment>
