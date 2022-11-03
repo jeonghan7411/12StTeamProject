@@ -1,0 +1,15 @@
+.Nav {
+  border-bottom: 1px solid RGB(255, 234, 219);
+  height: 60px;
+
+  padding: 0 50px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Nav span {
+  margin-right: 20px;
+  color: RGB(100, 116, 116);
+}
