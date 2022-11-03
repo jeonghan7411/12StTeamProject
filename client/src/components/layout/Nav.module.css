@@ -1,17 +1,61 @@
-.Nav {
-  border-bottom: 1px solid RGB(255, 234, 219);
+.nav {
+  border-bottom: 1px solid var(--navy-color);
   height: 60px;
-
   padding: 0 50px;
-
   margin-bottom: 50px;
+
+  font-size: 15px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.Nav span {
-  margin-right: 20px;
-  color: RGB(100, 116, 116);
+.nav-category span {
+  padding-top: 5px;
+
+  margin-left: 20px;
+  color: var(--navy-color);
+  display: inline-block;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.nav-category span:after {
+  display: block;
+  content: "";
+  border-bottom: solid 3px var(--red-color);
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+}
+
+.nav-category span:hover:after {
+  transform: scaleX(1);
+}
+
+.nav-category span.fromRight:after {
+  transform-origin: 100% 50%;
+}
+
+.nav-category span.fromLeft:after {
+  transform-origin: 0% 50%;
+}
+
+.nav-Login {
+  display: flex;
+  align-items: center;
+}
+
+.nav-Login span {
+  margin-left: 20px;
+}
+
+.nav-onOff {
+  border: 2px solid var(--navy-color);
+  border-radius: 50px;
+  width: 80px;
+  height: 30px;
+  margin-left: 20px;
 }

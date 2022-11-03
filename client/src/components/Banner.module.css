@@ -1,7 +1,7 @@
 .banner {
   width: 100%;
   height: 300px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 
-  background-color: RGB(240, 85, 86);
+  border: 1px solid #ececec;
 }

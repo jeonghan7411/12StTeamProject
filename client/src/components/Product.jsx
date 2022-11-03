@@ -16,7 +16,7 @@ const Product = () => {
       </Card>
       <div className={classes["product-content"]}>
         <h3 className={classes["product-content-title"]}>
-          나랑들 사이다 제로 245ml(뚱캔)
+          나랑들 사이다 제로 245ml (뚱캔)
         </h3>
         <p>
           <span className={classes["product-content-discount"]}>28%</span>
