@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
+
+body {
+  font-family: "Nanum Gothic", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --gray-color: RGB(245, 245, 245);
+  --red-color: RGB(240, 85, 86);
+  --navy-color: RGB(49, 72, 95);
+  --black-color: RGB(20, 20, 20);
+}
