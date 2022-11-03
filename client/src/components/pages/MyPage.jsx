@@ -1,6 +1,9 @@
 import React from "react";
 import { FaCog } from "react-icons/fa";
 import classes from "./MyPage.module.css";
+import Profile from "../../assets/profile.jpg";
+import OrderList from "./OrderList";
+import MyPageSide from "./MyPageSide";
 
 const MyPage = () => {
   return (
@@ -8,12 +11,8 @@ const MyPage = () => {
       <div className={classes.MyPage}>
         <div className={classes["mypage-wrap-title"]}>
           <div className={classes["mypage-title-left"]}>
-            <div>
-              <img
-                src={`${process.env.PUBLIC_URL}/public_assets/profile.jpg`}
-                alt=""
-              />
-              1
+            <div className={classes["mypage-wrap-profile"]}>
+              <img src={Profile} alt="" />
             </div>
             <div>
               안녕하세요 <span>홍길동</span>님.
@@ -46,16 +45,11 @@ const MyPage = () => {
               <div>최근본상품</div>
             </div>
           </div>
-          <div>
-            <h2>주문배송 정보</h2>
-          </div>
-          <div>
-            <div>주문내역</div>
-            <div>배송조회</div>
-            <div>찜목록</div>
-            <div>최근본상품</div>
-          </div>
         </div>
+      </div>
+      <div className={classes["mypage-wrap-bottom"]}>
+        <MyPageSide />
+        <OrderList />
       </div>
     </React.Fragment>
   );
