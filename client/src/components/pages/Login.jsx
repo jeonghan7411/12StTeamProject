@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Input from "../UI/Input";
 import classes from "./Login.module.css";
+import { Link } from "react-router-dom";
 const Login = () => {
   const [userID, setUserID] = useState("");
   const [userPW, setUserPW] = useState("");
@@ -21,35 +22,36 @@ const Login = () => {
         className={classes["form-login"]}
         onSubmit={onSubmitLogin}
       >
-        <div className={classes["form-login-input"]}>
-          <Input
-            type={"text"}
-            onChange={(e) => setUserID(e.target.value)}
-            placeholder={"아이디를 입력해주세요"}
-            isValid={true}
-          />
-        </div>
-        <div className={classes["form-login-input"]}>
-          <Input
-            type={"password"}
-            onChange={(e) => setUserID(e.target.value)}
-            placeholder={"비밀번호를 입력해주세요"}
-            isValid={true}
-          />
-        </div>
-        <div className={classes["form-login-handler"]}>
-          <Input
-            type={"submit"}
-            value={"로그인"}
-            isValid={true}
-            className={classes["form-login-submit"]}
-          ></Input>
-          <Input
-            type={"button"}
-            value={"회원가입"}
-            isValid={true}
-            className={classes["form-login-submit"]}
-          ></Input>
+        <div className={classes["form-login-wrapper"]}>
+          <div className={classes["form-login-input"]}>
+            <Input
+              type={"text"}
+              onChange={(e) => setUserID(e.target.value)}
+              placeholder={"아이디를 입력해주세요"}
+              isValid={true}
+            />
+          </div>
+          <div className={classes["form-login-input"]}>
+            <Input
+              type={"password"}
+              onChange={(e) => setUserID(e.target.value)}
+              placeholder={"비밀번호를 입력해주세요"}
+              isValid={true}
+            />
+          </div>
+          <div className={classes["form-login-handler"]}>
+            <Input
+              type={"submit"}
+              value={"로그인"}
+              isValid={true}
+              className={classes["form-login-submit"]}
+            ></Input>
+          </div>
+          <div className={classes["form-login-links"]}>
+            <Link>아이디찾기</Link>
+            <Link>비밀번호찾기</Link>
+            <Link>회원가입</Link>
+          </div>
         </div>
       </form>
     </React.Fragment>
