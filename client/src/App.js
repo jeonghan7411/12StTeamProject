@@ -5,6 +5,8 @@ import Header from "./components/layout/Header";
 import Nav from "./components/layout/Nav";
 import Footer from "./components/layout/Footer";
 import Home from "./components/pages/Home";
+import Login from "./components/pages/Login";
+import Regist from "./components/pages/Regist";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <main className={classes.main}>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/regist" element={<Regist />} />
           </Routes>
         </main>
         <Footer />

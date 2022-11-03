@@ -1,7 +1,7 @@
 import React from "react";
 
 import classes from "./Nav.module.css";
-
+import { Link } from "react-router-dom";
 const Nav = () => {
   return (
     <React.Fragment>
@@ -17,7 +17,8 @@ const Nav = () => {
         </div>
 
         <div>
-          <span>🐣 이승현님</span>
+          <Link to={"/login"}>로그인</Link>
+          <Link to={"/regist"}>회원가입</Link>
           <span> | </span>
           <span>🌱 0</span>
           <span> | </span>
