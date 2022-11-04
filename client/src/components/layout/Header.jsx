@@ -30,7 +30,7 @@ const Header = () => {
             <Button
               className={classes["header-search-btn"]}
               type="submit"
-              text={"adada"}
+              text={<FaSearch />}
             />
           </div>
         </form>

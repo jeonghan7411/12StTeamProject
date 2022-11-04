@@ -12,9 +12,6 @@
 }
 
 .nav-category span {
-  padding: 5px;
-  padding-bottom: 5px;
-
   margin-left: 20px;
   color: var(--navy-color);
   display: inline-block;
@@ -22,6 +19,10 @@
   text-transform: uppercase;
 
   cursor: pointer;
+}
+
+.nav-category span:hover {
+  font-weight: bold;
 }
 
 .nav-category span:after {
