@@ -65,6 +65,18 @@
   margin-bottom: 20px;
 }
 
+.regist-userInfo-zipcode input {
+  width: 160px;
+}
+
+.regist-userInfo-zipcode input {
+  margin-bottom: 10px;
+}
+
+.regist-userInfo-address input {
+  margin-right: 10px;
+}
+
 .regist-userInfo-phone div {
   border: 1px solid #ccc;
   width: 80px;

@@ -31,6 +31,18 @@ const Regist = () => {
             </button>
           </div>
 
+          <label htmlFor="adress">주소</label>
+          <div>
+            <div className={classes["regist-userInfo-zipcode"]}>
+              <input id="adress" />
+              <button>주소 찾기</button>
+            </div>
+            <div className={classes["regist-userInfo-address"]}>
+              <input type="text" />
+              <input type="text" />
+            </div>
+          </div>
+
           <label htmlFor="id">이메일</label>
           <div className={classes["regist-userInfo-email"]}>
             <input type="text" id="id" />
