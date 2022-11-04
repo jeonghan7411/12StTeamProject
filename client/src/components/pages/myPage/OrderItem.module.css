@@ -1,5 +1,5 @@
 .OrderItem {
-  width: 900px;
+  width: 1000px;
   border: 1px solid var(--gray-color);
   border-radius: 15px;
   box-shadow: 0px 0px 15px var(--gray-color);
@@ -54,7 +54,7 @@
 
 .orderitem-item-porfile {
   width: 500px;
-  padding: 10px;
+  padding-left: 40px;
 }
 
 .orderitem-item-porfile h4 {
@@ -84,21 +84,26 @@
   width: 20%;
   border-left: 2px solid var(--gray-color);
   padding: 10px;
-  padding-left: 25px;
+  padding-left: 40px;
 }
 
 .orderitem-wrap-right button {
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  background-color: var(--navy-color);
+  border: 1px solid var(--navy-color);
+  border-radius: 5px;
   width: 130px;
   margin-bottom: 10px;
   padding: 10px;
-  border: 1px solid var(--gray-color);
 }
 
 .orderitem-wrap-right button:hover {
+  color: var(--navy-color);
+  background-color: white;
+  border: 1px solid var(--navy-color);
   width: 130px;
   margin-bottom: 10px;
   padding: 10px;
-  border: 1px solid var(--navy-color);
-  background-color: white;
-  color: var(--navy-color);
 }

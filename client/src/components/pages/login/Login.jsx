@@ -52,8 +52,8 @@ const Login = () => {
             <Link>비밀번호찾기</Link>
             <Link to={"/regist"}>회원가입</Link>
           </div>
-          <Link>
-            <div className={classes["form-login-non"]}>비회원 주문조회</div>
+          <Link className={classes["form-login-non"]}>
+            <div>비회원 주문조회</div>
           </Link>
           <div className={classes["form-login-easy"]}>
             <img src={iconGoogle} alt="구글로그인이미지" />
