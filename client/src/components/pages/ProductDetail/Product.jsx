@@ -6,15 +6,21 @@ import ProductReview from "./ProductReview";
 import ProductShippingAnnounce from "./ProductShippingAnnounce";
 import classes from "./Product.module.css";
 import productImg from "../../../assets/profile.jpg";
+import testImg from "../../../assets/icon-grade1.png";
+import testImg2 from "../../../assets/icons/kakaoLogin.png";
 
 const Product = () => {
   const [currentMenu, setCurrentMenu] = useState("productDetail");
-
+  const [currentImg, setCurrentImg] = useState(productImg);
   const getIdx = useParams();
   console.log(getIdx);
 
   const setMenu = (e) => {
     setCurrentMenu(e.target.textContent);
+  };
+  const setPreviewImg = (e) => {
+    setCurrentImg(e.target.src);
+    console.log(e.target.src);
   };
   return (
     <React.Fragment>
@@ -24,17 +30,21 @@ const Product = () => {
       <div className={classes["product-content"]}>
         <div className={classes["product-content-img"]}>
           <div className={classes["product-content-img-List"]}>
+            {/* 이미지 클릭시 해당 이미지로 메인 이미지 변경 */}
+            {/* DB 추가되면 동적처리 필요 */}
             <div>
-              <img src={productImg} alt="" />
+              <img src={testImg} alt="" onClick={setPreviewImg} />
             </div>
             <div>
-              <img src={productImg} alt="" />
+              <img src={testImg2} alt="" onClick={setPreviewImg} />
             </div>
             <div>
-              <img src={productImg} alt="" />
+              <img src={productImg} alt="" onClick={setPreviewImg} />
             </div>
           </div>
-          <img src={productImg} alt="" />
+          <div className={classes["product-content-img-main"]}>
+            <img src={currentImg} alt="" />
+          </div>
         </div>
         <div className={classes["product-content-detail"]}>
           <div className={classes["product-content-detail-title"]}>
@@ -49,9 +59,23 @@ const Product = () => {
             배송 방법 정리
           </div>
           <div className={classes["product-content-detail-order"]}>
-            수량 선택, 장바구니 담기버튼, 바로구매버튼
+            <div>수량선택</div>
+            <div>
+              <button
+                className={classes["product-content-detail-order-btn-addcart"]}
+              >
+                장바구니담기
+              </button>
+            </div>
+            <div>
+              <button
+                className={classes["product-content-detail-order-btn-purchase"]}
+              >
+                구매하기
+              </button>
+            </div>
           </div>
-          <div>
+          <div className={classes["product-content-detail-info"]}>
             <li>상품정보</li>
             <li>1</li>
             <li>2</li>
