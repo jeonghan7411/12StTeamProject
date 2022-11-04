@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProductDetail from "./ProductDetail";
 import ProductQnA from "./ProductQnA";
 import ProductReview from "./ProductReview";
@@ -8,12 +8,14 @@ import classes from "./Product.module.css";
 import productImg from "../../../assets/profile.jpg";
 import testImg from "../../../assets/icon-grade1.png";
 import testImg2 from "../../../assets/icons/kakaoLogin.png";
+import { FaAngleUp, FaAngleDown, FaAngleRight } from "react-icons/fa";
 
 const Product = () => {
   const [currentMenu, setCurrentMenu] = useState("productDetail");
   const [currentImg, setCurrentImg] = useState(productImg);
+  const [orderValue, setOrderValue] = useState(1);
   const getIdx = useParams();
-  console.log(getIdx);
+  // console.log(getIdx);
 
   const setMenu = (e) => {
     setCurrentMenu(e.target.textContent);
@@ -22,10 +24,41 @@ const Product = () => {
     setCurrentImg(e.target.src);
     console.log(e.target.src);
   };
+  const setOrder = (e) => {
+    const regex = /^[0-9]+$/;
+    if (regex.test(e.target.value)) {
+      if (Number.parseInt(e.target.value) > 50) {
+        alert("한 번에 주문 가능한 수량은 50개까지입니다");
+        setOrderValue(Number.parseInt(1));
+      } else {
+        setOrderValue(Number.parseInt(e.target.value));
+      }
+    } else {
+      setOrderValue("");
+    }
+  };
+  const setOrderUp = () => {
+    if (orderValue < 50) {
+      setOrderValue(orderValue + 1);
+    } else {
+      alert("한 번에 주문 가능한 수량은 50개까지입니다");
+      setOrderValue(1);
+    }
+  };
+  const setOrderDown = () => {
+    if (orderValue > 1) {
+      setOrderValue(orderValue - 1);
+    } else {
+      setOrderValue(1);
+    }
+  };
+  console.log(orderValue);
   return (
     <React.Fragment>
       <div className={classes["product-path"]}>
-        상품 카테고리 링크 ex. 홈 > 생활용품 > 세제
+        <Link to={"/"}>홈</Link> <FaAngleRight /> <Link>생활용품</Link>{" "}
+        <FaAngleRight />
+        <Link>세제</Link>
       </div>
       <div className={classes["product-content"]}>
         <div className={classes["product-content-img"]}>
@@ -59,12 +92,32 @@ const Product = () => {
             배송 방법 정리
           </div>
           <div className={classes["product-content-detail-order"]}>
-            <div>수량선택</div>
+            <div>
+              <input
+                type="text"
+                className={classes["product-content-detail-order-input"]}
+                defaultValue={orderValue}
+                value={orderValue}
+                onChange={setOrder}
+              />
+              <button
+                className={classes["product-content-detail-order-up"]}
+                onClick={setOrderUp}
+              >
+                <FaAngleUp />
+              </button>
+              <button
+                className={classes["product-content-detail-order-down"]}
+                onClick={setOrderDown}
+              >
+                <FaAngleDown />
+              </button>
+            </div>
             <div>
               <button
                 className={classes["product-content-detail-order-btn-addcart"]}
               >
-                장바구니담기
+                장바구니 담기
               </button>
             </div>
             <div>
