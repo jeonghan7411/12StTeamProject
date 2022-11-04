@@ -1,7 +1,9 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 
 const ProductQnA = () => {
-  return <React.Fragment>ProductQnA</React.Fragment>;
+  const { getIdx } = useParams();
+  return <React.Fragment>ProductQnA{getIdx}</React.Fragment>;
 };
 
 export default ProductQnA;

@@ -23,7 +23,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/regist" element={<Regist />} />
             <Route path="/mypage" element={<MyPage />} />
-            <Route path="/products" element={<Product />} />
+            <Route path="/products/:getIdx" element={<Product />} />
           </Routes>
         </main>
         <Footer />
