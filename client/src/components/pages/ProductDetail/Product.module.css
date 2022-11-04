@@ -6,13 +6,11 @@
 .product-path a {
   font-size: 12px;
   font-weight: bold;
-  margin-right: 5px;
+  margin: 0 5px;
 }
-.product-path a:nth-child(2),
-.product-path a:nth-child(3) {
-  margin-left: 5px;
+.product-path a:first-child {
+  margin-left: 0;
 }
-
 .product-content {
   display: flex;
   /* background-color: aliceblue; */
