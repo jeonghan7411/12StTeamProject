@@ -1,3 +1,19 @@
+.regist-haader {
+  height: 80px;
+  background-color: #f05556;
+  margin-bottom: 30px;
+  padding-left: 30px;
+
+  display: flex;
+  align-items: center;
+}
+
+.regist-haader h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
 .form-login {
   width: 400px;
   margin: 100px auto;

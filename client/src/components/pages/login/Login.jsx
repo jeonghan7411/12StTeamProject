@@ -20,6 +20,9 @@ const Login = () => {
   };
   return (
     <React.Fragment>
+      <header className={classes["regist-haader"]}>
+        <h2>로그인</h2>
+      </header>
       <form
         method="post"
         className={classes["form-login"]}
