@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../../UI/Button";
 
 import Input from "../../UI/Input";
 
@@ -57,8 +58,10 @@ const Regist = () => {
           <Input id="phone" />
         </div>
       </div>
-
-      <div></div>
+      <div className={classes["resist-control"]}>
+        <Button className={classes["resist-control-btn"]} text="취소" />
+        <Button className={classes["resist-control-btn"]} text="회원가입" />
+      </div>
     </form>
   );
 };

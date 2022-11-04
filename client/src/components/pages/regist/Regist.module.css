@@ -1,13 +1,14 @@
 .regist {
-  height: 100vh;
-  padding: 50px 0;
-
   border: 1px solid var(--navy-color);
+  padding: 50px 0;
+  height: auto;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  border-radius: 12px;
 }
 
 .regist-input {
@@ -67,4 +68,17 @@
 .regist-input-phone input {
   flex: 3;
   height: 10px;
+}
+
+.resist-control {
+  margin-top: 50px;
+}
+
+.resist-control-btn {
+  width: 200px;
+  height: 60px;
+  margin-right: 20px;
+
+  font-size: 16px;
+  font-weight: bold;
 }

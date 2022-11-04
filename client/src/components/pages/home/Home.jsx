@@ -1,7 +1,9 @@
 import React from "react";
 import Banner from "./Banner";
 import Cartegory from "./Cartegory";
+
 import HomeProducts from "./HomeProducts";
+
 
 const Home = () => {
   return (
