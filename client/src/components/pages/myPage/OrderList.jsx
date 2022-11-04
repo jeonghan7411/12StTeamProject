@@ -4,6 +4,7 @@ import { FaSearch, FaTimesCircle } from "react-icons/fa";
 import Input from "../../UI/Input";
 import classes from "./OrderList.module.css";
 import { useState } from "react";
+import OrderItem from "./OrderItem";
 
 const OrderList = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -49,10 +50,11 @@ const OrderList = () => {
         </form>
 
         <div className={classes["orderlist-wrap-list"]}>
-          <div>주문내역</div>
-          <div>배송조회</div>
-          <div>찜목록</div>
-          <div>최근본상품</div>
+          <OrderItem />
+          <OrderItem />
+          <OrderItem />
+          <OrderItem />
+          <OrderItem />
         </div>
       </div>
     </React.Fragment>

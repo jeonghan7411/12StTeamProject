@@ -20,7 +20,7 @@
 }
 
 .orderlist-input {
-  width: 400px;
+  width: 500px;
 }
 
 .orderlist-wrap-icon {
@@ -49,4 +49,8 @@ button {
 .dum-icon {
   background-color: transparent;
   color: white;
+}
+
+.orderlist-wrap-list {
+  margin-top: 30px;
 }
