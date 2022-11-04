@@ -1,6 +1,6 @@
 import React from "react";
-import Card from "../UI/Card";
-import Input from "../UI/Input";
+import Card from "../../UI/Card";
+import Input from "../../UI/Input";
 
 import classes from "./Regist.module.css";
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { FaSearch, FaTimesCircle } from "react-icons/fa";
-import Input from "../UI/Input";
+import Input from "../../UI/Input";
 import classes from "./OrderList.module.css";
 import { useState } from "react";
 
