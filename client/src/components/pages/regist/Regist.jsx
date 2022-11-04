@@ -41,7 +41,7 @@ const Regist = () => {
       </div>
 
       <div className={classes["regist-clause"]}>
-        <h3>2 약관입력</h3>
+        <h3>2 약관동의</h3>
 
         <div className={classes["regist-clause-contentWrap"]}>
           <p>

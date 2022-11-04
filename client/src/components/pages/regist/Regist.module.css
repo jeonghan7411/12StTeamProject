@@ -47,7 +47,7 @@
 
 .regist-userInfo-input label {
   font-weight: bold;
-  margin-bottom: 3px;
+  margin-bottom: 10px;
 }
 
 .regist-userInfo-input input {
@@ -61,6 +61,8 @@
 
 .regist-userInfo-phone {
   display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .regist-userInfo-phone div {
@@ -70,13 +72,15 @@
   border-radius: 5px;
 
   display: flex;
-  justify-content: flex-start;
-
+  justify-content: center;
   align-items: center;
 
   font-size: 12px;
 
   cursor: pointer;
+}
+.regist-userInfo-phone input {
+  margin-bottom: 0;
 }
 
 .regist-userInfo-phone span {
@@ -96,6 +100,9 @@
 
 .regist-userInfo-email {
   display: flex;
+}
+.regist-userInfo-email input {
+  margin: 0;
 }
 
 .regist-userInfo-email span {
