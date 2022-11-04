@@ -10,7 +10,7 @@ import Regist from "./components/pages/regist/Regist";
 import MyPage from "./components/pages/myPage/MyPage";
 import Product from "./components/pages/ProductDetail/Product";
 import OrderList from "./components/pages/myPage/OrderList";
-import CancelReturnExchange from "./components/pages/myPage/CancelReturnExchange";
+import CrlList from "./components/pages/myPage/CrlList";
 
 function App() {
   return (
@@ -26,10 +26,7 @@ function App() {
             <Route path="/regist" element={<Regist />} />
             <Route path="/mypage" element={<MyPage />}>
               <Route index element={<OrderList />} />
-              <Route
-                path="cancel-return-exchange"
-                element={<CancelReturnExchange />}
-              />
+              <Route path="cancel-return-exchange" element={<CrlList />} />
             </Route>
             <Route path="/products/:getIdx" element={<Product />} />
           </Routes>

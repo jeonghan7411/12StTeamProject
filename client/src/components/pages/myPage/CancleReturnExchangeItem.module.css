@@ -1,0 +1,30 @@
+.cre-wrap-content {
+  border: 1px solid var(--gray-color);
+  width: 900px;
+  margin-top: 30px;
+}
+
+.cre-content-title {
+  background-color: var(--gray-color);
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  height: 60px;
+  align-items: center;
+}
+
+.cre-content-line {
+  font-optical-sizing: 20px;
+  color: var(--navy-color);
+}
+
+.cre-content-title span {
+  display: flex;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.cre-content-title h2 {
+  font-weight: bold;
+  margin-left: 15px;
+}

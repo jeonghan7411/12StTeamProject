@@ -1,10 +1,10 @@
 import React from "react";
+import { useState } from "react";
+
+import OrderItem from "./OrderItem";
 
 import { FaSearch, FaTimesCircle } from "react-icons/fa";
-import Input from "../../UI/Input";
 import classes from "./OrderList.module.css";
-import { useState } from "react";
-import OrderItem from "./OrderItem";
 
 const OrderList = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -20,7 +20,7 @@ const OrderList = () => {
 
             <div className={classes["orderlist-wrap-input"]}>
               <div className={classes["orderlist-input"]}>
-                <Input
+                <input
                   value={searchKeyword}
                   placeholder={"주문한 상품을 검색할 수 있어요!"}
                   onChange={(e) => setSearchKeyword(e.target.value)}
