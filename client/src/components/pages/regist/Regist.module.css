@@ -1,84 +1,170 @@
-.regist-input-wrap,
-.regist-clause-wrap {
+.regist {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 
-.regist-input {
-  width: 20%;
-  height: 20px;
-  margin-bottom: 70px;
-}
+.regist-haader {
+  height: 80px;
+  background-color: var(--navy-color);
+  margin-bottom: 30px;
+  padding-left: 30px;
 
-.regist-input label {
-  font-weight: bold;
-  color: var(--black-color);
-}
-
-.regist-input input {
-  width: 100%;
-
-  margin-top: 10px;
-
-  border-radius: 5px;
-
-  font-family: inherit;
-}
-
-.regist-input-gnder {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
+}
+
+.regist-haader h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.regist-userInfo,
+.regist-clause {
+  padding-left: 20px;
+}
+
+.regist-userInfo {
+  padding-bottom: 50px;
+  display: flex;
+
+  border-bottom: 1px solid #ccc;
+}
+
+.regist-userInfo h3,
+.regist-clause h3 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-right: 250px;
+}
+
+.regist-userInfo-input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.regist-userInfo-input label {
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.regist-userInfo-input input {
+  width: 250px;
+  height: 28px;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   margin-bottom: 20px;
 }
 
-.regist-input-gender input {
-  width: 18px;
-}
-
-.regist-input-gender span {
-  margin-right: 20px;
-}
-
-.regist-input-phone {
+.regist-userInfo-phone {
   display: flex;
-
-  height: 42px;
 }
 
-.regist-input-phone select {
-  flex: 1;
-  text-align: center;
-  margin-top: 10px;
-  margin-right: 10px;
+.regist-userInfo-phone div {
+  border: 1px solid #ccc;
+  width: 80px;
+  height: 28px;
   border-radius: 5px;
-  height: 100%;
+
+  display: flex;
+  justify-content: flex-start;
+
+  align-items: center;
+
+  font-size: 12px;
+
+  cursor: pointer;
 }
 
-.regist-input-phone input {
-  flex: 3;
+.regist-userInfo-phone span {
+  margin: 0 10px;
 }
 
-.resist-control {
-  margin-top: 50px;
-}
-
-.resist-control-btn {
-  width: 200px;
-  height: 60px;
+.regist-userInfo-phone input {
+  width: 160px;
   margin-right: 20px;
-
-  font-size: 16px;
-  font-weight: bold;
 }
 
-.resist-control-btn:hover {
-  background-color: var(--navy-color);
-  transition: none;
+.regist-btn-confirmation {
+  background-color: #ccc;
+  height: 30px;
+  padding: 0 10px;
+}
+
+.regist-userInfo-email {
+  display: flex;
+}
+
+.regist-userInfo-email span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 10px;
+}
+
+.regist-userInfo-email div {
+  border: 1px solid #ccc;
+  width: 200px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.regist-clause {
+  margin-top: 50px;
+  margin-bottom: 80px;
+
+  display: flex;
+}
+
+.regist-clause-contentWrap {
+  display: flex;
+  flex-direction: column;
 }
 
 .regist-clause-content {
+  width: 800px;
+  height: 120px;
   border: 1px solid #ccc;
+  margin-bottom: 12px;
+}
+
+.regist-clause-contentWrap input {
+  margin-bottom: 50px;
+  cursor: pointer;
+}
+
+.regist-control {
+  text-align: center;
+}
+
+.regist-control button {
+  width: 300px;
+  height: 40px;
+  margin-right: 20px;
+}
+
+.regist-control-cencel {
+  background-color: #ececec;
+}
+
+.regist-control-regist {
+  background-color: var(--navy-color);
+  border: 1px solid var(--navy-color);
+  color: white;
+  transition: 0.6s;
+}
+
+.regist-control-regist:hover {
+  background-color: white;
+  color: var(--navy-color);
+  transition: 0.6s;
 }
