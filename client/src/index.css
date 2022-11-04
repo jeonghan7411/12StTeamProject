@@ -10,13 +10,6 @@ body {
   font-family: "Nanum Gothic", sans-serif;
 }
 
-:root {
-  --gray-color: RGB(245, 245, 245);
-  --red-color: RGB(240, 85, 86);
-  --navy-color: RGB(49, 72, 95);
-  --black-color: RGB(40, 40, 40);
-}
-
 a {
   text-decoration: none;
   color: var(--black-color);
@@ -24,4 +17,11 @@ a {
 
 input:focus {
   outline: none;
+}
+
+:root {
+  --gray-color: RGB(245, 245, 245);
+  --red-color: RGB(240, 85, 86);
+  --navy-color: RGB(49, 72, 95);
+  --black-color: RGB(40, 40, 40);
 }
