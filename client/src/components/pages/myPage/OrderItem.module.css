@@ -1,0 +1,103 @@
+.OrderItem {
+  width: 900px;
+  border: 1px solid var(--gray-color);
+  border-radius: 15px;
+  box-shadow: 0px 0px 15px var(--gray-color);
+  padding: 25px;
+  margin-bottom: 40px;
+}
+
+.orderitem-wrap-title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.orderitem-wrap-title a {
+  color: rgb(86, 178, 240);
+  font-weight: bold;
+}
+
+.orderitem-wrap-title a:hover {
+  text-decoration: underline;
+}
+
+.orderitem-wrap-items {
+  display: flex;
+  border: 1px solid var(--gray-color);
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 25px;
+  align-items: center;
+}
+
+.orderitem-wrap-left {
+  width: 80%;
+}
+
+.orderitem-item-title h3 {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.orderitem-item-content {
+  margin-top: 20px;
+  display: flex;
+}
+
+.orderitem-item-img {
+  width: 100px;
+}
+
+.orderitem-item-img img {
+  width: 100%;
+}
+
+.orderitem-item-porfile {
+  width: 500px;
+  padding: 10px;
+}
+
+.orderitem-item-porfile h4 {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.orderitem-porfile-content {
+  margin-top: 20px;
+  margin-left: 30px;
+  display: flex;
+}
+
+.orderitem-porfile-content span {
+  width: 80px;
+  display: flex;
+}
+
+.orderitem-porfile-content h5 {
+  font-weight: bold;
+}
+
+.orderitem-wrap-right {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 20%;
+  border-left: 2px solid var(--gray-color);
+  padding: 10px;
+  padding-left: 25px;
+}
+
+.orderitem-wrap-right button {
+  width: 130px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid var(--gray-color);
+  color: var(--black-color);
+}
+
+.orderitem-wrap-right button:hover {
+  width: 130px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid rgb(86, 178, 240);
+}
