@@ -51,6 +51,9 @@
 .nav-Login span {
   margin-left: 20px;
 }
+.nav-nonLogin a {
+  margin-left: 20px;
+}
 
 .nav-onOff {
   border: 2px solid var(--navy-color);

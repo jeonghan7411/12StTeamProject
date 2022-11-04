@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import Input from "../UI/Input";
 import classes from "./Login.module.css";
 import { Link } from "react-router-dom";
+import iconGoogle from "../../assets/icons/googleLogin.png";
+import iconNaver from "../../assets/icons/naverLogin.png";
+import iconKakao from "../../assets/icons/kakaoLogin.png";
+import iconApple from "../../assets/icons/appleLogin.png";
 const Login = () => {
   const [userID, setUserID] = useState("");
   const [userPW, setUserPW] = useState("");
@@ -50,7 +54,16 @@ const Login = () => {
           <div className={classes["form-login-links"]}>
             <Link>아이디찾기</Link>
             <Link>비밀번호찾기</Link>
-            <Link>회원가입</Link>
+            <Link to={"/regist"}>회원가입</Link>
+          </div>
+          <div className={classes["form-login-non"]}>
+            <Link>비회원 주문조회</Link>
+          </div>
+          <div className={classes["form-login-easy"]}>
+            <img src={iconGoogle} alt="구글로그인이미지" />
+            <img src={iconKakao} alt="카카오로그인이미지" />
+            <img src={iconNaver} alt="네이버로그인이미지" />
+            <img src={iconApple} alt="애플로그인이미지" />
           </div>
         </div>
       </form>
