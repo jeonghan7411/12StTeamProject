@@ -15,7 +15,7 @@ const MyPageSide = () => {
         <div className={classes["side-item"]}>
           <h2>MY 혜택</h2>
           <div>할인쿠폰</div>
-          <div>캐시확인</div>
+          <div>포인트확인</div>
           <hr />
         </div>
 
@@ -24,7 +24,7 @@ const MyPageSide = () => {
           <div>문의하기</div>
           <div>문의내역</div>
           <div>리뷰관리</div>
-          <div>짐 리스트</div>
+          <div>찜 리스트</div>
           <hr />
         </div>
 
