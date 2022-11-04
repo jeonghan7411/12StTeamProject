@@ -12,7 +12,8 @@
 }
 
 .nav-category span {
-  padding-top: 5px;
+  padding: 5px;
+  padding-bottom: 5px;
 
   margin-left: 20px;
   color: var(--navy-color);
