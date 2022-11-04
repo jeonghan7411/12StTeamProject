@@ -1,0 +1,26 @@
+.product-path {
+  margin-bottom: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.product-content {
+  display: flex;
+  background-color: aliceblue;
+  justify-content: space-between;
+}
+.product-content-img {
+  display: flex;
+  width: 50%;
+}
+.product-content-img-List {
+  margin-right: 30px;
+}
+.product-content-img-List img {
+  width: 60px;
+  height: 60px;
+}
+.product-content-detail {
+  width: 50%;
+  background-color: aquamarine;
+}
