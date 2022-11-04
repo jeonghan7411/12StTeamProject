@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import Button from "../../UI/Button";
 import eximg from "../../../assets/icon-grade1.png";
 import classes from "./OrderItem.module.css";
 const OrderItem = () => {
@@ -42,10 +41,10 @@ const OrderItem = () => {
             </div>
           </div>
           <div className={classes["orderitem-wrap-right"]}>
-            <Button text={"리뷰쓰기"} />
-            <Button text={"교환,반품 신청"} />
-            <Button text={"재구매"} />
-            <Button text={"판매자문의"} />
+            <button>리뷰쓰기</button>
+            <button>교환,반품 신청</button>
+            <button>재구매</button>
+            <button>판매자문의</button>
           </div>
         </div>
       </div>

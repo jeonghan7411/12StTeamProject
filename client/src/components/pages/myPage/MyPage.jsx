@@ -1,11 +1,12 @@
 import React from "react";
-import { FaCog } from "react-icons/fa";
-import classes from "./MyPage.module.css";
-import Profile from "../../../assets/profile.jpg";
-import OrderList from "./OrderList";
-import MyPageSide from "./MyPageSide";
 import { Outlet } from "react-router-dom";
+import { FaCog } from "react-icons/fa";
 
+import MyPageSide from "./MyPageSide";
+
+import Profile from "../../../assets/profile.jpg";
+
+import classes from "./MyPage.module.css";
 const MyPage = () => {
   return (
     <React.Fragment>
