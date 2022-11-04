@@ -3,7 +3,7 @@
 
   border-radius: 8px;
   border: 1px solid #ccc;
-
+  background-color: var(--navy-color);
   color: white;
   background-color: var(--navy-color);
   font-family: inherit;

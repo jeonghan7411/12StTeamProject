@@ -13,7 +13,7 @@
 }
 
 .orderitem-wrap-title a {
-  color: rgb(86, 178, 240);
+  color: var(--navy-color);
   font-weight: bold;
 }
 
@@ -92,12 +92,13 @@
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid var(--gray-color);
-  color: var(--black-color);
 }
 
 .orderitem-wrap-right button:hover {
   width: 130px;
   margin-bottom: 10px;
   padding: 10px;
-  border: 1px solid rgb(86, 178, 240);
+  border: 1px solid var(--navy-color);
+  background-color: white;
+  color: var(--navy-color);
 }
