@@ -2,7 +2,6 @@ import React from "react";
 
 import { FaSearch, FaTimesCircle } from "react-icons/fa";
 import Input from "../UI/Input";
-import Button from "../UI/Button";
 import classes from "./OrderList.module.css";
 import { useState } from "react";
 
@@ -17,19 +16,30 @@ const OrderList = () => {
             <div>
               <h2>주문목록</h2>
             </div>
+
             <div className={classes["orderlist-wrap-input"]}>
-              <Input
-                value={searchKeyword}
-                placeholder={"주문한 상품을 검색할 수 있어요!"}
-                onChange={(e) => setSearchKeyword(e.target.value)}
-              />
+              <div className={classes["orderlist-input"]}>
+                <Input
+                  value={searchKeyword}
+                  placeholder={"주문한 상품을 검색할 수 있어요!"}
+                  onChange={(e) => setSearchKeyword(e.target.value)}
+                />
+              </div>
+
               <div className={classes["orderlist-wrap-icon"]}>
-                {searchKeyword.length > 0 && (
+                {searchKeyword.length > 0 ? (
                   <button type="button" onClick={() => setSearchKeyword("")}>
                     <FaTimesCircle className={classes["reset-icon"]} />
                   </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setSearchKeyword("")}
+                    className={classes["dum-icon"]}
+                  >
+                    <FaTimesCircle />
+                  </button>
                 )}
-
                 <button>
                   <FaSearch className={classes["search-icon"]} />
                 </button>
