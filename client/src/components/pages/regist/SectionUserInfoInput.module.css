@@ -1,0 +1,111 @@
+.sectionUserInfoInput button {
+  background-color: #ccc;
+  height: 30px;
+  width: 70px;
+  margin-left: 30px;
+}
+
+.sectionUserInfoInput-input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.sectionUserInfoInput-phone {
+  display: flex;
+  align-items: center;
+
+  position: relative;
+}
+
+.sectionUserInfoInput-phone input {
+  margin-bottom: 0;
+  width: 160px;
+  height: 28px;
+}
+
+.sectionUserInfoInput-phone div {
+  border: 1px solid #ccc;
+  width: 80px;
+  height: 28px;
+  border-radius: 5px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+.sectionUserInfoInput-input span {
+  margin: 0 10px;
+}
+
+.sectionUserInfoInput-confirmation {
+  position: absolute;
+  right: 170px;
+}
+
+.sectionUserInfoInput-zipcode-wrap {
+  margin-bottom: 10px;
+}
+
+.sectionUserInfoInput-zipcode {
+  position: relative;
+}
+
+.sectionUserInfoInput-zipcode input {
+  width: 160px;
+  margin-bottom: 0px;
+}
+
+.regist-btn-searchAdress {
+  position: absolute;
+  right: 280px;
+}
+
+.sectionUserInfoInput-address input {
+  margin-right: 10px;
+  width: 250px;
+  height: 28px;
+  outline: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.sectionUserInfoInput-email {
+  position: relative;
+}
+
+.sectionUserInfoInput-email-adress {
+  position: absolute;
+  right: 38px;
+}
+
+.sectionUserInfoInput-email span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 10px;
+}
+
+.sectionUserInfoInput-email-adress {
+  display: flex;
+}
+
+.email-adress {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
