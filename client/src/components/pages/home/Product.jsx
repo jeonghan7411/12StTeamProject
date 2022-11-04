@@ -1,6 +1,6 @@
 import React from "react";
 
-import Card from "../components/UI/Card";
+import Card from "../../UI/Card";
 
 import classes from "./Product.module.css";
 

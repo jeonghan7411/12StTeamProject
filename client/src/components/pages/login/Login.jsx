@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Input from "../UI/Input";
+import Input from "../../UI/Input";
 import classes from "./Login.module.css";
 import { Link } from "react-router-dom";
-import iconGoogle from "../../assets/icons/googleLogin.png";
-import iconNaver from "../../assets/icons/naverLogin.png";
-import iconKakao from "../../assets/icons/kakaoLogin.png";
-import iconApple from "../../assets/icons/appleLogin.png";
+import iconGoogle from "../../../assets/icons/googleLogin.png";
+import iconNaver from "../../../assets/icons/naverLogin.png";
+import iconKakao from "../../../assets/icons/kakaoLogin.png";
+import iconApple from "../../../assets/icons/appleLogin.png";
 const Login = () => {
   const [userID, setUserID] = useState("");
   const [userPW, setUserPW] = useState("");

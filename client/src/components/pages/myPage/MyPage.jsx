@@ -1,7 +1,7 @@
 import React from "react";
 import { FaCog } from "react-icons/fa";
 import classes from "./MyPage.module.css";
-import Profile from "../../assets/profile.jpg";
+import Profile from "../../../assets/profile.jpg";
 import OrderList from "./OrderList";
 import MyPageSide from "./MyPageSide";
 

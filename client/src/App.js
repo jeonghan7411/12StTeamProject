@@ -4,10 +4,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/layout/Header";
 import Nav from "./components/layout/Nav";
 import Footer from "./components/layout/Footer";
-import Home from "./components/pages/Home";
-import Login from "./components/pages/Login";
-import Regist from "./components/pages/Regist";
-import MyPage from "./components/pages/MyPage";
+import Home from "./components/pages/home/Home";
+import Login from "./components/pages/login/Login";
+import Regist from "./components/pages/regist/Regist";
+import MyPage from "./components/pages/myPage/MyPage";
 
 function App() {
   return (
