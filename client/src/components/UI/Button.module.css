@@ -5,5 +5,14 @@
   border: 1px solid #ccc;
   background-color: var(--navy-color);
   color: white;
+  background-color: var(--navy-color);
   font-family: inherit;
+
+  transition: 0.4s;
+}
+
+.button:hover {
+  color: var(--navy-color);
+  background-color: white;
+  transition: 0.4s;
 }

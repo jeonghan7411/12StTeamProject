@@ -31,7 +31,7 @@ function App() {
                 element={<CancelReturnExchange />}
               />
             </Route>
-            <Route path="/products" element={<Product />} />
+            <Route path="/products/:getIdx" element={<Product />} />
           </Routes>
         </main>
         <Footer />
