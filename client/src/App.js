@@ -9,6 +9,8 @@ import Login from "./components/pages/login/Login";
 import Regist from "./components/pages/regist/Regist";
 import MyPage from "./components/pages/myPage/MyPage";
 import Product from "./components/pages/ProductDetail/Product";
+import OrderList from "./components/pages/myPage/OrderList";
+import CancelReturnExchange from "./components/pages/myPage/CancelReturnExchange";
 
 function App() {
   return (
@@ -22,7 +24,13 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/regist" element={<Regist />} />
-            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/mypage" element={<MyPage />}>
+              <Route index element={<OrderList />} />
+              <Route
+                path="cancel-return-exchange"
+                element={<CancelReturnExchange />}
+              />
+            </Route>
             <Route path="/products" element={<Product />} />
           </Routes>
         </main>

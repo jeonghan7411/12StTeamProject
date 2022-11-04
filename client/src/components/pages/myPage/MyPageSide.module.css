@@ -21,3 +21,7 @@
 .side-item div {
   margin-bottom: 15px;
 }
+
+a:hover {
+  text-decoration: underline;
+}

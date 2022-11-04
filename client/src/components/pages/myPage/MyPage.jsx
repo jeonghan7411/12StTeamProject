@@ -4,6 +4,7 @@ import classes from "./MyPage.module.css";
 import Profile from "../../../assets/profile.jpg";
 import OrderList from "./OrderList";
 import MyPageSide from "./MyPageSide";
+import { Outlet } from "react-router-dom";
 
 const MyPage = () => {
   return (
@@ -49,7 +50,7 @@ const MyPage = () => {
       </div>
       <div className={classes["mypage-wrap-bottom"]}>
         <MyPageSide />
-        <OrderList />
+        <Outlet />
       </div>
     </React.Fragment>
   );
