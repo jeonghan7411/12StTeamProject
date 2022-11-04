@@ -16,7 +16,7 @@ const Header = () => {
     <React.Fragment>
       <header className={classes.header}>
         <div className={classes["header-wrap-left"]}>
-          <h1>12th</h1>
+          <h1>12st</h1>
         </div>
 
         <form className={classes["header-wrap-center"]}>
