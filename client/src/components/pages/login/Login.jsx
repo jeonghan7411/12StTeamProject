@@ -56,15 +56,16 @@ const Login = () => {
             <Link>비밀번호찾기</Link>
             <Link to={"/regist"}>회원가입</Link>
           </div>
-          <div className={classes["form-login-non"]}>
-            <Link>비회원 주문조회</Link>
-          </div>
+          <Link>
+            <div className={classes["form-login-non"]}>비회원 주문조회</div>
+          </Link>
           <div className={classes["form-login-easy"]}>
             <img src={iconGoogle} alt="구글로그인이미지" />
             <img src={iconKakao} alt="카카오로그인이미지" />
             <img src={iconNaver} alt="네이버로그인이미지" />
             <img src={iconApple} alt="애플로그인이미지" />
           </div>
+          <div className={classes["form-login-banner"]}>배너탭</div>
         </div>
       </form>
     </React.Fragment>
