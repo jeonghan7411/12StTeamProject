@@ -1,19 +1,14 @@
-.regist {
-  border: 1px solid var(--navy-color);
-  padding: 50px 0;
-  height: auto;
-
+.regist-input-wrap,
+.regist-clause-wrap {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  border-radius: 12px;
 }
 
 .regist-input {
-  width: 40%;
-  height: 30px;
+  width: 20%;
+  height: 20px;
   margin-bottom: 70px;
 }
 
@@ -24,12 +19,9 @@
 
 .regist-input input {
   width: 100%;
-  height: 100%;
 
   margin-top: 10px;
-  padding: 20px 5px;
 
-  border: 1px solid var(--navy-color);
   border-radius: 5px;
 
   font-family: inherit;
@@ -67,7 +59,6 @@
 
 .regist-input-phone input {
   flex: 3;
-  height: 10px;
 }
 
 .resist-control {
@@ -81,4 +72,13 @@
 
   font-size: 16px;
   font-weight: bold;
+}
+
+.resist-control-btn:hover {
+  background-color: var(--navy-color);
+  transition: none;
+}
+
+.regist-clause-content {
+  border: 1px solid #ccc;
 }

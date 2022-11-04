@@ -6,8 +6,6 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { RiShoppingCart2Line } from "react-icons/ri";
 import { ImEyePlus } from "react-icons/im";
 
-import Button from "../UI/Button";
-import Input from "../UI/Input";
 import classes from "./Header.module.css";
 
 const Header = () => {
@@ -24,10 +22,10 @@ const Header = () => {
             <span onClick={() => setIsShow(!isShow)}>통합검색</span>
           </div>
           <div className={classes["header-search-input"]}>
-            <Input type="text" />
+            <input type="text" />
           </div>
           <div>
-            <Button
+            <button
               className={classes["header-search-btn"]}
               type="submit"
               text={<FaSearch />}
