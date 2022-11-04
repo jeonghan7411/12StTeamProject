@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Input from "../../UI/Input";
 import classes from "./Login.module.css";
 import { Link } from "react-router-dom";
 import iconGoogle from "../../../assets/icons/googleLogin.png";
@@ -28,28 +27,25 @@ const Login = () => {
       >
         <div className={classes["form-login-wrapper"]}>
           <div className={classes["form-login-input"]}>
-            <Input
+            <input
               type={"text"}
               onChange={(e) => setUserID(e.target.value)}
               placeholder={"아이디를 입력해주세요"}
-              isValid={true}
             />
           </div>
           <div className={classes["form-login-input"]}>
-            <Input
+            <input
               type={"password"}
               onChange={(e) => setUserID(e.target.value)}
               placeholder={"비밀번호를 입력해주세요"}
-              isValid={true}
             />
           </div>
           <div className={classes["form-login-handler"]}>
-            <Input
+            <input
               type={"submit"}
               value={"로그인"}
-              isValid={true}
               className={classes["form-login-submit"]}
-            ></Input>
+            ></input>
           </div>
           <div className={classes["form-login-links"]}>
             <Link>아이디찾기</Link>
