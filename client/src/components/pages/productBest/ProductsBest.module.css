@@ -1,0 +1,17 @@
+.productsBest {
+  height: auto;
+}
+
+.productsBest-time {
+  margin-bottom: 20px;
+  color: RGB(121, 121, 121);
+  position: relative;
+}
+
+.ProductsBest-content {
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  column-gap: 2%;
+
+  row-gap: 50px;
+}

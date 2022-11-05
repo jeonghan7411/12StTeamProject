@@ -8,13 +8,13 @@ const Nav = () => {
     <React.Fragment>
       <nav className={classes.nav}>
         <div className={classes["nav-category"]}>
-          <span>발로배송</span>
+          <Link>발로배송</Link>
           <span> | </span>
-          <span>베스트</span>
-          <span>쿠폰 / 기획전</span>
-          <span>발로배송</span>
-          <span>발로배송</span>
-          <span>발로배송</span>
+          <Link to={"/productsBest"}>베스트</Link>
+          <Link>쿠폰 / 기획전</Link>
+          <Link>발로배송</Link>
+          <Link>발로배송</Link>
+          <Link>발로배송</Link>
         </div>
 
         <div>

@@ -2,11 +2,7 @@ import React from "react";
 import classes from "./Footer.module.css";
 
 const Footer = () => {
-  return (
-    <React.Fragment>
-      <footer className={classes.footer}></footer>
-    </React.Fragment>
-  );
+  return <footer className={classes.footer}>sdad</footer>;
 };
 
 export default Footer;

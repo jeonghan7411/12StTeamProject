@@ -41,6 +41,11 @@
   width: 80px;
 }
 
+.confirmation-img img {
+  width: 100%;
+  height: 100%;
+}
+
 .confirmation-item input {
   margin-top: 10px;
   cursor: pointer;
