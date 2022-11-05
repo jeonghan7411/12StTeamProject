@@ -7,14 +7,27 @@ import { RiShoppingCart2Line } from "react-icons/ri";
 import { ImEyePlus } from "react-icons/im";
 
 import classes from "./Header.module.css";
+import { useNavigate } from "react-router-dom";
+import HeaderCartegory from "./HeaderCartegory";
 
 const Header = () => {
   const [isShow, setIsShow] = useState(false);
+  const [ishShownCartegory, setIsShowncategory] = useState(false);
+  const navigate = useNavigate();
   return (
     <React.Fragment>
+      {ishShownCartegory && (
+        <HeaderCartegory
+          onHide={() => {
+            setIsShowncategory(false);
+          }}
+        />
+      )}
+
       <header className={classes.header}>
         <div className={classes["header-wrap-left"]}>
-          <h1>12st</h1>
+          <span onClick={() => setIsShowncategory(true)}>클릭</span>
+          <h1 onClick={() => navigate("/")}>12st</h1>
         </div>
 
         <form className={classes["header-wrap-center"]}>

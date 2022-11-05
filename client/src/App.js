@@ -11,6 +11,7 @@ import MyPage from "./components/pages/myPage/MyPage";
 import Product from "./components/pages/ProductDetail/Product";
 import OrderList from "./components/pages/myPage/OrderList";
 import CrlList from "./components/pages/myPage/CrlList";
+import ProductsBest from "./components/pages/productBest/ProductsBest";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <Router>
         <Header />
         <Nav />
+
         <main className={classes.main}>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -29,8 +31,10 @@ function App() {
               <Route path="cancel-return-exchange" element={<CrlList />} />
             </Route>
             <Route path="/products/:getIdx" element={<Product />} />
+            <Route path="/productsBest" element={<ProductsBest />} />
           </Routes>
         </main>
+
         <Footer />
       </Router>
     </div>

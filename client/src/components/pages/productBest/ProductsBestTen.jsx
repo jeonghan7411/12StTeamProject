@@ -1,19 +1,19 @@
 import React from "react";
-
 import Card from "../../UI/Card";
 
-import classes from "./HomeProduct.module.css";
+import classes from "./ProductsBestTen.module.css";
 
 const DUMMY_URL =
   "https://cdn.011st.com/11dims/resize/x300/11src/pd/v2/8/4/4/3/3/0/Xbjtt/5090844330_L300.jpg";
 
-const Product = (props) => {
+const ProductsBestTen = (props) => {
   return (
-    <Card className={classes.product}>
+    <Card className={classes.productsBestTen}>
       {props.children}
       <Card className={classes["product-img"]}>
         <img src={DUMMY_URL} alt="" />
       </Card>
+
       <div className={classes["product-content"]}>
         <h3 className={classes["product-content-title"]}>
           나랑들 사이다 제로 245ml (뚱캔)
@@ -31,4 +31,4 @@ const Product = (props) => {
   );
 };
 
-export default Product;
+export default ProductsBestTen;

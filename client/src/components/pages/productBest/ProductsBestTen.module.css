@@ -1,0 +1,22 @@
+.productsBestTen {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 20px;
+  padding: 20px;
+
+  border: 2px solid var(--red-color);
+}
+
+.product-img {
+  width: 350px;
+  height: 350px;
+  display: flex;
+  align-items: center;
+}
+
+.product-img img {
+  width: 90%;
+  height: 90%;
+  border-radius: 5px;
+}

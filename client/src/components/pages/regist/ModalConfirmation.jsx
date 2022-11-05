@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Card from "../../UI/Card";
 import Modal from "../../UI/Modal";
 
+import kakao from "../../../assets/clause/kakao.png";
+
 import classes from "./ModalConfirmation.module.css";
 
 const ModalConfirmation = (props) => {
@@ -11,37 +13,49 @@ const ModalConfirmation = (props) => {
 
       <section className={classes["confirmation-wrap"]}>
         <div className={classes["confirmation-item"]}>
-          <Card className={classes["confirmation-img"]}></Card>
+          <Card className={classes["confirmation-img"]}>
+            <img src={kakao} alt="카카오 인증" />
+          </Card>
 
           <input type="radio" />
         </div>
 
         <div className={classes["confirmation-item"]}>
-          <Card className={classes["confirmation-img"]}></Card>
+          <Card className={classes["confirmation-img"]}>
+            <img src={kakao} alt="카카오 인증" />
+          </Card>
 
           <input type="radio" />
         </div>
 
         <div className={classes["confirmation-item"]}>
-          <Card className={classes["confirmation-img"]}></Card>
+          <Card className={classes["confirmation-img"]}>
+            <img src={kakao} alt="카카오 인증" />
+          </Card>
 
           <input type="radio" />
         </div>
 
         <div className={classes["confirmation-item"]}>
-          <Card className={classes["confirmation-img"]}></Card>
+          <Card className={classes["confirmation-img"]}>
+            <img src={kakao} alt="카카오 인증" />
+          </Card>
 
           <input type="radio" />
         </div>
 
         <div className={classes["confirmation-item"]}>
-          <Card className={classes["confirmation-img"]}></Card>
+          <Card className={classes["confirmation-img"]}>
+            <img src={kakao} alt="카카오 인증" />
+          </Card>
 
           <input type="radio" />
         </div>
 
         <div className={classes["confirmation-item"]}>
-          <Card className={classes["confirmation-img"]}></Card>
+          <Card className={classes["confirmation-img"]}>
+            <img src={kakao} alt="카카오 인증" />
+          </Card>
 
           <input type="radio" />
         </div>
