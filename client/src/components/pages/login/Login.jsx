@@ -1,14 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import classes from "./Login.module.css";
 import { Link } from "react-router-dom";
 import iconGoogle from "../../../assets/icons/googleLogin.png";
 import iconNaver from "../../../assets/icons/naverLogin.png";
 import iconKakao from "../../../assets/icons/kakaoLogin.png";
 import iconApple from "../../../assets/icons/appleLogin.png";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 const Login = () => {
   const [userID, setUserID] = useState("");
   const [userPW, setUserPW] = useState("");
+  const [showPW, setShowPW] = useState(false);
+  const pwTab = useRef();
 
+  const onClickShowPW = () => {
+    setShowPW(!showPW);
+  };
   const onSubmitLogin = (e) => {
     e.preventDefault();
     /*
@@ -18,6 +25,18 @@ const Login = () => {
         없으면 alert redirect login
         */
   };
+  //useEffect로 비밀번호 보기 숨기기 결정
+  useEffect(() => {
+    const pwText = () => {
+      if (!showPW) {
+        pwTab.current.type = "password";
+      } else {
+        pwTab.current.type = "text";
+      }
+    };
+    pwText();
+  }, [showPW]);
+
   return (
     <React.Fragment>
       <header className={classes["regist-haader"]}>
@@ -36,12 +55,24 @@ const Login = () => {
               placeholder={"아이디를 입력해주세요"}
             />
           </div>
-          <div className={classes["form-login-input"]}>
+          <div className={classes["form-login-pw"]}>
             <input
               type={"password"}
               onChange={(e) => setUserID(e.target.value)}
               placeholder={"비밀번호를 입력해주세요"}
+              ref={pwTab}
             />
+            {!showPW ? (
+              <FaEyeSlash
+                className={classes["form-login-pw-i"]}
+                onClick={onClickShowPW}
+              />
+            ) : (
+              <FaEye
+                className={classes["form-login-pw-i"]}
+                onClick={onClickShowPW}
+              />
+            )}
           </div>
           <div className={classes["form-login-handler"]}>
             <input

@@ -1,5 +1,6 @@
 import React from "react";
 
+import MyPageListTitle from "./MyPageListTitle";
 import CancleReturnExchangeItem from "./CancleReturnExchangeItem";
 import classes from "./CrlList.module.css";
 
@@ -7,11 +8,8 @@ const CrlList = () => {
   return (
     <React.Fragment>
       <div className={classes.CrlListd}>
-        <div className={classes["cre-wrap-title"]}>
-          <div>
-            <h2>취소 반품 교환 목록</h2>
-          </div>
-        </div>
+        <MyPageListTitle text={"취소 반품 교환 목록"} />
+
         <CancleReturnExchangeItem />
         <CancleReturnExchangeItem />
         <CancleReturnExchangeItem />

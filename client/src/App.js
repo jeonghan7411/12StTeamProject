@@ -13,6 +13,8 @@ import OrderList from "./components/pages/myPage/OrderList";
 import CrlList from "./components/pages/myPage/CrlList";
 import ProductsBest from "./components/pages/productBest/ProductsBest";
 import ProductsCategory from "./components/pages/productsCategory/ProductsCategory";
+import MyPointCheck from "./components/pages/myPage/MyPointCheck";
+import MyPageInquiry from "./components/pages/myPage/MyPageInquiry";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
             <Route path="/mypage" element={<MyPage />}>
               <Route index element={<OrderList />} />
               <Route path="cancel-return-exchange" element={<CrlList />} />
+              <Route path="mypointcheck" element={<MyPointCheck />} />
+              <Route path="mypageinquiry" element={<MyPageInquiry />} />
             </Route>
             <Route path="/products/:getIdx" element={<Product />} />
             <Route path="/productsBest" element={<ProductsBest />} />
