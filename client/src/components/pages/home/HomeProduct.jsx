@@ -9,7 +9,7 @@ const DUMMY_URL =
 
 const Product = (props) => {
   return (
-    <Card className={classes.product}>
+    <Card className={`${classes.product} ${props.className}`}>
       {props.children}
       <Card className={classes["product-img"]}>
         <img src={DUMMY_URL} alt="" />

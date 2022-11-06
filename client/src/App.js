@@ -12,6 +12,7 @@ import Product from "./components/pages/ProductDetail/Product";
 import OrderList from "./components/pages/myPage/OrderList";
 import CrlList from "./components/pages/myPage/CrlList";
 import ProductsBest from "./components/pages/productBest/ProductsBest";
+import ProductsCategory from "./components/pages/productsCategory/ProductsCategory";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             </Route>
             <Route path="/products/:getIdx" element={<Product />} />
             <Route path="/productsBest" element={<ProductsBest />} />
+            <Route path="/productsCategory" element={<ProductsCategory />} />
           </Routes>
         </main>
 
