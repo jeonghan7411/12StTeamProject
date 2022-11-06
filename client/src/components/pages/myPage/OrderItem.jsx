@@ -15,6 +15,7 @@ const OrderItem = () => {
             <Link>주문 상세보기</Link>
           </div>
         </div>
+
         <div className={classes["orderitem-wrap-items"]}>
           <div className={classes["orderitem-wrap-left"]}>
             <div className={classes["orderitem-item-title"]}>

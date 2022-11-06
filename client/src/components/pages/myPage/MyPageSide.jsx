@@ -1,5 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import MyPageSideLink from "./MyPageSideLink";
+
 import classes from "./MyPageSide.module.css";
 
 const MyPageSide = () => {
@@ -9,21 +11,22 @@ const MyPageSide = () => {
         <div className={classes["side-item"]}>
           <h2>MY 쇼핑</h2>
           <div>
-            <Link to="/mypage">주문목록</Link>
+            <MyPageSideLink to="/mypage" text={"주문목록"} first={true} />
           </div>
           <div>
-            <Link to="cancel-return-exchange">취소/반품/교환/환불 내역</Link>
+            <MyPageSideLink
+              to="cancel-return-exchange"
+              text={"취소/반품/교환/환불 내역"}
+            />
           </div>
           <hr />
         </div>
 
         <div className={classes["side-item"]}>
           <h2>MY 혜택</h2>
+
           <div>
-            <Link>할인쿠폰</Link>
-          </div>
-          <div>
-            <Link>포인트확인</Link>
+            <MyPageSideLink to="mypointcheck" text={"포인트확인"} />
           </div>
           <hr />
         </div>
@@ -31,16 +34,16 @@ const MyPageSide = () => {
         <div className={classes["side-item"]}>
           <h2>MY 활동</h2>
           <div>
-            <Link>문의하기</Link>
+            <MyPageSideLink to="mypageinquiry" text={"문의하기"} />
           </div>
           <div>
-            <Link>문의내역</Link>
+            <MyPageSideLink to="asd" text={"문의내역"} />
           </div>
           <div>
-            <Link>리뷰관리</Link>
+            <MyPageSideLink to="ddd" text={"리뷰관리"} />
           </div>
           <div>
-            <Link>찜 리스트</Link>
+            <MyPageSideLink to="xcxc" text={"찜리스트"} />
           </div>
           <hr />
         </div>
@@ -48,10 +51,10 @@ const MyPageSide = () => {
         <div className={classes["side-item"]}>
           <h2>MY 정보</h2>
           <div>
-            <Link>개인정보 확인/수정</Link>
+            <MyPageSideLink to="ddcx" text={"개인정보 확인/수정"} />
           </div>
           <div>
-            <Link>배송지 관리</Link>
+            <MyPageSideLink to="xzx" text={"배송지 관리"} />
           </div>
         </div>
       </div>

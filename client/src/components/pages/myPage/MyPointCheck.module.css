@@ -1,0 +1,63 @@
+.MyPointCheck {
+  margin-top: 20px;
+  margin-left: 30px;
+}
+
+.check-content-wrap {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  border: 1px solid var(--gray-color);
+  width: 1000px;
+}
+
+.check-content-wrap div {
+  background-color: var(--gray-color);
+  padding: 15px;
+  width: 100%;
+}
+.check-content-item {
+  border: 1px solid var(--navy-color);
+}
+
+.check-content-item div:first-child {
+  font-size: 20px;
+}
+
+.check-content-item span {
+  font-size: 32px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.check-wrap-date {
+  font-size: 18px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border: 1px solid var(--navy-color);
+  margin-top: 30px;
+  padding: 15px;
+}
+
+.check-date-item {
+  align-items: center;
+  display: flex;
+  margin-right: 50px;
+}
+
+.check-date-item div {
+  margin-right: 10px;
+}
+
+.check-date-button button {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: var(--navy-color);
+  color: white;
+  border-radius: 10px;
+  padding: 10px 15px;
+}

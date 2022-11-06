@@ -5,18 +5,16 @@ import OrderItem from "./OrderItem";
 
 import { FaSearch, FaTimesCircle } from "react-icons/fa";
 import classes from "./OrderList.module.css";
+import MyPageListTitle from "./MyPageListTitle";
 
 const OrderList = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
-  console.log(searchKeyword);
   return (
     <React.Fragment>
       <div className={classes.OrderList}>
         <form>
           <div className={classes["orderlist-wrap-title"]}>
-            <div>
-              <h2>주문목록</h2>
-            </div>
+            <MyPageListTitle text={"주문 목록"} />
 
             <div className={classes["orderlist-wrap-input"]}>
               <div className={classes["orderlist-input"]}>
