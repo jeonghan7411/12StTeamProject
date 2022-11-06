@@ -1,12 +1,19 @@
 import React from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import icon from "../../../assets/icons/appleLogin.png";
 
 import classes from "./CategoryItem.module.css";
 
 const CategoryItem = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className={classes.categoryItem}>
+    <div
+      className={classes.categoryItem}
+      onClick={() => navigate("/productsCategory")}
+    >
       <div className={classes["categoryItem-img"]}>
         <img src={icon} />
       </div>

@@ -1,0 +1,23 @@
+.productsCategory-categoryList-wrap {
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.productsCategory-categoryList {
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  color: RGB(62, 62, 62);
+}
+
+.productsCategory-categoryList-items {
+  background-color: white;
+  text-align: center;
+}
+
+.productsCategory-categoryList-items li {
+  padding: 5px;
+  color: RGB(96, 96, 96);
+}
