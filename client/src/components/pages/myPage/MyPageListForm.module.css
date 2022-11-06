@@ -1,0 +1,34 @@
+.MyPageListForm {
+  margin-top: 50px;
+}
+
+.MyPageListForm table {
+  text-align: center;
+  width: 100%;
+  text-align: center;
+  border: 1px solid var(--navy-color);
+}
+
+.MyPageListForm thead {
+  background-color: var(--navy-color);
+  color: white;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.MyPageListForm tr,
+.MyPageListForm td {
+  border: 1px solid var(--navy-color);
+}
+
+.MyPageListForm td {
+  padding: 10px;
+}
+
+.MyPageListForm td:nth-child(2) a {
+  text-decoration: underline;
+}
+
+.MyPageListForm tbody tr:hover {
+  background-color: var(--gray-color);
+}
