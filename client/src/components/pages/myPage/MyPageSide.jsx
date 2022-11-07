@@ -1,5 +1,4 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
 import MyPageSideLink from "./MyPageSideLink";
 
 import classes from "./MyPageSide.module.css";
@@ -37,10 +36,7 @@ const MyPageSide = () => {
             <MyPageSideLink to="mypageinquiry" text={"문의하기"} />
           </div>
           <div>
-            <MyPageSideLink to="asd" text={"문의내역"} />
-          </div>
-          <div>
-            <MyPageSideLink to="ddd" text={"리뷰관리"} />
+            <MyPageSideLink to="mypageinquirylist" text={"문의내역"} />
           </div>
           <div>
             <MyPageSideLink to="xcxc" text={"찜리스트"} />
@@ -51,7 +47,7 @@ const MyPageSide = () => {
         <div className={classes["side-item"]}>
           <h2>MY 정보</h2>
           <div>
-            <MyPageSideLink to="ddcx" text={"개인정보 확인/수정"} />
+            <MyPageSideLink to="/updateuser" text={"개인정보 확인/수정"} />
           </div>
           <div>
             <MyPageSideLink to="xzx" text={"배송지 관리"} />

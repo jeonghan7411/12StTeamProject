@@ -1,11 +1,8 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { FaCog } from "react-icons/fa";
-
 import MyPageSide from "./MyPageSide";
-
 import Profile from "../../../assets/profile.jpg";
-
 import classes from "./MyPage.module.css";
 const MyPage = () => {
   return (
@@ -23,7 +20,9 @@ const MyPage = () => {
           </div>
           <div className={classes["mypage-title-right"]}>
             <div>
-              <FaCog className={classes["mypage-title-icon"]} />
+              <Link to="/updateuser">
+                <FaCog className={classes["mypage-title-icon"]} />
+              </Link>
             </div>
             <div>개인정보수정</div>
           </div>
