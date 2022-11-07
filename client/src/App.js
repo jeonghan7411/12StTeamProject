@@ -15,6 +15,7 @@ import ProductsBest from "./components/pages/productBest/ProductsBest";
 import ProductsCategory from "./components/pages/productsCategory/ProductsCategory";
 import MyPointCheck from "./components/pages/myPage/MyPointCheck";
 import MyPageInquiry from "./components/pages/myPage/MyPageInquiry";
+import ProductCart from "./components/pages/productCart/ProductCart";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route path="/products/:getIdx" element={<Product />} />
             <Route path="/productsBest" element={<ProductsBest />} />
             <Route path="/productsCategory" element={<ProductsCategory />} />
+            <Route path="/cart" element={<ProductCart />} />
           </Routes>
         </main>
 
