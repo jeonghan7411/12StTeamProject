@@ -15,6 +15,8 @@ import ProductsBest from "./components/pages/productBest/ProductsBest";
 import ProductsCategory from "./components/pages/productsCategory/ProductsCategory";
 import MyPointCheck from "./components/pages/myPage/MyPointCheck";
 import MyPageInquiry from "./components/pages/myPage/MyPageInquiry";
+import MyPageInquiryList from "./components/pages/myPage/MyPageInquiryList";
+import MyPageUpdateUser from "./components/pages/myPage/MyPageUpdateUser";
 import ProductCart from "./components/pages/productCart/ProductCart";
 
 function App() {
@@ -30,11 +32,13 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/regist" element={<Regist />} />
+            <Route path="/updateuser" element={<MyPageUpdateUser />} />
             <Route path="/mypage" element={<MyPage />}>
               <Route index element={<OrderList />} />
               <Route path="cancel-return-exchange" element={<CrlList />} />
               <Route path="mypointcheck" element={<MyPointCheck />} />
               <Route path="mypageinquiry" element={<MyPageInquiry />} />
+              <Route path="mypageinquirylist" element={<MyPageInquiryList />} />
             </Route>
             <Route path="/products/:getIdx" element={<Product />} />
             <Route path="/productsBest" element={<ProductsBest />} />
