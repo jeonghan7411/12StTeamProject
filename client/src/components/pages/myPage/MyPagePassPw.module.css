@@ -1,0 +1,81 @@
+.passpw-wrap-content {
+  padding: 20px;
+  display: flex;
+}
+
+.passpw-wrap-title {
+  font-size: 34px;
+  font-weight: bold;
+  height: 500px;
+  padding-left: 50px;
+  padding-right: 100px;
+}
+
+.passpw-wrap-item {
+  margin-top: 10px;
+  margin-left: 150px;
+}
+
+.passpw-content-item {
+  margin-bottom: 30px;
+}
+
+.passpw-item-title {
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.passpw-item-input {
+  width: 300px;
+}
+
+.passpw-item-input input {
+  border-radius: 5px;
+  width: 100%;
+  border: 1px solid var(--navy-color);
+  padding: 5px;
+}
+
+.passwd-show-icon {
+  cursor: pointer;
+  position: relative;
+  top: -20px;
+  left: 270px;
+}
+
+.addr-title {
+  align-items: center;
+  display: flex;
+}
+
+.addr-title button {
+  background-color: var(--gray-color);
+  border-radius: 5px;
+  padding: 5px;
+  margin-left: 15px;
+}
+
+.addr-input input {
+  margin-bottom: 10px;
+}
+
+.passpw-wrap-button {
+  display: flex;
+  justify-content: center;
+}
+
+.passpw-wrap-button button:first-child {
+  color: white;
+  background-color: var(--navy-color);
+  padding: 10px;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.passpw-wrap-button button:last-child {
+  background-color: var(--gray-color);
+  padding: 10px;
+  border-radius: 5px;
+  margin-left: 5px;
+}

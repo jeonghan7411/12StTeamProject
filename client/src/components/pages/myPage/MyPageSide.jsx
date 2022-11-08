@@ -39,7 +39,7 @@ const MyPageSide = () => {
             <MyPageSideLink to="mypageinquirylist" text={"문의내역"} />
           </div>
           <div>
-            <MyPageSideLink to="xcxc" text={"찜리스트"} />
+            <MyPageSideLink to="/cart" text={"장바구니"} />
           </div>
           <hr />
         </div>
@@ -50,7 +50,7 @@ const MyPageSide = () => {
             <MyPageSideLink to="/updateuser" text={"개인정보 확인/수정"} />
           </div>
           <div>
-            <MyPageSideLink to="xzx" text={"배송지 관리"} />
+            <MyPageSideLink to="mypageaddress" text={"배송지 관리"} />
           </div>
         </div>
       </div>
