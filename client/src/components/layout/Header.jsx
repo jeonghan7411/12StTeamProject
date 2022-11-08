@@ -14,6 +14,7 @@ const Header = () => {
   const [isShow, setIsShow] = useState(false);
   const [ishShownCartegory, setIsShowncategory] = useState(false);
   const navigate = useNavigate();
+
   return (
     <React.Fragment>
       {ishShownCartegory && (
@@ -51,7 +52,10 @@ const Header = () => {
 
           <TbTruckDelivery className={classes["header-control"]} />
 
-          <RiShoppingCart2Line className={classes["header-control"]} />
+          <RiShoppingCart2Line
+            onClick={() => navigate("/cart")}
+            className={classes["header-control"]}
+          />
           <ImEyePlus className={classes["header-control"]} />
         </div>
       </header>
