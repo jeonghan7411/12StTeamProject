@@ -50,7 +50,7 @@ const MyPageSide = () => {
             <MyPageSideLink to="/updateuser" text={"개인정보 확인/수정"} />
           </div>
           <div>
-            <MyPageSideLink to="xzx" text={"배송지 관리"} />
+            <MyPageSideLink to="mypageaddress" text={"배송지 관리"} />
           </div>
         </div>
       </div>

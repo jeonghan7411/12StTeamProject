@@ -18,6 +18,7 @@ import MyPageInquiry from "./components/pages/myPage/MyPageInquiry";
 import MyPageInquiryList from "./components/pages/myPage/MyPageInquiryList";
 import MyPageUpdateUser from "./components/pages/myPage/MyPageUpdateUser";
 import ProductCart from "./components/pages/productCart/ProductCart";
+import MyPageAddress from "./components/pages/myPage/MyPageAddress";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
               <Route path="mypointcheck" element={<MyPointCheck />} />
               <Route path="mypageinquiry" element={<MyPageInquiry />} />
               <Route path="mypageinquirylist" element={<MyPageInquiryList />} />
+              <Route path="mypageaddress" element={<MyPageAddress />} />
             </Route>
             <Route path="/products/:getIdx" element={<Product />} />
             <Route path="/productsBest" element={<ProductsBest />} />

@@ -13,7 +13,7 @@
 
 .passpw-wrap-item {
   margin-top: 10px;
-  margin-left: 50px;
+  margin-left: 150px;
 }
 
 .passpw-content-item {
@@ -42,4 +42,40 @@
   position: relative;
   top: -20px;
   left: 270px;
+}
+
+.addr-title {
+  align-items: center;
+  display: flex;
+}
+
+.addr-title button {
+  background-color: var(--gray-color);
+  border-radius: 5px;
+  padding: 5px;
+  margin-left: 15px;
+}
+
+.addr-input input {
+  margin-bottom: 10px;
+}
+
+.passpw-wrap-button {
+  display: flex;
+  justify-content: center;
+}
+
+.passpw-wrap-button button:first-child {
+  color: white;
+  background-color: var(--navy-color);
+  padding: 10px;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.passpw-wrap-button button:last-child {
+  background-color: var(--gray-color);
+  padding: 10px;
+  border-radius: 5px;
+  margin-left: 5px;
 }
