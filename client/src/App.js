@@ -8,7 +8,7 @@ import Home from "./components/pages/home/Home";
 import Login from "./components/pages/login/Login";
 import Regist from "./components/pages/regist/Regist";
 import MyPage from "./components/pages/myPage/MyPage";
-import Product from "./components/pages/productDetail/Product";
+
 import OrderList from "./components/pages/myPage/OrderList";
 import CrlList from "./components/pages/myPage/CrlList";
 import ProductsBest from "./components/pages/productBest/ProductsBest";
@@ -21,6 +21,7 @@ import ProductCart from "./components/pages/productCart/ProductCart";
 import MyPageAddress from "./components/pages/myPage/MyPageAddress";
 import Order from "./components/pages/order/Order";
 import OrderComplete from "./components/pages/order/OrderComplete";
+import Product from "./components/pages/ProductDetail/Product";
 
 function App() {
   return (

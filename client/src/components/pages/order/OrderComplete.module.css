@@ -1,0 +1,68 @@
+.orderComplete {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  padding: 50px 50px 100px 50px;
+}
+
+.orderComplete h3 {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 50px;
+}
+
+.orderProduct {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  background-color: white;
+}
+
+.orderProduct-label {
+  position: absolute;
+  background-color: tomato;
+}
+
+.destination {
+  width: 100%;
+  padding: 50px;
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.destination div {
+  margin-bottom: 40px;
+}
+
+.destination p {
+  text-align: end;
+  cursor: pointer;
+}
+
+.control {
+  margin-top: 50px;
+  text-align: center;
+  margin: 200px 0;
+}
+
+.control button {
+  padding: 20px 120px;
+
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.control-btn-detail {
+  background-color: white;
+  color: var(--navy-color);
+  border: 1px solid var(--navy-color);
+  margin-right: 20px;
+}
+
+.control-btn-continue {
+  background-color: var(--navy-color);
+  color: white;
+  border: 1px solid var(--navy-color);
+}
