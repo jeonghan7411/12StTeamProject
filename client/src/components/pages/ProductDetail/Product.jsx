@@ -15,7 +15,7 @@ const Product = () => {
   const [currentImg, setCurrentImg] = useState(productImg);
   const [orderValue, setOrderValue] = useState(1);
   const getIdx = useParams();
-  // console.log(getIdx);
+  console.log(getIdx);
 
   const setMenu = (e) => {
     setCurrentMenu(e.target.textContent);

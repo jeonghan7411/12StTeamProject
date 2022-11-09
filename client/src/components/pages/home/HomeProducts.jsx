@@ -1,4 +1,5 @@
 import React from "react";
+
 import Product from "./HomeProduct";
 
 import classes from "./HomeProducts.module.css";
@@ -8,23 +9,14 @@ const Products = (props) => {
   return (
     <section className={`${classes.products} ${props.className}`}>
       <h2>{props.title}</h2>
-
       <div className={classes["products-wrap"]}>
-        <Product>
-          <RecommendTag />
-        </Product>
-        <Product>
-          <RecommendTag />
-        </Product>
-        <Product>
-          <RecommendTag />
-        </Product>
-        <Product>
-          <RecommendTag />
-        </Product>
-        <Product>
-          <RecommendTag />
-        </Product>
+        {props.data.map((dt, key) => {
+          return (
+            <Product data={dt}>
+              <RecommendTag />
+            </Product>
+          );
+        })}
       </div>
     </section>
   );
