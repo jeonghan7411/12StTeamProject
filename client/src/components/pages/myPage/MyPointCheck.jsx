@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MyPageListForm from "./MyPageListForm";
 import MyPageListTitle from "./MyPageListTitle";
+import MyPageNullMsg from "./MyPageNullMsg";
 
 import classes from "./MyPointCheck.module.css";
 
@@ -9,6 +10,33 @@ const MyPointCheck = () => {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [isShowList, setIsShowList] = useState(false);
+
+  const [pointList, setPointList] = useState([
+    // {
+    //   idx: 1,
+    //   id: "홍길동",
+    //   content: "+ 1000",
+    //   regdate: `${new Date().getFullYear()}년 ${
+    //     new Date().getMonth() + 1
+    //   }월 ${new Date().getDate()}일`,
+    // },
+    // {
+    //   idx: 1,
+    //   id: "홍길동",
+    //   content: "+ 1000",
+    //   regdate: `${new Date().getFullYear()}년 ${
+    //     new Date().getMonth() + 1
+    //   }월 ${new Date().getDate()}일`,
+    // },
+    // {
+    //   idx: 1,
+    //   id: "홍길동",
+    //   content: "+ 1000",
+    //   regdate: `${new Date().getFullYear()}년 ${
+    //     new Date().getMonth() + 1
+    //   }월 ${new Date().getDate()}일`,
+    // },
+  ]);
 
   const searchDate = (e) => {
     e.preventDefault();
@@ -63,7 +91,16 @@ const MyPointCheck = () => {
           </form>
         </div>
 
-        <MyPageListForm />
+        {pointList.length === 0 && (
+          <MyPageNullMsg
+            className={classes["pointcheck-content-null"]}
+            text={"적립 내역이 없습니다."}
+          />
+        )}
+
+        {pointList.map((item) => {
+          return <MyPageListForm props={item} title={"내역"} />;
+        })}
       </div>
     </React.Fragment>
   );
