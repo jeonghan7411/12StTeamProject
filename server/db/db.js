@@ -1,3 +1,4 @@
+// https://openapi.11st.co.kr/openapi/OpenApiService.tmall?key=0c2e778ddcaff57dd5cdc2a2d1c91894&apiCode=ProductSearch&keyword=&option=Categories
 const mysql = require("mysql");
 require("dotenv").config();
 
