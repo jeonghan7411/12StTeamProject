@@ -1,10 +1,38 @@
 import React from "react";
+import { Fragment } from "react";
 import classes from "./OrderComplete.module.css";
+import TotalAmount from "./TotalAmount";
+
 const OrderComplete = () => {
   return (
-    <React.Fragment>
-      <div>가운데로 정렬 여기에</div>
-    </React.Fragment>
+    <Fragment>
+      <div className={classes.orderComplete}>
+        <h3>결제가 완료되었습니다.</h3>
+
+        <div className={classes.orderProduct}>
+          asdads
+          <div className={classes["orderProduct-label"]}>asdasd</div>
+        </div>
+
+        <div className={classes.destination}>
+          <p>변경하기</p>
+          <div>받는 사람</div>
+          <div>받는 주소</div>
+          <div>배송 요청사항</div>
+        </div>
+
+        <TotalAmount />
+
+        <div className={classes.control}>
+          <button className={classes["control-btn-detail"]}>
+            주문상세보기
+          </button>
+          <button className={classes["control-btn-continue"]}>
+            쇼핑계속하기
+          </button>
+        </div>
+      </div>
+    </Fragment>
   );
 };
 
