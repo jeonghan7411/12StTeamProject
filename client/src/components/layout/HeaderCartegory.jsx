@@ -10,11 +10,9 @@ const HeaderCartegory = ({ onHide }) => {
         onClick={onHide}
       ></div>
 
-      <div className={classes.headerCartegory}>
-        <div className={classes["headerCartegory-slide"]}>
-          <p>로그인</p>
-          <h3>카테고리</h3>
-        </div>
+      <div className={classes["headerCartegory-slide"]}>
+        <p>로그인</p>
+        <h3>카테고리</h3>
       </div>
     </React.Fragment>
   );

@@ -1,6 +1,4 @@
-.headerCartegory {
-  position: relative;
-}
+@import url(../../App.module.css);
 
 .headerCartegory-backdrop {
   position: fixed;
@@ -19,8 +17,7 @@
 
   left: -600px;
   width: 300px;
-  height: 1800px;
-
+  height: 100%;
   background-color: white;
 
   -webkit-animation: slide 0.2s forwards;
