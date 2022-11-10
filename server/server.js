@@ -8,8 +8,11 @@ require("dotenv").config();
 const db = require("./db/db");
 const fs = require("fs");
 const app = express();
+const bodyParser = require("body-parser");
+const jwt = require("jsonwebtoken");
+const cookie = require("cookie");
 
-const saltRounds = 1;
+const saltRounds = 10;
 
 // middleware
 app.use(express.urlencoded({ extended: false }));
@@ -43,22 +46,27 @@ app.get("/api/get/productinfo/:getIdx", (req, res) => {
 app.post("/regist", (req, res) => {
   let sql =
     "INSERT INTO users VALUES(NULL, ?, NULL, ?, ?, ?, NULL, NULL, NOW());";
-  db.query(
-    sql,
-    [
-      req.body.enteredId,
-      req.body.enteredPasswd,
-      req.body.enteredEmail,
-      req.body.enteredPhone,
-    ],
-    (err) => {
-      if (err) {
-        throw err;
-      } else {
-        res.send({ message: "200" });
+  bcrypt.hash(req.body.enteredPasswd, saltRounds, (err, hash_enteredPasswd) => {
+    db.query(
+      sql,
+      [
+        req.body.enteredId,
+        hash_enteredPasswd,
+        req.body.enteredEmail,
+        req.body.enteredPhone,
+      ],
+      (err) => {
+        if (err) {
+          throw err;
+        } else {
+          res.send({
+            status: "200",
+            message: "회원가입을 축하드립니다!",
+          });
+        }
       }
-    }
-  );
+    );
+  });
 });
 
 app.post("/login", (req, res) => {
@@ -67,16 +75,15 @@ app.post("/login", (req, res) => {
     if (user[0] === undefined) {
       res.send({
         status: 404,
-        message: "아이디를 찾을수 없습니다.",
+        message: "아이디를 찾을수 없습니다. 회원가입 페이지로 이동합니다.",
       });
     } else {
-      bcrypt.compare(req.body.userPW, user[0].userPW, (err, result) => {
+      bcrypt.compare(req.body.userPW, user[0].uPasswd, (err, result) => {
         if (result) {
           res.send({
             status: 200,
             message: "로그인 성공",
-            id: user[0].userID,
-            pw: user[0].userPW,
+            id: user[0].uId,
           });
         } else {
           res.send({
@@ -88,6 +95,57 @@ app.post("/login", (req, res) => {
     }
   });
 });
+
+// cookie 로그인
+// app.post("/login", (req, res) => {
+//   let isUser = false;
+//   const { userID, userPW } = req.body;
+//   let cookies = cookie.parse(req.headers.cookie); //쿠키를 객체 타입으로 변경
+//   console.log(cookies.user);
+
+//   const sql = "SELECT * FROME users;";
+//   db.query(sql, (err, rows, fields) => {
+//     if (err) {
+//       console.log(err);
+//     } else {
+//       console.log(rows);
+//       rows.forEach((info) => {
+//         if (info.uId === userID && info.uPW === userPW) {
+//           isUser = true;
+//         } else {
+//           return;
+//         }
+//       });
+//       if (isUser) {
+//         const YOUR_SECRET_KEY = process.env.SECRET_KEY;
+
+//         // accessToken jwt 생성하는 코도
+//         //첫번쨰 인자로는 보낼 정보, 두번쨰 인자로는 비밀키.
+//         const accessToken = jwt.sign(
+//           {
+//             userID,
+//           },
+//           YOUR_SECRET_KEY,
+//           {
+//             expiresIn: "1h",
+//           }
+//         );
+//         res.cookie("user", accessToken);
+//         res.status(200).json({
+//           result: "ok",
+//           accessToken,
+//         });
+//       } else {
+//         res.status(400).json({
+//           error: "invaild user",
+//         });
+//       }
+//     }
+//   });
+// });
+
+app.post("/login", (req, res) => {});
+
 //네이버 api 받아와서 db에 넣은 흔적
 /*
 let data = [];
@@ -139,6 +197,8 @@ app.get("/search/shop", (req, res) => {
     }
   });
 });
+
+
 
 // https://openapi.11st.co.kr/openapi/OpenApiService.tmall?key=0c2e778ddcaff57dd5cdc2a2d1c91894&apiCode=ProductSearch&keyword=&option=Categories
 */
