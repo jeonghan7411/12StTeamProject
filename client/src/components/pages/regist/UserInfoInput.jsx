@@ -11,6 +11,7 @@ const UserInfoInput = ({
   onBlur,
   children,
   className,
+  readOnly,
 }) => {
   return (
     <React.Fragment>
@@ -27,10 +28,15 @@ const UserInfoInput = ({
           value={value}
           onChange={onChange}
           onBlur={onBlur}
+          readOnly={readOnly}
         />
       </div>
     </React.Fragment>
   );
+};
+
+UserInfoInput.defaultProps = {
+  readOnly: false,
 };
 
 export default UserInfoInput;
