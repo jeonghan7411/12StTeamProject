@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import classes from "./MyPageListForm.module.css";
-const MyPageListForm = () => {
+const MyPageListForm = ({ props, title }) => {
   return (
     <React.Fragment>
       <div className={classes.MyPageListForm}>
@@ -11,58 +11,18 @@ const MyPageListForm = () => {
             <tr>
               <td>No</td>
               <td>아이디</td>
-              <td>내용</td>
+              <td>{title}</td>
               <td>날짜</td>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>1</td>
+              <td>{props.idx}</td>
               <td>
-                <Link>123213</Link>
+                <Link>{props.id}</Link>
               </td>
-              <td>적립 + 10000</td>
-              <td>2022-11-11</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>
-                <Link>123213</Link>
-              </td>
-              <td>적립 + 10000</td>
-              <td>2022-11-11</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>
-                <Link>123213</Link>
-              </td>
-              <td>적립 + 10000</td>
-              <td>2022-11-11</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>
-                <Link>123213</Link>
-              </td>
-              <td>적립 + 10000</td>
-              <td>2022-11-11</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>
-                <Link>123213</Link>
-              </td>
-              <td>적립 + 10000</td>
-              <td>2022-11-11</td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>
-                <Link>123213</Link>
-              </td>
-              <td>적립 + 10000</td>
-              <td>2022-11-11</td>
+              <td>{props.content}</td>
+              <td>{props.regdate}</td>
             </tr>
           </tbody>
         </table>
