@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
 import classes from "./Nav.module.css";
 import { Link } from "react-router-dom";
-const Nav = () => {
-  const [isLogin, setIsLogin] = useState(false);
+const Nav = ({ userToken }) => {
+  // const [isLogin, setIsLogin] = useState(false);
   return (
     <React.Fragment>
       <nav className={classes.nav}>
@@ -18,14 +18,19 @@ const Nav = () => {
         </div>
 
         <div>
-          {!isLogin && (
+          {/* {!isLogin && (
             <div className={classes["nav-nonLogin"]}>
               <Link to={"/login"}>로그인</Link>
               <Link to={"/regist"}>회원가입</Link>
             </div>
-          )}
+          )} */}
 
-          {isLogin && (
+          {!userToken ? (
+            <div className={classes["nav-nonLogin"]}>
+              <Link to={"/login"}>로그인</Link>
+              <Link to={"/regist"}>회원가입</Link>
+            </div>
+          ) : (
             <div className={classes["nav-Login"]}>
               <span>🐣 떙떙떙 님</span>
               <span> | </span>
@@ -34,6 +39,16 @@ const Nav = () => {
               <div className={classes["nav-onOff"]}></div>
             </div>
           )}
+
+          {/* {isLogin && (
+            <div className={classes["nav-Login"]}>
+              <span>🐣 떙떙떙 님</span>
+              <span> | </span>
+              <span>🌱 1000</span>
+              <span> | </span>
+              <div className={classes["nav-onOff"]}></div>
+            </div>
+          )} */}
         </div>
       </nav>
     </React.Fragment>

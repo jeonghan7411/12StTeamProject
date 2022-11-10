@@ -4,7 +4,10 @@ import { FaCog } from "react-icons/fa";
 import MyPageSide from "./MyPageSide";
 import Profile from "../../../assets/profile.jpg";
 import classes from "./MyPage.module.css";
-const MyPage = () => {
+import { useState } from "react";
+import { useEffect } from "react";
+
+const MyPage = ({ userData }) => {
   return (
     <React.Fragment>
       <div className={classes.MyPage}>
@@ -14,7 +17,7 @@ const MyPage = () => {
               <img src={Profile} alt="" />
             </div>
             <div>
-              안녕하세요 <span>홍길동</span>님.
+              안녕하세요 <span>{userData[0].uName}</span>님.
             </div>
             <div>등급</div>
           </div>

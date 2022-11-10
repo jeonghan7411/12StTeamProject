@@ -14,10 +14,12 @@ const CrlList = () => {
         <MyPageListTitle text={"취소 반품 교환 목록"} />
 
         {crlList.length === 0 && (
-          <MyPageNullMsg
-            text={"신청 하신 내역이 없습니다."}
-            className={classes["crlList-content-null"]}
-          />
+          <div className={classes["crList-wrap-null"]}>
+            <MyPageNullMsg
+              text={"신청 하신 내역이 없습니다."}
+              className={classes["crlList-content-null"]}
+            />
+          </div>
         )}
 
         {crlList.map((itme) => {

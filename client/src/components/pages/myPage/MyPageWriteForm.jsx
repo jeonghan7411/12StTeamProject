@@ -17,11 +17,10 @@ const MyPageWriteForm = ({ writeForm, optionItem }) => {
         <div className={classes["write-content-label"]}>
           <div>{writeForm.category}</div>
           <div>
-            <select>
-              <option>{writeForm.optiontitle}</option>
-              {optionItem.map((item) => {
+            <select onChange={(e) => console.log(e.target.value)}>
+              {optionItem.map((item, key) => {
                 return (
-                  <option value={item.value} onChange={(e) => alert("dd")}>
+                  <option key={item.value} value={item.value}>
                     {item.option}
                   </option>
                 );
@@ -37,7 +36,7 @@ const MyPageWriteForm = ({ writeForm, optionItem }) => {
         </div>
       </div>
       <div className={classes["write-content-button"]}>
-        <button onClick={() => alert("dd")}>작성하기</button>
+        <button>작성하기</button>
       </div>
     </React.Fragment>
   );
