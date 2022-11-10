@@ -14,6 +14,12 @@ const MyPageSide = () => {
           </div>
           <div>
             <MyPageSideLink
+              to="cancel-return-exchange-write"
+              text={"취소/반품/교환/환불 신청"}
+            />
+          </div>
+          <div>
+            <MyPageSideLink
               to="cancel-return-exchange"
               text={"취소/반품/교환/환불 내역"}
             />
