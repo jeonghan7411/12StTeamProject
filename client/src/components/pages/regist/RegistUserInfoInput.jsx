@@ -24,6 +24,7 @@ const RegistUserInfoInput = () => {
 
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
+  const [selectEmail, setSelectEmail] = useState("선택해주세요");
 
   const navigate = useNavigate();
 
@@ -73,6 +74,10 @@ const RegistUserInfoInput = () => {
     reset: resetEmail,
   } = useUserInput(checkEmail);
 
+  //이메일 선택
+  const handleEmail = (selected) => {
+    setSelectEmail(selected);
+  };
   // 약관 체크
   const handleChecked = (checked, id) => {
     if (checked) {
@@ -110,7 +115,7 @@ const RegistUserInfoInput = () => {
     : classes["sectionUserInfoInput-phone"];
   const emailInputClasses = emailHasError
     ? `${classes["sectionUserInfoInput-email"]} ${classes.hasError}`
-    : "";
+    : classes["sectionUserInfoInput-email"];
 
   // registIsValid가 false이면 입력 유효성 중 하나는 false
   let registIsValid =
@@ -143,6 +148,7 @@ const RegistUserInfoInput = () => {
       });
   };
 
+  console.log(selectEmail);
   return (
     <>
       <RegistSection title={"1 정보입력"}>
@@ -258,7 +264,31 @@ const RegistUserInfoInput = () => {
             >
               <div className={classes["sectionUserInfoInput-email-adress"]}>
                 <span>@</span>
-                <div className={classes["email-adress"]}>example.com</div>
+                <div className={classes["email-adress"]}>
+                  <ul
+                    defaultValue={selectEmail}
+                    className={classes["select-control"]}
+                  >
+                    <li disabled>선택해주세요</li>
+                    <li onClick={() => handleEmail("naver.com")}>naver.com</li>
+                    <li onClick={() => handleEmail(" hanmail.net")}>
+                      hanmail.net
+                    </li>
+                    <li onClick={() => handleEmail("daum.net")}>daum.net</li>
+                    <li onClick={() => handleEmail("gamil.com")}>gamil.com</li>
+                    <li onClick={() => handleEmail("nate.com")}>nate.com</li>
+                    <li onClick={() => handleEmail("hotmail.com")}>
+                      hotmail.com
+                    </li>
+                    <li onClick={() => handleEmail("outlook.com")}>
+                      outlook.com
+                    </li>
+                    <li onClick={() => handleEmail("icloud.com")}>
+                      icloud.com
+                    </li>
+                    <li onClick={() => handleEmail("naver.com")}>직접입력</li>
+                  </ul>
+                </div>
               </div>
             </UserInfoInput>
             {emailHasError && (
