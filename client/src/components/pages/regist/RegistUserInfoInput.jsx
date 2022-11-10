@@ -28,6 +28,7 @@ const RegistUserInfoInput = () => {
 
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
+  const [selectEmail, setSelectEmail] = useState("선택해주세요");
 
   const [selectEmail, setSelectEmail] = useState("선택해주세요");
   const [isShownEmail, setIsShownEmail] = useState(false);
@@ -94,6 +95,10 @@ const RegistUserInfoInput = () => {
     reset: resetEmail,
   } = useUserInput(checkEmail);
 
+  //이메일 선택
+  const handleEmail = (selected) => {
+    setSelectEmail(selected);
+  };
   // 약관 체크
   const handleChecked = (checked, id) => {
     if (checked) {
@@ -164,7 +169,6 @@ const RegistUserInfoInput = () => {
         }
       });
   };
-
   const handleShowEmail = () => {
     setIsShownEmail((prev) => !prev);
   };

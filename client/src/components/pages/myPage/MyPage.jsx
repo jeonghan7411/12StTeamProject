@@ -1,13 +1,34 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { FaCog } from "react-icons/fa";
 import MyPageSide from "./MyPageSide";
 import Profile from "../../../assets/profile.jpg";
 import classes from "./MyPage.module.css";
-import { useState } from "react";
 import { useEffect } from "react";
+import axios from "axios";
+import { useState } from "react";
 
-const MyPage = ({ userData }) => {
+const MyPage = ({ userToken }) => {
+  const [userData, setUserData] = useState({});
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (userToken === null) {
+      navigate("/login");
+    }
+
+    const fetchData = async () => {
+      await axios
+        .get("http://localhost:5000/mypage", { userToken })
+        .then((response) => {
+          setUserData(response.data.result);
+        });
+    };
+
+    fetchData();
+  });
+
+  console.log(userToken);
+
   return (
     <React.Fragment>
       <div className={classes.MyPage}>
@@ -17,7 +38,7 @@ const MyPage = ({ userData }) => {
               <img src={Profile} alt="" />
             </div>
             <div>
-              안녕하세요 <span>{userData[0].uName}</span>님.
+              안녕하세요 <span></span>님.
             </div>
             <div>등급</div>
           </div>

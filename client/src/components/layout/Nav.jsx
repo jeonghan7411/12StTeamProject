@@ -4,6 +4,7 @@ import classes from "./Nav.module.css";
 import { Link } from "react-router-dom";
 const Nav = ({ userToken }) => {
   // const [isLogin, setIsLogin] = useState(false);
+  console.log(userToken);
   return (
     <React.Fragment>
       <nav className={classes.nav}>
@@ -18,37 +19,22 @@ const Nav = ({ userToken }) => {
         </div>
 
         <div>
-          {/* {!isLogin && (
-            <div className={classes["nav-nonLogin"]}>
-              <Link to={"/login"}>로그인</Link>
-              <Link to={"/regist"}>회원가입</Link>
-            </div>
-          )} */}
-
-          {!userToken ? (
+          {userToken.id === null ? (
             <div className={classes["nav-nonLogin"]}>
               <Link to={"/login"}>로그인</Link>
               <Link to={"/regist"}>회원가입</Link>
             </div>
           ) : (
             <div className={classes["nav-Login"]}>
-              <span>🐣 떙떙떙 님</span>
+              <span>🐣 {userToken.id} 님</span>
               <span> | </span>
               <span>🌱 1000</span>
               <span> | </span>
-              <div className={classes["nav-onOff"]}></div>
+              <button className={classes["nav-onOff"]}>
+                <Link to="/logout">로그아웃</Link>
+              </button>
             </div>
           )}
-
-          {/* {isLogin && (
-            <div className={classes["nav-Login"]}>
-              <span>🐣 떙떙떙 님</span>
-              <span> | </span>
-              <span>🌱 1000</span>
-              <span> | </span>
-              <div className={classes["nav-onOff"]}></div>
-            </div>
-          )} */}
         </div>
       </nav>
     </React.Fragment>
