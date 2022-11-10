@@ -17,11 +17,11 @@ import MyPointCheck from "./components/pages/myPage/MyPointCheck";
 import MyPageInquiry from "./components/pages/myPage/MyPageInquiry";
 import MyPageInquiryList from "./components/pages/myPage/MyPageInquiryList";
 import MyPageUpdateUser from "./components/pages/myPage/MyPageUpdateUser";
-import ProductCart from "./components/pages/productCart/ProductCart";
+import ProductCart from "./components/pages/productCart/ProductsCart";
 import MyPageAddress from "./components/pages/myPage/MyPageAddress";
 import Order from "./components/pages/order/Order";
 import OrderComplete from "./components/pages/order/OrderComplete";
-import Product from "./components/pages/ProductDetail/Product";
+import Product from "./components/pages/productDetail/Product";
 
 function App() {
   return (
