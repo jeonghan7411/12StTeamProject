@@ -6,9 +6,22 @@ import classes from "./MyPagePassPw.module.css";
 import { useState } from "react";
 
 const MyPagePassPw = () => {
+  const [updateUserInfo, setUpdateUserInfo] = useState({});
+  const [checkPw, setCheckPw] = useState(false);
   const [showPw, setShowPw] = useState(false);
   const [showCkPw, setShowCkPw] = useState(false);
 
+  const infoHandler = (e) => {
+    setUpdateUserInfo({
+      ...updateUserInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const submitUpdate = (e) => {
+    e.preventDefault();
+    console.log(updateUserInfo);
+  };
   return (
     <React.Fragment>
       <div className={classes.MyPagePassPw}>
@@ -34,7 +47,11 @@ const MyPagePassPw = () => {
                   <h2>비밀번호</h2>
                 </div>
                 <div className={classes["passpw-item-input"]}>
-                  <input type={!showPw ? "password" : "text"} />
+                  <input
+                    type={!showPw ? "password" : "text"}
+                    name="updatePw"
+                    onChange={infoHandler}
+                  />
                   {!showPw ? (
                     <>
                       <FaEyeSlash
@@ -51,6 +68,7 @@ const MyPagePassPw = () => {
                     </>
                   )}
                 </div>
+                {checkPw ? <div>err</div> : ""}
               </div>
 
               <div className={classes["passpw-content-item"]}>
@@ -58,7 +76,10 @@ const MyPagePassPw = () => {
                   <h2>비밀번호 확인</h2>
                 </div>
                 <div className={classes["passpw-item-input"]}>
-                  <input type={!showCkPw ? "password" : "text"} />
+                  <input
+                    type={!showCkPw ? "password" : "text"}
+                    name="checkPw"
+                  />
                   {!showCkPw ? (
                     <div>
                       <FaEyeSlash
@@ -82,7 +103,11 @@ const MyPagePassPw = () => {
                   <h2>전화번호</h2>
                 </div>
                 <div className={classes["passpw-item-input"]}>
-                  <input type="text" />
+                  <input
+                    type="text"
+                    name="updatePhone"
+                    onChange={infoHandler}
+                  />
                 </div>
               </div>
 
@@ -96,8 +121,16 @@ const MyPagePassPw = () => {
                 <div
                   className={`${classes["passpw-item-input"]} ${classes["addr-input"]}`}
                 >
-                  <input type="text" />
-                  <input type="text" />
+                  <input
+                    type="text"
+                    name="updateAddressFirst"
+                    onChange={infoHandler}
+                  />
+                  <input
+                    type="text"
+                    name="updateAddressSecond"
+                    onChange={infoHandler}
+                  />
                 </div>
               </div>
 
@@ -106,7 +139,11 @@ const MyPagePassPw = () => {
                   <h2>이메일</h2>
                 </div>
                 <div className={classes["passpw-item-input"]}>
-                  <input type="text" />
+                  <input
+                    type="text"
+                    name="updateEmail"
+                    onChange={infoHandler}
+                  />
                 </div>
               </div>
             </div>
@@ -114,7 +151,7 @@ const MyPagePassPw = () => {
 
           <div className={classes["passpw-wrap-button"]}>
             <div>
-              <button>수정</button>
+              <button onClick={submitUpdate}>수정</button>
 
               <button>취소</button>
             </div>
