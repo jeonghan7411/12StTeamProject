@@ -11,7 +11,7 @@ const MyPageAddress = () => {
     //유저 정보 받아오는 곳
   ]);
 
-  const [addUser, setAddUser] = useState([]); // 추가 된 주소 서장
+  const [addUser, setAddUser] = useState([]); // 추가 된 주소 저장
 
   const [addState, setAddState] = useState({}); //주소 추가 값 받아오기
 

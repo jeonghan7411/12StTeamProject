@@ -25,7 +25,7 @@ import MyPageAddress from "./components/pages/myPage/MyPageAddress";
 import Order from "./components/pages/order/Order";
 import OrderComplete from "./components/pages/order/OrderComplete";
 import Product from "./components/pages/productDetail/Product";
-import MyPageAddressAdd from "./components/pages/myPage/MyPageAddressAdd";
+import CrlWrite from "./components/pages/myPage/CrlWrite";
 
 function App() {
   const [data, setData] = useState([]);
@@ -54,6 +54,10 @@ function App() {
             <Route path="/updateuser" element={<MyPageUpdateUser />} />
             <Route path="/mypage" element={<MyPage />}>
               <Route index element={<OrderList />} />
+              <Route
+                path="cancel-return-exchange-write"
+                element={<CrlWrite />}
+              />
               <Route path="cancel-return-exchange" element={<CrlList />} />
               <Route path="mypointcheck" element={<MyPointCheck />} />
               <Route path="mypageinquiry" element={<MyPageInquiry />} />

@@ -6,8 +6,19 @@ import OrderItem from "./OrderItem";
 import { FaSearch, FaTimesCircle } from "react-icons/fa";
 import classes from "./OrderList.module.css";
 import MyPageListTitle from "./MyPageListTitle";
+import MyPageNullMsg from "./MyPageNullMsg";
 
 const OrderList = () => {
+  const [orderList, setOrderList] = useState([
+    {
+      title: "휴대폰",
+      regdate: "222222",
+      price: "3333333",
+      count: "1",
+      state: "배송완료",
+    },
+  ]);
+
   const [searchKeyword, setSearchKeyword] = useState("");
   return (
     <React.Fragment>
@@ -48,11 +59,16 @@ const OrderList = () => {
         </form>
 
         <div className={classes["orderlist-wrap-list"]}>
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
-          <OrderItem />
+          {orderList.length === 0 && (
+            <MyPageNullMsg
+              text={"주문내역이 없습니다."}
+              className={classes["orderlist-content-null"]}
+              orderList={orderList}
+            />
+          )}
+          {orderList.map((item) => {
+            return <OrderItem orderList={item} />;
+          })}
         </div>
       </div>
     </React.Fragment>
