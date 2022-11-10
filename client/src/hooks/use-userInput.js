@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useReducer } from "react";
 
 // 초기값 설정

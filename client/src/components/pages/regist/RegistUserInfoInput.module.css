@@ -11,19 +11,6 @@
   margin-bottom: 24px;
 }
 
-.sectionUserInfoInput-phone {
-  display: flex;
-  align-items: center;
-
-  position: relative;
-}
-
-.sectionUserInfoInput-phone input {
-  margin-bottom: 0;
-  width: 160px;
-  height: 28px;
-}
-
 .sectionUserInfoInput-error-text {
   color: #ff4443;
   text-align: start;
@@ -35,23 +22,28 @@
   background-color: #fad3d3;
 }
 
-.sectionUserInfoInput-phone div {
-  border: 1px solid #ccc;
-  width: 80px;
-  height: 28px;
-  border-radius: 5px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 12px;
-
-  cursor: pointer;
+.sectionUserInfoInput-id {
+  position: relative;
+  width: 335px;
 }
 
-.sectionUserInfoInput-input span {
-  margin: 0 10px;
+.sectionUserInfoInput-duplication {
+  position: absolute;
+  right: 0;
+}
+
+.sectionUserInfoInput-phone {
+  display: flex;
+  align-items: center;
+
+  position: relative;
+}
+
+.sectionUserInfoInput-phone input {
+  margin-bottom: 0;
+  width: 250px;
+  font-size: 18px;
+  padding: 12px 16px;
 }
 
 .sectionUserInfoInput-confirmation {
@@ -70,6 +62,8 @@
 .sectionUserInfoInput-zipcode input {
   width: 160px;
   margin-bottom: 0px;
+
+  cursor: default;
 }
 
 .regist-btn-searchAdress {
@@ -79,12 +73,14 @@
 
 .sectionUserInfoInput-address input {
   margin-right: 10px;
-  width: 250px;
-  height: 28px;
+  width: 350px;
+  font-size: 18px;
+  padding: 12px 16px;
   outline: 0;
   border: 1px solid #ccc;
   border-radius: 5px;
   margin-bottom: 20px;
+  overflow: hidden;
 }
 
 .sectionUserInfoInput-email {
@@ -119,4 +115,66 @@
   justify-content: center;
 
   cursor: pointer;
+}
+
+.clause {
+  display: flex;
+  flex-direction: column;
+}
+
+.clause h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.clause span {
+  color: #ff4443;
+}
+
+.clause-content {
+  width: 800px;
+  height: 200px;
+  border: 1px solid #ccc;
+  margin-bottom: 12px;
+
+  overflow: auto;
+  scrollbar-width: 20px;
+}
+
+.clause-content p {
+  padding: 20px;
+  line-height: 2;
+}
+
+.clause-contentWrap input {
+  margin-bottom: 50px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.regist-control {
+  text-align: center;
+}
+
+.regist-control button {
+  width: 300px;
+  height: 40px;
+  margin-right: 20px;
+}
+
+.regist-control-cencel {
+  background-color: #ececec;
+}
+
+.regist-control-regist {
+  background-color: var(--navy-color);
+  border: 1px solid var(--navy-color);
+  color: white;
+  transition: 0.6s;
+}
+
+.regist-control-regist:hover {
+  background-color: white;
+  color: var(--navy-color);
+  transition: 0.6s;
 }

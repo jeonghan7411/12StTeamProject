@@ -36,6 +36,26 @@ app.get("/api/get/productinfo/:getIdx", (req, res) => {
     }
   });
 });
+app.post("/regist", (req, res) => {
+  let sql =
+    "INSERT INTO users VALUES(NULL, ?, NULL, ?, ?, ?, NULL, NULL, NOW());";
+  db.query(
+    sql,
+    [
+      req.body.enteredId,
+      req.body.enteredPasswd,
+      req.body.enteredEmail,
+      req.body.enteredPhone,
+    ],
+    (err) => {
+      if (err) {
+        throw err;
+      } else {
+        res.send({ message: "200" });
+      }
+    }
+  );
+});
 //네이버 api 받아와서 db에 넣은 흔적
 /*
 let data = [];
