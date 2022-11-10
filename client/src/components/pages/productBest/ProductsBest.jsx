@@ -44,7 +44,7 @@ const ProductsBest = () => {
         ))}
       </div>
 
-      <div className={classes["ProductsBest-content"]}>
+      {/* <div className={classes["ProductsBest-content"]}>
         {list.slice(10, 100).map((it) => (
           <div>
             <HomeProduct>
@@ -52,7 +52,7 @@ const ProductsBest = () => {
             </HomeProduct>
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };
