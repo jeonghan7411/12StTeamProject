@@ -1,12 +1,16 @@
 // import
 const express = require("express");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 const multer = require("multer");
 const moment = require("moment");
 require("dotenv").config();
 const db = require("./db/db");
 const fs = require("fs");
 const app = express();
+
+const saltRounds = 1;
+
 // middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -55,6 +59,34 @@ app.post("/regist", (req, res) => {
       }
     }
   );
+});
+
+app.post("/login", (req, res) => {
+  let sql = "SELECT * FROM users WHERE uId = ?;";
+  db.query(sql, [req.body.userID], (err, user) => {
+    if (user[0] === undefined) {
+      res.send({
+        status: 404,
+        message: "아이디를 찾을수 없습니다.",
+      });
+    } else {
+      bcrypt.compare(req.body.userPW, user[0].userPW, (err, result) => {
+        if (result) {
+          res.send({
+            status: 200,
+            message: "로그인 성공",
+            id: user[0].userID,
+            pw: user[0].userPW,
+          });
+        } else {
+          res.send({
+            status: 400,
+            message: "아이디 또는 비밀번호를 확인해주세요.",
+          });
+        }
+      });
+    }
+  });
 });
 //네이버 api 받아와서 db에 넣은 흔적
 /*
