@@ -2,16 +2,16 @@ import React from "react";
 
 import classes from "./MyPageAddressItem.module.css";
 
-const MyPageAddressItem = ({ id, address, tel, plz }) => {
+const MyPageAddressItem = ({ addUser }) => {
   return (
     <React.Fragment>
       <div className={classes.MyPageAddressItem}>
         <div className={classes["address-item-title"]}>
-          <h2>{id}</h2>
+          <h2>{addUser.id}</h2>
         </div>
-        <div className={classes["address-item-addr"]}>{address}</div>
-        <div className={classes["address-item-tel"]}>{tel}</div>
-        <div className={classes["address-item-plz"]}>{plz}</div>
+        <div className={classes["address-item-addr"]}>{addUser.address}</div>
+        <div className={classes["address-item-tel"]}>{addUser.tel}</div>
+        <div className={classes["address-item-plz"]}>{addUser.plz}</div>
         <div className={classes["address-item-update"]}>
           <button>수정</button>
         </div>

@@ -25,6 +25,7 @@ import MyPageAddress from "./components/pages/myPage/MyPageAddress";
 import Order from "./components/pages/order/Order";
 import OrderComplete from "./components/pages/order/OrderComplete";
 import Product from "./components/pages/productDetail/Product";
+import MyPageAddressAdd from "./components/pages/myPage/MyPageAddressAdd";
 
 function App() {
   const [data, setData] = useState([]);
