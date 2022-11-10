@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import ProductDetail from "./ProductDetail";
 import ProductQnA from "./ProductQnA";
 import ProductReview from "./ProductReview";
@@ -12,21 +12,21 @@ import testImg2 from "../../../assets/icons/kakaoLogin.png";
 import { FaAngleUp, FaAngleDown, FaAngleRight } from "react-icons/fa";
 
 const Product = () => {
+  const navigate = useNavigate();
   const [currentData, setCurrentData] = useState([]);
   const [currentMenu, setCurrentMenu] = useState("productDetail");
   const [currentImg, setCurrentImg] = useState();
   const [orderValue, setOrderValue] = useState(1);
+  const [order, setOrder] = useState([]);
   const { getIdx } = useParams();
-  console.log(getIdx);
 
   const setMenu = (e) => {
     setCurrentMenu(e.target.textContent);
   };
   const setPreviewImg = (e) => {
     setCurrentImg(e.target.src);
-    console.log(e.target.src);
   };
-  const setOrder = (e) => {
+  const setOrderAmount = (e) => {
     const regex = /^[0-9]+$/;
     if (regex.test(e.target.value)) {
       if (Number.parseInt(e.target.value) > 50) {
@@ -54,6 +54,9 @@ const Product = () => {
       setOrderValue(1);
     }
   };
+  const sendOrderData = () => {
+    navigate("/order", { state: { order } });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,12 +65,23 @@ const Product = () => {
         .then((response) => {
           setCurrentData(response.data.result[0]);
           setCurrentImg(response.data.result[0].image);
-          console.log(response.data.result[0]);
         });
     };
+
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setOrder([
+      {
+        title: currentData.title,
+        amount: orderValue,
+        price: currentData.price,
+        productId: currentData.productId,
+        image: currentData.image,
+      },
+    ]);
+  }, [currentData, orderValue]);
   return (
     <React.Fragment>
       <div className={classes["product-path"]}>
@@ -171,9 +185,8 @@ const Product = () => {
               <input
                 type="text"
                 className={classes["product-content-detail-order-input"]}
-                defaultValue={orderValue}
                 value={orderValue}
-                onChange={setOrder}
+                onChange={setOrderAmount}
               />
               <button
                 className={classes["product-content-detail-order-up"]}
@@ -198,6 +211,7 @@ const Product = () => {
             <div>
               <button
                 className={classes["product-content-detail-order-btn-purchase"]}
+                onClick={sendOrderData}
               >
                 구매하기
               </button>
