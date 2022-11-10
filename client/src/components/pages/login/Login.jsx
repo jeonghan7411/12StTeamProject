@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import classes from "./Login.module.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import iconGoogle from "../../../assets/icons/googleLogin.png";
 import iconNaver from "../../../assets/icons/naverLogin.png";
 import iconKakao from "../../../assets/icons/kakaoLogin.png";
@@ -16,14 +17,27 @@ const Login = () => {
   const onClickShowPW = () => {
     setShowPW(!showPW);
   };
-  const onSubmitLogin = (e) => {
+  const onSubmitLogin = async (e) => {
     e.preventDefault();
-    /*
-        axios.post로 로그인 요청 보내기
-        백단에서 받아서 회원DB에서 해당 아이디 조회
-        있으면 메시지 로그인성공 보내면서 redirect main
-        없으면 alert redirect login
-        */
+    await axios
+      .post("http://localhost:5000/login", { userID, userPW })
+      .then((response) => {
+        if (response.data.status === 201) {
+          window.alert(response.data.message);
+          localStorage.setItem("id", response.data.id);
+          localStorage.setItem("pw", response.data.pw);
+          window.location = "/";
+        } else if (response.data.status === 400) {
+          window.alert(response.data.message);
+          window.location = "/login";
+        } else if (response.data.status === 404) {
+          window.alert(response.data.message);
+          window.location = "/regist";
+        } else {
+          window.alert("관리자에게 문의하세요.");
+          window.location = "/";
+        }
+      });
   };
   //useEffect로 비밀번호 보기 숨기기 결정
   useEffect(() => {
@@ -58,7 +72,7 @@ const Login = () => {
           <div className={classes["form-login-pw"]}>
             <input
               type={"password"}
-              onChange={(e) => setUserID(e.target.value)}
+              onChange={(e) => setUserPW(e.target.value)}
               placeholder={"비밀번호를 입력해주세요"}
               ref={pwTab}
             />

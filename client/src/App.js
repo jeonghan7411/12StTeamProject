@@ -20,7 +20,7 @@ import MyPointCheck from "./components/pages/myPage/MyPointCheck";
 import MyPageInquiry from "./components/pages/myPage/MyPageInquiry";
 import MyPageInquiryList from "./components/pages/myPage/MyPageInquiryList";
 import MyPageUpdateUser from "./components/pages/myPage/MyPageUpdateUser";
-import ProductCart from "./components/pages/productCart/ProductsCart";
+import ProductCart from "./components/pages/productCart/ProductCart";
 import MyPageAddress from "./components/pages/myPage/MyPageAddress";
 import Order from "./components/pages/order/Order";
 import OrderComplete from "./components/pages/order/OrderComplete";
@@ -28,7 +28,9 @@ import Product from "./components/pages/productDetail/Product";
 import CrlWrite from "./components/pages/myPage/CrlWrite";
 
 function App() {
+  const [userToken, setUserToken] = useState(localStorage.getItem("id"));
   const [data, setData] = useState([]);
+  const [userData, setUserData] = useState([{ uName: "" }]);
   useEffect(() => {
     const fetchData = async () => {
       await axios
@@ -37,14 +39,22 @@ function App() {
           setData(response.data.result);
         });
     };
+
+    const fetchUserData = async () => {
+      await axios.get("http://localhost:5000/api/get/user").then((response) => {
+        setUserData(response.data.result);
+      });
+    };
+    fetchUserData();
     fetchData();
   }, []);
+
   return (
     <div className={classes.App}>
       <Reset />
       <Router>
         <Header />
-        <Nav />
+        <Nav userToken={userToken} />
 
         <main className={classes.main}>
           <Routes>
@@ -52,7 +62,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/regist" element={<Regist />} />
             <Route path="/updateuser" element={<MyPageUpdateUser />} />
-            <Route path="/mypage" element={<MyPage />}>
+            <Route path="/mypage" element={<MyPage userData={userData} />}>
               <Route index element={<OrderList />} />
               <Route
                 path="cancel-return-exchange-write"

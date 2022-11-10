@@ -12,6 +12,10 @@
   font-weight: bold;
 }
 
+.crList-wrap-null {
+  width: 1000px;
+}
+
 .crlList-content-null {
   margin-top: 100px;
   margin-left: 350px;
