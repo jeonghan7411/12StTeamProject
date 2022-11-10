@@ -1,17 +1,24 @@
-.sectionUserInfoInput button {
-  background-color: #ccc;
-  height: 30px;
+.sectionUserInfoInput-duplication,
+.sectionUserInfoInput-confirmation,
+.regist-btn-searchAdress {
+  background-color: var(--navy-color);
+  color: white;
+  height: 46px;
   width: 70px;
-  margin-left: 30px;
 }
 
 .sectionUserInfoInput-input {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+}
+
+.sectionUserInfoInput-feedback {
+  height: 20px;
   margin-bottom: 24px;
 }
 
-.sectionUserInfoInput-error-text {
+.sectionUserInfoInput-error {
   color: #ff4443;
   text-align: start;
   margin-bottom: 20px;
@@ -29,13 +36,16 @@
 
 .sectionUserInfoInput-duplication {
   position: absolute;
+
   right: 0;
 }
 
 .sectionUserInfoInput-phone {
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 
+  width: 330px;
   position: relative;
 }
 
@@ -48,15 +58,19 @@
 
 .sectionUserInfoInput-confirmation {
   position: absolute;
-  right: 170px;
+  right: 0;
 }
 
 .sectionUserInfoInput-zipcode-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-bottom: 10px;
 }
 
 .sectionUserInfoInput-zipcode {
   position: relative;
+  width: 240px;
 }
 
 .sectionUserInfoInput-zipcode input {
@@ -68,7 +82,7 @@
 
 .regist-btn-searchAdress {
   position: absolute;
-  right: 280px;
+  right: 0;
 }
 
 .sectionUserInfoInput-address input {
@@ -88,11 +102,13 @@
 }
 
 .sectionUserInfoInput-email-adress {
+  display: flex;
   position: absolute;
-  right: 38px;
+
+  right: 60px;
 }
 
-.sectionUserInfoInput-email span {
+.sectionUserInfoInput-email-adress span {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -100,21 +116,51 @@
   margin: 0 10px;
 }
 
-.sectionUserInfoInput-email-adress {
-  display: flex;
+.sectionUserInfoInput-control {
+  position: relative;
+  width: 300px;
 }
 
-.email-adress {
+.sectionUserInfoInput-control-selected {
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 200px;
-  height: 28px;
+  width: 100%;
+
+  padding: 13px 16px;
+  margin-bottom: 5px;
+  font-size: 18px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   cursor: pointer;
+}
+
+.sectionUserInfoInpu-control-items {
+  width: 100%;
+
+  background-color: #ececec;
+  border: 1px solid #ccc;
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 8px;
+}
+
+.sectionUserInfoInpu-control-items li {
+  margin-bottom: 10px;
+}
+
+.sectionUserInfoInpu-control-items li button {
+  text-align: center;
+  width: 100%;
+  padding: 10px 18px;
+  border-radius: 8px;
+}
+
+.sectionUserInfoInpu-control-items li button:hover {
+  background-color: var(--navy-color);
+  color: white;
 }
 
 .clause {

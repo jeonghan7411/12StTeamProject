@@ -24,8 +24,9 @@ import ProductCart from "./components/pages/productCart/ProductCart";
 import MyPageAddress from "./components/pages/myPage/MyPageAddress";
 import Order from "./components/pages/order/Order";
 import OrderComplete from "./components/pages/order/OrderComplete";
-import Product from "./components/pages/productDetail/Product";
+
 import CrlWrite from "./components/pages/myPage/CrlWrite";
+import Product from "./components/pages/home/HomeProduct";
 
 function App() {
   const [userToken, setUserToken] = useState(localStorage.getItem("id"));

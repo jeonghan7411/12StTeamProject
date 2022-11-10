@@ -40,25 +40,17 @@ app.get("/api/get/productinfo/:getIdx", (req, res) => {
     }
   });
 });
+
 app.post("/regist", (req, res) => {
-  let sql =
-    "INSERT INTO users VALUES(NULL, ?, NULL, ?, ?, ?, NULL, NULL, NOW());";
-  db.query(
-    sql,
-    [
-      req.body.enteredId,
-      req.body.enteredPasswd,
-      req.body.enteredEmail,
-      req.body.enteredPhone,
-    ],
-    (err) => {
-      if (err) {
-        throw err;
-      } else {
-        res.send({ message: "200" });
-      }
-    }
-  );
+  console.log(req.body);
+  const { uId, uName, uPasswd, uEamil, uPhone } = req.body;
+  let sql = "INSERT INTO users VALUES(NULL, ?, ?, ?, ?, ?, NULL, NULL, NOW())";
+
+  db.query(sql, [uId, uName, uPasswd, uEamil, uPhone], (err) => {
+    if (err) throw err;
+
+    res.send({ message: "200" });
+  });
 });
 
 app.post("/login", (req, res) => {
