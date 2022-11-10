@@ -7,17 +7,35 @@ require("dotenv").config();
 const db = require("./db/db");
 const fs = require("fs");
 const app = express();
-
-const convert = require("xml-js");
-const request = require("request");
 // middleware
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static("uploads"));
+app.use(cors());
 //나중에 멀터 업로드 처리
 
 // url
-
+app.get("/api/get/products", (req, res) => {
+  let sql = "SELECT DISTINCT * FROM products;";
+  db.query(sql, (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send({ result });
+    }
+  });
+});
+app.get("/api/get/productinfo/:getIdx", (req, res) => {
+  console.log(req.params.getIdx);
+  let sql = "SELECT * FROM products WHERE productId = ?;";
+  db.query(sql, [req.params.getIdx], (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send({ result });
+    }
+  });
+});
 //네이버 api 받아와서 db에 넣은 흔적
 /*
 let data = [];
