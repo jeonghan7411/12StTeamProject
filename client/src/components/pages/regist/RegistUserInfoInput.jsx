@@ -29,8 +29,6 @@ const RegistUserInfoInput = () => {
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
   const [selectEmail, setSelectEmail] = useState("선택해주세요");
-
-  const [selectEmail, setSelectEmail] = useState("선택해주세요");
   const [isShownEmail, setIsShownEmail] = useState(false);
 
   const navigate = useNavigate();
