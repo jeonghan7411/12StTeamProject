@@ -5,7 +5,7 @@ import HomeProducts from "./HomeProducts";
 
 import classes from "./Home.module.css";
 
-const Home = () => {
+const Home = ({ data }) => {
   return (
     <div>
       <Banner />
@@ -15,18 +15,24 @@ const Home = () => {
       <HomeProducts
         className={classes["home-section"]}
         title="12st 베스트 상품"
+        data={data.slice(15, 20).map((dt, key) => {
+          return dt;
+        })}
       />
-
-      <HomeProducts title="12st 추천 상품" />
-
       <HomeProducts
         className={classes["home-section"]}
-        title="12st 할인 상품"
+        title="12st 인기 상품"
+        data={data.slice(300, 305).map((dt, key) => {
+          return dt;
+        })}
       />
-
-      <HomeProducts title="12st MD 추천 상품" />
-
-      <HomeProducts className={classes["home-section"]} title="인기 상품" />
+      <HomeProducts
+        className={classes["home-section"]}
+        title="12st 상품"
+        data={data.slice(400, 405).map((dt, key) => {
+          return dt;
+        })}
+      />
     </div>
   );
 };

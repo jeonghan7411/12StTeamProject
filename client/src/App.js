@@ -1,6 +1,9 @@
 import { Reset } from "styled-reset";
 import classes from "./App.module.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 import Header from "./components/layout/Header";
 import Nav from "./components/layout/Nav";
 import Footer from "./components/layout/Footer";
@@ -25,6 +28,17 @@ import Product from "./components/pages/productDetail/Product";
 import MyPageAddressAdd from "./components/pages/myPage/MyPageAddressAdd";
 
 function App() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .get("http://localhost:5000/api/get/products")
+        .then((response) => {
+          setData(response.data.result);
+        });
+    };
+    fetchData();
+  }, []);
   return (
     <div className={classes.App}>
       <Reset />
@@ -34,7 +48,7 @@ function App() {
 
         <main className={classes.main}>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home data={data} />} />
             <Route path="/login" element={<Login />} />
             <Route path="/regist" element={<Regist />} />
             <Route path="/updateuser" element={<MyPageUpdateUser />} />
