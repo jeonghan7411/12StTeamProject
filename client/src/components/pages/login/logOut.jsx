@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 
-const logOut = () => {
+const LogOut = () => {
   useEffect(() => {
     localStorage.clear();
     window.location = "/";
   }, []);
 };
 
-export default logOut;
+export default LogOut;
