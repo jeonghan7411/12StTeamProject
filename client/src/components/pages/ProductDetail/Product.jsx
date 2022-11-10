@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import ProductDetail from "./ProductDetail";
 import ProductQnA from "./ProductQnA";
@@ -11,10 +12,11 @@ import testImg2 from "../../../assets/icons/kakaoLogin.png";
 import { FaAngleUp, FaAngleDown, FaAngleRight } from "react-icons/fa";
 
 const Product = () => {
+  const [currentData, setCurrentData] = useState([]);
   const [currentMenu, setCurrentMenu] = useState("productDetail");
-  const [currentImg, setCurrentImg] = useState(productImg);
+  const [currentImg, setCurrentImg] = useState();
   const [orderValue, setOrderValue] = useState(1);
-  const getIdx = useParams();
+  const { getIdx } = useParams();
   console.log(getIdx);
 
   const setMenu = (e) => {
@@ -52,13 +54,55 @@ const Product = () => {
       setOrderValue(1);
     }
   };
-  console.log(orderValue);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .get("http://localhost:5000/api/get/productinfo/" + getIdx)
+        .then((response) => {
+          setCurrentData(response.data.result[0]);
+          setCurrentImg(response.data.result[0].image);
+          console.log(response.data.result[0]);
+        });
+    };
+    fetchData();
+  }, []);
+
   return (
     <React.Fragment>
       <div className={classes["product-path"]}>
-        <Link to={"/"}>홈</Link> <FaAngleRight /> <Link>생활용품</Link>{" "}
-        <FaAngleRight />
-        <Link>세제</Link>
+        <Link to={"/"}>홈</Link> <FaAngleRight />{" "}
+        <Link>{currentData.category1}</Link>
+        {
+          <>
+            {currentData.category4 !== "" ? (
+              <>
+                <FaAngleRight /> <Link>{currentData.category2}</Link>
+                <FaAngleRight /> <Link>{currentData.category3}</Link>
+                <FaAngleRight /> <Link>{currentData.category4}</Link>
+              </>
+            ) : (
+              <>
+                {currentData.category3 !== "" ? (
+                  <>
+                    <FaAngleRight /> <Link>{currentData.category2}</Link>
+                    <FaAngleRight /> <Link>{currentData.category3}</Link>
+                  </>
+                ) : (
+                  <>
+                    {currentData.category2 !== "" ? (
+                      <>
+                        <FaAngleRight /> <Link>{currentData.category2}</Link>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </>
+                )}
+              </>
+            )}
+          </>
+        }
       </div>
       <div className={classes["product-content"]}>
         <div className={classes["product-content-img"]}>
@@ -66,7 +110,7 @@ const Product = () => {
             {/* 이미지 클릭시 해당 이미지로 메인 이미지 변경 */}
             {/* DB 추가되면 동적처리 필요 */}
             <div>
-              <img src={testImg} alt="" onClick={setPreviewImg} />
+              <img src={currentData.image} alt="" onClick={setPreviewImg} />
             </div>
             <div>
               <img src={testImg2} alt="" onClick={setPreviewImg} />
@@ -81,12 +125,43 @@ const Product = () => {
         </div>
         <div className={classes["product-content-detail"]}>
           <div className={classes["product-content-detail-title"]}>
-            <h4>상품 카테고리</h4>
-            <h2>상품명</h2>
+            <h4>
+              {
+                <>
+                  {currentData.category4 !== "" ? (
+                    <>
+                      <Link>{currentData.category4}</Link>
+                    </>
+                  ) : (
+                    <>
+                      {currentData.category3 !== "" ? (
+                        <>
+                          <Link>{currentData.category3}</Link>
+                        </>
+                      ) : (
+                        <>
+                          {currentData.category2 !== "" ? (
+                            <>
+                              <Link>{currentData.category2}</Link>
+                            </>
+                          ) : (
+                            <Link>{currentData.category1}</Link>
+                          )}
+                        </>
+                      )}
+                    </>
+                  )}
+                </>
+              }
+            </h4>
+            <h2>{currentData.title}</h2>
             <p>상품평 별점</p>
           </div>
           <div className={classes["product-content-detail-price"]}>
-            가격 적립 등
+            {/* 원가 */}
+            <h2>{currentData.price}원</h2>
+            {/* 원가 밑에 할인율 적용된 가격 */}
+            적립
           </div>
           <div className={classes["product-content-detail-shipping"]}>
             배송 방법 정리

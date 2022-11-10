@@ -61,6 +61,11 @@
 .product-content-detail-title h2 {
   font-size: 20px;
 }
+.product-content-detail-price h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 .product-content-detail-order {
   display: flex;
   justify-content: space-between;

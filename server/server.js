@@ -16,8 +16,19 @@ app.use(cors());
 
 // url
 app.get("/api/get/products", (req, res) => {
-  let sql = "SELECT DISTINCT * FROM products";
+  let sql = "SELECT DISTINCT * FROM products;";
   db.query(sql, (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send({ result });
+    }
+  });
+});
+app.get("/api/get/productinfo/:getIdx", (req, res) => {
+  console.log(req.params.getIdx);
+  let sql = "SELECT * FROM products WHERE productId = ?;";
+  db.query(sql, [req.params.getIdx], (err, result) => {
     if (err) {
       throw err;
     } else {
