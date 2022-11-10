@@ -22,7 +22,7 @@ const Login = () => {
     await axios
       .post("http://localhost:5000/login", { userID, userPW })
       .then((response) => {
-        if (response.data.status === 201) {
+        if (response.data.status === 200) {
           window.alert(response.data.message);
           localStorage.setItem("id", response.data.id);
           localStorage.setItem("pw", response.data.pw);
