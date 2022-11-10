@@ -28,6 +28,19 @@
   height: 80px;
   background-color: #ececec;
 }
+.order-content {
+  display: flex;
+}
+.order-content-info {
+  width: 70%;
+}
+.order-content-img {
+  width: 30%;
+}
+.order-content-img img {
+  width: 100%;
+  height: auto;
+}
 
 .order-content p {
   display: flex;

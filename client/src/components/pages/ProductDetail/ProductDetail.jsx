@@ -10,7 +10,7 @@ const ProductDetail = () => {
         .get("http://localhost:5000/api/get/productinfo/" + getIdx)
         .then((response) => {
           setCurrentData(response.data.result[0]);
-          console.log(response.data.result[0]);
+          // console.log(response.data.result[0]);
         });
     };
     fetchData();
