@@ -180,7 +180,16 @@ app.get("/payload", auth, (req, res) => {
   });
 });
 
-app.post("/login", (req, res) => {});
+app.post("/updateuser", (req, res) => {
+  const {
+    updatePw,
+    updatePhone,
+    zipcode,
+    updateAddressFirst,
+    updateAddressSecond,
+    updateEmail,
+  } = req.body.updateUserInfo;
+});
 
 //네이버 api 받아와서 db에 넣은 흔적
 /*
