@@ -5,9 +5,12 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import classes from "./MyPagePassPw.module.css";
 import { useState } from "react";
 import axios from "axios";
-import { useMemo } from "react";
+import AddressModal from "../../layout/AddressModal";
 
 const MyPagePassPw = () => {
+  const [showAddr, setShowAddr] = useState(false);
+  const [inputZipCode, setInputZipCode] = useState("");
+  const [inputAddr, setInputAddr] = useState("");
   const [updateUserInfo, setUpdateUserInfo] = useState({
     uName: "",
     uPasswd: "",
@@ -39,6 +42,14 @@ const MyPagePassPw = () => {
   const submitUpdate = async (e) => {
     e.preventDefault();
     await axios.post("http://localhost:5000/updateuser", { updateUserInfo });
+  };
+
+  const isShow = () => {
+    setShowAddr(true);
+  };
+
+  const onClose = () => {
+    setShowAddr(false);
   };
 
   return (
@@ -149,17 +160,30 @@ const MyPagePassPw = () => {
                   className={`${classes["passpw-item-title"]} ${classes["addr-title"]}`}
                 >
                   <h2>주소</h2>
-                  <button>주소찾기</button>
+                  <button onClick={isShow}>주소찾기</button>
+                  {showAddr && (
+                    <AddressModal
+                      onClose={onClose}
+                      setInputAddr={setInputAddr}
+                      setInputZipCode={setInputZipCode}
+                    />
+                  )}
                 </div>
                 <div
                   className={`${classes["passpw-item-input"]} ${classes["addr-input"]}`}
                 >
-                  <input type="text" name="zipcode" onChange={infoHandler} />
+                  <input
+                    type="text"
+                    name="zipcode"
+                    onChange={infoHandler}
+                    value={inputZipCode}
+                  />
 
                   <input
                     type="text"
                     name="updateAddressFirst"
                     onChange={infoHandler}
+                    value={inputAddr}
                   />
                   <input
                     type="text"
