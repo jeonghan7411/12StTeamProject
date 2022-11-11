@@ -11,7 +11,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 // import { auth } from "./token/token";
-const auth = require("./token/token");
+// const auth = require("./token/token");
 const cookie = require("cookie");
 
 const saltRounds = 10;
@@ -52,7 +52,7 @@ app.post("/regist", (req, res) => {
   bcrypt.hash(uPasswd, saltRounds, (err, hash_passwd) => {
     db.query(sql, [uId, uName, hash_passwd, uEamil, uPhone], (err) => {
       if (err) throw err;
-      res.send({ message: "200" });
+      res.send({ status: 200 });
     });
   });
 });
@@ -141,6 +141,32 @@ app.post("/login", (req, res, next) => {
   });
 });
 
+const auth = (req, res, next) => {
+  const key = process.env.SECRET_KEY;
+  // 인증 완료
+  try {
+    // 요청 헤더에 저장된 토큰(req.headers.authorization)과 비밀키를 사용하여 토큰을 req.decoded에 반환
+    req.decoded = jwt.verify(req.headers.authorization, key);
+    return next();
+  } catch (error) {
+    // 인증 실패
+    // 유효시간이 초과된 경우
+    if (error.name === "TokenExpiredError") {
+      return res.status(419).json({
+        code: 419,
+        message: "토큰이 만료되었습니다.",
+      });
+    }
+    // 토큰의 비밀키가 일치하지 않는 경우
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({
+        code: 401,
+        message: "유효하지 않은 토큰입니다.",
+      });
+    }
+  }
+};
+
 app.get("/payload", auth, (req, res) => {
   const nickname = req.decoded.nickname;
   const profile = req.decoded.profile;
@@ -154,7 +180,16 @@ app.get("/payload", auth, (req, res) => {
   });
 });
 
-app.post("/login", (req, res) => {});
+app.post("/updateuser", (req, res) => {
+  const {
+    updatePw,
+    updatePhone,
+    zipcode,
+    updateAddressFirst,
+    updateAddressSecond,
+    updateEmail,
+  } = req.body.updateUserInfo;
+});
 
 //네이버 api 받아와서 db에 넣은 흔적
 /*

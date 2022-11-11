@@ -28,13 +28,8 @@ import Product from "./components/pages/productDetail/Product";
 import LogOut from "./components/pages/login/logOut";
 
 function App() {
-  // const [userToken, setUserToken] = useState(localStorage.getItem("id"));
   const [userToken, setUserToken] = useState({
-    id: localStorage.getItem("id"),
-    pw: localStorage.getItem("pw"),
-    name: localStorage.getItem("name"),
-    email: localStorage.getItem("email"),
-    phone: localStorage.getItem("phone"),
+    token: localStorage.getItem("token"),
   });
   const [data, setData] = useState([]);
 
@@ -60,7 +55,7 @@ function App() {
         <main className={classes.main}>
           <Routes>
             <Route path="/" element={<Home data={data} />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<Login userToken={userToken} />} />
             <Route path="/logout" element={<LogOut />} />
             <Route path="/regist" element={<Regist />} />
             <Route path="/updateuser" element={<MyPageUpdateUser />} />

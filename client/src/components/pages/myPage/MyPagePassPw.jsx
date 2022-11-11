@@ -4,30 +4,49 @@ import RegistSection from "../regist/RegistSection";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import classes from "./MyPagePassPw.module.css";
 import { useState } from "react";
+import axios from "axios";
+import { useMemo } from "react";
 
 const MyPagePassPw = () => {
-  const [updateUserInfo, setUpdateUserInfo] = useState({});
+  const [updateUserInfo, setUpdateUserInfo] = useState({
+    uName: "",
+    uPasswd: "",
+    uEamil: "",
+    uPhone: "",
+    uAdress: "",
+  });
   const [checkPw, setCheckPw] = useState(false);
   const [showPw, setShowPw] = useState(false);
   const [showCkPw, setShowCkPw] = useState(false);
 
+  const [passName, setPassName] = useState(false);
   const infoHandler = (e) => {
-    setUpdateUserInfo({
-      ...updateUserInfo,
-      [e.target.name]: e.target.value,
-    });
+    // setUpdateUserInfo({
+    //   ...updateUserInfo,
+    //   [e.target.name]: e.target.value,
+    // });
   };
 
-  const submitUpdate = (e) => {
-    e.preventDefault();
-    console.log(updateUserInfo);
+  const checkNameHandler = (e) => {
+    const name = e.target.value;
+    console.log(name.length);
+    if (name.length <= 1) {
+      setPassName(false);
+    }
+    passName(true);
   };
+
+  const submitUpdate = async (e) => {
+    e.preventDefault();
+    await axios.post("http://localhost:5000/updateuser", { updateUserInfo });
+  };
+
   return (
     <React.Fragment>
       <div className={classes.MyPagePassPw}>
         <RegistSection title={"회원정보 수정"} />
 
-        <form action="">
+        <form action="/updateUser" method="post" onSubmit={submitUpdate}>
           <div className={classes["passpw-wrap-content"]}>
             <div className={classes["passpw-wrap-title"]}>
               <h2>개인정보</h2>
@@ -38,7 +57,21 @@ const MyPagePassPw = () => {
                   <h2>아이디</h2>
                 </div>
                 <div className={classes["passpw-item-input"]}>
-                  <input type="text" readOnly />
+                  <input type="text" />
+                </div>
+              </div>
+
+              <div className={classes["passpw-content-item"]}>
+                <div className={classes["passpw-item-title"]}>
+                  <h2>이름</h2>
+                </div>
+                <div className={classes["passpw-item-input"]}>
+                  <input
+                    type="text"
+                    name="updateName"
+                    onChange={checkNameHandler}
+                    // onChange={infoHandler}
+                  />
                 </div>
               </div>
 
@@ -78,7 +111,7 @@ const MyPagePassPw = () => {
                 <div className={classes["passpw-item-input"]}>
                   <input
                     type={!showCkPw ? "password" : "text"}
-                    name="checkPw"
+                    name="checkUpdatePw"
                   />
                   {!showCkPw ? (
                     <div>
@@ -121,6 +154,8 @@ const MyPagePassPw = () => {
                 <div
                   className={`${classes["passpw-item-input"]} ${classes["addr-input"]}`}
                 >
+                  <input type="text" name="zipcode" onChange={infoHandler} />
+
                   <input
                     type="text"
                     name="updateAddressFirst"
@@ -151,9 +186,9 @@ const MyPagePassPw = () => {
 
           <div className={classes["passpw-wrap-button"]}>
             <div>
-              <button onClick={submitUpdate}>수정</button>
+              <button>수정</button>
 
-              <button>취소</button>
+              <button type="button">취소</button>
             </div>
           </div>
         </form>
