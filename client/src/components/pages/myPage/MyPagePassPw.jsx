@@ -44,11 +44,7 @@ const MyPagePassPw = () => {
     await axios.post("http://localhost:5000/updateuser", { updateUserInfo });
   };
 
-  const isShow = () => {
-    setShowAddr(true);
-  };
-
-  const onClose = () => {
+  const handleAddrClose = () => {
     setShowAddr(false);
   };
 
@@ -160,10 +156,10 @@ const MyPagePassPw = () => {
                   className={`${classes["passpw-item-title"]} ${classes["addr-title"]}`}
                 >
                   <h2>주소</h2>
-                  <button onClick={isShow}>주소찾기</button>
+                  <button onClick={() => setShowAddr(true)}>주소찾기</button>
                   {showAddr && (
                     <AddressModal
-                      onClose={onClose}
+                      onClose={handleAddrClose}
                       setInputAddr={setInputAddr}
                       setInputZipCode={setInputZipCode}
                     />

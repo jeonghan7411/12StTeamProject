@@ -21,13 +21,9 @@ const AddressModal = ({ onClose, setInputAddr, setInputZipCode }) => {
     setInputAddr(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
   };
 
-  const handleSearch = (data) => {
-    console.log(data);
-  };
-
   return (
     <Modal onClose={onClose}>
-      <DaumPostcode onComplete={handleComplete} onSearch={handleSearch} />
+      <DaumPostcode onComplete={handleComplete} />
     </Modal>
   );
 };
