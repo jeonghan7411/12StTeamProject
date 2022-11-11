@@ -6,6 +6,7 @@ import UserInfoInput from "./UserInfoInput";
 import ModalConfirmation from "./ModalConfirmation";
 import useUserInput from "../../../hooks/use-userInput";
 import RegistSection from "./RegistSection";
+import AddressModal from "../../layout/AddressModal";
 
 import classes from "./RegistUserInfoInput.module.css";
 import { clause, personalInfo } from "../../../util/clause";
@@ -23,10 +24,10 @@ const email = [
 
 // 유효성 검사 로직
 
-const passwdRegex = /^[0-9a-zA-Z!@#$%]/gi;
-const exRegex = /\s/;
+// const passwdRegex = /^[0-9a-zA-Z!@#$%]/gi;
+// const exRegex = /\s/;
 
-console.log(exRegex.test("12 3"));
+// console.log(exRegex.test("12 3"));
 
 const checkId = (value) =>
   value.trim().length >= 5 && value.trim().length <= 20;
@@ -43,6 +44,9 @@ const checkEmail = (value) => value.trim().length > 0;
 
 const RegistUserInfoInput = () => {
   const [isShown, setIsShow] = useState(false);
+  const [showAddr, setShowAddr] = useState(false);
+  const [inputZipCode, setInputZipCode] = useState("");
+  const [inputAddr, setInputAddr] = useState("");
 
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
@@ -53,6 +57,10 @@ const RegistUserInfoInput = () => {
   const [isDuplication, setIsDuplication] = useState(false);
 
   const navigate = useNavigate();
+
+  console.log(inputAddr);
+
+  console.log(inputZipCode);
 
   // 커스텀 훅
   const {
@@ -223,8 +231,12 @@ const RegistUserInfoInput = () => {
     }
   };
 
-  console.log(`${enteredEmail}@${selectEmail}`);
-  console.log(selectEmail);
+  // console.log(`${enteredEmail}@${selectEmail}`);
+  // console.log(selectEmail);
+
+  const handleAddressClose = () => {
+    setShowAddr(false);
+  };
 
   return (
     <>
@@ -346,17 +358,36 @@ const RegistUserInfoInput = () => {
                 type="text"
                 text="주소"
                 id="zipcode"
+                value={inputZipCode}
                 readOnly={true}
               >
-                <button className={classes["regist-btn-searchAdress"]}>
+                <button
+                  className={classes["regist-btn-searchAdress"]}
+                  onClick={() => setShowAddr(true)}
+                >
                   주소 찾기
                 </button>
               </UserInfoInput>
             </div>
+            {showAddr && (
+              <AddressModal
+                onClose={handleAddressClose}
+                setInputZipCode={setInputZipCode}
+                setInputAddr={setInputAddr}
+              />
+            )}
 
             <div className={classes["sectionUserInfoInput-address"]}>
-              <input type="text" readOnly style={{ cursor: "default" }} />
-              <input type="text" />
+              <input
+                type="text"
+                readOnly
+                value={inputAddr}
+                style={{ cursor: "default" }}
+              />
+              <input
+                type="text"
+                onChange={(e) => setInputAddr(...inputAddr, e.target.value)}
+              />
             </div>
           </div>
 
