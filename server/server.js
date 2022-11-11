@@ -10,6 +10,8 @@ const fs = require("fs");
 const app = express();
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
+// import { auth } from "./token/token";
+const auth = require("./token/token");
 const cookie = require("cookie");
 
 const saltRounds = 10;
@@ -45,17 +47,62 @@ app.get("/api/get/productinfo/:getIdx", (req, res) => {
 });
 
 app.post("/regist", (req, res) => {
-  console.log(req.body);
   const { uId, uName, uPasswd, uEamil, uPhone } = req.body;
   let sql = "INSERT INTO users VALUES(NULL, ?, ?, ?, ?, ?, NULL, NULL, NOW())";
-
-  db.query(sql, [uId, uName, uPasswd, uEamil, uPhone], (err) => {
-    if (err) throw err;
-    res.send({ message: "200" });
+  bcrypt.hash(uPasswd, saltRounds, (err, hash_passwd) => {
+    db.query(sql, [uId, uName, hash_passwd, uEamil, uPhone], (err) => {
+      if (err) throw err;
+      res.send({ message: "200" });
+    });
   });
 });
 
-app.post("/login", (req, res) => {
+// app.post("/login", (req, res) => {
+//   let sql = "SELECT * FROM users WHERE uId = ?;";
+//   db.query(sql, [req.body.userID], (err, user) => {
+//     if (user[0] === undefined) {
+//       res.send({
+//         status: 404,
+//         message: "아이디를 찾을수 없습니다. 회원가입 페이지로 이동합니다.",
+//       });
+//     } else {
+//       bcrypt.compare(req.body.userPW, user[0].uPasswd, (err, result) => {
+//         if (result) {
+//           res.send({
+//             status: 200,
+//             message: "로그인 성공",
+//             id: user[0].uId,
+//           });
+//         } else {
+//           res.send({
+//             status: 400,
+//             message: "아이디 또는 비밀번호를 확인해주세요.",
+//           });
+//         }
+//       });
+//     }
+//   });
+// });
+
+// const token = () => {
+//   return {
+//     access(id) {
+//       return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
+//         expiresIn: "15m",
+//       });
+//     },
+//     refresh(id) {
+//       return jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
+//         expiresIn: "180 days",
+//       });
+//     },
+//   };
+// };
+
+app.post("/login", (req, res, next) => {
+  const key = process.env.SECRET_KEY;
+  const uId = "";
+  let token = "";
   let sql = "SELECT * FROM users WHERE uId = ?;";
   db.query(sql, [req.body.userID], (err, user) => {
     if (user[0] === undefined) {
@@ -66,10 +113,22 @@ app.post("/login", (req, res) => {
     } else {
       bcrypt.compare(req.body.userPW, user[0].uPasswd, (err, result) => {
         if (result) {
-          res.send({
+          token = jwt.sign(
+            {
+              type: "JWT",
+              uId: user[0].uId,
+            },
+            key,
+            {
+              expiresIn: "15m",
+              issuer: "토큰발급자",
+            }
+          );
+
+          return res.send({
             status: 200,
             message: "로그인 성공",
-            id: user[0].uId,
+            token: token,
           });
         } else {
           res.send({
@@ -82,53 +141,20 @@ app.post("/login", (req, res) => {
   });
 });
 
-// cookie 로그인
-// app.post("/login", (req, res) => {
-//   let isUser = false;
-//   const { userID, userPW } = req.body;
-//   let cookies = cookie.parse(req.headers.cookie); //쿠키를 객체 타입으로 변경
-//   console.log(cookies.user);
+app.get("/payload", auth, (req, res) => {
+  const nickname = req.decoded.nickname;
+  const profile = req.decoded.profile;
+  return res.status(200).json({
+    code: 200,
+    message: "토큰이 정상입니다.",
+    data: {
+      nickname: nickname,
+      profile: profile,
+    },
+  });
+});
 
-//   const sql = "SELECT * FROME users;";
-//   db.query(sql, (err, rows, fields) => {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       console.log(rows);
-//       rows.forEach((info) => {
-//         if (info.uId === userID && info.uPW === userPW) {
-//           isUser = true;
-//         } else {
-//           return;
-//         }
-//       });
-//       if (isUser) {
-//         const YOUR_SECRET_KEY = process.env.SECRET_KEY;
-
-//         // accessToken jwt 생성하는 코도
-//         //첫번쨰 인자로는 보낼 정보, 두번쨰 인자로는 비밀키.
-//         const accessToken = jwt.sign(
-//           {
-//             userID,
-//           },
-//           YOUR_SECRET_KEY,
-//           {
-//             expiresIn: "1h",
-//           }
-//         );
-//         res.cookie("user", accessToken);
-//         res.status(200).json({
-//           result: "ok",
-//           accessToken,
-//         });
-//       } else {
-//         res.status(400).json({
-//           error: "invaild user",
-//         });
-//       }
-//     }
-//   });
-// });
+app.post("/login", (req, res) => {});
 
 //네이버 api 받아와서 db에 넣은 흔적
 /*
