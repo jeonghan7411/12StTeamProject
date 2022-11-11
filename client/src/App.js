@@ -25,7 +25,7 @@ import Order from "./components/pages/order/Order";
 import OrderComplete from "./components/pages/order/OrderComplete";
 import CrlWrite from "./components/pages/myPage/CrlWrite";
 import Product from "./components/pages/productDetail/Product";
-import LogOut from "./components/pages/login/logOut";
+import LogOut from "./components/pages/login/LogOut";
 
 function App() {
   const [userToken, setUserToken] = useState({
