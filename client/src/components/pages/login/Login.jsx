@@ -24,12 +24,13 @@ const Login = () => {
       .then((response) => {
         if (response.data.status === 200) {
           window.alert(response.data.message);
-          localStorage.setItem("id", response.data.id);
-          localStorage.setItem("pw", response.data.pw);
-          localStorage.setItem("name", response.data.name);
-          localStorage.setItem("email", response.data.email);
-          localStorage.setItem("phone", response.data.phone);
-          window.location = "/";
+
+          // localStorage.setItem("id", response.data.id);
+          // localStorage.setItem("pw", response.data.pw);
+          // localStorage.setItem("name", response.data.name);
+          // localStorage.setItem("email", response.data.email);
+          // localStorage.setItem("phone", response.data.phone);
+          // window.location = "/";
         } else if (response.data.status === 400) {
           window.alert(response.data.message);
           window.location = "/login";
