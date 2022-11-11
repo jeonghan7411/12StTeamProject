@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import classes from "./Login.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import iconGoogle from "../../../assets/icons/googleLogin.png";
 import iconNaver from "../../../assets/icons/naverLogin.png";
@@ -8,12 +8,12 @@ import iconKakao from "../../../assets/icons/kakaoLogin.png";
 import iconApple from "../../../assets/icons/appleLogin.png";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-const Login = () => {
+const Login = ({ userToken }) => {
   const [userID, setUserID] = useState("");
   const [userPW, setUserPW] = useState("");
   const [showPW, setShowPW] = useState(false);
   const pwTab = useRef();
-
+  const navigate = useNavigate();
   const onClickShowPW = () => {
     setShowPW(!showPW);
   };
@@ -24,13 +24,14 @@ const Login = () => {
       .then((response) => {
         if (response.data.status === 200) {
           window.alert(response.data.message);
+          localStorage.setItem("token", response.data.token);
 
           // localStorage.setItem("id", response.data.id);
           // localStorage.setItem("pw", response.data.pw);
           // localStorage.setItem("name", response.data.name);
           // localStorage.setItem("email", response.data.email);
           // localStorage.setItem("phone", response.data.phone);
-          // window.location = "/";
+          window.location = "/";
         } else if (response.data.status === 400) {
           window.alert(response.data.message);
           window.location = "/login";
@@ -45,6 +46,9 @@ const Login = () => {
   };
   //useEffect로 비밀번호 보기 숨기기 결정
   useEffect(() => {
+    if (userToken.token != null) {
+      navigate("/");
+    }
     const pwText = () => {
       if (!showPW) {
         pwTab.current.type = "password";

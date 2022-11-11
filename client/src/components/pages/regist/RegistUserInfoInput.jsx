@@ -159,10 +159,10 @@ const RegistUserInfoInput = () => {
         uPhone: enteredPhone,
       })
       .then((response) => {
-        if (response.data.message === "200") {
+        if (response.data.status === "200") {
           window.alert("회원가입을 축하드립니다.");
           navigate("/");
-        } else if (response.data.message === "400") {
+        } else if (response.data.status === "400") {
           window.alert("관리자에게 문의 부탁드립니다.");
         }
       });
