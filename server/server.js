@@ -11,6 +11,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
+const { send } = require("process");
 
 const saltRounds = 10;
 
@@ -40,6 +41,23 @@ app.get("/api/get/productinfo/:getIdx", (req, res) => {
       throw err;
     } else {
       res.send({ result });
+    }
+  });
+});
+
+// id 중복 검사라서 get 사용
+app.post("/duplication", (req, res) => {
+  const { uId } = req.body;
+  let sql = "SELECT COUNT(uId) FROM users WHERE uId = ?;";
+  db.query(sql, [uId], (err, result) => {
+    if (err) throw err;
+
+    console.log(result[0]["COUNT(uId)"]);
+
+    if (result[0]["COUNT(uId)"]) {
+      res.send({ status: 409, message: "이미 존재하는 아이디입니다." });
+    } else {
+      res.send({ status: 200, message: "사용 가능한 아이디입니다." });
     }
   });
 });

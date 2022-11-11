@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+
 import axios from "axios";
 import UserInfoInput from "./UserInfoInput";
 import ModalConfirmation from "./ModalConfirmation";
@@ -9,15 +9,33 @@ import RegistSection from "./RegistSection";
 
 import classes from "./RegistUserInfoInput.module.css";
 import { clause, personalInfo } from "../../../util/clause";
-import { registAction } from "../../../store/registSlice";
 
-// // 유효성 검사 로직
-// const checkId = (value) =>
-//   value.trim().length >= 5 && value.trim().length <= 20;
+// 이메일 배열
+const email = [
+  "naver.com",
+  "hanmail.net",
+  "daum.net",
+  "gmail.com",
+  "hotmail.com",
+  "outlook.com",
+  "icloud.com",
+];
+
+// 유효성 검사 로직
+
+const passwdRegex = /^[0-9a-zA-Z!@#$%]/gi;
+const exRegex = /\s/;
+
+console.log(exRegex.test("12 3"));
+
+const checkId = (value) =>
+  value.trim().length >= 5 && value.trim().length <= 20;
 
 const checkName = (value) => value.trim().length >= 2;
 
-const checkPasswd = (value) => value.trim().length >= 8;
+const checkPasswd = (value) =>
+  // passwdRegex.test(value) &&
+  value.trim().length >= 8;
 
 const checkPhone = (value) => value.trim().length >= 8;
 
@@ -29,24 +47,22 @@ const RegistUserInfoInput = () => {
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [checkedItems, setCheckedItems] = useState([]);
   const [selectEmail, setSelectEmail] = useState("선택해주세요");
+  const [isNoneSelectEmail, setIsNoneSelectEmail] = useState(false);
   const [isShownEmail, setIsShownEmail] = useState(false);
+
+  const [isDuplication, setIsDuplication] = useState(false);
 
   const navigate = useNavigate();
 
-  const dispatch = useDispatch();
-  const enteredId = useSelector((state) => state.regist.enteredId);
-  const idHasError = useSelector((state) => state.regist.idHasError);
-  console.log(idHasError);
-
   // 커스텀 훅
-  // const {
-  //   value: enteredId,
-  //   isValid: enteredIdIsValid,
-  //   hasError: idHasError,
-  //   HandleValueChange: handleIdChange,
-  //   HandleInputBlur: handleIdBlur,
-  //   reset: resetIdInput,
-  // } = useUserInput(checkId);
+  const {
+    value: enteredId,
+    isValid: enteredIdIsValid,
+    hasError: idHasError,
+    HandleValueChange: handleIdChange,
+    HandleInputBlur: handleIdBlur,
+    reset: resetIdInput,
+  } = useUserInput(checkId);
 
   const {
     value: enteredName,
@@ -93,10 +109,6 @@ const RegistUserInfoInput = () => {
     reset: resetEmail,
   } = useUserInput(checkEmail);
 
-  //이메일 선택
-  const handleEmail = (selected) => {
-    setSelectEmail(selected);
-  };
   // 약관 체크
   const handleChecked = (checked, id) => {
     if (checked) {
@@ -137,13 +149,16 @@ const RegistUserInfoInput = () => {
 
   // registIsValid가 false이면 입력 유효성 중 하나는 false
   let registIsValid =
-    // enteredIdIsValid &&
+    isDuplication &&
+    enteredIdIsValid &&
     enteredNameIsValid &&
     enteredPasswdIsValid &&
     enteredRePasswdIsValid &&
     enteredPhoneIsValid &&
     enteredEmailIsValid &&
     checkedItems.length === 2;
+
+  console.log(`${enteredEmail}@${selectEmail}`);
 
   const handleRegist = async () => {
     if (!registIsValid) {
@@ -155,12 +170,20 @@ const RegistUserInfoInput = () => {
         uId: enteredId,
         uName: enteredName,
         uPasswd: enteredPasswd,
-        uEmail: enteredEmail,
+        uEamil: `${enteredEmail}@${selectEmail}`,
         uPhone: enteredPhone,
       })
       .then((response) => {
         if (response.data.message === "200") {
           window.alert("회원가입을 축하드립니다.");
+
+          resetIdInput();
+          resetnameInput();
+          resetPasswd();
+          resetRePasswd();
+          resetPhone();
+          resetEmail();
+
           navigate("/");
         } else if (response.data.message === "400") {
           window.alert("관리자에게 문의 부탁드립니다.");
@@ -172,10 +195,35 @@ const RegistUserInfoInput = () => {
   };
 
   const handleEmailValue = (selected) => {
+    setIsNoneSelectEmail(false);
     setSelectEmail(selected);
     setIsShownEmail(false);
   };
 
+  const handleNoneSelectEmail = (value) => {
+    setIsNoneSelectEmail(true);
+    setSelectEmail(value);
+  };
+
+  const handleDuplication = async () => {
+    if (enteredIdIsValid) {
+      await axios
+        .post("http://localhost:5000/duplication", { uId: enteredId })
+        .then((response) => {
+          console.log(response.data.message);
+          if (response.data.status === 409) {
+            window.alert(response.data.message);
+          } else if (response.data.status === 200) {
+            setIsDuplication(true);
+            window.alert(response.data.message);
+          }
+        });
+    } else {
+      window.alert("유효한 아이디를 입력해주세요");
+    }
+  };
+
+  console.log(`${enteredEmail}@${selectEmail}`);
   console.log(selectEmail);
 
   return (
@@ -185,17 +233,23 @@ const RegistUserInfoInput = () => {
           {isShown && <ModalConfirmation onClose={() => setIsShow(!isShown)} />}
 
           <div className={classes["sectionUserInfoInput-input"]}>
+            {!isDuplication && (
+              <p className={classes["sectionUserInfoInput-error"]}>
+                아이디 중복검사를 해주세요.
+              </p>
+            )}
             <UserInfoInput
               id="id"
               type="text"
               text="아이디"
               className={idInputClasses}
-              onChange={(e) =>
-                dispatch(registAction.handleIdChange(e.target.value))
-              }
-              onBlur={() => dispatch(registAction.handleIdBlur())}
+              onChange={handleIdChange}
+              onBlur={handleIdBlur}
             >
-              <button className={classes["sectionUserInfoInput-duplication"]}>
+              <button
+                className={classes["sectionUserInfoInput-duplication"]}
+                onClick={handleDuplication}
+              >
                 중복검사
               </button>
             </UserInfoInput>
@@ -237,7 +291,8 @@ const RegistUserInfoInput = () => {
           <div className={classes["sectionUserInfoInput-feedback"]}>
             {passwdHasError && (
               <p className={classes["sectionUserInfoInput-error"]}>
-                영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.
+                영문, 숫자, 특수문자를 포함한 8자 이상의 비밀번호를
+                입력해주세요.
               </p>
             )}
           </div>
@@ -317,31 +372,72 @@ const RegistUserInfoInput = () => {
               <div className={classes["sectionUserInfoInput-email-adress"]}>
                 <span>@</span>
                 <div className={classes["sectionUserInfoInput-control"]}>
-                  <div
-                    className={classes["sectionUserInfoInput-control-selected"]}
-                    onClick={handleShowEmail}
-                  >
-                    {selectEmail}
-                  </div>
-                  {isShownEmail && (
-                    <ul
-                      className={classes["sectionUserInfoInpu-control-items"]}
+                  {isNoneSelectEmail && (
+                    <div
+                      className={
+                        classes["sectionUserInfoInput-control-noneSelected"]
+                      }
                     >
-                      <li>
-                        <button onClick={() => handleEmailValue("naver.com")}>
-                          naver.com
-                        </button>
-                      </li>
-                      <li>
-                        <button>naver.com</button>
-                      </li>
-                      <li>
-                        <button>naver.com</button>
-                      </li>
-                      <li>
-                        <button>naver.com</button>
-                      </li>
-                    </ul>
+                      <input
+                        onChange={(e) => handleNoneSelectEmail(e.target.value)}
+                        className={
+                          classes[
+                            "sectionUserInfoInput-control-noneSelected__input"
+                          ]
+                        }
+                      />
+                      <button
+                        onClick={() => setIsNoneSelectEmail((prev) => !prev)}
+                      >
+                        X
+                      </button>
+                    </div>
+                  )}
+
+                  {!isNoneSelectEmail && (
+                    <>
+                      <div
+                        className={
+                          classes["sectionUserInfoInput-control-selected"]
+                        }
+                        onClick={handleShowEmail}
+                      >
+                        {selectEmail}
+                      </div>
+                      {isShownEmail && (
+                        <ul
+                          className={
+                            classes["sectionUserInfoInpu-control-items"]
+                          }
+                        >
+                          <li>
+                            <button
+                              className={
+                                classes[
+                                  "sectionUserInfoInpu-control-items__none"
+                                ]
+                              }
+                            >
+                              선택해주세요
+                            </button>
+                          </li>
+
+                          {email.map((it, idx) => (
+                            <li key={idx}>
+                              <button onClick={() => handleEmailValue(it)}>
+                                {it}
+                              </button>
+                            </li>
+                          ))}
+
+                          <li>
+                            <button onClick={() => setIsNoneSelectEmail(true)}>
+                              직접입력
+                            </button>
+                          </li>
+                        </ul>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
@@ -360,7 +456,7 @@ const RegistUserInfoInput = () => {
       <RegistSection title="2 약관동의">
         <div className={classes.clause}>
           <div className={classes["clause-contentWrap"]}>
-            <div>
+            <div className={classes["clause-content-check"]}>
               <input
                 type="checkbox"
                 onChange={(e) => handleChecked(e.target.checked, "allCheck")}
@@ -374,11 +470,17 @@ const RegistUserInfoInput = () => {
             <div className={classes["clause-content"]}>
               <p>{clause}</p>
             </div>
-            <div>
+            <div className={classes["clause-content-check"]}>
               <input
                 type="checkbox"
                 onChange={(e) => handleChecked(e.target.checked, "check1")}
-                checked={isAllChecked ? "checked" : ""}
+                checked={
+                  isAllChecked
+                    ? "checked"
+                    : checkedItems.find((it) => it === "check1")
+                    ? "checked"
+                    : ""
+                }
               />
               약관에 동의합니다.
             </div>
@@ -389,11 +491,17 @@ const RegistUserInfoInput = () => {
             <div className={classes["clause-content"]}>
               <p>{personalInfo}</p>
             </div>
-            <div>
+            <div className={classes["clause-content-check"]}>
               <input
                 type="checkbox"
                 onChange={(e) => handleChecked(e.target.checked, "check2")}
-                checked={isAllChecked ? "checked" : ""}
+                checked={
+                  isAllChecked
+                    ? "checked"
+                    : checkedItems.find((it) => it === "check2")
+                    ? "checked"
+                    : ""
+                }
               />
               약관에 동의합니다.
             </div>
