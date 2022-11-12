@@ -1,0 +1,41 @@
+.RegistClause {
+  display: flex;
+  flex-direction: column;
+}
+
+.RegistClause h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.RegistClause span {
+  color: #ff4443;
+}
+
+.RegistClause-content {
+  width: 800px;
+  height: 200px;
+  border: 1px solid #ccc;
+  margin-bottom: 12px;
+
+  overflow: auto;
+  scrollbar-width: 20px;
+}
+
+.RegistClause-content p {
+  padding: 20px;
+  line-height: 2;
+}
+
+.RegistClause-content-check {
+  display: flex;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.RegistClause-content-check input {
+  margin-right: 10px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
