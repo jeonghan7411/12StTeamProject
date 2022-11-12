@@ -6,7 +6,7 @@ import MyPageWriteForm from "./MyPageWriteForm";
 
 const CrlWrite = () => {
   const writeForm = {
-    title: "제목",
+    title: "상품",
     category: "유형",
   };
 

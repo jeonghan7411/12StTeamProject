@@ -66,8 +66,8 @@ const OrderList = () => {
               orderList={orderList}
             />
           )}
-          {orderList.map((item) => {
-            return <OrderItem orderList={item} />;
+          {orderList.map((item, key) => {
+            return <OrderItem orderList={item} key={key} />;
           })}
         </div>
       </div>

@@ -22,7 +22,7 @@ const CrlList = () => {
           </div>
         )}
 
-        {crlList.map((itme) => {
+        {crlList.map((item) => {
           return <CancleReturnExchangeItem />;
         })}
       </div>
