@@ -8,20 +8,23 @@ require("dotenv").config();
 const db = require("./db/db");
 const fs = require("fs");
 const app = express();
-const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
-// import { auth } from "./token/token";
-// const auth = require("./token/token");
-const cookie = require("cookie");
+const cookieParser = require("cookie-parser");
 const { send } = require("process");
 
 const saltRounds = 10;
 
 // middleware
-app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static("uploads"));
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 //나중에 멀터 업로드 처리
 
 // url
@@ -75,48 +78,170 @@ app.post("/regist", (req, res) => {
   });
 });
 
-// app.post("/login", (req, res) => {
-//   let sql = "SELECT * FROM users WHERE uId = ?;";
-//   db.query(sql, [req.body.userID], (err, user) => {
-//     if (user[0] === undefined) {
-//       res.send({
-//         status: 404,
-//         message: "아이디를 찾을수 없습니다. 회원가입 페이지로 이동합니다.",
-//       });
-//     } else {
-//       bcrypt.compare(req.body.userPW, user[0].uPasswd, (err, result) => {
-//         if (result) {
-//           res.send({
-//             status: 200,
-//             message: "로그인 성공",
-//             id: user[0].uId,
-//           });
-//         } else {
-//           res.send({
-//             status: 400,
-//             message: "아이디 또는 비밀번호를 확인해주세요.",
-//           });
-//         }
-//       });
-//     }
-//   });
-// });
+// 로그인 구현, 비밀번호 비크립트만 추가해서 수정하기 레지스트 끝나고나면
+app.post("/api/login", (req, res) => {
+  let isUser = false;
+  const { userID, userPW } = req.body;
 
-// const token = () => {
-//   return {
-//     access(id) {
-//       return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
-//         expiresIn: "15m",
-//       });
-//     },
-//     refresh(id) {
-//       return jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
-//         expiresIn: "180 days",
-//       });
-//     },
-//   };
-// };
+  let sql = "SELECT * from users";
+  db.query(sql, (err, rows) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const userData = rows[0];
 
+      if (userData.uId === userID && userData.uPasswd === userPW) {
+        isUser = true;
+      } else {
+        return;
+      }
+      if (isUser) {
+        const ACCESS_SECRET_KEY = process.env.ACCESS_SECRET_KEY;
+        const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
+        //accessToken 발급
+        const accessToken = jwt.sign(
+          {
+            id: userData.uId,
+          },
+          ACCESS_SECRET_KEY,
+          {
+            expiresIn: "1m",
+            issuer: "12St",
+          }
+        );
+        //refreshToken 발급
+        const refreshToken = jwt.sign(
+          {
+            id: userData.uId,
+          },
+          REFRESH_SECRET_KEY,
+          {
+            expiresIn: "24h",
+            issuer: "12St",
+          }
+        );
+        res.cookie("accessToken", accessToken, { httpOnly: true });
+        res.cookie("refreshToken", refreshToken, { httpOnly: true });
+        res.status(201).json({
+          result: "ok",
+          accessToken,
+        });
+      } else {
+        res.status(400).json({ error: "invalid user" });
+      }
+    }
+  });
+});
+
+//로그인 검증
+app.get("/api/login/success", (req, res) => {
+  const token = req.cookies.accessToken;
+  const reftoken = req.cookies.refreshToken;
+  //리프레시토큰 유효성검사, expired 되면 강제로그아웃
+  if (reftoken !== undefined) {
+    jwt.verify(reftoken, process.env.REFRESH_SECRET_KEY, (err) => {
+      if (err) {
+        res.send("timeout");
+        console.log("리프레시토큰만료");
+      } else {
+        return;
+      }
+    });
+  }
+  if (token === undefined) {
+    //토큰이 없을때 -> 비로그인상태 = 리턴
+    return;
+  } else {
+    jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
+      // 토큰이 있을때 에러핸들링
+      if (err) {
+        // err = expired, 만료되었을때 리프레쉬
+        const token = req.cookies.refreshToken;
+
+        const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+        let sql = "SELECT * from users WHERE uId = ?;";
+        db.query(sql, [data.id], (err, rows) => {
+          if (err) {
+            throw err;
+          }
+          //비밀번호 빼고 전달
+          const { uPasswd, ...others } = rows[0];
+
+          //accessToken 새로 발급
+          const accessToken = jwt.sign(
+            {
+              id: others.uId,
+            },
+            process.env.ACCESS_SECRET_KEY,
+            {
+              expiresIn: "1m",
+              issuer: "12St",
+            }
+          );
+
+          res.cookie("accessToken", accessToken, { httpOnly: true });
+          res.status(200).json("Access Token Recreated");
+          console.log("액세스토큰만료 재발급");
+        });
+      }
+    });
+  }
+
+  /*
+  let sql = "SELECT * from users WHERE uId = ?;";
+  db.query(sql, [data.id], (err, result) => {
+    if (err) {
+      throw err;
+    }
+    //비밀번호 빼고 전달
+    const { uPasswd, ...others } = result[0];
+    res.status(200).json(others);
+  });
+  */
+});
+//로그아웃
+
+app.get("/api/logout", (req, res) => {
+  res.clearCookie("accessToken");
+  res.clearCookie("refreshToken");
+  res.status(200).json("Logout Success");
+});
+
+// 리프레시
+/*
+app.get("/api/login/refresh", (req, res) => {
+  const token = req.cookies.refreshToken;
+  const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+  let sql = "SELECT * from users WHERE uId = ?;";
+  db.query(sql, [data.id], (err, rows) => {
+    if (err) {
+      throw err;
+    }
+    //비밀번호 빼고 전달
+    const { uPasswd, ...others } = rows[0];
+
+    //accessToken 새로 발급
+    const accessToken = jwt.sign(
+      {
+        id: others.uId,
+      },
+      ACCESS_SECRET_KEY,
+      {
+        expiresIn: "1m",
+        issuer: "12St",
+      }
+    );
+
+    res.cookie("accessToken", accessToken, { httpOnly: true });
+    res.status(200).json("Access Token Recreated");
+  });
+});
+*/
+
+// -----------------------------주석처리 시작 ------------------------------//
+/*
 app.post("/login", (req, res, next) => {
   const key = process.env.SECRET_KEY;
   const uId = "";
@@ -197,6 +322,9 @@ app.get("/payload", auth, (req, res) => {
     },
   });
 });
+*/
+
+//----------------------------------끝-------------------------------//
 
 // app.get("/updateuser", (req, res) => {
 //   let sql = "SELECT * FROM USERS WHERE uId = ?;";
