@@ -20,6 +20,22 @@ const Login = ({ userToken }) => {
   const onSubmitLogin = async (e) => {
     e.preventDefault();
     await axios
+      .post(
+        "http://localhost:5000/api/login",
+        { userID, userPW },
+        { withCredentials: true }
+      )
+      .then((response) => {
+        console.log(response.data);
+        window.alert("로그인 성공!");
+        window.location("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    //---------------------기존코드-----------------------------//
+    /*
+    await axios
       .post("http://localhost:5000/login", { userID, userPW })
       .then((response) => {
         if (response.data.status === 200) {
@@ -43,6 +59,8 @@ const Login = ({ userToken }) => {
           window.location = "/";
         }
       });
+      */
+    //---------------------기존코드-----------------------------//
   };
   //useEffect로 비밀번호 보기 숨기기 결정
   useEffect(() => {
