@@ -26,6 +26,7 @@ import OrderComplete from "./components/pages/order/OrderComplete";
 import CrlWrite from "./components/pages/myPage/CrlWrite";
 import Product from "./components/pages/productDetail/Product";
 import LogOut from "./components/pages/login/LogOut";
+import OrderDetail from "./components/pages/myPage/OrderDetail";
 
 function App() {
   const [userToken, setUserToken] = useState({
@@ -55,11 +56,11 @@ function App() {
         <main className={classes.main}>
           <Routes>
             <Route path="/" element={<Home data={data} />} />
-            <Route path="/login" element={<Login userToken={userToken} />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<LogOut />} />
             <Route path="/regist" element={<Regist />} />
             <Route path="/updateuser" element={<MyPageUpdateUser />} />
-            <Route path="/mypage" element={<MyPage userToken={userToken} />}>
+            <Route path="/mypage" element={<MyPage />}>
               <Route index element={<OrderList />} />
               <Route
                 path="cancel-return-exchange-write"
@@ -70,6 +71,7 @@ function App() {
               <Route path="mypageinquiry" element={<MyPageInquiry />} />
               <Route path="mypageinquirylist" element={<MyPageInquiryList />} />
               <Route path="mypageaddress" element={<MyPageAddress />} />
+              <Route path="orderdetail" element={<OrderDetail />} />
             </Route>
             <Route path="/products/:getIdx" element={<Product />} />
             <Route path="/productsBest" element={<ProductsBest />} />

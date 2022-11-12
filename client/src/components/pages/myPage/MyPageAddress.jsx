@@ -7,9 +7,7 @@ import MyPageListTitle from "./MyPageListTitle";
 import MyPageNullMsg from "./MyPageNullMsg";
 
 const MyPageAddress = () => {
-  const [user, setUser] = useState([
-    //유저 정보 받아오는 곳
-  ]);
+  const [user, setUser] = useState({}); //유저 정보 받아오는 곳
 
   const [addUser, setAddUser] = useState([]); // 추가 된 주소 저장
 

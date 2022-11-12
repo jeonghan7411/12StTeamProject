@@ -98,8 +98,8 @@ const MyPointCheck = () => {
           />
         )}
 
-        {pointList.map((item) => {
-          return <MyPageListForm props={item} title={"내역"} />;
+        {pointList.map((item, key) => {
+          return <MyPageListForm props={item} title={"내역"} key={key} />;
         })}
       </div>
     </React.Fragment>

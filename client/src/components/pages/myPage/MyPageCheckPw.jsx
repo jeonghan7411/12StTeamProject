@@ -1,4 +1,7 @@
+import axios from "axios";
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 
 import classes from "./MyPageCheckPw.module.css";
 import MyPageListTitle from "./MyPageListTitle";
@@ -7,13 +10,22 @@ const MyPageCheckPw = ({ setUserPw }) => {
   const checkPw = () => {
     setUserPw(true);
   };
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     await axios.get("http://localhost:5000/updateuser", { loginInfo });
+  //   };
+
+  //   fetchData();
+  // }, []);
+
   return (
     <React.Fragment>
       <div className={classes.MyPageCheckPw}>
         <MyPageListTitle text={"회원 정보 확인"} />
         <div className={classes["checkpw-wrap-title"]}>
-          <span>홍길동</span> 님의 정보를 안전하게 보호하기 위해 비밀번호를 다시
-          한번 확인 합니다.
+          <span>홍길동</span>
+          님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인 합니다.
         </div>
         <form action="" onSubmit={checkPw}>
           <div className={classes["checkpw-wrap-content"]}>

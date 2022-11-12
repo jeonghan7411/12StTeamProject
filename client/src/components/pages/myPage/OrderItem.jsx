@@ -12,7 +12,7 @@ const OrderItem = ({ orderList }) => {
             <h2>{orderList.regdate}</h2>
           </div>
           <div>
-            <Link>주문 수정</Link>
+            <Link to={"orderdetail"}>주문 상세</Link>
           </div>
         </div>
 

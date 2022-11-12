@@ -198,6 +198,16 @@ app.get("/payload", auth, (req, res) => {
   });
 });
 
+// app.get("/updateuser", (req, res) => {
+//   let sql = "SELECT * FROM USERS WHERE uId = ?;";
+//   console.log(req.body);
+//   db.query(sql, [req.body.uId], (err, result) => {
+//     if (err) {
+//       throw err;
+//     }
+//   });
+// });
+
 app.post("/updateuser", (req, res) => {
   const {
     updatePw,

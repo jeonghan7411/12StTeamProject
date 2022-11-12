@@ -1,33 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { FaCog } from "react-icons/fa";
-import MyPageSide from "./MyPageSide";
-import Profile from "../../../assets/profile.jpg";
-import classes from "./MyPage.module.css";
-import { useEffect } from "react";
-import axios from "axios";
-import { useState } from "react";
 
-const MyPage = ({ userToken }) => {
+import MyPageSide from "./MyPageSide";
+
+import Profile from "../../../assets/profile.jpg";
+
+import { FaCog } from "react-icons/fa";
+import classes from "./MyPage.module.css";
+
+import axios from "axios";
+
+const MyPage = () => {
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
-  useEffect(() => {
-    if (userToken === null) {
-      navigate("/login");
-    }
+  // useEffect(() => {
+  //   if (userToken === null) {
+  //     navigate("/login");
+  //   }
 
-    const fetchData = async () => {
-      await axios
-        .get("http://localhost:5000/mypage", { userToken })
-        .then((response) => {
-          setUserData(response.data.result);
-        });
-    };
+  // const fetchData = async () => {
+  //   await axios
+  //     .get("http://localhost:5000/mypage", { userToken })
+  //     .then((response) => {
+  //       setUserData(response.data.result);
+  //     });
+  // };
 
-    fetchData();
-  });
-
-  console.log(userToken);
+  // fetchData();
+  // });
 
   return (
     <React.Fragment>
@@ -40,7 +40,6 @@ const MyPage = ({ userToken }) => {
             <div>
               안녕하세요 <span></span>님.
             </div>
-            <div>등급</div>
           </div>
           <div className={classes["mypage-title-right"]}>
             <div>

@@ -7,13 +7,18 @@
   margin-top: 50px;
 }
 
+.address-wrap-content {
+  width: 1000px;
+}
+
 .address-wrap-button button {
   font-weight: bold;
   font-size: 22px;
-  width: 1000px;
+  width: 800px;
   border: 1px solid var(--navy-color);
   border-radius: 10px;
   padding: 15px 0;
+  margin-left: 100px;
 }
 
 .address-content-null {
