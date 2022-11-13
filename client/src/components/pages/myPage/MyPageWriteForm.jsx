@@ -1,10 +1,8 @@
 import React from "react";
-import { useState } from "react";
+
 import classes from "./MyPageWriteForm.module.css";
 
 const MyPageWriteForm = ({ writeForm, optionItem }) => {
-  const [test, setTest] = useState("");
-  console.log(test);
   return (
     <React.Fragment>
       <div className={classes["write-wrap-content"]}>

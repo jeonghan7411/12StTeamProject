@@ -105,7 +105,7 @@ app.post("/api/login", (req, res) => {
           },
           ACCESS_SECRET_KEY,
           {
-            expiresIn: "1m",
+            expiresIn: "10m",
             issuer: "12St",
           }
         );
@@ -137,6 +137,7 @@ app.post("/api/login", (req, res) => {
 app.get("/api/login/success", (req, res) => {
   const token = req.cookies.accessToken;
   const reftoken = req.cookies.refreshToken;
+
   //리프레시토큰 유효성검사, expired 되면 강제로그아웃
   if (reftoken !== undefined) {
     jwt.verify(reftoken, process.env.REFRESH_SECRET_KEY, (err) => {
@@ -157,7 +158,6 @@ app.get("/api/login/success", (req, res) => {
       if (err) {
         // err = expired, 만료되었을때 리프레쉬
         const token = req.cookies.refreshToken;
-
         const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
 
         let sql = "SELECT * from users WHERE uId = ?;";
@@ -175,7 +175,7 @@ app.get("/api/login/success", (req, res) => {
             },
             process.env.ACCESS_SECRET_KEY,
             {
-              expiresIn: "1m",
+              expiresIn: "10m",
               issuer: "12St",
             }
           );
@@ -326,25 +326,39 @@ app.get("/payload", auth, (req, res) => {
 
 //----------------------------------끝-------------------------------//
 
-// app.get("/updateuser", (req, res) => {
-//   let sql = "SELECT * FROM USERS WHERE uId = ?;";
-//   console.log(req.body);
-//   db.query(sql, [req.body.uId], (err, result) => {
-//     if (err) {
-//       throw err;
-//     }
-//   });
-// });
+app.get("/mypage", (req, res) => {
+  const token = req.cookies.accessToken;
 
-app.post("/updateuser", (req, res) => {
-  const {
-    updatePw,
-    updatePhone,
-    zipcode,
-    updateAddressFirst,
-    updateAddressSecond,
-    updateEmail,
-  } = req.body.updateUserInfo;
+  if (token === undefined) {
+    res.send({
+      status: 401,
+      message: "로그인 정보가 없습니다.",
+    });
+  } else {
+    res.send({
+      status: 200,
+      message: "환영합니다.",
+      token,
+    });
+  }
+});
+
+app.get("/api/login/getuser", (req, res) => {
+  const token = req.cookies.accessToken;
+
+  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
+    const token = req.cookies.refreshToken;
+    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+    let sql = "SELECT * from users WHERE uId = ?;";
+    db.query(sql, data.id, (err, user) => {
+      if (err) {
+        throw err;
+      }
+
+      res.send(user[0]);
+    });
+  });
 });
 
 //네이버 api 받아와서 db에 넣은 흔적

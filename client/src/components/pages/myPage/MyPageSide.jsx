@@ -58,6 +58,9 @@ const MyPageSide = () => {
           <div>
             <MyPageSideLink to="mypageaddress" text={"배송지 관리"} />
           </div>
+          <div>
+            <MyPageSideLink to="deleteuser" text={"회원탈퇴"} />
+          </div>
         </div>
       </div>
     </React.Fragment>

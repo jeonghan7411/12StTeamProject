@@ -75,6 +75,12 @@
   color: white;
 }
 
+.mypage-quick-item a {
+  color: white;
+
+  text-decoration: underline;
+}
+
 .mypage-quick-item div:last-child {
   margin-top: 15px;
   cursor: pointer;

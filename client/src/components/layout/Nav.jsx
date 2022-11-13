@@ -2,9 +2,10 @@ import React from "react";
 
 import classes from "./Nav.module.css";
 import { Link } from "react-router-dom";
-const Nav = ({ userToken }) => {
+import { useState } from "react";
+const Nav = () => {
   // const [isLogin, setIsLogin] = useState(false);
-
+  const [userToken, setUserToken] = useState(false);
   return (
     <React.Fragment>
       <nav className={classes.nav}>
@@ -19,7 +20,7 @@ const Nav = ({ userToken }) => {
         </div>
 
         <div>
-          {userToken.token === null ? (
+          {userToken === false ? (
             <div className={classes["nav-nonLogin"]}>
               <Link to={"/login"}>로그인</Link>
               <Link to={"/regist"}>회원가입</Link>

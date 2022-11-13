@@ -55,9 +55,12 @@
 }
 
 .addr-title button {
-  background-color: var(--gray-color);
+  color: white;
+  background-color: var(--navy-color);
+
   border-radius: 5px;
   padding: 5px;
+
   margin-left: 15px;
 }
 

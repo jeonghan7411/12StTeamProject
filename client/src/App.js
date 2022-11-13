@@ -27,11 +27,11 @@ import CrlWrite from "./components/pages/myPage/CrlWrite";
 import Product from "./components/pages/productDetail/Product";
 import LogOut from "./components/pages/login/LogOut";
 import OrderDetail from "./components/pages/myPage/OrderDetail";
+import MyPageUserDelete from "./components/pages/myPage/MyPageUserDelete";
+import React from "react";
 
 function App() {
-  const [userToken, setUserToken] = useState({
-    token: localStorage.getItem("token"),
-  });
+  const [userToken, setUserToken] = useState();
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -51,12 +51,15 @@ function App() {
       <Reset />
       <Router>
         <Header />
-        <Nav userToken={userToken} />
+        <Nav />
 
         <main className={classes.main}>
           <Routes>
             <Route path="/" element={<Home data={data} />} />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/login"
+              element={<Login setUserToken={setUserToken} />}
+            />
             <Route path="/logout" element={<LogOut />} />
             <Route path="/regist" element={<Regist />} />
             <Route path="/updateuser" element={<MyPageUpdateUser />} />
@@ -72,6 +75,7 @@ function App() {
               <Route path="mypageinquirylist" element={<MyPageInquiryList />} />
               <Route path="mypageaddress" element={<MyPageAddress />} />
               <Route path="orderdetail" element={<OrderDetail />} />
+              <Route path="deleteuser" element={<MyPageUserDelete />} />
             </Route>
             <Route path="/products/:getIdx" element={<Product />} />
             <Route path="/productsBest" element={<ProductsBest />} />

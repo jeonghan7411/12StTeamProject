@@ -8,7 +8,7 @@ import iconKakao from "../../../assets/icons/kakaoLogin.png";
 import iconApple from "../../../assets/icons/appleLogin.png";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-const Login = ({ userToken }) => {
+const Login = ({ setUserToken }) => {
   const [userID, setUserID] = useState("");
   const [userPW, setUserPW] = useState("");
   const [showPW, setShowPW] = useState(false);
@@ -28,6 +28,7 @@ const Login = ({ userToken }) => {
       .then((response) => {
         console.log(response.data);
         window.alert("로그인 성공!");
+        setUserToken(response.data.accessToken); //정한
         window.location("/");
       })
       .catch((error) => {
@@ -64,9 +65,9 @@ const Login = ({ userToken }) => {
   };
   //useEffect로 비밀번호 보기 숨기기 결정
   useEffect(() => {
-    if (userToken.token != null) {
-      navigate("/");
-    }
+    // if (userToken.token != null) {
+    //   navigate("/");
+    // }
     const pwText = () => {
       if (!showPW) {
         pwTab.current.type = "password";
