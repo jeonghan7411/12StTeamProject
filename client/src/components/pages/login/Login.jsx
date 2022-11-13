@@ -28,7 +28,7 @@ const Login = ({ userToken }) => {
       .then((response) => {
         console.log(response.data);
         window.alert("로그인 성공!");
-        window.location("/");
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -64,9 +64,6 @@ const Login = ({ userToken }) => {
   };
   //useEffect로 비밀번호 보기 숨기기 결정
   useEffect(() => {
-    if (userToken.token != null) {
-      navigate("/");
-    }
     const pwText = () => {
       if (!showPW) {
         pwTab.current.type = "password";
