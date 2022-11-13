@@ -181,7 +181,10 @@ app.get("/api/login/success", (req, res) => {
           );
 
           res.cookie("accessToken", accessToken, { httpOnly: true });
-          res.status(200).json("Access Token Recreated");
+          res.status(201).json({
+            result: "ok",
+            accessToken,
+          });
           console.log("액세스토큰만료 재발급");
         });
       }

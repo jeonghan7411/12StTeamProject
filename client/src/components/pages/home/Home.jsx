@@ -16,7 +16,7 @@ const Home = ({ data }) => {
       withCredentials: true,
     });
     window.alert("로그아웃");
-    window.location("/");
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -30,13 +30,14 @@ const Home = ({ data }) => {
             handleLogout();
           } else {
             setIsLogin(true);
-            setUser(response.data);
+            setUser(response.data.accessToken);
+            console.log(response.data.accessToken);
           }
         });
     };
     accessToken();
   }, []);
-
+  console.log(user);
   return (
     <div>
       <button onClick={handleLogout}>로그아웃</button>
