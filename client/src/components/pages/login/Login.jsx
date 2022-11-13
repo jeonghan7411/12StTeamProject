@@ -28,8 +28,8 @@ const Login = ({ setUserToken }) => {
       .then((response) => {
         console.log(response.data);
         window.alert("로그인 성공!");
-        setUserToken(response.data.accessToken); //정한
-        window.location("/");
+        setUserToken(response.data.accessToken);
+        navigate("/");
       })
       .catch((error) => {
         console.log(error);
@@ -65,9 +65,6 @@ const Login = ({ setUserToken }) => {
   };
   //useEffect로 비밀번호 보기 숨기기 결정
   useEffect(() => {
-    // if (userToken.token != null) {
-    //   navigate("/");
-    // }
     const pwText = () => {
       if (!showPW) {
         pwTab.current.type = "password";
