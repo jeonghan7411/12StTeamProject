@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import MyPageListForm from "./MyPageListForm";
 import MyPageListTitle from "./MyPageListTitle";
 import MyPageNullMsg from "./MyPageNullMsg";
 
 import classes from "./MyPointCheck.module.css";
 
+import { getUser } from "../../../util/getUser";
+
 const MyPointCheck = () => {
-  const [myPoint, setMyPoint] = useState(333333);
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [isShowList, setIsShowList] = useState(false);
@@ -38,6 +41,28 @@ const MyPointCheck = () => {
     // },
   ]);
 
+  const [checkInputPw, setCheckInputPw] = useState();
+
+  const [user, setUser] = useState({});
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .get("http://localhost:5000/mypage", { withCredentials: true })
+        .then((response) => {
+          if (response.data.status === 401) {
+            alert(response.data.message);
+            navigate("/login", { replace: true });
+          } else if (response.data.status === 200) {
+            getUser(setUser);
+          }
+        });
+    };
+    fetchData();
+  }, []);
+
   const searchDate = (e) => {
     e.preventDefault();
     console.log(startDate);
@@ -52,7 +77,7 @@ const MyPointCheck = () => {
           <div className={classes["check-content-item"]}>
             <div>나의 포인트</div>
             <div>
-              <span>{myPoint.toLocaleString("ko-KR")}</span>원
+              <span>{user.uMile.toLocaleString("ko-KR")}</span>원
             </div>
           </div>
           <div className={classes["check-content-item"]}>

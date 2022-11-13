@@ -48,6 +48,12 @@
   margin-right: 50px;
 }
 
+.check-date-item input {
+  cursor: pointer;
+
+  padding: 5px;
+}
+
 .check-date-item div {
   margin-right: 10px;
 }

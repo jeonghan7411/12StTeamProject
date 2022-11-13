@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 
 import MyPageSide from "./MyPageSide";
 
@@ -10,24 +10,27 @@ import classes from "./MyPage.module.css";
 
 import axios from "axios";
 
+import { getUser } from "../../../util/getUser";
+
 const MyPage = () => {
-  const [userData, setUserData] = useState({});
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (userToken === null) {
-  //     navigate("/login");
-  //   }
+  const [user, setUser] = useState({});
 
-  // const fetchData = async () => {
-  //   await axios
-  //     .get("http://localhost:5000/mypage", { userToken })
-  //     .then((response) => {
-  //       setUserData(response.data.result);
-  //     });
-  // };
-
-  // fetchData();
-  // });
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .get("http://localhost:5000/mypage", { withCredentials: true })
+        .then((response) => {
+          if (response.data.status === 401) {
+            alert(response.data.message);
+            navigate("/login", { replace: true });
+          } else if (response.data.status === 200) {
+            getUser(setUser);
+          }
+        });
+    };
+    fetchData();
+  }, []);
 
   return (
     <React.Fragment>
@@ -38,7 +41,7 @@ const MyPage = () => {
               <img src={Profile} alt="" />
             </div>
             <div>
-              안녕하세요 <span></span>님.
+              안녕하세요 <span>{user.uName}</span>님.
             </div>
           </div>
           <div className={classes["mypage-title-right"]}>
@@ -50,24 +53,31 @@ const MyPage = () => {
             <div>개인정보수정</div>
           </div>
         </div>
-        <div className={classes["mypage-wrap-content"]}>
-          <div className={classes["mypage-quick-btn"]}>
-            <div className={classes["mypage-quick-item"]}>
-              <div>0</div>
-              <div>배송중</div>
+
+        <div className={classes["mypage-quick-btn"]}>
+          <div className={classes["mypage-quick-item"]}>
+            <div>
+              <NavLink to="">0</NavLink>
             </div>
-            <div className={classes["mypage-quick-item"]}>
-              <div>0</div>
-              <div>상품평</div>
+            <div>배송중</div>
+          </div>
+          <div className={classes["mypage-quick-item"]}>
+            <div>
+              <NavLink to="">0</NavLink>
             </div>
-            <div className={classes["mypage-quick-item"]}>
-              <div>0</div>
-              <div>찜 리스트</div>
+            <div>상품평</div>
+          </div>
+          <div className={classes["mypage-quick-item"]}>
+            <div>
+              <NavLink to="/cart">0</NavLink>
             </div>
-            <div className={classes["mypage-quick-item"]}>
-              <div>0</div>
-              <div>최근본상품</div>
+            <div>장바구니</div>
+          </div>
+          <div className={classes["mypage-quick-item"]}>
+            <div>
+              <NavLink to="mypointcheck">{user.uMile}</NavLink>
             </div>
+            <div>나의 포인트</div>
           </div>
         </div>
       </div>

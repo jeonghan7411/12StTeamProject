@@ -1,0 +1,44 @@
+.MyPageUserDelete {
+  width: 1000px;
+  margin-top: 20px;
+  margin-left: 30px;
+}
+.checkwrap {
+  width: 1000px;
+}
+
+.delete-wrap-content {
+  width: 1000px;
+
+  margin-top: 150px;
+}
+
+.delete-wrap-content h2 {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.delete-wrap-button {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 30px;
+}
+
+.delete-wrap-button button {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 0 5px;
+}
+
+.delete-wrap-button button:first-child {
+  background-color: var(--navy-color);
+}
+
+.delete-wrap-button button:last-child {
+  background-color: rgb(206, 202, 202);
+}
