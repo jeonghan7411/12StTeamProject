@@ -9,8 +9,10 @@ const OrderPhone = () => {
     <Card className={classes.orderPhone}>
       <span>통신사 선택</span>
       <select name="" id="">
-        {phoneOption.map((it) => (
-          <option value={it}>{it}</option>
+        {phoneOption.map((it, idx) => (
+          <option key={idx} value={it}>
+            {it}
+          </option>
         ))}
       </select>
     </Card>

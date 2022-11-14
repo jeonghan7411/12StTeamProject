@@ -25,8 +25,13 @@ import Order from "./components/pages/order/Order";
 import OrderComplete from "./components/pages/order/OrderComplete";
 import CrlWrite from "./components/pages/myPage/CrlWrite";
 import Product from "./components/pages/productDetail/Product";
-import LogOut from "./components/pages/login/LogOut";
+import LogOut from "./components/pages/login/logOut";
 import OrderDetail from "./components/pages/myPage/OrderDetail";
+import OrderAccount from "./components/pages/order/orderMethod/OrderAccount";
+import OrderCard from "./components/pages/order/orderMethod/OrderCard";
+import OrderCoperateCard from "./components/pages/order/orderMethod/OrderCoperateCard";
+import OrderPhone from "./components/pages/order/orderMethod/OrderPhone";
+import OrderNoneBank from "./components/pages/order/orderMethod/OrderNoneBank";
 import MyPageUserDelete from "./components/pages/myPage/MyPageUserDelete";
 import React from "react";
 
@@ -81,7 +86,10 @@ function App() {
             <Route path="/productsBest" element={<ProductsBest />} />
             <Route path="/productsCategory" element={<ProductsCategory />} />
             <Route path="/cart" element={<ProductCart />} />
-            <Route path="/order" element={<Order />} />
+
+            {/* 결제 */}
+            <Route path="/order/*" element={<Order />} />
+
             <Route path="/ordercomplete" element={<OrderComplete />} />
           </Routes>
         </main>

@@ -1,0 +1,88 @@
+/* 배송 요청사항 컴포넌트 */
+.ModalOrderDeliveryMemo {
+  border-color: var(--navy-color);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 50px;
+}
+
+.ModalOrderDeliveryMemo header {
+  width: 100%;
+  height: 50px;
+  background-color: var(--navy-color);
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 18px;
+}
+
+.ModalOrderDeliveryMemo section {
+  margin: 50px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 400px;
+
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.ModalOrderDeliveryMemo-select {
+  width: 100%;
+  padding: 20px;
+
+  font-size: 20px;
+
+  border-bottom: 1px solid #ccc;
+}
+
+.ModalOrderDeliveryMemo-select input {
+  margin-right: 12px;
+}
+
+.ModalOrderDeliveryMemo-select__last {
+  border-bottom: none;
+}
+.ModalOrderDeliveryMemo-directMemo {
+  background-color: rgb(234, 234, 234);
+  width: 100%;
+  height: 100px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+}
+
+.ModalOrderDeliveryMemo-directMemo input {
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  border: 1px solid rgb(222, 222, 222);
+}
+
+.ModalOrderDeliveryMemo-control {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.ModalOrderDeliveryMemo-control button {
+  padding: 20px 40px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.ModalOrderDeliveryMemo-control__cancle {
+  background-color: #e4e4e4;
+  margin-right: 30px;
+}
+
+.ModalOrderDeliveryMemo-control__storage {
+  background-color: var(--navy-color);
+  color: white;
+}
