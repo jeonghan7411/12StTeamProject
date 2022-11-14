@@ -16,11 +16,6 @@ const MyPagePassPw = () => {
   const [showAddr, setShowAddr] = useState(false);
 
   const [nameUpdate, setNameUpdate] = useState(false);
-  const [pwUpdate, setPwUpdate] = useState(false);
-  const [birthUpdate, setBirthUpdate] = useState(false);
-  const [phoneUpdate, setPhoneUpdate] = useState(false);
-  const [emailUpdate, setEmailUpdate] = useState(false);
-  const [addrUpdate, setAddrUpdate] = useState(false);
 
   // 주소 값 받아오기
   const [inputZipCode, setInputZipCode] = useState("");
@@ -452,12 +447,12 @@ const MyPagePassPw = () => {
                     <h2>생년월일</h2>
                   </div>
                   <div className={classes["passpw-item-input"]}>
-                    {!birthUpdate ? (
+                    {!nameUpdate ? (
                       <>
                         <MyPageInput
                           type={"text"}
                           value={user.uBirth}
-                          onClick={() => setBirthUpdate(true)}
+                          onClick={() => setInputUpDate(true)}
                         />
                       </>
                     ) : (
@@ -484,12 +479,12 @@ const MyPagePassPw = () => {
                       ref={pwInput}
                       onChange={infoHandler}
                     /> */}
-                    {!pwUpdate ? (
+                    {!nameUpdate ? (
                       <>
                         <MyPageInput
                           type={!showPw ? "password" : "text"}
                           value={user.uPasswd}
-                          onClick={() => setPwUpdate(true)}
+                          onClick={() => setInputUpDate(true)}
                         />
                       </>
                     ) : (
@@ -572,12 +567,12 @@ const MyPagePassPw = () => {
                       placeholder="-를 제외한 11~12자리"
                     /> */}
 
-                    {!phoneUpdate ? (
+                    {!nameUpdate ? (
                       <>
                         <MyPageInput
                           type={"text"}
                           value={user.uPhone}
-                          onClick={() => setPhoneUpdate(true)}
+                          onClick={() => setInputUpDate(true)}
                         />
                       </>
                     ) : (
@@ -606,12 +601,12 @@ const MyPagePassPw = () => {
      
                     /> */}
 
-                    {!emailUpdate ? (
+                    {!nameUpdate ? (
                       <>
                         <MyPageInput
                           type={"text"}
                           value={user.uEmail}
-                          onClick={() => setEmailUpdate(true)}
+                          onClick={() => setInputUpDate(true)}
                         />
                       </>
                     ) : (
@@ -640,7 +635,7 @@ const MyPagePassPw = () => {
                           ...user,
                           uDetail: "",
                         });
-                        setAddrUpdate(true);
+                        setInputUpDate(true);
                       }}
                     >
                       주소찾기
@@ -677,19 +672,23 @@ const MyPagePassPw = () => {
                       placeholder="상세주소가 없으면 없음 이라 작성"
                     /> */}
 
-                    {!addrUpdate ? (
+                    {!nameUpdate ? (
                       <>
                         <MyPageInput
                           type={"text"}
                           value={user.uZipcode}
-                          onClick={() => setAddrUpdate(true)}
+                          // onClick={() => setInputUpDate(true)}
                         />
                         <MyPageInput
                           type={"text"}
                           value={user.uAddress}
-                          onClick={() => setAddrUpdate(true)}
+                          // onClick={() => setInputUpDate(true)}
                         />
-                        <MyPageInput type={"text"} value={user.uDetail} />
+                        <MyPageInput
+                          type={"text"}
+                          value={user.uDetail}
+                          // onClick={() => setInputUpDate(true)}
+                        />
                       </>
                     ) : (
                       <>
@@ -697,25 +696,19 @@ const MyPagePassPw = () => {
                           name="uZipcode"
                           onChange={infoHandler}
                           value={inputZipCode}
-                          onClick={() => setAddrUpdate(true)}
+                          onClick={() => setInputUpDate(true)}
                         />
                         <MyPageInput
                           name="uAddress"
                           onChange={infoHandler}
                           value={inputAddr}
-                          onClick={() => setAddrUpdate(true)}
+                          onClick={() => setInputUpDate(true)}
                         />
-                        {/* <MyPageInput
+                        <MyPageInput
                           name="uDetail"
                           onChange={infoHandler}
                           placeholder={"상세주소가 없다면 없음이라 작성"}
-                          onClick={() => setAddrUpdate(true)}
-                        /> */}
-                        <input
-                          type="text"
-                          name="uDetail"
-                          onChange={infoHandler}
-                          placeholder={"상세주소가 없다면 없음이라 작성"}
+                          // onClick={() => setInputUpDate(true)}
                         />
                       </>
                     )}

@@ -102,9 +102,10 @@ app.post("/regist", (req, res) => {
 app.post("/api/login", (req, res) => {
   let isUser = false;
   const { userID, userPW } = req.body;
-
-  let sql = "SELECT * from users";
-  db.query(sql, (err, rows) => {
+  console.log(userID);
+  console.log(userPW);
+  let sql = "SELECT * from users where uId = ? AND uPasswd = ?;";
+  db.query(sql, [userID, userPW], (err, rows) => {
     if (err) {
       console.log(err);
     } else {
@@ -210,18 +211,6 @@ app.get("/api/login/success", (req, res) => {
       }
     });
   }
-
-  /*
-  let sql = "SELECT * from users WHERE uId = ?;";
-  db.query(sql, [data.id], (err, result) => {
-    if (err) {
-      throw err;
-    }
-    //비밀번호 빼고 전달
-    const { uPasswd, ...others } = result[0];
-    res.status(200).json(others);
-  });
-  */
 });
 //로그아웃
 
@@ -263,92 +252,6 @@ app.get("/api/login/refresh", (req, res) => {
 });
 */
 
-// -----------------------------주석처리 시작 ------------------------------//
-/*
-app.post("/login", (req, res, next) => {
-  const key = process.env.SECRET_KEY;
-  const uId = "";
-  let token = "";
-  let sql = "SELECT * FROM users WHERE uId = ?;";
-  db.query(sql, [req.body.userID], (err, user) => {
-    if (user[0] === undefined) {
-      res.send({
-        status: 404,
-        message: "아이디를 찾을수 없습니다. 회원가입 페이지로 이동합니다.",
-      });
-    } else {
-      bcrypt.compare(req.body.userPW, user[0].uPasswd, (err, result) => {
-        if (result) {
-          token = jwt.sign(
-            {
-              type: "JWT",
-              uId: user[0].uId,
-            },
-            key,
-            {
-              expiresIn: "15m",
-              issuer: "토큰발급자",
-            }
-          );
-
-          return res.send({
-            status: 200,
-            message: "로그인 성공",
-            token: token,
-          });
-        } else {
-          res.send({
-            status: 400,
-            message: "아이디 또는 비밀번호를 확인해주세요.",
-          });
-        }
-      });
-    }
-  });
-});
-
-const auth = (req, res, next) => {
-  const key = process.env.SECRET_KEY;
-  // 인증 완료
-  try {
-    // 요청 헤더에 저장된 토큰(req.headers.authorization)과 비밀키를 사용하여 토큰을 req.decoded에 반환
-    req.decoded = jwt.verify(req.headers.authorization, key);
-    return next();
-  } catch (error) {
-    // 인증 실패
-    // 유효시간이 초과된 경우
-    if (error.name === "TokenExpiredError") {
-      return res.status(419).json({
-        code: 419,
-        message: "토큰이 만료되었습니다.",
-      });
-    }
-    // 토큰의 비밀키가 일치하지 않는 경우
-    if (error.name === "JsonWebTokenError") {
-      return res.status(401).json({
-        code: 401,
-        message: "유효하지 않은 토큰입니다.",
-      });
-    }
-  }
-};
-
-app.get("/payload", auth, (req, res) => {
-  const nickname = req.decoded.nickname;
-  const profile = req.decoded.profile;
-  return res.status(200).json({
-    code: 200,
-    message: "토큰이 정상입니다.",
-    data: {
-      nickname: nickname,
-      profile: profile,
-    },
-  });
-});
-*/
-
-//----------------------------------끝-------------------------------//
-
 app.get("/mypage", (req, res) => {
   const token = req.cookies.accessToken;
 
@@ -384,6 +287,36 @@ app.get("/api/login/getuser", (req, res) => {
   });
 });
 
+app.post("/updateuser", (req, res) => {
+  const id = req.body.user.uId;
+  const name = req.body.user.uName;
+  const passwd = req.body.user.uPasswd;
+  const email = req.body.user.uEmail;
+  const phone = req.body.user.uPhone;
+  const zipcode = req.body.user.uZipcode;
+  const address = req.body.user.uAddress;
+  const birth = req.body.user.uBirth;
+
+  let sql =
+    "update users set uName=?, uPasswd=?, uEmail=?, uPhone=?, uZipcode=?,uAddress=?,uBirth=? where uId = ?;";
+
+  bcrypt.hash(passwd, saltRounds, (err, hash_passwd) => {
+    db.query(
+      sql,
+      [name, hash_passwd, email, phone, zipcode, address, birth, id],
+      (err) => {
+        if (err) {
+          throw err;
+        }
+        console.log("ok");
+        res.send({
+          status: 200,
+          message: "회원수정 완료",
+        });
+      }
+    );
+  });
+});
 //네이버 api 받아와서 db에 넣은 흔적
 /*
 let data = [];
@@ -438,7 +371,7 @@ app.get("/search/shop", (req, res) => {
 
 
 
-// https://openapi.11st.co.kr/openapi/OpenApiService.tmall?key=0c2e778ddcaff57dd5cdc2a2d1c91894&apiCode=ProductSearch&keyword=&option=Categories
+
 */
 // listen
 app.listen(process.env.PORT, () => {

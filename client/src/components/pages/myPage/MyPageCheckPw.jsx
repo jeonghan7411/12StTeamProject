@@ -40,8 +40,6 @@ const MyPageCheckPw = ({ setUserPw }) => {
     }
   };
 
-  console.log(user);
-
   return (
     <React.Fragment>
       <div className={classes.MyPageCheckPw}>
