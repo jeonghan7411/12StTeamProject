@@ -48,8 +48,6 @@ const MyPagePassPw = () => {
   const [errEmailMsg, setErrEmailMsg] = useState("");
   const [errBirthMsg, setErrBirthMsg] = useState("");
 
-  const nameInput = useRef();
-
   const [user, setUser] = useState({});
   useEffect(() => {
     const fetchData = async () => {
