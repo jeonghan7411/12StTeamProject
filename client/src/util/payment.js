@@ -1,3 +1,12 @@
+// 결제 방법 배열
+export const paymentMethod = [
+  "계좌이체",
+  "신용/체크카드",
+  "법인카드",
+  "휴대폰",
+  "무통장입금",
+];
+
 // 은행 option 배열
 export const bankOption = [
   "국민은행",

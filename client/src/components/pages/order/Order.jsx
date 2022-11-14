@@ -1,18 +1,26 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { deliveryDate } from "../../../util/deliveryDate";
-import Card from "../../UI/Card";
-import Modal from "../../UI/Modal";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import classes from "./Order.module.css";
+import ModalOrderDeliveryMemo from "./orderInfo/ModalOrderDeliveryMemo";
+import OrderConsumer from "./orderInfo/OrderConsumer";
+import OrderDeliveryInfo from "./orderInfo/OrderDeliveryInfo";
+import OrderPaymentInfo from "./orderInfo/OrderPaymentInfo";
+import OrderProduct from "./orderInfo/OrderProduct";
 
 const Order = () => {
   const location = useLocation();
   const [orderData, setOrderData] = useState(location.state.order);
-
   const [deleveryFee, setDeleveryFee] = useState(2500);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  // 사용자 마일리지 입력
+  const [useMileInput, setUseMileInput] = useState({ value: 0, isValid: true });
+
+  console.log(useMileInput);
+
+  // 구매자정보(유저db)
   const [userData, setUserData] = useState({
     uName: "",
     uEmail: "",
@@ -20,58 +28,125 @@ const Order = () => {
     uMile: 0,
   });
 
-  // zipcode랑 이름 디비 수정 물어보기
-  const [delivertData, setDeliveryData] = useState({
-    dName: "청길동",
-    dZipcode: "",
-    dAddr: "",
-    dMemo: "",
+  console.log(orderData);
+
+  // 주문 내역 db에 저장할 정보
+  const [orderInfo, setOrderInfo] = useState({
+    uId: "",
+    // 상품 아이디는 orderData에서 보내기,
+    // 상품구매 수량 orderData에서 보내기
+    oName: "",
+    oPhone: "",
+    oZipcode: "123",
+    oAddr: "123",
+    oAdditionalAddr: "123",
+    oMemo: "",
+
+    oPhone: "",
+    oUseMile: 0,
+
+    oGetMile: 10,
+    isShowDeliveryMemo: false,
+    oMethod: "",
+    oTotalPrice: 0,
   });
 
-  const [useMileInut, setUseMileInput] = useState({
-    useMile: 0,
-    isValid: true,
-  });
+  console.log(orderInfo.oUseMile);
 
-  const [deliveryMemo, setDeliveryMemo] = useState({
-    memo: "",
-    isDirect: false,
-  });
-
-  const [isShowDeliveryMemo, setIsShowDeliveryMemo] = useState(false);
-
-  const navigate = useNavigate();
-
-  const handleStorageMemo = () => {
-    setIsShowDeliveryMemo(false);
-    setDeliveryData((prev) => {
-      return { ...prev, dMemo: deliveryMemo.memo };
+  const handleDeliveryInfoChange = (select) => {
+    setOrderInfo((prev) => {
+      return { ...prev, oMethod: select };
     });
   };
 
-  const handleDeliveryMemo = (value, isDirect) => {
-    setDeliveryMemo({ isDirect, memo: value });
+  // 결제 방법 선택
+  const hadleOrderMethod = (select) => {
+    setOrderInfo((prev) => {
+      return { ...prev, oMethod: select };
+    });
   };
 
-  const handleUseMile = (value) => {
+  // 배송 요청사항 저장 클릭 시
+  const handleStorageMemo = (value) => {
+    // 모달 닫힘
+    setOrderInfo((prev) => {
+      return { ...prev, isShowDeliveryMemo: false };
+    });
+
+    // UI 반영되는 받는 사람 정보 변경
+    setOrderInfo((prev) => {
+      return { ...prev, oMemo: value };
+    });
+  };
+
+  // 주문 내역 정보 - 사용 마일리지 변경
+  const handleUseMile = (value) => {};
+
+  // 마일리지 적용 클릭
+  const handleUseMileClick = (value) => {
+    console.log(value);
+    // 보유 마일리지보다 많게 입력할 경우
     if (+value > userData.uMile) {
-      setUseMileInput({ useMile: 0, isValid: false });
+      setUseMileInput({ value: 0, isValid: false });
       return;
     } else {
-      setUseMileInput({ useMile: value, isValid: true });
+      setUseMileInput({ value, isValid: true });
+      setOrderInfo((prev) => {
+        return { ...prev, oUseMile: value };
+      });
     }
+
+    // 사용한 마일리지, 총 상품가격 수정
+    setOrderInfo((prev) => {
+      return {
+        ...prev,
+        oUseMile: value,
+        oTotalPrice: orderInfo.oTotalPrice - value,
+      };
+    });
+
+    // 유저 정보에 있는 마일리지 감소(UI 용)
+    setUserData((prev) => {
+      return { ...prev, uMile: userData.uMile - value };
+    });
   };
 
-  // 사용자 포일트가져오기
+  // 결제 버튼 클릭
+  const handleOrderSubmit = async () => {
+    await axios.post("http://localhost:5000/orderComplete", {
+      uId: orderInfo.uId,
+      // 상품 아이디는 orderData에서 보내기,
+      pId: orderData[0].productId,
+      // 상품구매 수량 orderData에서 보내기
+      oQuantity: orderData[0].amount,
+      oName: orderInfo.oName,
+      oPhone: orderInfo.oPhone,
+      oZipcode: orderInfo.oZipcode,
+      oAddr: orderInfo.oAddr,
+      oAdditionalAddr: orderInfo.oAdditionalAddr,
+      oMemo: orderInfo.oMemo,
+      oUseMile: orderInfo.oUseMile,
+      oGetMile: 10,
+      oMethod: orderInfo.oMethod,
+      oTotalPrice: orderInfo.oTotalPrice,
+    });
+  };
+
+  const navigate = useNavigate();
+
+  // 구매자 정보 가져오기
   const fetchUserData = async () => {
     await axios
       .post("http://localhost:5000/order/get/userData", {
         uId: "test1",
       })
       .then((response) => {
+        // 상세주소 받아오기
         console.log(response.data.deliveryData[0]);
-        const { uName, uEmail, uPhone, uMile } = response.data.userData[0];
-        const { dAddr, dMemo } = response.data.deliveryData[0];
+        const { uId, uName, uZipcode, uAddress, uEmail, uPhone, uMile } =
+          response.data.userData[0];
+
+        // 구매자 정보 설정
         setUserData({
           uName,
           uEmail,
@@ -79,15 +154,31 @@ const Order = () => {
           uMile: +uMile,
         });
 
-        setDeliveryData((prev) => {
-          return { ...prev, dAddr: dAddr, dMemo: dMemo };
+        // 주문 내역 정보 설정
+        setOrderInfo((prev) => {
+          return {
+            ...prev,
+            uId: uId,
+            oName: uName,
+            oPhone: uPhone,
+            oZipcode: uZipcode,
+            oAddr: uAddress,
+            // oAdditionalAddr: uAdditionalAddr,
+
+            oMemo: "문앞",
+          };
         });
       });
   };
 
   useEffect(() => {
     orderData.map((data) => {
-      return setTotalPrice(totalPrice + data.price * data.amount);
+      return setOrderInfo((prev) => {
+        return {
+          ...prev,
+          oTotalPrice: orderInfo.oTotalPrice + data.price * data.amount,
+        };
+      });
     });
     fetchUserData();
   }, []);
@@ -99,285 +190,48 @@ const Order = () => {
       </div>
 
       {/* 구매자 정보 컴포넌트 */}
-      <div className={classes["order-consumer"]}>
-        <h4>구매자 정보</h4>
+      <OrderConsumer userData={userData} />
 
-        <table className={classes["order-consumer-table"]}>
-          <tbody>
-            <tr>
-              <td className={classes["order-consumer-table__col1"]}>이름</td>
-              <td className={classes["order-consumer-table__col2"]}>
-                {userData.uName}
-              </td>
-            </tr>
-            <tr>
-              <td className={classes["order-consumer-table__col1"]}>이메일</td>
-              <td className={classes["order-consumer-table__col2"]}>
-                {userData.uEmail}
-              </td>
-            </tr>
-            <tr>
-              <td className={classes["order-consumer-table__col1"]}>연락처</td>
-              <td className={classes["order-consumer-table__col2"]}>
-                {userData.uPhone}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      {/* 배송지 정보 컴포넌트 */}
-
-      {/* 배송 요청사항 컴포넌트 */}
-      {isShowDeliveryMemo && (
-        <Modal
-          className={classes.modalDeliveryMemo}
-          onClose={() => setIsShowDeliveryMemo(false)}
-        >
-          <header>배송요청사항</header>
-          <section>
-            <div className={classes["modalDeliveryMemo-select"]}>
-              <input
-                type="radio"
-                onClick={() => handleDeliveryMemo("문앞", false)}
-              />
-              <span>문 앞</span>
-            </div>
-            <div className={classes["modalDeliveryMemo-select"]}>
-              <input
-                type="radio"
-                onClick={() =>
-                  handleDeliveryMemo("직접 받고 부재시 문 앞", false)
-                }
-              />
-              <span>직접 받고 부재시 문 앞</span>
-            </div>
-            <div className={classes["modalDeliveryMemo-select"]}>
-              <input
-                type="radio"
-                onClick={() => handleDeliveryMemo("경비실", false)}
-              />
-              <span>경비실</span>
-            </div>
-
-            <div
-              className={`${classes["modalDeliveryMemo-select"]} ${classes["modalDeliveryMemo-select__last"]}`}
-            >
-              <input
-                type="radio"
-                onClick={() => handleDeliveryMemo("", true)}
-              />
-              <span>직접 입력</span>
-            </div>
-            {deliveryMemo.isDirect && (
-              <div className={classes["modalDeliveryMemo-directMemo"]}>
-                <input
-                  type="text"
-                  onChange={(e) =>
-                    setDeliveryMemo((prev) => {
-                      return { ...prev, memo: e.target.value };
-                    })
-                  }
-                />
-              </div>
-            )}
-          </section>
-
-          <div className={classes["modalDeliveryMemo-control"]}>
-            <button
-              className={classes["modalDeliveryMemo-control__cancle"]}
-              onClick={() => setIsShowDeliveryMemo(false)}
-            >
-              취소
-            </button>
-            <button
-              className={classes["modalDeliveryMemo-control__storage"]}
-              onClick={handleStorageMemo}
-            >
-              저장
-            </button>
-          </div>
-        </Modal>
+      {/* 배송 요청사항 모달 컴포넌트 */}
+      {orderInfo.isShowDeliveryMemo && (
+        <ModalOrderDeliveryMemo
+          onShowDeliveryMemo={setOrderInfo}
+          onStorageMemo={handleStorageMemo}
+          // onDeliveryMemo={handleDeliveryMemo}
+          deliveryMemo={orderInfo.oMemo}
+          onDeliveryInfoChange={handleDeliveryInfoChange}
+        />
       )}
 
-      <div className={classes["order-deliveryInfo"]}>
-        <h4>받는 사람 정보</h4>
-
-        <table className={classes["order-deliveryInfo-table"]}>
-          <tbody>
-            <tr>
-              <td className={classes["order-deliveryInfo-table__col1"]}>
-                이름
-              </td>
-              <td className={classes["order-deliveryInfo-table__col2"]}>
-                {delivertData.dName}
-              </td>
-            </tr>
-            <tr>
-              <td className={classes["order-deliveryInfo-table__col1"]}>
-                배송지 주소
-              </td>
-              <td className={classes["order-deliveryInfo-table__col2"]}>
-                {delivertData.dAddr}
-              </td>
-            </tr>
-            <tr>
-              <td className={classes["order-deliveryInfo-table__col1"]}>
-                연락처
-              </td>
-              <td className={classes["order-deliveryInfo-table__col2"]}>
-                연락처 디비 물어보기
-              </td>
-            </tr>
-            <tr>
-              <td className={classes["order-deliveryInfo-table__col1"]}>
-                배송요청사항
-              </td>
-              <td className={classes["order-deliveryInfo-table__memo"]}>
-                <span>{delivertData.dMemo}</span>
-                <button
-                  className={classes["order-deliveryInfo-table__changeMemo"]}
-                  onClick={() => setIsShowDeliveryMemo(true)}
-                >
-                  변경
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {/* 받는 사람 정보 컴포넌트 */}
+      <OrderDeliveryInfo
+        orderInfo={orderInfo}
+        onShowDeliveryMemo={setOrderInfo}
+      />
 
       {/* 배송 상품 정보 컴포넌트 */}
-      <div className={classes["order-product"]}>
-        <h4>
-          {/* 1을 map 돌릴때 수정 */}
-          배송 {orderData.length}건 중 1
-        </h4>
-        {orderData.map((data, key) => {
-          return (
-            <div className={classes["order-product-info"]} key={key}>
-              <p className={classes["order-product-info__deliveryDate"]}>
-                {deliveryDate}
-              </p>
+      <OrderProduct orderData={orderData} />
 
-              <div className={classes["order-product-info__content"]}>
-                <Card className={classes["order-product-info__content__img"]}>
-                  <img src={data.image} alt={data.title} />
-                </Card>
-
-                <div className={classes["order-product-info-content__info"]}>
-                  <Link to={"/products/" + data.productId}>
-                    <p>상품명 : {data.title}</p>
-                  </Link>
-                  <p>구매수량 : {data.amount}</p>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
       {/* 결제 정보 컴포넌트 */}
-      <div>
-        <div className={classes["order-paymentInfo"]}>
-          <table className={classes["order-paymentInfo-table"]}>
-            <tbody>
-              <tr>
-                <td className={classes["order-paymentInfo-table__col1"]}>
-                  총 상품 가격
-                </td>
-                <td className={classes["order-paymentInfo-table__col2"]}>
-                  {totalPrice}원
-                </td>
-              </tr>
-              <tr>
-                <td className={classes["order-paymentInfo-table__col1"]}>
-                  배송비
-                </td>
-                <td className={classes["order-paymentInfo-table__col2"]}>
-                  {deleveryFee}원
-                </td>
-              </tr>
-              <tr>
-                <td className={classes["order-paymentInfo-table__col1"]}>
-                  마일리지 사용
-                </td>
-                <td className={classes["order-paymentInfo-table__mile"]}>
-                  <div className={classes["order-paymentInfo-table__useMile"]}>
-                    <input
-                      type="number"
-                      value={useMileInut.useMile}
-                      onChange={(e) => handleUseMile(e.target.value)}
-                    />
-                    <span>원</span>
-                    <span
-                      className={classes["order-paymentInfo-table__totalMile"]}
-                    >
-                      보유 마일리지 : <span>{userData.uMile}</span>원
-                    </span>
-                    {!useMileInut.isValid && (
-                      <span
-                        className={
-                          classes["order-paymentInfo-table__useMileError"]
-                        }
-                      >
-                        보유하신 마일리지보다 사용량이 많습니다.
-                      </span>
-                    )}
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td className={classes["order-paymentInfo-table__col1"]}>
-                  총 결제금액
-                </td>
-                <td className={classes["order-paymentInfo-table__col2"]}>
-                  {totalPrice + deleveryFee}원
-                </td>
-              </tr>
-
-              <tr>
-                <td className={classes["order-paymentInfo-table__col1"]}>
-                  결제 방법
-                </td>
-                <td className={classes["order-paymentInfo-table__payment"]}>
-                  <div
-                    className={
-                      classes["order-paymentInfo-table__payment__select"]
-                    }
-                  >
-                    <input type="radio" onClick={() => navigate("account")} />
-                    <span>계좌이체</span>
-
-                    <input type="radio" onClick={() => navigate("card")} />
-                    <span>신용/체크카드</span>
-
-                    <input
-                      type="radio"
-                      onClick={() => navigate("coperateCard")}
-                    />
-                    <span>법인카드</span>
-
-                    <input type="radio" onClick={() => navigate("phone")} />
-                    <span>휴대폰</span>
-
-                    <input
-                      type="radio"
-                      onClick={() => navigate("noneAccount")}
-                    />
-                    <span>무통장입금(가상계좌)</span>
-                  </div>
-
-                  <Outlet />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <OrderPaymentInfo
+        totalPrice={orderInfo.oTotalPrice}
+        deleveryFee={deleveryFee}
+        userData={userData}
+        orderInfo={orderInfo}
+        useMileInput={useMileInput}
+        onMileInput={setUseMileInput}
+        onUseMile={handleUseMileClick}
+        onOrderMethod={hadleOrderMethod}
+      />
 
       <div className={classes["order-control"]}>
         <button className={classes["order-control-cancle"]}>취소</button>
-        <button className={classes["order-control-buy"]}>결제</button>
+        <button
+          className={classes["order-control-buy"]}
+          onClick={handleOrderSubmit}
+        >
+          결제
+        </button>
       </div>
     </div>
   );

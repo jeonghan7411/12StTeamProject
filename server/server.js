@@ -28,10 +28,59 @@ app.use(
 //나중에 멀터 업로드 처리
 
 // url
+app.post("/orderComplete", (req, res) => {
+  console.log(req.body);
+  const {
+    uId,
+    pId,
+    oQuantity,
+    oName,
+    oPhone,
+    oZipcode,
+    oAddr,
+    oAdditionalAddr,
+    oMemo,
+    oUseMile,
+    oGetMile,
+    oMethod,
+    oTotalPrice,
+  } = req.body;
+
+  let sql1 =
+    "INSERT INTO orderTable VALUES( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW());";
+
+  let sql2 = "UPDATE users SET uMile = uMile-?+? WHERE uid = ?;";
+  db.query(
+    sql1 + sql2,
+    [
+      uId,
+      pId,
+      oQuantity,
+      oName,
+      oPhone,
+      oZipcode,
+      oAddr,
+      oAdditionalAddr,
+      oMemo,
+      oUseMile,
+      oGetMile,
+      oMethod,
+      oTotalPrice,
+      oUseMile,
+      oGetMile,
+      uId,
+    ],
+    (err) => {
+      if (err) throw err;
+    }
+  );
+});
+
 app.post("/order/get/userData", (req, res) => {
   const uId = req.body.uId;
 
-  let sql1 = "SELECT uName, uEmail, uPhone, uMile FROM users WHERE uId = ?;";
+  let sql1 =
+    "SELECT uId, uName, uEmail, uZipcode, uAddress,  uPhone, uMile, uEmail FROM users WHERE uId = ?;";
 
   let sql2 = "SELECT * FROM deliveryaddr WHERE uId = ?;";
 

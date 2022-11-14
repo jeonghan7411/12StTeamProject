@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { bankOption } from "../../../../util/payment";
 
 import Card from "../../../UI/Card";
@@ -9,9 +10,11 @@ const OrderAccount = () => {
   return (
     <Card className={classes.orderAccount}>
       <span>은행선택</span>
-      <select name="" id="">
-        {bankOption.map((it) => (
-          <option value={it}>{it}</option>
+      <select>
+        {bankOption.map((it, idx) => (
+          <option key={idx} value={it}>
+            {it}
+          </option>
         ))}
       </select>
     </Card>
