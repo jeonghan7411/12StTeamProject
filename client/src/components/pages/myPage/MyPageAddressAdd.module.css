@@ -1,15 +1,20 @@
 .MyPageAddressAdd {
-  width: 1000px;
-  height: 250px;
+  width: 800px;
+
   border: 1px solid var(--gray-color);
   border-radius: 10px;
-  margin-top: 20px;
-  padding: 25px;
+
   align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 auto;
+  margin-top: 20px;
+  padding: 20px;
 }
 
 .addressadd-wrap-item {
-  width: 900px;
+  width: 500px;
   display: flex;
   margin-bottom: 20px;
   align-items: center;

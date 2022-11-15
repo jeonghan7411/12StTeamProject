@@ -25,7 +25,7 @@ import Order from "./components/pages/order/Order";
 import OrderComplete from "./components/pages/order/OrderComplete";
 import CrlWrite from "./components/pages/myPage/CrlWrite";
 import Product from "./components/pages/productDetail/Product";
-import LogOut from "./components/pages/login/logOut";
+import LogOut from "./components/pages/login/LogOut";
 import OrderDetail from "./components/pages/myPage/OrderDetail";
 import OrderAccount from "./components/pages/order/orderMethod/OrderAccount";
 import OrderCard from "./components/pages/order/orderMethod/OrderCard";
@@ -65,7 +65,7 @@ function App() {
               path="/login"
               element={<Login setUserToken={setUserToken} />}
             />
-            <Route path="/logout" element={<LogOut />} />
+
             <Route path="/regist" element={<Regist />} />
             <Route path="/updateuser" element={<MyPageUpdateUser />} />
             <Route path="/mypage" element={<MyPage />}>
