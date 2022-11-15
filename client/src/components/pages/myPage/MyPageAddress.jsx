@@ -12,17 +12,18 @@ import { getUser } from "../../../util/getUser";
 
 const MyPageAddress = () => {
   const [user, setUser] = useState({}); //유저 정보 받아오는 곳
-
+  const [uMemo, setUmemo] = useState("");
   const [addUser, setAddUser] = useState([]); // 추가 된 주소 저장
 
-  const [addState, setAddState] = useState({
-    name: "",
-    phone: "",
-    zipcode: "",
-    uAddress: "",
-    detail: "",
-    plz: "",
-  }); //주소 추가 값 받아오기
+  // const [addState, setAddState] = useState({
+  //   name: "",
+  //   phone: "",
+  //   zipcode: "",
+  //   uAddress: "",
+  //   detail: "",
+  //   plz: "",
+  // });
+  //주소 추가 값 받아오기
 
   const [addAddress, setAddAddress] = useState(false);
 
@@ -44,19 +45,22 @@ const MyPageAddress = () => {
     fetchData();
   }, []);
 
-  const addAddressItem = async (e) => {
-    e.preventDefault();
-    if (addState.name === "") {
-      console.log("ok");
-    }
-    // setAddUser([...addUser, addState]);
-    addDeliver();
-  };
   const addDeliver = async () => {
-    await axios.post("http://localhost:5000/adddeliver", { user, addState });
+    await axios
+      .post("http://localhost:5000/adddeliver", { user, uMemo })
+      .then((response) => {
+        if (response.data.status === 200) {
+          alert(response.data.message);
+        }
+      });
     setAddAddress(!addAddress);
   };
 
+  const addAddressItem = async (e) => {
+    e.preventDefault();
+
+    addDeliver();
+  };
   return (
     <React.Fragment>
       <div className={classes.MyPageAddress}>
@@ -81,8 +85,8 @@ const MyPageAddress = () => {
             ) : (
               <MyPageAddressAdd
                 user={user}
-                addState={addState}
-                setAddState={setAddState}
+                setUser={setUser}
+                setUmemo={setUmemo}
               />
             )}
           </div>

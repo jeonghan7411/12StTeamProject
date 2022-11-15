@@ -418,13 +418,41 @@ app.post("/deleteuser", (req, res) => {
 });
 
 app.post("/adddeliver", (req, res) => {
-  const DBIdx = req.body.user.uidx;
-  const inputName = req.body.addState.uName;
-  const DBPhone = req.body.user.uPhone;
-  const inputAddress = req.body.addState.address;
-  const inputTel = req.body.addState.tel;
-  const inputPlz = req.body.addState.plz;
-  console.log(req.body.addState);
+  const DBId = req.body.user.uId;
+  const inputName = req.body.user.uName;
+  const inputZipcode = req.body.user.uZipcode;
+  const inputAddress = req.body.user.uAddress;
+  const inputDetail = req.body.user.uAdditionalAddr;
+  const inputPhone = req.body.user.uPhone;
+  const inputMemo = req.body.uMemo;
+  console.log(DBId);
+
+  let sql = "INSERT INTO deliveryaddr VALUES(NULL,?,?,?,?,?,?,?);";
+  db.query(
+    sql,
+    [
+      DBId,
+      inputName,
+      inputZipcode,
+      inputAddress,
+      inputDetail,
+      inputPhone,
+      inputMemo,
+    ],
+    (err) => {
+      if (err) {
+        throw err;
+      }
+      res.send({
+        status: 200,
+        message: "신규 주소 등록완료",
+      });
+    }
+  );
+});
+
+app.get("/addlist", (req, res) => {
+  console.log(req.body);
 });
 //네이버 api 받아와서 db에 넣은 흔적
 /*
