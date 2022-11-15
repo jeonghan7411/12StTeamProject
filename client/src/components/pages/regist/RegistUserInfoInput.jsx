@@ -188,7 +188,8 @@ const RegistUserInfoInput = () => {
         uEamil: `${enteredEmail}@${enteredAdditionalEmail}`,
         uPhone: enteredPhone,
         uZipcode: enteredZipcode,
-        uAddress: `${enteredAddress} ${enteredAdditionalAddress}`,
+        uAddress: enteredAddress,
+        uAdditionalAddr: enteredAdditionalAddress,
         uBirth: enteredBirth,
       })
       .then((response) => {
@@ -202,6 +203,7 @@ const RegistUserInfoInput = () => {
           window.alert("관리자에게 문의 부탁드립니다.");
         }
       });
+    navigate("/");
   };
 
   const handleAdditionalEmail = (selected) => {
@@ -521,7 +523,7 @@ const RegistUserInfoInput = () => {
       <div className={classes["regist-control"]}>
         <button
           className={classes["regist-control-cencel"]}
-          onClick={() => navigate("/")}
+          onClick={() => navigate(-1)}
         >
           취소
         </button>

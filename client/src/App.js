@@ -88,9 +88,8 @@ function App() {
             <Route path="/cart" element={<ProductCart />} />
 
             {/* 결제 */}
-            <Route path="/order/*" element={<Order />} />
-
-            <Route path="/ordercomplete" element={<OrderComplete />} />
+            <Route path="/order" element={<Order />} />
+            <Route path="/orderComplete" element={<OrderComplete />} />
           </Routes>
         </main>
 

@@ -10,6 +10,7 @@ import classes from "./OrderPaymentInfo.module.css";
 
 const OrderPaymentInfo = ({
   totalPrice,
+  oTotalPrice,
   deleveryFee,
   userData,
   orderInfo,
@@ -77,7 +78,7 @@ const OrderPaymentInfo = ({
               총 결제금액
             </td>
             <td className={classes["orderPaymentInfo-table__col2"]}>
-              {totalPrice + deleveryFee}원
+              {orderInfo.oTotalPrice}원
             </td>
           </tr>
 

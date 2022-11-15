@@ -28,7 +28,7 @@ app.use(
 //나중에 멀터 업로드 처리
 
 // url
-app.post("/orderComplete", (req, res) => {
+app.post("/order/Complete", (req, res) => {
   console.log(req.body);
   const {
     uId,
@@ -80,7 +80,7 @@ app.post("/order/get/userData", (req, res) => {
   const uId = req.body.uId;
 
   let sql1 =
-    "SELECT uId, uName, uEmail, uZipcode, uAddress,  uPhone, uMile, uEmail FROM users WHERE uId = ?;";
+    "SELECT uId, uName, uEmail, uZipcode, uAddress, uAdditionalAddr, uPhone, uMile, uEmail FROM users WHERE uId = ?;";
 
   let sql2 = "SELECT * FROM deliveryaddr WHERE uId = ?;";
 
@@ -131,14 +131,33 @@ app.post("/duplication", (req, res) => {
 });
 
 app.post("/regist", (req, res) => {
-  const { uId, uName, uPasswd, uEamil, uPhone, uZipcode, uAddress, uBirth } =
-    req.body;
+  const {
+    uId,
+    uName,
+    uPasswd,
+    uEamil,
+    uPhone,
+    uZipcode,
+    uAddress,
+    uAdditionalAddr,
+    uBirth,
+  } = req.body;
   let sql =
-    "INSERT INTO users VALUES(NULL, ?, ?, ?, ?, ?, ?, ? , 1000, ?, 1, NOW());";
+    "INSERT INTO users VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ? , 1000, ?, 1, NOW());";
   bcrypt.hash(uPasswd, saltRounds, (err, hash_passwd) => {
     db.query(
       sql,
-      [uId, uName, hash_passwd, uEamil, uPhone, uZipcode, uAddress, uBirth],
+      [
+        uId,
+        uName,
+        hash_passwd,
+        uEamil,
+        uPhone,
+        uZipcode,
+        uAddress,
+        uAdditionalAddr,
+        uBirth,
+      ],
       (err) => {
         if (err) throw err;
         res.send({ status: 200 });
