@@ -1,0 +1,107 @@
+/* 배송정보 변경 모달 컴포넌트 */
+.modalOrderDeliveryInfoChange {
+  border-color: var(--navy-color);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalOrderDeliveryInfoChange header {
+  width: 100%;
+  height: 50px;
+  background-color: var(--navy-color);
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 18px;
+
+  margin-bottom: 50px;
+}
+
+.modalOrderDeliveryInfoChange-inputWrap {
+  width: 90%;
+}
+
+.modalOrderDeliveryInfoChange-inputWrap input::placeholder {
+  color: #ccc;
+}
+
+.modalOrderDeliveryInfoChange-input {
+  width: 100%;
+
+  border: 1px solid #ccc;
+
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.modalOrderDeliveryInfoChange-iconWrap {
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-right: 1px solid #ccc;
+}
+
+.modalOrderDeliveryInfoChange-icon {
+  color: #ccc;
+  font-size: 22px;
+}
+
+.modalOrderDeliveryInfoChange-input__input {
+  flex: 1;
+}
+
+.modalOrderDeliveryInfoChange-input__input input,
+.modalOrderDeliveryInfoChange-input__readOnly input {
+  font-weight: bold;
+  width: 100%;
+  padding: 10px 20px;
+  border: 0;
+}
+
+.modalOrderDeliveryInfoChange-enteredAddrWrap {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.modalOrderDeliveryInfoChange-input__readOnly {
+  border-bottom: 1px solid #ccc;
+  display: flex;
+}
+
+.modalOrderDeliveryInfoChange-enteredAddr-btn__search {
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--red-color);
+  cursor: pointer;
+}
+
+.modalOrderDeliveryInfoChange-control {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.modalOrderDeliveryInfoChange-control button {
+  padding: 16px 32px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.modalOrderDeliveryInfoChange-control__cancle {
+  background-color: #e4e4e4;
+  margin-right: 30px;
+}
+
+.modalOrderDeliveryInfoChange-control__storage {
+  background-color: var(--navy-color);
+  color: white;
+}
