@@ -416,6 +416,16 @@ app.post("/deleteuser", (req, res) => {
     });
   });
 });
+
+app.post("/adddeliver", (req, res) => {
+  const DBIdx = req.body.user.uidx;
+  const inputName = req.body.addState.uName;
+  const DBPhone = req.body.user.uPhone;
+  const inputAddress = req.body.addState.address;
+  const inputTel = req.body.addState.tel;
+  const inputPlz = req.body.addState.plz;
+  console.log(req.body.addState);
+});
 //네이버 api 받아와서 db에 넣은 흔적
 /*
 let data = [];
