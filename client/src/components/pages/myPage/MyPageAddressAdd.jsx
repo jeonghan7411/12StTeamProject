@@ -4,19 +4,16 @@ import { useState } from "react";
 import AddressModal from "../../layout/AddressModal";
 
 import classes from "./MyPageAddressAdd.module.css";
-const MyPageAddressAdd = ({ user, addState, setAddState }) => {
-  const [dataId, setDataId] = useState(user.uId);
-  const [dataPhone, setDataPhone] = useState(user.uPhone);
-  const [dataZipCode, setDataZipCode] = useState(user.uZipcode);
-  const [dataAddress, setDataAddress] = useState(user.uAddress);
-  const [dataDetail, setDataDetail] = useState(user.uAdditionalAddr);
-
+const MyPageAddressAdd = ({ user, setUser, setUmemo }) => {
   const [showAddr, setShowAddr] = useState(false);
 
   const [inputZipCode, setInputZipCode] = useState("");
   const [inputAddr, setInputAddr] = useState("");
 
   const [newAddr, setNewAddr] = useState(false);
+  const [newName, setNewName] = useState(false);
+  const [newPhone, setNewPhone] = useState(false);
+  const [newMemo, setNewMemo] = useState(false);
 
   const [errNameMsg, setErrNameMsg] = useState("");
   const [errPhoneMsg, setErrPhoneMsg] = useState("");
@@ -26,7 +23,6 @@ const MyPageAddressAdd = ({ user, addState, setAddState }) => {
     setNewAddr(true);
   };
 
-  const nameRef = useRef();
   const addressInfoHandler = (e) => {
     const nullMsg = "공백값은 입력할수 없습니다. ";
     const getName = e.target.name;
@@ -38,12 +34,11 @@ const MyPageAddressAdd = ({ user, addState, setAddState }) => {
     const numCheck = /[0-9]/g;
     const telPhoneCheck = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
     switch (getName) {
-      case "name":
+      case "uName":
         if (nullCheck.exec(getItem)) {
-          nameRef.current.value = "";
           setErrNameMsg(nullMsg);
-          setAddState({
-            ...addState,
+          setUser({
+            ...user,
             [getName]: "",
           });
           return;
@@ -58,19 +53,19 @@ const MyPageAddressAdd = ({ user, addState, setAddState }) => {
           return;
         } else {
           setErrNameMsg("");
-          setAddState({
-            ...addState,
+          setUser({
+            ...user,
             [getName]: getItem,
           });
         }
 
         break;
 
-      case "detail":
+      case "uAdditionalAddr":
         if (nullCheck.exec(getItem) || getItem === "") {
           setErrAddrMsg(nullMsg);
-          setAddState({
-            ...addState,
+          setUser({
+            ...user,
             [getName]: "",
           });
         } else if (spcCheck.exec(getItem)) {
@@ -78,21 +73,21 @@ const MyPageAddressAdd = ({ user, addState, setAddState }) => {
           return;
         } else {
           setErrAddrMsg("");
-          setAddState({
-            ...addState,
-            zipcode: inputZipCode,
+          setUser({
+            ...user,
+            uZipcode: inputZipCode,
             uAddress: inputAddr,
             [getName]: getItem,
           });
         }
         break;
 
-      case "phone":
+      case "uPhone":
         if (nullCheck.exec(getItem) || getItem === "") {
           // phoneErrInput.current.value = "";
           setErrPhoneMsg(nullMsg);
-          setAddState({
-            ...addState,
+          setUser({
+            ...user,
             [getName]: "",
           });
           return;
@@ -112,30 +107,25 @@ const MyPageAddressAdd = ({ user, addState, setAddState }) => {
           return;
         } else {
           setErrPhoneMsg("");
-          setAddState({
-            ...addState,
+          setUser({
+            ...user,
             [getName]: getItem,
           });
         }
         break;
 
-      case "plz":
-        setAddState({
-          ...addState,
-          [getName]: getItem,
-        });
-
       default:
         break;
     }
-    // setAddState({
-    //   ...addState,
+    // setUser({
+    //   ...user,
     //   zipcode: inputZipCode,
     //   address: inputAddr,
     //   [e.target.name]: e.target.value,
     // });
   };
 
+  console.log(user);
   return (
     <React.Fragment>
       <div className={classes.MyPageAddressAdd}>
@@ -144,13 +134,19 @@ const MyPageAddressAdd = ({ user, addState, setAddState }) => {
             <h2> 이름</h2>
           </div>
           <div>
-            <input
-              type="text"
-              name="name"
-              onChange={addressInfoHandler}
-              ref={nameRef}
-            />
-            <input type="hidden" value={user.uidx} />
+            {!newName ? (
+              <input
+                type="text"
+                name="uName"
+                onChange={addressInfoHandler}
+                value={user.uName}
+                onClick={() => setNewName(true)}
+              />
+            ) : (
+              <input name="uName" onChange={addressInfoHandler} />
+            )}
+
+            <input type="hidden" value={user.idx} />
           </div>
           <small>{errNameMsg}</small>
         </div>
@@ -161,12 +157,21 @@ const MyPageAddressAdd = ({ user, addState, setAddState }) => {
           </div>
           <div>
             <div>
-              <input
-                type="text"
-                name="zipcode"
-                onChange={addressInfoHandler}
-                value={inputZipCode}
-              />
+              {!newAddr ? (
+                <input
+                  type="text"
+                  name="uZipcode"
+                  value={user.uZipcode}
+                  onClick={() => setNewAddr(true)}
+                />
+              ) : (
+                <input
+                  type="text"
+                  name="uZipcode"
+                  onChange={addressInfoHandler}
+                  value={inputZipCode}
+                />
+              )}
 
               <button type="button" onClick={() => setShowAddr(true)}>
                 주소찾기
@@ -180,15 +185,37 @@ const MyPageAddressAdd = ({ user, addState, setAddState }) => {
               )}
             </div>
             <div>
-              <input
-                type="text"
-                name="address"
-                value={inputAddr}
-                onChange={addressInfoHandler}
-              />
+              {!newAddr ? (
+                <input
+                  type="text"
+                  name="uAddress"
+                  value={user.uAddress}
+                  onClick={() => setNewAddr(true)}
+                />
+              ) : (
+                <input
+                  type="text"
+                  name="uAddress"
+                  value={inputAddr}
+                  onChange={addressInfoHandler}
+                />
+              )}
             </div>
             <div>
-              <input type="text" name="detail" onChange={addressInfoHandler} />
+              {!newAddr ? (
+                <input
+                  type="text"
+                  name="uAdditionalAddr"
+                  value={user.uAdditionalAddr}
+                />
+              ) : (
+                <input
+                  type="text"
+                  name="uAdditionalAddr"
+                  onChange={addressInfoHandler}
+                  placeholder={"상세주소가 없을시 없음이라 작성"}
+                />
+              )}
             </div>
             <small>{errAddrMsg}</small>
           </div>
@@ -199,7 +226,16 @@ const MyPageAddressAdd = ({ user, addState, setAddState }) => {
             <h2> 전화번호</h2>
           </div>
           <div>
-            <input type="text" name="phone" onChange={addressInfoHandler} />
+            {!newPhone ? (
+              <input
+                type="text"
+                name="uPhone"
+                value={user.uPhone}
+                onClick={() => setNewPhone(true)}
+              />
+            ) : (
+              <input type="text" name="uPhone" onChange={addressInfoHandler} />
+            )}
           </div>
           <small>{errPhoneMsg}</small>
         </div>
@@ -209,7 +245,7 @@ const MyPageAddressAdd = ({ user, addState, setAddState }) => {
             <h2> 요청사항</h2>
           </div>
           <div>
-            <input name="plz" onClick={addressInfoHandler} />
+            <input name="dMemo" onChange={(e) => setUmemo(e.target.value)} />
           </div>
         </div>
       </div>
