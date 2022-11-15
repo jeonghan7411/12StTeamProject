@@ -11,31 +11,42 @@ const MyPageUserDelete = () => {
 
   const navigate = useNavigate();
 
-  const deleteUser = (e) => {
+  const [user, setUser] = useState({});
+
+  const deleteUser = async (e) => {
     e.preventDefault();
+
     if (window.confirm("정말 탈퇴하시겠습니까?")) {
-      navigate("/", { replace: true });
+      await axios
+        .post("http://localhost:5000/deleteuser", { user })
+        .then((response) => {
+          if (response.data.status === 200) {
+            alert(response.data.message);
+            navigate("/", { replace: true });
+          } else {
+            navigate(-1, { replace: true });
+          }
+        });
     }
   };
 
-  // const [user, setUser] = useState({});
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await axios
-  //       .get("http://localhost:5000/mypage", { withCredentials: true })
-  //       .then((response) => {
-  //         if (response.data.status === 401) {
-  //           alert(response.data.message);
-  //           navigate("/login", { replace: true });
-  //         } else if (response.data.status === 200) {
-  //           getUser(setUser);
-  //         }
-  //       });
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .get("http://localhost:5000/mypage", { withCredentials: true })
+        .then((response) => {
+          if (response.data.status === 401) {
+            alert(response.data.message);
+            navigate("/login", { replace: true });
+          } else if (response.data.status === 200) {
+            getUser(setUser);
+          }
+        });
+    };
 
-  //   fetchData();
-  // }, []);
-  // console.log(user);
+    fetchData();
+  }, []);
+  console.log(user);
 
   return (
     <React.Fragment>
@@ -56,7 +67,7 @@ const MyPageUserDelete = () => {
                   <button type="submit">확인</button>
                   <button
                     type="button"
-                    onClick={() => navigate(-1, { replace: true })}
+                    onClick={() => navigate("/mypage", { replace: true })}
                   >
                     취소
                   </button>

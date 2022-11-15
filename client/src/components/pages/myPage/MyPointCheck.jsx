@@ -68,6 +68,7 @@ const MyPointCheck = () => {
     console.log(startDate);
     console.log(endDate);
   };
+
   return (
     <React.Fragment>
       <div className={classes.MyPointCheck}>
@@ -77,7 +78,7 @@ const MyPointCheck = () => {
           <div className={classes["check-content-item"]}>
             <div>나의 포인트</div>
             <div>
-              <span>{user.uMile.toLocaleString("ko-KR")}</span>원
+              <span>{parseInt(user.uMile).toLocaleString("ko-kr")}</span>원
             </div>
           </div>
           <div className={classes["check-content-item"]}>
@@ -87,6 +88,7 @@ const MyPointCheck = () => {
             </div>
           </div>
         </div>
+
         <div className={classes["point-check-date"]}>
           <MyPageListTitle text={"적립 및 사용내역 보기"} />
           <form onSubmit={searchDate}>
@@ -115,7 +117,6 @@ const MyPointCheck = () => {
             </div>
           </form>
         </div>
-
         {pointList.length === 0 && (
           <MyPageNullMsg
             className={classes["pointcheck-content-null"]}

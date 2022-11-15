@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import classes from "./MyPageCheckPw.module.css";
@@ -10,6 +10,7 @@ const MyPageCheckPw = ({ setUserPw }) => {
   const [checkInputPw, setCheckInputPw] = useState();
 
   const [user, setUser] = useState({});
+  const pwInput = useRef();
 
   const navigate = useNavigate();
 
@@ -29,15 +30,24 @@ const MyPageCheckPw = ({ setUserPw }) => {
     fetchData();
   }, []);
 
-  const checkPw = (e) => {
+  const checkPw = async (e) => {
     e.preventDefault();
 
-    if (checkInputPw != user.uPasswd) {
-      alert("비밀번호가 일치하지 않습니다.");
-    } else {
-      setUserPw(true);
-      alert("본인확인이 완료 되었습니다.");
-    }
+    await axios
+      .post("http://localhost:5000/checkingpw", { user, checkInputPw })
+      .then((response) => {
+        const msg = response.data.message;
+        if (response.data.status === 200) {
+          alert(msg);
+          setUserPw(true);
+        } else if (response.data.status === 400) {
+          alert(msg);
+          pwInput.current.focus();
+        } else if (response.data.status === 401) {
+          alert(msg);
+          pwInput.current.focus();
+        }
+      });
   };
 
   return (
@@ -65,6 +75,7 @@ const MyPageCheckPw = ({ setUserPw }) => {
               <div className={classes["checkpw-title"]}>비밀번호</div>
               <div className={classes["checkpw-input"]}>
                 <input
+                  ref={pwInput}
                   type="password"
                   onChange={(e) => setCheckInputPw(e.target.value)}
                 />
@@ -76,7 +87,7 @@ const MyPageCheckPw = ({ setUserPw }) => {
             <button type="submit">확인</button>
             <button
               type="button"
-              onClick={() => navigate("/", { replace: true })}
+              onClick={() => navigate(-1, { replace: true })}
             >
               취소
             </button>

@@ -345,14 +345,15 @@ app.post("/updateuser", (req, res) => {
   const zipcode = req.body.user.uZipcode;
   const address = req.body.user.uAddress;
   const birth = req.body.user.uBirth;
+  const detail = req.body.user.uDetail;
 
   let sql =
-    "update users set uName=?, uPasswd=?, uEmail=?, uPhone=?, uZipcode=?,uAddress=?,uBirth=? where uId = ?;";
+    "update users set uName=?, uPasswd=?, uEmail=?, uPhone=?, uZipcode=?,uAddress=?,uBirth=?,uAdditionalAddr =? where uId = ?;";
 
   bcrypt.hash(passwd, saltRounds, (err, hash_passwd) => {
     db.query(
       sql,
-      [name, hash_passwd, email, phone, zipcode, address, birth, id],
+      [name, hash_passwd, email, phone, zipcode, address, birth, detail, id],
       (err) => {
         if (err) {
           throw err;
@@ -364,6 +365,55 @@ app.post("/updateuser", (req, res) => {
         });
       }
     );
+  });
+});
+
+app.post("/checkingpw", (req, res) => {
+  const inputPw = req.body.checkInputPw;
+  const dataPw = req.body.user.uPasswd;
+
+  let sql = "SELECT * FROM users WHERE uId = ?";
+
+  db.query(sql, [req.body.user.uId], (err, user) => {
+    if (user[0] === undefined) {
+      console.log("No UserData");
+      res.send({
+        status: 404,
+        message: "해당 아이디 정보가 없습니다.",
+      });
+    } else {
+      bcrypt.compare(inputPw, dataPw, (err, result) => {
+        if (result) {
+          console.log("사용자 인증");
+          res.send({
+            status: 200,
+            message: "회원정보 인증 성공!",
+            searchPw: dataPw,
+          });
+        } else {
+          console.log("사용자 인증 실패");
+          res.send({
+            status: 400,
+            message: "비밀번호를 확인해주세요.",
+          });
+        }
+      });
+    }
+  });
+});
+
+app.post("/deleteuser", (req, res) => {
+  const id = req.body.user.uId;
+  let sql = "UPDATE users SET uAuth = ? WHERE uId = ?;";
+  db.query(sql, [0, id], (err) => {
+    if (err) {
+      throw err;
+    }
+    console.log("회원 비활성화");
+    res.send({
+      status: 200,
+      message: "탈퇴가 정상적으로 완료 되었습니다.",
+    });
   });
 });
 //네이버 api 받아와서 db에 넣은 흔적
