@@ -11,17 +11,19 @@ const MyPageAddressItem = ({ addUser, getNum, setUpdateSate }) => {
 
   const [updateItem, setUpdateItem] = useState(false);
 
-  const deleteAddr = async () => [
-    await axios
-      .post("http://localhost:5000/addrdelete", { addUser })
-      .then((response) => {
-        if (response.data.status === 200) {
-          alert(response.data.message);
-          window.location.href = "http://localhost:3000/mypage/mypageaddress";
-          // setReset(!reset);
-        }
-      }),
-  ];
+  const deleteAddr = async () => {
+    if (window.confirm("삭제 하시겠습니까?")) {
+      await axios
+        .post("http://localhost:5000/addrdelete", { addUser })
+        .then((response) => {
+          if (response.data.status === 200) {
+            alert(response.data.message);
+            window.location.href = "http://localhost:3000/mypage/mypageaddress";
+            // setReset(!reset);
+          }
+        });
+    }
+  };
 
   return (
     <React.Fragment>
@@ -60,7 +62,7 @@ const MyPageAddressItem = ({ addUser, getNum, setUpdateSate }) => {
           <button type="button" onClick={getNum} name={addUser.idx}>
             수정
           </button>
-          <button type="button" onClick={() => setUpdateSate(true)}>
+          <button type="button" onClick={deleteAddr}>
             삭제
           </button>
         </div>

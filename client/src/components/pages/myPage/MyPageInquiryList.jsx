@@ -1,37 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MyPageListTitle from "./MyPageListTitle";
 import MyPageListForm from "./MyPageListForm";
 
 import classes from "./MyPageInquiryList.module.css";
 import MyPageNullMsg from "./MyPageNullMsg";
+import { authCheck } from "../../../util/authCheck";
+import { getUser } from "../../../util/getUser";
+import axios from "axios";
 
 const MyPageInquiryList = () => {
-  const [inquiry, setInquiry] = useState([
-    // {
-    //   idx: 1,
-    //   id: "홍길동",
-    //   content: "+ 1000",
-    //   regdate: `${new Date().getFullYear()}년 ${
-    //     new Date().getMonth() + 1
-    //   }월 ${new Date().getDate()}일`,
-    // },
-    // {
-    //   idx: 1,
-    //   id: "홍길동",
-    //   content: "+ 1000",
-    //   regdate: `${new Date().getFullYear()}년 ${
-    //     new Date().getMonth() + 1
-    //   }월 ${new Date().getDate()}일`,
-    // },
-    // {
-    //   idx: 1,
-    //   id: "홍길동",
-    //   content: "+ 1000",
-    //   regdate: `${new Date().getFullYear()}년 ${
-    //     new Date().getMonth() + 1
-    //   }월 ${new Date().getDate()}일`,
-    // },
-  ]);
+  const [inquiry, setInquiry] = useState([]);
+  const [user, setUser] = useState({});
+
+  const inquiryList = true;
+  useEffect(() => {
+    authCheck();
+    getUser(setUser);
+
+    const fetchData = async () => {
+      await axios
+        .get("http://localhost:5000/inquirylist", {
+          withCredentials: true,
+        })
+        .then((response) => {
+          if (response.data.status === 200) {
+            setInquiry(response.data.data);
+          }
+        });
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <React.Fragment>
@@ -45,7 +44,13 @@ const MyPageInquiryList = () => {
             />
           )}
           {inquiry.map((item) => {
-            return <MyPageListForm props={item} title={"제목"} />;
+            return (
+              <MyPageListForm
+                props={item}
+                title={"제목"}
+                inquiryList={inquiryList}
+              />
+            );
           })}
         </div>
       </div>

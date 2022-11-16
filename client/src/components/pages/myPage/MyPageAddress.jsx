@@ -38,9 +38,9 @@ const MyPageAddress = () => {
     //             .get("http://localhost:5000/addlist", {
     //               withCredentials: true,
     //             })
-    //             .then((listres) => {
-    //               if (listres.data.status === 200) {
-    //                 setAddUser(listres.data.user);
+    //             .then((listRes) => {
+    //               if (listRes.data.status === 200) {
+    //                 setAddUser(listRes.data.user);
 
     //                 // navigate("/mypage/mypageaddress", { replace: true });
     //               }
@@ -64,9 +64,9 @@ const MyPageAddress = () => {
             withCredentials: true,
           }
         )
-        .then((listres) => {
-          if (listres.data.status === 200) {
-            setAddUser(listres.data.user);
+        .then((listRes) => {
+          if (listRes.data.status === 200) {
+            setAddUser(listRes.data.user);
           }
         });
     };
@@ -153,19 +153,12 @@ const MyPageAddress = () => {
               <button onClick={() => setAddAddress(true)}>추가하기</button>
             ) : (
               <div className={classes["additem-button"]}>
-                {updateState === false ? (
+                {!updateState && (
                   <>
                     <button type="submit">추가</button>
                     <button type="button" onClick={() => setAddAddress(false)}>
                       취소
                     </button>
-                  </>
-                ) : (
-                  <>
-                    {/* <button type="button">수정</button>
-                    <button type="button" onClick={() => setUpdateSate(false)}>
-                      취소
-                    </button> */}
                   </>
                 )}
               </div>

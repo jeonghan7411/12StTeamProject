@@ -2,23 +2,30 @@ import React from "react";
 
 import classes from "./MyPageWriteForm.module.css";
 
-const MyPageWriteForm = ({ writeForm, optionItem }) => {
+const MyPageWriteForm = ({ inquiry, setInquiry, writeForm, optionItem }) => {
+  const inquiryHandler = (e) => {
+    setInquiry({
+      ...inquiry,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   return (
     <React.Fragment>
       <div className={classes["write-wrap-content"]}>
         <div className={classes["write-content-label"]}>
           <div>{writeForm.title}</div>
           <div>
-            <input type="text" />
+            <input type="text" name="bTitle" onChange={inquiryHandler} />
           </div>
         </div>
         <div className={classes["write-content-label"]}>
           <div>{writeForm.category}</div>
           <div>
-            <select onChange={(e) => console.log(e.target.value)}>
+            <select name="bBoardtype" onChange={inquiryHandler}>
               {optionItem.map((item, key) => {
                 return (
-                  <option key={item.value} value={item.value}>
+                  <option key={key} value={item.value}>
                     {item.option}
                   </option>
                 );
@@ -29,12 +36,12 @@ const MyPageWriteForm = ({ writeForm, optionItem }) => {
         <div className={classes["write-content-label"]}>
           <div>내용</div>
           <div>
-            <textarea></textarea>
+            <textarea name="bContent" onChange={inquiryHandler}></textarea>
           </div>
         </div>
       </div>
       <div className={classes["write-content-button"]}>
-        <button>작성하기</button>
+        <button type="submit">작성하기</button>
       </div>
     </React.Fragment>
   );
