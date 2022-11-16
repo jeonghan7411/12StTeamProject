@@ -5,11 +5,44 @@ import axios from "axios";
 import { getUser } from "../../../util/getUser";
 import { useEffect } from "react";
 import { authCheck } from "../../../util/authCheck";
+import Card from "../../UI/Card";
 const ProductCart = () => {
   const [user, setUser] = useState({});
   const [cart, setCart] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState({});
+  const [checkedItems, setCheckedItems] = useState([]);
+  const [isAllChecked, setIsAllChecked] = useState(false);
   const navigate = useNavigate();
+
+  console.log(checkedItems);
+  const handleCheck = (checked, id) => {
+    console.log(id);
+    if (checked) {
+      if (id === "allChecked") {
+        setIsAllChecked(true);
+        cart.map((it, idx) =>
+          setCheckedItems((prev) => {
+            return [...prev, idx + 1];
+          })
+        );
+
+        console.log("전체 체크 성공");
+        return;
+      }
+      setCheckedItems([...checkedItems, id]);
+      console.log(`${id}번 체크 성공`);
+    } else {
+      if (id === "allChecked") {
+        setIsAllChecked(false);
+        setCheckedItems([]);
+        console.log("전체 체크 해체 성공");
+        return;
+      }
+
+      setCheckedItems(checkedItems.filter((it) => it !== id));
+      console.log(`${id}번 체크 해체 성공`);
+    }
+  };
 
   useEffect(() => {
     //권한체크 겸 토큰갱신
@@ -22,6 +55,19 @@ const ProductCart = () => {
         })
         .then((response) => {
           setCart(response.data);
+
+          let product = 0;
+          let real = 0;
+          response.data.forEach((it) => {
+            product += it.price * +it.sQuantity;
+            real +=
+              (it.price - (it.price * it.pDiscount) / 100) * +it.sQuantity;
+          });
+          // console.log(product);
+          // console.log(real);
+
+          // 반올림
+          setTotalPrice({ product, real: Math.round(real / 10) * 10 });
         });
     };
 
@@ -38,37 +84,71 @@ const ProductCart = () => {
           }
         });
     };
-    console.log(cart);
 
     fetchUserData();
     fetchCartData();
-    // console.log(cart);
   }, []);
 
+  // console.log(cart);
   return (
     <div className={classes["productcart-wrapper"]}>
       <div className={classes["productcart-cart"]}>
         <div className={classes["productcart-cart-handler"]}>
-          전체선택, 선택삭제버튼
+          <div className={classes["productcart-cart-handler__allcheck"]}>
+            <input
+              id="allCheck"
+              type="checkbox"
+              onChange={(e) => handleCheck(e.target.checked, "allChecked")}
+            />
+            <label htmlFor="allCheck">전체 선택</label>
+          </div>
+
+          <button className={classes["productcart-cart-handler__delete"]}>
+            선택 삭제
+          </button>
         </div>
 
-        {cart.map((data, idx) => (
-          <div key={idx} className={classes["productcart-cart-list"]}>
-            <table>
-              <tr>
-                <td>
-                  <input type={"radio"} />
-                </td>
-                <td className={classes["productcart-cart-list__img"]}>
+        <ul className={classes["productcart-items"]}>
+          {cart.map((data, idx) => (
+            <li key={idx} className={classes["productcart-item"]}>
+              <input
+                type="checkbox"
+                className={classes["productcart-item-check"]}
+                onChange={(e) => handleCheck(e.target.checked, idx + 1)}
+                checked={
+                  isAllChecked
+                    ? "checked"
+                    : checkedItems.find((it) => it === idx + 1)
+                    ? "checked"
+                    : ""
+                }
+              />
+              <h3 className={classes["productcart-item-mallName"]}>
+                {data.mallname}
+              </h3>
+
+              <div className={classes["productcart-item-info"]}>
+                <Card className={classes["productcart-item-info__img"]}>
                   <img src={data.image} alt={data.title} />
-                </td>
-                <td>{data.title}</td>
-                <td>{data.price}원</td>
-                <td>{data.pDeliveryFee}, X버튼</td>
-              </tr>
-            </table>
-          </div>
-        ))}
+                </Card>
+
+                <h4 className={classes["productcart-item-info__title"]}>
+                  {data.title}
+                </h4>
+              </div>
+              <div className={classes["productcart-item-price"]}>
+                <p className={classes["productcart-item-price__amount"]}>
+                  수량 : {data.sQuantity}
+                </p>
+                <p>가격 : {data.price}원</p>
+              </div>
+
+              <div className={classes["productcart-item-deliveryFee"]}>
+                배송비 <strong>{data.pDeliveryFee}</strong>원
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div className={classes["productcart-order"]}>
@@ -81,20 +161,24 @@ const ProductCart = () => {
           <div className={classes["productcart-order-purchase-product"]}>
             <h4>상품금액</h4>
             <p>
-              <strong>{cart.reduce}</strong>원
+              <strong>{totalPrice.product}</strong>원
             </p>
           </div>
           <div className={classes["productcart-order-purchase-discount"]}>
             <h4>할인금액</h4>
             <p>
-              <strong>0</strong>원
+              <strong>-{totalPrice.product - totalPrice.real}</strong>원
             </p>
           </div>
           <div className={classes["productcart-order-purchase-total"]}>
-            <h4>합계</h4>
-            <p>
-              <strong style={{ fontSize: "20px" }}>{totalPrice}</strong>원
-            </p>
+            <h4 className={classes["productcart-order-purchase-total__title"]}>
+              결제금액
+            </h4>
+            <span
+              className={classes["productcart-order-purchase-total__price"]}
+            >
+              {totalPrice.real}원
+            </span>
           </div>
           <div className={classes["productcart-order-purchase-btn"]}>
             {/* 여기 주문하기 온클릭 링크 나중에 노드로 바꾸고 노드에서 리다렉 */}

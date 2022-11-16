@@ -7,49 +7,103 @@
 }
 
 .productcart-cart-handler {
-  padding: 40px 0;
+  padding: 40px 20px;
   border-bottom: 1px solid #ccc;
   margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
 }
-.productcart-cart-list {
-  border: 1px solid #ccc;
+
+.productcart-cart-handler__allcheck {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+}
+
+.productcart-cart-handler__allcheck input {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+}
+
+.productcart-cart-handler__delete {
+  font-size: 18px;
+  color: rgb(83, 83, 83);
+}
+
+.productcart-item {
+  border: 1px solid rgb(220, 220, 220);
   margin-bottom: 20px;
-}
-.productcart-cart-list table {
-  width: 100%;
-}
-
-.productcart-cart-list table td {
-  border-right: 1px solid #ccc;
-  height: 100px;
-  line-height: 100px;
-}
-.productcart-cart-list table td:nth-child(1) {
-  width: 5%;
-}
-.productcart-cart-list table td:nth-child(2) {
-  width: 10%;
+  border-radius: 8px;
+  position: relative;
 }
 
-.productcart-cart-list table td:nth-child(3) {
-  width: 55%;
-}
-.productcart-cart-list table td:nth-child(4) {
-  width: 15%;
-}
-.productcart-cart-list table td:nth-child(5) {
-  width: 15%;
+.productcart-item-check {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 17px;
+  left: 20px;
 }
 
-.productcart-cart-list__img img {
+.productcart-item-mallName {
+  text-align: center;
+
+  padding: 20px;
+  font-size: 18px;
+  font-weight: 400;
+
+  border-bottom: 1px solid rgb(220, 220, 220);
+}
+
+.productcart-item-info {
+  display: flex;
+  padding: 30px 50px;
+}
+
+.productcart-item-info__img {
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  margin-right: 20px;
+}
+
+.productcart-item-info__img img {
   width: 100%;
   height: 100%;
+}
+.productcart-item-info__title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.productcart-item-price {
+  background-color: rgb(240, 240, 240);
+  margin: 10px 50px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.productcart-item-price__amount {
+  margin-bottom: 20px;
+}
+
+.productcart-item-deliveryFee {
+  text-align: center;
+
+  padding: 20px;
+  font-size: 18px;
+  font-weight: 400;
+
+  border-top: 1px solid rgb(220, 220, 220);
 }
 
 .productcart-order {
   width: 25%;
-  height: 400px;
+  height: 450px;
   background-color: white;
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 5px;
   position: sticky;
   top: 50px;
   padding: 20px 20px;
@@ -79,8 +133,26 @@
   justify-content: space-between;
   margin-bottom: 16px;
 }
+
+.productcart-order-purchase-discount {
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid rgb(220, 220, 220);
+}
 .productcart-order-purchase-total {
   margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.productcart-order-purchase-total__title {
+  font-weight: bold;
+}
+
+.productcart-order-purchase-total__price {
+  font-size: 26px;
+
+  font-weight: bold;
 }
 
 .productcart-order-purchase-btn input {
