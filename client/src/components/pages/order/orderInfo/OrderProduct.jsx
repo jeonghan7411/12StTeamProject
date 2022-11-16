@@ -6,6 +6,7 @@ import Card from "../../../UI/Card";
 import classes from "./OrderProduct.module.css";
 
 const OrderProduct = ({ orderData }) => {
+  console.log(orderData);
   return (
     <div className={classes["orderProduct"]}>
       <h4>

@@ -10,17 +10,17 @@ import OrderProduct from "./orderInfo/OrderProduct";
 
 import classes from "./Order.module.css";
 import ModalOrderDeliveryInfoChange from "./orderInfo/ModalOrderDeliveryInfoChange";
+import { getUser } from "../../../util/getUser";
 
 const Order = () => {
+  const [user, setUser] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
   const [orderData, setOrderData] = useState(location.state.order);
-  console.log(orderData);
 
   const [totalPrice, setTotalPrice] = useState(0);
-  const deliveryFee = 2500;
+  const [totalDeliveyFee, setTotalDeliveryFee] = useState(0);
 
-  console.log(totalPrice + deliveryFee);
   // 모달 관리
   const [showModal, setShowMadal] = useState({
     isShowDeliveryInfo: false,
@@ -31,29 +31,32 @@ const Order = () => {
   const [useMileInput, setUseMileInput] = useState({ value: 0, isValid: true });
 
   // 구매자정보(유저db)
-  const [userData, setUserData] = useState({
-    uName: "",
-    uEmail: "",
-    uPhone: "",
-    uMile: 0,
-  });
+  const [userData, setUserData] = useState();
 
   // 주문 내역 db에 저장할 정보
   const [orderInfo, setOrderInfo] = useState({
-    uId: "",
-    // 상품 아이디는 orderData에서 보내기,
-    // 상품구매 수량 orderData에서 보내기
-    oName: "",
-    oPhone: "",
-    oZipcode: "123",
-    oAddr: "123",
-    oAdditionalAddr: "123",
-    oMemo: "",
     oUseMile: 0,
-    oGetMile: 10,
+    oGetMile: 0,
     oMethod: "",
-    oTotalPrice: 0,
   });
+
+  useEffect(() => {
+    let totalprice = 0;
+    orderData.forEach((data) => {
+      totalprice += data.price;
+
+      setTotalDeliveryFee(totalDeliveyFee + data.deliveryFee);
+    });
+
+    setTotalPrice(totalprice);
+    setOrderInfo({
+      oUseMile: 0,
+      oGetMile: totalprice * 0.03,
+      oMethod: "",
+    });
+
+    fetchUserData();
+  }, []);
 
   // 배송지 정보 수정
   const handleDeliveryInfoChange = (value) => {
@@ -95,9 +98,8 @@ const Order = () => {
 
   // 마일리지 적용 클릭
   const handleUseMileClick = (value) => {
-    console.log(value);
     // 보유 마일리지보다 많게 입력할 경우
-    if (+value > userData.uMile) {
+    if (+value > user.uMile) {
       setUseMileInput({ value: 0, isValid: false });
       return;
     } else {
@@ -107,18 +109,9 @@ const Order = () => {
       });
     }
 
-    // 사용한 마일리지, 총 상품가격 수정
-    setOrderInfo((prev) => {
-      return {
-        ...prev,
-        oUseMile: value,
-        oTotalPrice: orderInfo.oTotalPrice - value,
-      };
-    });
-
     // 유저 정보에 있는 마일리지 감소(UI 용)
-    setUserData((prev) => {
-      return { ...prev, uMile: userData.uMile - value };
+    setUser((prev) => {
+      return { ...prev, uMile: user.uMile - value };
     });
   };
 
@@ -128,28 +121,23 @@ const Order = () => {
 
     await axios
       .post("http://localhost:5000/order/Complete", {
-        uId: orderInfo.uId,
-        // 상품 아이디는 orderData에서 보내기,
-        pId: orderData[0].productId,
-        // 상품구매 수량 orderData에서 보내기
-        oQuantity: orderData[0].amount,
-        oName: orderInfo.oName,
-        oPhone: orderInfo.oPhone,
-        oZipcode: orderInfo.oZipcode,
-        oAddr: orderInfo.oAddr,
-        oAdditionalAddr: orderInfo.oAdditionalAddr,
-        oMemo: orderInfo.oMemo,
+        user,
+        orderData,
         oUseMile: orderInfo.oUseMile,
-        oGetMile: 10,
+        oGetMile: orderInfo.oGetMile,
         oMethod: orderInfo.oMethod,
-        oTotalPrice: orderInfo.oTotalPrice,
       })
       .then(
         // 서버에서 오는게 200이면 페이지 전환하기
         navigate("/orderComplete", {
           state: {
             orderProducts: orderData,
-            orderData: { ...userData, ...orderInfo, deliveryFee },
+            orderData: {
+              ...userData,
+              ...orderInfo,
+              totalDeliveyFee,
+              totalPrice,
+            },
           },
         })
       );
@@ -158,65 +146,25 @@ const Order = () => {
   // 구매자 정보 가져오기
   const fetchUserData = async () => {
     await axios
-      .post("http://localhost:5000/order/get/userData", {
-        uId: "test1",
-      })
+      .get("http://localhost:5000/mypage", { withCredentials: true })
       .then((response) => {
-        // 상세주소 받아오기
-        console.log(response.data.deliveryData[0]);
-        const {
-          uId,
-          uName,
-          uZipcode,
-          uAddress,
-          uAdditionalAddr,
-          uEmail,
-          uPhone,
-          uMile,
-        } = response.data.userData[0];
-
-        // 구매자 정보 설정
-        setUserData({
-          uName,
-          uEmail,
-          uPhone,
-          uMile: +uMile,
-        });
-
-        // 주문 내역 정보 설정
-        setOrderInfo((prev) => {
-          return {
-            ...prev,
-            uId: uId,
-            oName: uName,
-            oPhone: uPhone,
-            oZipcode: uZipcode,
-            oAddr: uAddress,
-            oAdditionalAddr: uAdditionalAddr,
-            oMemo: "문앞",
-            oTotalPrice: totalPrice + deliveryFee,
-          };
-        });
+        if (response.data.status === 401) {
+          alert(response.data.message);
+          navigate("/login", { replace: true });
+        } else if (response.data.status === 200) {
+          getUser(setUser);
+        }
       });
   };
 
-  useEffect(() => {
-    orderData.map((data) => {
-      return setTotalPrice(totalPrice + data.price * data.amount);
-    });
-
-    fetchUserData();
-  }, []);
-
+  // console.log(orderData);
   return (
     <div className={classes.order}>
       <div className={classes["order-title"]}>
         <h3>주문 / 결제</h3>
       </div>
-
       {/* 구매자 정보 컴포넌트 */}
-      <OrderConsumer userData={userData} />
-
+      <OrderConsumer userData={user} />
       {/* 배송 요청사항 모달 컴포넌트 */}
       {showModal.isShowDeliveryMemo && (
         <ModalOrderDeliveryMemo
@@ -225,7 +173,6 @@ const Order = () => {
           deliveryMemo={orderInfo.oMemo}
         />
       )}
-
       {/* 배송지 정보 수정 모달 컴포넌트 */}
       {showModal.isShowDeliveryInfo && (
         <ModalOrderDeliveryInfoChange
@@ -233,22 +180,19 @@ const Order = () => {
           onDeliveryInfoChange={handleDeliveryInfoChange}
         />
       )}
-
       {/* 받는 사람 정보 컴포넌트 */}
       <OrderDeliveryInfo
-        orderInfo={orderInfo}
+        userData={user}
         onShowModal={setShowMadal}
         onShowDeliveryMemo={setOrderInfo}
       />
-
       {/* 배송 상품 정보 컴포넌트 */}
       <OrderProduct orderData={orderData} />
-
       {/* 결제 정보 컴포넌트 */}
       <OrderPaymentInfo
+        totalDeliveyFee={totalDeliveyFee}
         totalPrice={totalPrice}
-        deleveryFee={deliveryFee}
-        userData={userData}
+        userData={user}
         orderInfo={orderInfo}
         useMileInput={useMileInput}
         onMileInput={setUseMileInput}

@@ -10,8 +10,7 @@ import classes from "./OrderPaymentInfo.module.css";
 
 const OrderPaymentInfo = ({
   totalPrice,
-  oTotalPrice,
-  deleveryFee,
+  totalDeliveyFee,
   userData,
   orderInfo,
   useMileInput,
@@ -35,7 +34,7 @@ const OrderPaymentInfo = ({
           <tr>
             <td className={classes["orderPaymentInfo-table__col1"]}>배송비</td>
             <td className={classes["orderPaymentInfo-table__col2"]}>
-              {deleveryFee}원
+              {totalDeliveyFee}원
             </td>
           </tr>
           <tr>
@@ -75,10 +74,18 @@ const OrderPaymentInfo = ({
           </tr>
           <tr>
             <td className={classes["orderPaymentInfo-table__col1"]}>
+              마일리지 적립
+            </td>
+            <td className={classes["orderPaymentInfo-table__col2"]}>
+              {orderInfo.oGetMile}원
+            </td>
+          </tr>
+          <tr>
+            <td className={classes["orderPaymentInfo-table__col1"]}>
               총 결제금액
             </td>
             <td className={classes["orderPaymentInfo-table__col2"]}>
-              {orderInfo.oTotalPrice}원
+              {totalDeliveyFee + totalPrice - orderInfo.oUseMile}원
             </td>
           </tr>
 
