@@ -2,7 +2,7 @@ import React from "react";
 
 import classes from "./OrderDeliveryInfo.module.css";
 
-const OrderDeliveryInfo = ({ onShowModal, orderInfo }) => {
+const OrderDeliveryInfo = ({ userData, onShowModal }) => {
   return (
     <div className={classes["orderDeliveryInfo"]}>
       <div className={classes["orderDeliveryInfo-deliveryChange"]}>
@@ -23,7 +23,7 @@ const OrderDeliveryInfo = ({ onShowModal, orderInfo }) => {
           <tr>
             <td className={classes["orderDeliveryInfo-table__col1"]}>이름</td>
             <td className={classes["orderDeliveryInfo-table__col2"]}>
-              {orderInfo.oName}
+              {userData.uName}
             </td>
           </tr>
           <tr>
@@ -31,14 +31,14 @@ const OrderDeliveryInfo = ({ onShowModal, orderInfo }) => {
               배송지 주소
             </td>
             <td className={classes["orderDeliveryInfo-table__col2"]}>
-              {`${orderInfo.oAddr} [ ${orderInfo.oZipcode} ] ${orderInfo.oAdditionalAddr}`}
+              {`${userData.uAddress} [ ${userData.uZipcode} ] ${userData.uAdditionalAddr}`}
             </td>
             <button></button>
           </tr>
           <tr>
             <td className={classes["orderDeliveryInfo-table__col1"]}>연락처</td>
             <td className={classes["orderDeliveryInfo-table__col2"]}>
-              {orderInfo.oPhone}
+              {userData.uPhone}
             </td>
           </tr>
           <tr>
@@ -46,7 +46,7 @@ const OrderDeliveryInfo = ({ onShowModal, orderInfo }) => {
               배송요청사항
             </td>
             <td className={classes["orderDeliveryInfo-table__memo"]}>
-              <span>{orderInfo.oMemo}</span>
+              <span></span>
 
               <button
                 className={classes["orderDeliveryInfo-table__changeMemo"]}

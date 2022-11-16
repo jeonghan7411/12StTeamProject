@@ -1,8 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./ProductCart.module.css";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { getUser } from "../../../util/getUser";
+import { useEffect } from "react";
 const ProductCart = () => {
+  const [user, setUser] = useState({});
   const navigate = useNavigate();
+
+  console.log(user);
+
+  useEffect(() => {
+    // 사용자 장바구니 정보 가져오기
+    const fetchCartData = async () => {
+      await axios.get("http://localhost:5000/api/get/cartData", { user });
+    };
+
+    // 사용지 정보 가져오기
+    const fetchUserData = async () => {
+      await axios
+        .get("http://localhost:5000/mypage", { withCredentials: true })
+        .then((response) => {
+          if (response.data.status === 401) {
+            alert(response.data.message);
+            navigate("/login", { replace: true });
+          } else if (response.data.status === 200) {
+            getUser(setUser);
+          }
+        });
+    };
+
+    fetchUserData();
+    fetchCartData();
+  }, []);
   return (
     <div className={classes["productcart-wrapper"]}>
       <div className={classes["productcart-cart"]}>

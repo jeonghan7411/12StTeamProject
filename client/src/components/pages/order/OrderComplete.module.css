@@ -94,3 +94,19 @@
   border-bottom: 1px solid #e4e4e4;
   padding: 15px 16px;
 }
+
+.orderComplete-recript__totalPrice {
+  color: red;
+  font-weight: bold;
+}
+
+.orderComplete-control {
+  margin-top: 50px;
+}
+
+.orderComplete-control button {
+  padding: 20px 40px;
+  background-color: var(--navy-color);
+  color: white;
+  border-radius: 5px;
+}
