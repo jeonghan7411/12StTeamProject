@@ -28,52 +28,50 @@ app.use(
 //나중에 멀터 업로드 처리
 
 // url
+app.get("/api/get/cartData", (req, res) => {
+  const token = req.cookies.accessToken;
+  const data = jwt.verify(token, process.env.ACCESS_SECRET_KEY);
+
+  let sql =
+    "SELECT * FROM products INNER JOIN shoppingbasket ON products.productId = shoppingbasket.productId where uId = ?;";
+
+  db.query(sql, [data.id], (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+});
+
 app.post("/order/Complete", (req, res) => {
-  console.log(req.body);
-  const {
-    uId,
-    pId,
-    oQuantity,
-    oName,
-    oPhone,
-    oZipcode,
-    oAddr,
-    oAdditionalAddr,
-    oMemo,
-    oUseMile,
-    oGetMile,
-    oMethod,
-    oTotalPrice,
-  } = req.body;
+  const { orderData, user, oUseMile, oGetMile, oMethod } = req.body;
+  orderData.forEach((data) => {
+    let sql =
+      "INSERT INTO orderTable VALUES( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW());";
+    db.query(
+      sql,
+      [
+        user.uId,
+        data.productId,
+        data.amount,
+        user.uName,
+        user.uPhone,
+        user.uZipcode,
+        user.uAddress,
+        user.uAdditionalAddr,
+        "메모",
+        oUseMile,
+        oGetMile,
+        oMethod,
+      ],
+      (err) => {
+        if (err) throw err;
+      }
+    );
+  });
 
-  let sql1 =
-    "INSERT INTO orderTable VALUES( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW());";
-
-  let sql2 = "UPDATE users SET uMile = uMile-?+? WHERE uid = ?;";
-  db.query(
-    sql1 + sql2,
-    [
-      uId,
-      pId,
-      oQuantity,
-      oName,
-      oPhone,
-      oZipcode,
-      oAddr,
-      oAdditionalAddr,
-      oMemo,
-      oUseMile,
-      oGetMile,
-      oMethod,
-      oTotalPrice,
-      oUseMile,
-      oGetMile,
-      uId,
-    ],
-    (err) => {
-      if (err) throw err;
-    }
-  );
+  sql = "UPDATE users SET uMile = uMile-?+? WHERE uid = ?;";
+  db.query(sql, [oUseMile, oGetMile, user.uId], (err) => {
+    if (err) throw err;
+  });
 });
 
 app.post("/order/get/userData", (req, res) => {
