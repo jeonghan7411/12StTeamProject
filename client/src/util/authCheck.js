@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const handleLogout = async () => {
   await axios.get("http://localhost:5000/api/logout", {
@@ -18,7 +19,7 @@ export const authCheck = async () => {
         handleLogout();
       } else if (response.data === "noInfo") {
         alert("로그인이 필요합니다");
-        window.history.back();
+        window.location.href = "/login";
       }
     });
 };

@@ -3,7 +3,6 @@ import classes from "./App.module.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
 import Header from "./components/layout/Header";
 import Nav from "./components/layout/Nav";
 import Footer from "./components/layout/Footer";
@@ -25,7 +24,7 @@ import Order from "./components/pages/order/Order";
 import OrderComplete from "./components/pages/order/OrderComplete";
 import CrlWrite from "./components/pages/myPage/CrlWrite";
 import Product from "./components/pages/productDetail/Product";
-import LogOut from "./components/pages/login/logOut";
+import LogOut from "./components/pages/login/LogOut";
 import OrderDetail from "./components/pages/myPage/OrderDetail";
 import OrderAccount from "./components/pages/order/orderMethod/OrderAccount";
 import OrderCard from "./components/pages/order/orderMethod/OrderCard";
