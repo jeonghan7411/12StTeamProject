@@ -28,40 +28,66 @@ app.use(
 //나중에 멀터 업로드 처리
 
 // url
-app.get("/api/get/cartData", (req, res) => {
-  console.log(req.params);
+app.post("/order/Complete", (req, res) => {
+  console.log(req.body);
+  const {
+    uId,
+    pId,
+    oQuantity,
+    oName,
+    oPhone,
+    oZipcode,
+    oAddr,
+    oAdditionalAddr,
+    oMemo,
+    oUseMile,
+    oGetMile,
+    oMethod,
+    oTotalPrice,
+  } = req.body;
+
+  let sql1 =
+    "INSERT INTO orderTable VALUES( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW());";
+
+  let sql2 = "UPDATE users SET uMile = uMile-?+? WHERE uid = ?;";
+  db.query(
+    sql1 + sql2,
+    [
+      uId,
+      pId,
+      oQuantity,
+      oName,
+      oPhone,
+      oZipcode,
+      oAddr,
+      oAdditionalAddr,
+      oMemo,
+      oUseMile,
+      oGetMile,
+      oMethod,
+      oTotalPrice,
+      oUseMile,
+      oGetMile,
+      uId,
+    ],
+    (err) => {
+      if (err) throw err;
+    }
+  );
 });
 
-app.post("/order/Complete", (req, res) => {
-  const { orderData, user, oUseMile, oGetMile, oMethod } = req.body;
-  orderData.forEach((data) => {
-    let sql =
-      "INSERT INTO orderTable VALUES( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NOW());";
-    db.query(
-      sql,
-      [
-        user.uId,
-        data.productId,
-        data.amount,
-        user.uName,
-        user.uPhone,
-        user.uZipcode,
-        user.uAddress,
-        user.uAdditionalAddr,
-        "메모",
-        oUseMile,
-        oGetMile,
-        oMethod,
-      ],
-      (err) => {
-        if (err) throw err;
-      }
-    );
-  });
+app.post("/order/get/userData", (req, res) => {
+  const uId = req.body.uId;
 
-  sql = "UPDATE users SET uMile = uMile-?+? WHERE uid = ?;";
-  db.query(sql2, [oUseMile, oGetMile, user.uId], (err) => {
+  let sql1 =
+    "SELECT uId, uName, uEmail, uZipcode, uAddress, uAdditionalAddr, uPhone, uMile, uEmail FROM users WHERE uId = ?;";
+
+  let sql2 = "SELECT * FROM deliveryaddr WHERE uId = ?;";
+
+  db.query(sql1 + sql2, [uId, uId], (err, results, field) => {
     if (err) throw err;
+
+    res.send({ userData: results[0], deliveryData: results[1] });
   });
 });
 
@@ -75,7 +101,6 @@ app.get("/api/get/products", (req, res) => {
     }
   });
 });
-
 app.get("/api/get/productinfo/:getIdx", (req, res) => {
   console.log(req.params.getIdx);
   let sql = "SELECT * FROM products WHERE productId = ?;";
@@ -169,7 +194,7 @@ app.post("/api/login", (req, res) => {
           },
           ACCESS_SECRET_KEY,
           {
-            expiresIn: "100m",
+            expiresIn: "10m",
             issuer: "12St",
           }
         );
@@ -239,7 +264,7 @@ app.get("/api/login/success", (req, res) => {
             },
             process.env.ACCESS_SECRET_KEY,
             {
-              expiresIn: "1m",
+              expiresIn: "10m",
               issuer: "12St",
             }
           );
@@ -315,8 +340,8 @@ app.get("/api/login/getuser", (req, res) => {
   const token = req.cookies.accessToken;
 
   jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
-    // const token = req.cookies.refreshToken;
-    const data = jwt.verify(token, process.env.ACCESS_SECRET_KEY);
+    const token = req.cookies.refreshToken;
+    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
 
     let sql = "SELECT * from users WHERE uId = ?;";
     db.query(sql, data.id, (err, user) => {
@@ -444,45 +469,8 @@ app.post("/adddeliver", (req, res) => {
   );
 });
 
-app.post("/addrdelete", (req, res) => {
-  const idx = req.body.addUser.idx;
-
-  let sql = "DELETE FROM deliveryaddr WHERE idx = ?;";
-  db.query(sql, [idx], (err) => {
-    if (err) {
-      throw err;
-    }
-    res.send({
-      status: 200,
-      message: "삭제 완료",
-    });
-  });
-});
-
 app.get("/addlist", (req, res) => {
-  const token = req.cookies.accessToken;
-
-  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
-    const token = req.cookies.refreshToken;
-    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
-
-    let sql = "SELECT * from users WHERE uId = ?;";
-    db.query(sql, data.id, (err, user) => {
-      if (err) {
-        throw err;
-      }
-
-      let addrSql =
-        "SELECT * FROM deliveryaddr where uId = ?  ORDER BY idx desc;";
-      db.query(addrSql, [user[0].uId], (err, user) => {
-        if (err) {
-          throw err;
-        } else {
-          res.send({ status: 200, user });
-        }
-      });
-    });
-  });
+  console.log(req.body);
 });
 //네이버 api 받아와서 db에 넣은 흔적
 /*
