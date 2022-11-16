@@ -4,16 +4,25 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getUser } from "../../../util/getUser";
 import { useEffect } from "react";
+import { authCheck } from "../../../util/authCheck";
 const ProductCart = () => {
   const [user, setUser] = useState({});
+  const [cart, setCart] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   const navigate = useNavigate();
 
-  console.log(user);
-
   useEffect(() => {
+    //권한체크 겸 토큰갱신
+    authCheck();
     // 사용자 장바구니 정보 가져오기
     const fetchCartData = async () => {
-      await axios.get("http://localhost:5000/api/get/cartData", { user });
+      await axios
+        .get("http://localhost:5000/api/get/cartData", {
+          withCredentials: true,
+        })
+        .then((response) => {
+          setCart(response.data);
+        });
     };
 
     // 사용지 정보 가져오기
@@ -29,134 +38,39 @@ const ProductCart = () => {
           }
         });
     };
+    console.log(cart);
 
     fetchUserData();
     fetchCartData();
+    // console.log(cart);
   }, []);
+
   return (
     <div className={classes["productcart-wrapper"]}>
       <div className={classes["productcart-cart"]}>
         <div className={classes["productcart-cart-handler"]}>
           전체선택, 선택삭제버튼
         </div>
-        <div className={classes["productcart-cart-list"]}>
-          <table>
-            <tr>
-              <td>
-                <input type={"radio"} />
-              </td>
-              <td>이미지</td>
-              <td>상품명, 링크</td>
-              <td>가격, 바로구매</td>
-              <td>배송비, X버튼</td>
-            </tr>
-          </table>
-        </div>
-        <div className={classes["productcart-cart-list"]}>
-          <table>
-            <tr>
-              <td>
-                <input type={"radio"} />
-              </td>
-              <td>이미지</td>
-              <td>상품명, 링크</td>
-              <td>가격</td>
-              <td>배송비</td>
-            </tr>
-          </table>
-        </div>
-        <div className={classes["productcart-cart-list"]}>
-          <table>
-            <tr>
-              <td>
-                <input type={"radio"} />
-              </td>
-              <td>이미지</td>
-              <td>상품명, 링크</td>
-              <td>가격</td>
-              <td>배송비</td>
-            </tr>
-          </table>
-        </div>
-        <div className={classes["productcart-cart-list"]}>
-          <table>
-            <tr>
-              <td>
-                <input type={"radio"} />
-              </td>
-              <td>이미지</td>
-              <td>상품명, 링크</td>
-              <td>가격</td>
-              <td>배송비</td>
-            </tr>
-          </table>
-        </div>
-        <div className={classes["productcart-cart-list"]}>
-          <table>
-            <tr>
-              <td>
-                <input type={"radio"} />
-              </td>
-              <td>이미지</td>
-              <td>상품명, 링크</td>
-              <td>가격</td>
-              <td>배송비</td>
-            </tr>
-          </table>
-        </div>
-        <div className={classes["productcart-cart-list"]}>
-          <table>
-            <tr>
-              <td>
-                <input type={"radio"} />
-              </td>
-              <td>이미지</td>
-              <td>상품명, 링크</td>
-              <td>가격</td>
-              <td>배송비</td>
-            </tr>
-          </table>
-        </div>
-        <div className={classes["productcart-cart-list"]}>
-          <table>
-            <tr>
-              <td>
-                <input type={"radio"} />
-              </td>
-              <td>이미지</td>
-              <td>상품명, 링크</td>
-              <td>가격</td>
-              <td>배송비</td>
-            </tr>
-          </table>
-        </div>
-        <div className={classes["productcart-cart-list"]}>
-          <table>
-            <tr>
-              <td>
-                <input type={"radio"} />
-              </td>
-              <td>이미지</td>
-              <td>상품명, 링크</td>
-              <td>가격</td>
-              <td>배송비</td>
-            </tr>
-          </table>
-        </div>
-        <div className={classes["productcart-cart-list"]}>
-          <table>
-            <tr>
-              <td>
-                <input type={"radio"} />
-              </td>
-              <td>이미지</td>
-              <td>상품명, 링크</td>
-              <td>가격</td>
-              <td>배송비</td>
-            </tr>
-          </table>
-        </div>
+
+        {cart.map((data, idx) => (
+          <div key={idx} className={classes["productcart-cart-list"]}>
+            <table>
+              <tr>
+                <td>
+                  <input type={"radio"} />
+                </td>
+                <td className={classes["productcart-cart-list__img"]}>
+                  <img src={data.image} alt={data.title} />
+                </td>
+                <td>{data.title}</td>
+                <td>{data.price}원</td>
+                <td>{data.pDeliveryFee}, X버튼</td>
+              </tr>
+            </table>
+          </div>
+        ))}
       </div>
+
       <div className={classes["productcart-order"]}>
         <div className={classes["productcart-order-point"]}>
           <h3>적립혜택</h3>
@@ -167,7 +81,7 @@ const ProductCart = () => {
           <div className={classes["productcart-order-purchase-product"]}>
             <h4>상품금액</h4>
             <p>
-              <strong>0</strong>원
+              <strong>{cart.reduce}</strong>원
             </p>
           </div>
           <div className={classes["productcart-order-purchase-discount"]}>
@@ -179,7 +93,7 @@ const ProductCart = () => {
           <div className={classes["productcart-order-purchase-total"]}>
             <h4>합계</h4>
             <p>
-              <strong style={{ fontSize: "20px" }}>0</strong>원
+              <strong style={{ fontSize: "20px" }}>{totalPrice}</strong>원
             </p>
           </div>
           <div className={classes["productcart-order-purchase-btn"]}>
