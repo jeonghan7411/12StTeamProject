@@ -215,7 +215,7 @@ app.get("/api/login/success", (req, res) => {
   }
   if (token === undefined) {
     //토큰이 없을때 -> 비로그인상태 = 리턴
-    return;
+    res.send("noInfo");
   } else {
     jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
       // 토큰이 있을때 에러핸들링
@@ -247,7 +247,6 @@ app.get("/api/login/success", (req, res) => {
           res.cookie("accessToken", accessToken, { httpOnly: true });
           res.status(201).json({
             result: "ok",
-            accessToken,
           });
           console.log("액세스토큰만료 재발급");
         });

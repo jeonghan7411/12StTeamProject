@@ -5,39 +5,14 @@ import Cartegory from "./Cartegory";
 import HomeProducts from "./HomeProducts";
 
 import classes from "./Home.module.css";
+import { authCheck, handleLogout } from "../../../util/authCheck";
 
 const Home = ({ data }) => {
-  const [isLogin, setIsLogin] = useState(false);
-  const [user, setUser] = useState({});
-
   // 로그아웃, 쿠키 지우기
-  const handleLogout = async () => {
-    await axios.get("http://localhost:5000/api/logout", {
-      withCredentials: true,
-    });
-    window.alert("로그아웃");
-    window.location.reload();
-  };
 
   useEffect(() => {
-    const accessToken = async () => {
-      await axios
-        .get("http://localhost:5000/api/login/success", {
-          withCredentials: true,
-        })
-        .then((response) => {
-          if (response.data === "timeout") {
-            handleLogout();
-          } else {
-            setIsLogin(true);
-            setUser(response.data.accessToken);
-            console.log(response.data.accessToken);
-          }
-        });
-    };
-    accessToken();
+    authCheck();
   }, []);
-  console.log(user);
   return (
     <div>
       <button onClick={handleLogout}>로그아웃</button>
