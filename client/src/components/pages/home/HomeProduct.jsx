@@ -10,10 +10,6 @@ const DUMMY_URL =
 
 const Product = (props) => {
   // SQL에서 할인율 컬럼에 랜덤난수 0~40 부여하고 여기 구문 수정하기
-  let disc = Math.floor(Math.random() * 40);
-  let originalPrice = props.data.price;
-  let discPrice =
-    Math.ceil((props.data.price * ((100 - disc) / 10)) / 100) * 10;
   return (
     <Link
       to={`/products/${props.data.productId}`}
@@ -29,13 +25,18 @@ const Product = (props) => {
             {props.data.title.substring(0, 13)}
           </h3>
           <div className={classes["product-content-priceInfo"]}>
-            <span className={classes["product-content-discount"]}>{disc}%</span>
+            <span className={classes["product-content-discount"]}>
+              {props.data.pDiscount}%
+            </span>
             <div className={classes["product-content-priceWrap"]}>
               <span className={classes["product-content-price"]}>
-                {discPrice}원
+                {/* 할인된 가격 */}
+                {props.data.price -
+                  props.data.price * (props.data.pDiscount / 100)}
+                원
               </span>
               <span className={classes["product-content-costPrice"]}>
-                {originalPrice}
+                {props.data.price}
               </span>
             </div>
           </div>
