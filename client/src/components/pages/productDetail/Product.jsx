@@ -78,7 +78,8 @@ const Product = () => {
       {
         title: currentData.title,
         amount: orderValue,
-        price: currentData.price,
+        price:
+          currentData.price - currentData.price * (currentData.pDiscount / 100),
         productId: currentData.productId,
         image: currentData.image,
         deliveryFee: currentData.pDeliveryFee,
@@ -176,8 +177,13 @@ const Product = () => {
           </div>
           <div className={classes["product-content-detail-price"]}>
             {/* 원가 */}
-            <h2>{currentData.price}원</h2>
+            <h3>{currentData.price}원</h3>
             {/* 원가 밑에 할인율 적용된 가격 */}
+            <h2>
+              {currentData.price -
+                currentData.price * (currentData.pDiscount / 100)}
+              원
+            </h2>
             적립
           </div>
           <div className={classes["product-content-detail-shipping"]}>

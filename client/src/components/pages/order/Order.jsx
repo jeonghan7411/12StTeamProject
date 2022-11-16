@@ -43,7 +43,7 @@ const Order = () => {
   useEffect(() => {
     let totalprice = 0;
     orderData.forEach((data) => {
-      totalprice += data.price;
+      totalprice += data.price * data.amount;
 
       setTotalDeliveryFee(totalDeliveyFee + data.deliveryFee);
     });
@@ -51,7 +51,7 @@ const Order = () => {
     setTotalPrice(totalprice);
     setOrderInfo({
       oUseMile: 0,
-      oGetMile: totalprice * 0.03,
+      oGetMile: Math.ceil(totalprice * 0.03),
       oMethod: "",
     });
 

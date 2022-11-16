@@ -66,6 +66,13 @@
   font-weight: bold;
   margin-bottom: 10px;
 }
+.product-content-detail-price h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: red;
+  text-decoration: line-through;
+}
 .product-content-detail-order {
   display: flex;
   justify-content: space-between;
