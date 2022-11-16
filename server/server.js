@@ -526,6 +526,47 @@ app.post("/addrupdate", (req, res) => {
   );
 });
 
+app.post("/inquiry", (req, res) => {
+  const uId = req.body.uId;
+  const { bTitle, bBoardtype, bContent } = req.body.inquiry;
+  let sql = "INSERT INTO board VALUES (NULL,?,?,?,?,NOW());";
+
+  db.query(sql, [uId, bBoardtype, bTitle, bContent], (err) => {
+    if (err) {
+      throw err;
+    }
+    res.send({
+      status: 200,
+      message: "작성 완료",
+    });
+  });
+});
+
+app.get("/inquirylist", (req, res) => {
+  const token = req.cookies.accessToken;
+
+  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
+    const token = req.cookies.refreshToken;
+    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+    console.log(data.id);
+    let sql = "SELECT * from users WHERE uId = ?;";
+    db.query(sql, data.id, (err, user) => {
+      if (err) {
+        throw err;
+      }
+
+      let addrSql = "SELECT * FROM board where uId = ?  ORDER BY bId desc;";
+      db.query(addrSql, [user[0].uId], (err, data) => {
+        if (err) {
+          throw err;
+        } else {
+          res.send({ status: 200, data });
+        }
+      });
+    });
+  });
+});
+
 //네이버 api 받아와서 db에 넣은 흔적
 /*
 let data = [];

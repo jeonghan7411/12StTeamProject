@@ -27,52 +27,74 @@ const MyPageUpdateAddr = ({
       .then((response) => {
         if (response.data.status === 200) {
           alert(response.data.message);
+          window.location.href = "http://localhost:3000/mypage/mypageaddress";
           setUpdateSate(true);
         }
       });
   };
-
+  <span>
+    <button>주소찾기</button>
+  </span>;
   return (
     <React.Fragment>
-      <div className={classes.MyPageAddressItem}>
+      <div className={classes.MyPageUpdateAddr}>
         <div className={classes["address-item-addr"]}>
-          <input type="hidden" value={addUser.idx} />
-          <span>이름 :</span>
+          <span>
+            <h2>이름</h2>
+          </span>
           <span>
             <input type="text" name="uName" onChange={updateInput} />
+            <input type="hidden" value={addUser.idx} />
           </span>
         </div>
+
+        <div className={classes["address-item-button"]}>
+          <span>
+            <button type="button">주소검색</button>
+          </span>
+        </div>
+
         <div className={classes["address-item-addr"]}>
-          <span>우편번호 :</span>
+          <span>
+            <h2>우편번호</h2>
+          </span>
           <span>
             <input type="text" name="dZipcode" onChange={updateInput} />
           </span>
         </div>
         <div className={classes["address-item-addr"]}>
-          <span>주소 :</span>
+          <span>
+            <h2>주소</h2>
+          </span>
           <span>
             <input type="text" name="dAddr" onChange={updateInput} />
           </span>
         </div>
         <div className={classes["address-item-addr"]}>
-          <span>상세주소 :</span>
+          <span>
+            <h2>상세주소</h2>
+          </span>
           <span>
             <input type="text" name="uAdditionalAddr" onChange={updateInput} />
           </span>
         </div>
         <div className={classes["address-item-addr"]}>
-          <span>전화번호 :</span>
+          <span>
+            <h2>전화번호</h2>
+          </span>
           <span>
             <input type="text" name="dPhone" onChange={updateInput} />
           </span>
         </div>
         <div className={classes["address-item-addr"]}>
-          <span>요청 사항 :</span>
+          <span>
+            <h2>요청 사항</h2>
+          </span>
           <span>
             <input type="text" name="dMemo" onChange={updateInput} />
           </span>
         </div>
-        <div>
+        <div className={classes["update-wrap-button"]}>
           <button type="button" onClick={updateAddr}>
             수정
           </button>

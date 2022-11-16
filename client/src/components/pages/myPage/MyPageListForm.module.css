@@ -25,6 +25,21 @@
   padding: 10px;
 }
 
+.MyPageListForm td:first-child {
+  width: 15%;
+}
+
+.MyPageListForm td:nth-child(2) {
+  width: 30%;
+}
+
+.MyPageListForm td:nth-child(3) {
+  width: 35%;
+}
+.MyPageListForm tbody td:nth-child(1) {
+  color: red;
+}
+
 .MyPageListForm td:nth-child(2) a {
   text-decoration: underline;
 }
