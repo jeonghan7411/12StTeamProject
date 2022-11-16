@@ -493,6 +493,39 @@ app.get("/addlist", (req, res) => {
   });
 });
 
+app.post("/addrdelete", (req, res) => {
+  const idx = req.body.addUser.idx;
+
+  let sql = "DELETE FROM deliveryaddr WHERE idx = ?;";
+  db.query(sql, [idx], (err) => {
+    if (err) {
+      throw err;
+    }
+    res.send({
+      status: 200,
+      message: "삭제 완료",
+    });
+  });
+});
+
+app.post("/addrupdate", (req, res) => {
+  const idx = parseInt(req.body.targetNum);
+  const { uName, dZipcode, dAddr, uAdditionalAddr, dPhone, dMemo } =
+    req.body.updateInfo;
+  let sql =
+    "UPDATE deliveryaddr SET uName= ?,dZipcode =? ,dAddr =?,uAdditionalAddr=?,dPhone=?,dMemo=? WHERE idx =?;";
+  db.query(
+    sql,
+    [uName, dZipcode, dAddr, uAdditionalAddr, dPhone, dMemo, idx],
+    (err) => {
+      if (err) {
+        throw err;
+      }
+      res.send({ status: 200, message: "수정 완료" });
+    }
+  );
+});
+
 //네이버 api 받아와서 db에 넣은 흔적
 /*
 let data = [];

@@ -1,6 +1,5 @@
 .MyPageAddressItem {
   width: 800px;
-  height: 250px;
   border: 1px solid var(--gray-color);
   border-radius: 10px;
   margin-top: 20px;
@@ -8,18 +7,27 @@
   align-items: center;
 }
 
-.MyPageAddressItem div {
-  margin-bottom: 20px;
+.address-item-addr {
+  display: flex;
+
+  margin-top: 15px;
+
+  align-items: center;
 }
 
-.address-item-title h2 {
+.address-item-addr h2 {
   font-size: 18px;
   font-weight: bold;
 }
 
+.address-item-addr span:last-child {
+  margin-left: 15px;
+}
+
 .address-item-update {
-  width: 80px;
-  margin-top: 30px;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
 }
 
 .address-item-update button {
@@ -27,8 +35,11 @@
   font-weight: bold;
   color: white;
   background-color: var(--navy-color);
-  width: 100%;
+  width: 120px;
   border: 1px solid var(--navy-color);
   border-radius: 5px;
+
   padding: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
