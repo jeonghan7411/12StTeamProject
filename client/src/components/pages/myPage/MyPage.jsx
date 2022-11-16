@@ -11,25 +11,28 @@ import classes from "./MyPage.module.css";
 import axios from "axios";
 
 import { getUser } from "../../../util/getUser";
+import { authCheck } from "../../../util/authCheck";
 
 const MyPage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    const fetchData = async () => {
-      await axios
-        .get("http://localhost:5000/mypage", { withCredentials: true })
-        .then((response) => {
-          if (response.data.status === 401) {
-            alert(response.data.message);
-            navigate("/login", { replace: true });
-          } else if (response.data.status === 200) {
-            getUser(setUser);
-          }
-        });
-    };
-    fetchData();
+    // const fetchData = async () => {
+    //   await axios
+    //     .get("http://localhost:5000/mypage", { withCredentials: true })
+    //     .then((response) => {
+    //       if (response.data.status === 401) {
+    //         alert(response.data.message);
+    //         navigate("/login", { replace: true });
+    //       } else if (response.data.status === 200) {
+    //         getUser(setUser);
+    //       }
+    //     });
+    // };
+    // fetchData();
+    authCheck();
+    getUser(setUser);
   }, []);
 
   return (
