@@ -1,5 +1,6 @@
 import React from "react";
 import { useRef } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import AddressModal from "../../layout/AddressModal";
 
@@ -125,7 +126,6 @@ const MyPageAddressAdd = ({ user, setUser, setUmemo }) => {
     // });
   };
 
-  console.log(user);
   return (
     <React.Fragment>
       <div className={classes.MyPageAddressAdd}>
@@ -143,6 +143,7 @@ const MyPageAddressAdd = ({ user, setUser, setUmemo }) => {
                 onClick={() => setNewName(true)}
               />
             ) : (
+              // <input type="text" />
               <input name="uName" onChange={addressInfoHandler} />
             )}
 
