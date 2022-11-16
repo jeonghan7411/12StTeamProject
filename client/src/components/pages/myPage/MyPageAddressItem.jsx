@@ -6,7 +6,7 @@ import MyPageAddressAdd from "./MyPageAddressAdd";
 
 import classes from "./MyPageAddressItem.module.css";
 
-const MyPageAddressItem = ({ addUser, reset, setReset }) => {
+const MyPageAddressItem = ({ addUser, getNum, setUpdateSate }) => {
   const navigate = useNavigate();
 
   const [updateItem, setUpdateItem] = useState(false);
@@ -23,60 +23,48 @@ const MyPageAddressItem = ({ addUser, reset, setReset }) => {
       }),
   ];
 
-  const updateAddr = async () => {
-    // await axios
-  };
   return (
     <React.Fragment>
-      {!updateItem ? (
-        <div className={classes.MyPageAddressItem}>
-          <div className={classes["address-item-title"]}>
-            <h2>{addUser.uName}</h2>
-          </div>
-          <div className={classes["address-item-addr"]}>{addUser.dZipcode}</div>
-          <div className={classes["address-item-addr"]}>{addUser.dAddr}</div>
-          <div className={classes["address-item-addr"]}>
-            {addUser.uAdditionalAddr}
-          </div>
-          <div className={classes["address-item-tel"]}>{addUser.dPhone}</div>
-          <div className={classes["address-item-plz"]}>{addUser.dMemo}</div>
-          <div className={classes["address-item-update"]}>
-            <button type="button">선택</button>
-            <button type="button" onClick={() => setUpdateItem(true)}>
-              수정
-            </button>
-            <button type="button" onClick={deleteAddr}>
-              삭제
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className={classes.MyPageAddressItem}>
-          <div className={classes["address-item-title"]}>
-            <h2>{addUser.uName}</h2>
-          </div>
-          <div className={classes["address-item-addr"]}>
-            <input />
-          </div>
-          <div className={classes["address-item-addr"]}>{addUser.dAddr}</div>
-          <div className={classes["address-item-addr"]}>
-            {addUser.uAdditionalAddr}
-          </div>
-          <div className={classes["address-item-tel"]}>{addUser.dPhone}</div>
-          <div className={classes["address-item-plz"]}>{addUser.dMemo}</div>
-          <div className={classes["address-item-update"]}>
-            <button type="button">선택</button>
-            <button type="button" onClick={() => setUpdateItem(true)}>
-              수정
-            </button>
-            <button type="button" onClick={deleteAddr}>
-              삭제
-            </button>
-          </div>
-        </div>
+      <div className={classes.MyPageAddressItem}>
+        <div className={classes["address-item-addr"]}>
+          <input type="hidden" value={addUser.idx} />
+          <span>이름 :</span>
 
-        // <MyPageAddressAdd />
-      )}
+          <span>
+            <h2> {addUser.uName}</h2>
+          </span>
+        </div>
+        <div className={classes["address-item-addr"]}>
+          <span>우편번호 :</span>
+          <span>{addUser.dZipcode}</span>
+        </div>
+        <div className={classes["address-item-addr"]}>
+          <span>주소 :</span>
+          <span>{addUser.dAddr}</span>
+        </div>
+        <div className={classes["address-item-addr"]}>
+          <span>상세주소 :</span>
+          <span>{addUser.uAdditionalAddr}</span>
+        </div>
+        <div className={classes["address-item-addr"]}>
+          <span>전화번호 :</span>
+          <span>{addUser.dPhone}</span>
+        </div>
+        <div className={classes["address-item-addr"]}>
+          <span>요청 사항 :</span>
+          <span>{addUser.dMemo}</span>
+        </div>
+        <div className={classes["address-item-update"]}>
+          <button type="button">선택</button>
+          {/* 선택전용 db만들어서 넣어야함*/}
+          <button type="button" onClick={getNum} name={addUser.idx}>
+            수정
+          </button>
+          <button type="button" onClick={() => setUpdateSate(true)}>
+            삭제
+          </button>
+        </div>
+      </div>
     </React.Fragment>
   );
 };
