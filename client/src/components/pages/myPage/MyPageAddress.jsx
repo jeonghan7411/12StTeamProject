@@ -14,17 +14,7 @@ const MyPageAddress = () => {
   const [user, setUser] = useState({}); //유저 정보 받아오는 곳
   const [uMemo, setUmemo] = useState("");
   const [addUser, setAddUser] = useState([]); // 추가 된 주소 저장
-
-  // const [addState, setAddState] = useState({
-  //   name: "",
-  //   phone: "",
-  //   zipcode: "",
-  //   uAddress: "",
-  //   detail: "",
-  //   plz: "",
-  // });
-  //주소 추가 값 받아오기
-
+  const [reset, setReset] = useState(false);
   const [addAddress, setAddAddress] = useState(false);
 
   const navigate = useNavigate();
@@ -39,11 +29,25 @@ const MyPageAddress = () => {
             navigate("/login", { replace: true });
           } else if (response.data.status === 200) {
             getUser(setUser);
+            const addlist = async () => {
+              await axios
+                .get("http://localhost:5000/addlist", {
+                  withCredentials: true,
+                })
+                .then((listres) => {
+                  if (listres.data.status === 200) {
+                    setAddUser(listres.data.user);
+
+                    // navigate("/mypage/mypageaddress", { replace: true });
+                  }
+                });
+            };
+            addlist();
           }
         });
     };
     fetchData();
-  }, []);
+  }, [reset]);
 
   const addDeliver = async () => {
     await axios
@@ -51,6 +55,8 @@ const MyPageAddress = () => {
       .then((response) => {
         if (response.data.status === 200) {
           alert(response.data.message);
+          setReset(!reset);
+          // window.location.href = "http://localhost:3000/mypage/mypageaddress";
         }
       });
     setAddAddress(!addAddress);
@@ -61,6 +67,7 @@ const MyPageAddress = () => {
 
     addDeliver();
   };
+  console.log(user);
   return (
     <React.Fragment>
       <div className={classes.MyPageAddress}>
@@ -79,7 +86,12 @@ const MyPageAddress = () => {
                   />
                 )}
                 {addUser.map((user) => (
-                  <MyPageAddressItem addUser={user} />
+                  <MyPageAddressItem
+                    addUser={user}
+                    key={user.idx}
+                    setReset={setReset}
+                    rest={reset}
+                  />
                 ))}
               </>
             ) : (
@@ -92,17 +104,12 @@ const MyPageAddress = () => {
           </div>
 
           <div className={classes["address-wrap-button"]}>
-            {!addAddress ? (
-              <button onClick={() => setAddAddress(!addAddress)}>
-                추가하기
-              </button>
+            {addAddress === false ? (
+              <button onClick={() => setAddAddress(true)}>추가하기</button>
             ) : (
               <div className={classes["additem-button"]}>
                 <button type="submit">추가</button>
-                <button
-                  type="button"
-                  onClick={() => setAddAddress(!addAddress)}
-                >
+                <button type="button" onClick={() => setAddAddress(false)}>
                   취소
                 </button>
               </div>

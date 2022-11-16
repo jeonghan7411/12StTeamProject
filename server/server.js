@@ -194,7 +194,7 @@ app.post("/api/login", (req, res) => {
           },
           ACCESS_SECRET_KEY,
           {
-            expiresIn: "10m",
+            expiresIn: "100m",
             issuer: "12St",
           }
         );
@@ -264,7 +264,7 @@ app.get("/api/login/success", (req, res) => {
             },
             process.env.ACCESS_SECRET_KEY,
             {
-              expiresIn: "10m",
+              expiresIn: "1m",
               issuer: "12St",
             }
           );
@@ -341,8 +341,8 @@ app.get("/api/login/getuser", (req, res) => {
   const token = req.cookies.accessToken;
 
   jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
-    const token = req.cookies.refreshToken;
-    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+    // const token = req.cookies.refreshToken;
+    const data = jwt.verify(token, process.env.ACCESS_SECRET_KEY);
 
     let sql = "SELECT * from users WHERE uId = ?;";
     db.query(sql, data.id, (err, user) => {
@@ -470,8 +470,45 @@ app.post("/adddeliver", (req, res) => {
   );
 });
 
+app.post("/addrdelete", (req, res) => {
+  const idx = req.body.addUser.idx;
+
+  let sql = "DELETE FROM deliveryaddr WHERE idx = ?;";
+  db.query(sql, [idx], (err) => {
+    if (err) {
+      throw err;
+    }
+    res.send({
+      status: 200,
+      message: "삭제 완료",
+    });
+  });
+});
+
 app.get("/addlist", (req, res) => {
-  console.log(req.body);
+  const token = req.cookies.accessToken;
+
+  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
+    const token = req.cookies.refreshToken;
+    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+    let sql = "SELECT * from users WHERE uId = ?;";
+    db.query(sql, data.id, (err, user) => {
+      if (err) {
+        throw err;
+      }
+
+      let addrSql =
+        "SELECT * FROM deliveryaddr where uId = ?  ORDER BY idx desc;";
+      db.query(addrSql, [user[0].uId], (err, user) => {
+        if (err) {
+          throw err;
+        } else {
+          res.send({ status: 200, user });
+        }
+      });
+    });
+  });
 });
 //네이버 api 받아와서 db에 넣은 흔적
 /*
