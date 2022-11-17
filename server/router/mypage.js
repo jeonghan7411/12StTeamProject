@@ -10,6 +10,8 @@ const cors = require("cors");
 const saltRounds = 10;
 
 router.use(cookieParser());
+router.use(express.json());
+router.use(express.urlencoded({ extended: false }));
 router.use(
   cors({
     origin: true,
