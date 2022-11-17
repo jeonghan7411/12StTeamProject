@@ -9,9 +9,9 @@ const HomeProducts = (props) => {
     <section className={`${classes.products} ${props.className}`}>
       <h2>{props.title}</h2>
       <div className={classes["products-wrap"]}>
-        {props.data.map((dt, key) => {
+        {props.data.map((it, key) => {
           return (
-            <HomeProduct data={dt}>
+            <HomeProduct data={it} key={key}>
               <RecommendTag />
             </HomeProduct>
           );
