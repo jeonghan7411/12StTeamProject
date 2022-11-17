@@ -19,7 +19,7 @@ const MyPageInquiryList = () => {
 
     const fetchData = async () => {
       await axios
-        .get("http://localhost:5000/inquirylist", {
+        .get("http://localhost:5000/mypage/api/inquirylist", {
           withCredentials: true,
         })
         .then((response) => {

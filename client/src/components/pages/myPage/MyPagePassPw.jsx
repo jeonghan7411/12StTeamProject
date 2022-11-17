@@ -72,7 +72,7 @@ const MyPagePassPw = () => {
 
   const updateUserHandle = async () => {
     await axios
-      .post("http://localhost:5000/updateuser", { user })
+      .post("http://localhost:5000/mypage/api/updateuser", { user })
       .then((response) => {
         if (response.data.status === 200) {
           alert(response.data.message);
@@ -603,7 +603,7 @@ const MyPagePassPw = () => {
                       onChange={infoHandler}
      
                     /> */}
-
+                    {/* <input type="text" defaultValue={user.uEmail} />  value 바꾸기*/}
                     {!emailUpdate ? (
                       <>
                         <MyPageInput

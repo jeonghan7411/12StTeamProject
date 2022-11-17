@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
 import OrderItem from "./OrderItem";
@@ -7,17 +7,24 @@ import { FaSearch, FaTimesCircle } from "react-icons/fa";
 import classes from "./OrderList.module.css";
 import MyPageListTitle from "./MyPageListTitle";
 import MyPageNullMsg from "./MyPageNullMsg";
+import { authCheck } from "../../../util/authCheck";
+import { getUser } from "../../../util/getUser";
+import axios from "axios";
 
 const OrderList = () => {
-  const [orderList, setOrderList] = useState([
-    {
-      title: "휴대폰",
-      regdate: "222222",
-      price: "3333333",
-      count: "1",
-      state: "배송완료",
-    },
-  ]);
+  const [user, setUser] = useState();
+  useEffect(() => {
+    authCheck();
+    getUser(setUser);
+
+    const fetchData = async () => {
+      // await axios.get("http://localhost:5000/api/get/orderlist");
+    };
+
+    fetchData();
+  });
+
+  const [orderList, setOrderList] = useState([]);
 
   const [searchKeyword, setSearchKeyword] = useState("");
   return (

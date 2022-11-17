@@ -18,7 +18,7 @@ const MyPageUserDelete = () => {
 
     if (window.confirm("정말 탈퇴하시겠습니까?")) {
       await axios
-        .post("http://localhost:5000/deleteuser", { user })
+        .post("http://localhost:5000/mypage/api/deleteuser", { user })
         .then((response) => {
           if (response.data.status === 200) {
             alert(response.data.message);

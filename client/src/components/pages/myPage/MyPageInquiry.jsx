@@ -55,7 +55,7 @@ const MyPageInquiry = () => {
     const uId = user.uId;
     const fetchData = async () => {
       await axios
-        .post("http://localhost:5000/inquiry", { uId, inquiry })
+        .post("http://localhost:5000/mypage/api/inquiry", { uId, inquiry })
         .then((response) => {
           if (response.data.status === 200) {
             alert(response.data.message);

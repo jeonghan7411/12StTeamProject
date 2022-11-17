@@ -53,12 +53,12 @@ const MyPageAddress = () => {
     // fetchData();
 
     authCheck();
-
     getUser(setUser);
+
     const addlist = async () => {
       await axios
         .get(
-          "http://localhost:5000/addlist",
+          "http://localhost:5000/mypage/api/addlist",
 
           {
             withCredentials: true,
@@ -75,7 +75,7 @@ const MyPageAddress = () => {
 
   const addDeliver = async () => {
     await axios
-      .post("http://localhost:5000/adddeliver", { user, uMemo })
+      .post("http://localhost:5000/mypage/api/adddeliver", { user, uMemo })
       .then((response) => {
         if (response.data.status === 200) {
           alert(response.data.message);
