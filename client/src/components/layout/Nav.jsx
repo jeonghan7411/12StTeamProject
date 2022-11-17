@@ -7,26 +7,28 @@ import { getUserName, handleLogout } from "../../util/authCheck";
 const Nav = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [username, setUsername] = useState({});
-  useEffect(() => {
-    const isLogin = async () => {
-      await axios
-        .get("http://localhost:5000/login/api/login/success", {
-          withCredentials: true,
-        })
-        .then((response) => {
-          if (response.data === "timeout") {
-            handleLogout();
-          } else if (response.data === "noInfo") {
-            setIsLogin(false);
-          } else if (response.data === "login") {
-            setIsLogin(true);
-          }
-        });
-    };
+  // useEffect(() => {
+  //   const isLogin = async () => {
+  //     await axios
+  //       .get("http://localhost:5000/login/api/login/success", {
+  //         withCredentials: true,
+  //       })
+  //       .then((response) => {
+  //         if (response.data === "timeout") {
+  //           handleLogout();
+  //         } else if (response.data === "noInfo") {
+  //           setIsLogin(false);
+  //         } else if (response.data === "login") {
+  //           setIsLogin(true);
+  //         }
+  //       });
+  //   };
 
     getUserName(setUsername);
     isLogin();
   }, []);
+
+
   return (
     <React.Fragment>
       <nav className={classes.nav}>

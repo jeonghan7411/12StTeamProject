@@ -10,6 +10,7 @@ import productImg from "../../../assets/profile.jpg";
 import testImg from "../../../assets/icon-grade1.png";
 import testImg2 from "../../../assets/icons/kakaoLogin.png";
 import { FaAngleUp, FaAngleDown, FaAngleRight } from "react-icons/fa";
+import Card from "../../UI/Card";
 
 const Product = () => {
   const navigate = useNavigate();
@@ -19,6 +20,10 @@ const Product = () => {
   const [orderValue, setOrderValue] = useState(1);
   const [order, setOrder] = useState([]);
   const { getIdx } = useParams();
+
+  const realPrice =
+    (currentData.price - currentData.price * (currentData.pDiscount / 100)) *
+    orderValue;
 
   const setMenu = (e) => {
     setCurrentMenu(e.target.textContent);
@@ -71,7 +76,7 @@ const Product = () => {
     fetchData();
   }, []);
 
-  // console.log(order);
+  console.log(currentData);
 
   useEffect(() => {
     setOrder([
@@ -89,7 +94,8 @@ const Product = () => {
   return (
     <React.Fragment>
       <div className={classes["product-path"]}>
-        <Link to={"/"}>홈</Link> <FaAngleRight />{" "}
+        <Link to={"/"}>홈</Link> <FaAngleRight />
+        {/* 카테고리 대중소 */}
         <Link>{currentData.category1}</Link>
         {
           <>
@@ -127,68 +133,90 @@ const Product = () => {
           <div className={classes["product-content-img-List"]}>
             {/* 이미지 클릭시 해당 이미지로 메인 이미지 변경 */}
             {/* DB 추가되면 동적처리 필요 */}
-            <div>
+            <div className={classes["product-content-img-item"]}>
               <img src={currentData.image} alt="" onClick={setPreviewImg} />
             </div>
-            <div>
+            <div className={classes["product-content-img-item"]}>
               <img src={testImg2} alt="" onClick={setPreviewImg} />
             </div>
-            <div>
+            <div className={classes["product-content-img-item"]}>
               <img src={productImg} alt="" onClick={setPreviewImg} />
             </div>
           </div>
-          <div className={classes["product-content-img-main"]}>
+          <Card className={classes["product-content-img-main"]}>
             <img src={currentImg} alt="" />
-          </div>
+          </Card>
         </div>
         <div className={classes["product-content-detail"]}>
-          <div className={classes["product-content-detail-title"]}>
+          <div className={classes["product-content-detail-mall"]}>
             <h4>
               {
-                <>
-                  {currentData.category4 !== "" ? (
-                    <>
-                      <Link>{currentData.category4}</Link>
-                    </>
-                  ) : (
-                    <>
-                      {currentData.category3 !== "" ? (
-                        <>
-                          <Link>{currentData.category3}</Link>
-                        </>
-                      ) : (
-                        <>
-                          {currentData.category2 !== "" ? (
-                            <>
-                              <Link>{currentData.category2}</Link>
-                            </>
-                          ) : (
-                            <Link>{currentData.category1}</Link>
-                          )}
-                        </>
-                      )}
-                    </>
-                  )}
-                </>
+                // <>
+                //   {currentData.category4 !== "" ? (
+                //     <>
+                //       <Link>{currentData.category4}</Link>
+                //     </>
+                //   ) : (
+                //     <>
+                //       {currentData.category3 !== "" ? (
+                //         <>
+                //           <Link>{currentData.category3}</Link>
+                //         </>
+                //       ) : (
+                //         <>
+                //           {currentData.category2 !== "" ? (
+                //             <>
+                //               <Link>{currentData.category2}</Link>
+                //             </>
+                //           ) : (
+                //             <Link>{currentData.category1}</Link>
+                //           )}
+                //         </>
+                //       )}
+                //     </>
+                //   )}
+                // </>
+                <Link>{currentData.mallname}</Link>
               }
             </h4>
             <h2>{currentData.title}</h2>
             <p>상품평 별점</p>
           </div>
           <div className={classes["product-content-detail-price"]}>
-            {/* 원가 */}
-            <h3>{currentData.price}원</h3>
-            {/* 원가 밑에 할인율 적용된 가격 */}
-            <h2>
-              {(currentData.price -
-                currentData.price * (currentData.pDiscount / 100)) *
-                orderValue}
-              원
+            {/* 할인율 */}
+            <h3 className={classes["product-content-detail-price__discount"]}>
+              {currentData.pDiscount}
+              <span
+                className={classes["product-content-detail-price__percent"]}
+              >
+                %
+              </span>
+            </h3>
+            {/*  할인율 적용된 가격 */}
+            <h2 className={classes["product-content-detail-price__realPrice"]}>
+              {realPrice}원
             </h2>
-            적립
+            {/* 원가 */}
+            <h3 className={classes["product-content-detail-price__price"]}>
+              {currentData.price}원
+            </h3>
           </div>
-          <div className={classes["product-content-detail-shipping"]}>
-            배송 방법 정리
+          <p className={classes["product-content-detail__getMile"]}>
+            상품 구매시
+            <span
+              className={classes["product-content-detail__getMile__number"]}
+            >
+              {realPrice * 0.03}
+            </span>
+            마일리지 적립
+          </p>
+          <div className={classes["product-content-detail-deliveryInfo"]}>
+            <span
+              className={classes["product-content-detail-deliveryInfo__title"]}
+            >
+              배송
+            </span>
+            <span>상품 정보 참고</span>
           </div>
           <div className={classes["product-content-detail-order"]}>
             <div>
@@ -237,10 +265,30 @@ const Product = () => {
       </div>
 
       <div className={classes["product-infos"]}>
-        <li onClick={setMenu}>상품 상세</li>
-        <li onClick={setMenu}>상품평</li>
-        <li onClick={setMenu}>상품문의</li>
-        <li onClick={setMenu}>상품배송교환</li>
+        <li
+          className={currentMenu === "상품 상세" ? classes.click : ""}
+          onClick={setMenu}
+        >
+          상품 상세
+        </li>
+        <li
+          className={currentMenu === "상품평" ? classes.click : ""}
+          onClick={setMenu}
+        >
+          상품평
+        </li>
+        <li
+          className={currentMenu === "상품문의" ? classes.click : ""}
+          onClick={setMenu}
+        >
+          상품문의
+        </li>
+        <li
+          className={currentMenu === "상품배송교환" ? classes.click : ""}
+          onClick={setMenu}
+        >
+          상품배송교환
+        </li>
       </div>
       <div>
         {currentMenu === "상품평" ? (
