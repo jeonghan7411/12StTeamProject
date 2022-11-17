@@ -5,17 +5,11 @@ import Card from "../../UI/Card";
 
 import classes from "./HomeProduct.module.css";
 
-const DUMMY_URL =
-  "https://cdn.011st.com/11dims/resize/x300/11src/pd/v2/8/4/4/3/3/0/Xbjtt/5090844330_L300.jpg";
-
-const Product = (props) => {
+const HomeProduct = (props) => {
   // SQL에서 할인율 컬럼에 랜덤난수 0~40 부여하고 여기 구문 수정하기
   return (
-    <Link
-      to={`/products/${props.data.productId}`}
-      className={`${classes.product} ${props.className}`}
-    >
-      <Card>
+    <Link to={`/products/${props.data.productId}`}>
+      <Card className={`${classes.product} ${props.className}`}>
         {props.children}
         <Card className={classes["product-img"]}>
           <img src={props.data.image} alt="" />
@@ -46,4 +40,4 @@ const Product = (props) => {
   );
 };
 
-export default Product;
+export default HomeProduct;

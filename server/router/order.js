@@ -22,12 +22,11 @@ router.use(
 router.get("/api/get/cartData", (req, res) => {
   const token = req.cookies.accessToken;
   const data = jwt.verify(token, process.env.ACCESS_SECRET_KEY);
-
   let sql =
     "SELECT * FROM products INNER JOIN shoppingbasket ON products.productId = shoppingbasket.productId where uId = ? ORDER BY idx DESC;";
-
   db.query(sql, [data.id], (err, result) => {
     if (err) throw err;
+
     res.send(result);
   });
 });

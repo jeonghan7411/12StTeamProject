@@ -19,6 +19,13 @@
   width: 100%;
 }
 
+.orderComplete-recript-recript {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 50px;
+  letter-spacing: 22px;
+}
+
 .orderComplete-recript-section {
   border-bottom: 2px dashed rgb(180, 180, 180);
   padding-bottom: 30px;

@@ -8,6 +8,7 @@
   cursor: pointer;
   position: relative;
 }
+
 .product:hover {
   text-decoration: none;
 }
