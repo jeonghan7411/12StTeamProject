@@ -7,40 +7,85 @@ import { useEffect } from "react";
 import { authCheck } from "../../../util/authCheck";
 import Card from "../../UI/Card";
 const ProductCart = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [cart, setCart] = useState([]);
-  const [totalPrice, setTotalPrice] = useState({});
+  const [totalPrice, setTotalPrice] = useState({
+    productPrice: 0,
+    deliveryFee: 0,
+  });
   const [checkedItems, setCheckedItems] = useState([]);
   const [isAllChecked, setIsAllChecked] = useState(false);
-  const navigate = useNavigate();
 
-  console.log(checkedItems);
+  // 결제 버튼 클릭
+  const handlePayment = () => {
+    // 상품 전체 선택시
+    if (checkedItems.length === cart.length) {
+      navigate("/order", { state: { order: cart } });
+    } else {
+      const orderData = checkedItems.map((it) => cart[it - 1]);
+      navigate("/order", { state: { order: orderData } });
+    }
+  };
+
+  // 상품 체크
   const handleCheck = (checked, id) => {
-    console.log(id);
+    let price = 0;
+
+    let delivery = 0;
+
     if (checked) {
       if (id === "allChecked") {
         setIsAllChecked(true);
-        cart.map((it, idx) =>
+        cart.forEach((it, idx) => {
+          price +=
+            (it.price - Math.ceil((it.price * it.pDiscount) / 100)) *
+            +it.sQuantity;
+
+          delivery += it.pDeliveryFee;
+
+          setTotalPrice({ productPrice: price, deliveryFee: delivery });
+
           setCheckedItems((prev) => {
             return [...prev, idx + 1];
-          })
-        );
+          });
+        });
 
-        console.log("전체 체크 성공");
         return;
       }
       setCheckedItems([...checkedItems, id]);
-      console.log(`${id}번 체크 성공`);
+
+      price =
+        cart[id - 1].price * cart[id - 1].sQuantity -
+        Math.ceil((cart[id - 1].price * cart[id - 1].pDiscount) / 100) *
+          cart[id - 1].sQuantity;
+
+      setTotalPrice({
+        deliveryFee: totalPrice.deliveryFee + cart[id - 1].pDeliveryFee,
+        productPrice: totalPrice.productPrice + price,
+      });
     } else {
       if (id === "allChecked") {
         setIsAllChecked(false);
         setCheckedItems([]);
-        console.log("전체 체크 해체 성공");
+
+        price = 0;
+
+        setTotalPrice({ productPrice: price, deliveryFee: price });
         return;
       }
 
       setCheckedItems(checkedItems.filter((it) => it !== id));
-      console.log(`${id}번 체크 해체 성공`);
+
+      price =
+        cart[id - 1].price * cart[id - 1].sQuantity -
+        Math.ceil((cart[id - 1].price * cart[id - 1].pDiscount) / 100) *
+          cart[id - 1].sQuantity;
+
+      setTotalPrice({
+        deliveryFee: totalPrice.deliveryFee - cart[id - 1].pDeliveryFee,
+        productPrice: totalPrice.productPrice - price,
+      });
     }
   };
 
@@ -55,19 +100,6 @@ const ProductCart = () => {
         })
         .then((response) => {
           setCart(response.data);
-
-          let product = 0;
-          let real = 0;
-          response.data.forEach((it) => {
-            product += it.price * +it.sQuantity;
-            real +=
-              (it.price - (it.price * it.pDiscount) / 100) * +it.sQuantity;
-          });
-          // console.log(product);
-          // console.log(real);
-
-          // 반올림
-          setTotalPrice({ product, real: Math.round(real / 10) * 10 });
         });
     };
 
@@ -89,7 +121,6 @@ const ProductCart = () => {
     fetchCartData();
   }, []);
 
-  // console.log(cart);
   return (
     <div className={classes["productcart-wrapper"]}>
       <div className={classes["productcart-cart"]}>
@@ -161,13 +192,13 @@ const ProductCart = () => {
           <div className={classes["productcart-order-purchase-product"]}>
             <h4>상품금액</h4>
             <p>
-              <strong>{totalPrice.product}</strong>원
+              <strong>{totalPrice.productPrice}</strong>원
             </p>
           </div>
           <div className={classes["productcart-order-purchase-discount"]}>
-            <h4>할인금액</h4>
+            <h4>총 배송비</h4>
             <p>
-              <strong>-{totalPrice.product - totalPrice.real}</strong>원
+              <strong>{totalPrice.deliveryFee}</strong>원
             </p>
           </div>
           <div className={classes["productcart-order-purchase-total"]}>
@@ -177,16 +208,12 @@ const ProductCart = () => {
             <span
               className={classes["productcart-order-purchase-total__price"]}
             >
-              {totalPrice.real}원
+              {totalPrice.productPrice + totalPrice.deliveryFee}원
             </span>
           </div>
           <div className={classes["productcart-order-purchase-btn"]}>
             {/* 여기 주문하기 온클릭 링크 나중에 노드로 바꾸고 노드에서 리다렉 */}
-            <input
-              type={"button"}
-              value="주문하기"
-              onClick={() => navigate("/order")}
-            />
+            <input type={"button"} value="주문하기" onClick={handlePayment} />
           </div>
         </div>
       </div>

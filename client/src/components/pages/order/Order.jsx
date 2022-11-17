@@ -17,6 +17,7 @@ const Order = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [orderData, setOrderData] = useState(location.state.order);
+  console.log(orderData);
 
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalDeliveyFee, setTotalDeliveryFee] = useState(0);
@@ -42,12 +43,15 @@ const Order = () => {
 
   useEffect(() => {
     let totalprice = 0;
+    let totalDeliveryFee = 0;
     orderData.forEach((data) => {
-      totalprice += data.price * data.amount;
-
-      setTotalDeliveryFee(totalDeliveyFee + data.deliveryFee);
+      totalprice +=
+        (data.price - Math.ceil((data.price * data.pDiscount) / 100)) *
+        data.sQuantity;
+      console.log(totalprice);
+      totalDeliveryFee += data.pDeliveryFee;
     });
-
+    setTotalDeliveryFee(totalDeliveryFee);
     setTotalPrice(totalprice);
     setOrderInfo({
       oUseMile: 0,
@@ -174,12 +178,12 @@ const Order = () => {
         />
       )}
       {/* 배송지 정보 수정 모달 컴포넌트 */}
-      {showModal.isShowDeliveryInfo && (
+      {/* {showModal.isShowDeliveryInfo && (
         <ModalOrderDeliveryInfoChange
           onShowModal={setShowMadal}
           onDeliveryInfoChange={handleDeliveryInfoChange}
         />
-      )}
+      )} */}
       {/* 받는 사람 정보 컴포넌트 */}
       <OrderDeliveryInfo
         userData={user}

@@ -77,12 +77,12 @@ const Product = () => {
     setOrder([
       {
         title: currentData.title,
-        amount: orderValue,
+        sQuantity: orderValue,
         price:
           currentData.price - currentData.price * (currentData.pDiscount / 100),
         productId: currentData.productId,
         image: currentData.image,
-        deliveryFee: currentData.pDeliveryFee,
+        pDeliveryFee: currentData.pDeliveryFee,
       },
     ]);
   }, [currentData, orderValue]);

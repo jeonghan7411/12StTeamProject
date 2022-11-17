@@ -1,20 +1,19 @@
 import React from "react";
-
-import Product from "./HomeProduct";
+import HomeProduct from "./HomeProduct";
 
 import classes from "./HomeProducts.module.css";
 import RecommendTag from "./RecommendTag";
 
-const Products = (props) => {
+const HomeProducts = (props) => {
   return (
     <section className={`${classes.products} ${props.className}`}>
       <h2>{props.title}</h2>
       <div className={classes["products-wrap"]}>
         {props.data.map((dt, key) => {
           return (
-            <Product data={dt}>
+            <HomeProduct data={dt}>
               <RecommendTag />
-            </Product>
+            </HomeProduct>
           );
         })}
       </div>
@@ -22,4 +21,4 @@ const Products = (props) => {
   );
 };
 
-export default Products;
+export default HomeProducts;

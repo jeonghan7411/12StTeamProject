@@ -44,6 +44,8 @@ const OrderComplete = () => {
       <h3 className={classes["orderComplete-title"]}>결제가 완료되었습니다.</h3>
 
       <div className={classes["orderComplete-recriptWrap"]}>
+        <p className={classes["orderComplete-recript-recript"]}>영수증</p>
+
         <section className={classes["orderComplete-recript-section"]}>
           <h3 className={classes["orderComplete-recript-company"]}>12st</h3>
           <p className={classes["orderComplete-recript-date"]}>
