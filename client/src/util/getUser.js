@@ -6,7 +6,6 @@ export const getUser = async (setUser) => {
       withCredentials: true,
     })
     .then((response) => {
-      // setUser(response.data);
       setUser(response.data);
     });
 };

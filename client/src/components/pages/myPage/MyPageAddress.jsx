@@ -90,6 +90,7 @@ const MyPageAddress = () => {
   // const [testa, setTestA] = useState({});
 
   const [targetNum, setTargetNum] = useState("");
+
   const getNum = (e) => {
     setUpdateSate(true);
     setTargetNum(e.target.name);
@@ -109,7 +110,7 @@ const MyPageAddress = () => {
 
         <form method="post" onSubmit={addAddressItem}>
           <div className={classes["address-wrap-content"]}>
-            {!addAddress ? (
+            {/* {!addAddress ? (
               <>
                 {addUser.length === 0 && (
                   <MyPageNullMsg
@@ -123,22 +124,47 @@ const MyPageAddress = () => {
                       <MyPageAddressItem
                         key={user.idx}
                         addUser={user}
-                        setAddUser={setAddUser}
                         getNum={getNum}
-                        setUpdateSate={setUpdateSate}
-                        setReset={setReset}
+                        targetNum={targetNum}
+                        setTargetNum={setTargetNum}
                       />
                     ))}
                   </>
                 ) : (
                   <MyPageUpdateAddr
                     addUser={addUser}
-                    setAddUser={setAddUser}
                     targetNum={targetNum}
                     setUpdateSate={setUpdateSate}
                   />
                 )}
               </>
+            ) : (
+              <MyPageAddressAdd
+                user={user}
+                setUser={setUser}
+                setUmemo={setUmemo}
+              />
+            )} */}
+
+            {!addAddress ? (
+              <div>
+                {addUser.length === 0 && (
+                  <MyPageNullMsg
+                    className={classes["address-content-null"]}
+                    text={"등록된 주소가 없습니다."}
+                  />
+                )}
+
+                {addUser.map((user) => (
+                  <MyPageAddressItem
+                    key={user.idx}
+                    addUser={user}
+                    getNum={getNum}
+                    targetNum={targetNum}
+                    setTargetNum={setTargetNum}
+                  />
+                ))}
+              </div>
             ) : (
               <MyPageAddressAdd
                 user={user}

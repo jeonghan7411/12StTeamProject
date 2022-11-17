@@ -26,7 +26,7 @@ const Nav = () => {
 
     getUserName(setUsername);
     isLogin();
-  }, [username]);
+  }, []);
   return (
     <React.Fragment>
       <nav className={classes.nav}>

@@ -144,7 +144,6 @@ router.post("/api/adddeliver", (req, res) => {
   const inputDetail = req.body.user.uAdditionalAddr;
   const inputPhone = req.body.user.uPhone;
   const inputMemo = req.body.uMemo;
-  console.log(DBId);
 
   let sql = "INSERT INTO deliveryaddr VALUES(NULL,?,?,?,?,?,?,?);";
   db.query(
@@ -211,11 +210,16 @@ router.post("/api/addrdelete", (req, res) => {
   });
 });
 
+router.post("/api/showinfo", (req, res) => {
+  console.log("dd");
+  console.log(req.body);
+});
+
 router.post("/api/addrupdate", (req, res) => {
   const idx = parseInt(req.body.targetNum);
+  console.log(idx);
   const { uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo } = req.body;
 
-  console.log(idx);
   let sql =
     "UPDATE deliveryaddr SET uName= ?,dZipcode =? ,dAddr =?,dAdditionalAddr=?,dPhone=?,dMemo=? WHERE idx =?;";
   db.query(
