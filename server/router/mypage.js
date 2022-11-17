@@ -213,13 +213,14 @@ router.post("/api/addrdelete", (req, res) => {
 
 router.post("/api/addrupdate", (req, res) => {
   const idx = parseInt(req.body.targetNum);
-  const { uName, dZipcode, dAddr, uAdditionalAddr, dPhone, dMemo } =
-    req.body.updateInfo;
+  const { uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo } = req.body;
+
+  console.log(idx);
   let sql =
     "UPDATE deliveryaddr SET uName= ?,dZipcode =? ,dAddr =?,dAdditionalAddr=?,dPhone=?,dMemo=? WHERE idx =?;";
   db.query(
     sql,
-    [uName, dZipcode, dAddr, uAdditionalAddr, dPhone, dMemo, idx],
+    [uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo, idx],
     (err) => {
       if (err) {
         throw err;

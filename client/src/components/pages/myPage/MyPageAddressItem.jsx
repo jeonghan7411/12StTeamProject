@@ -6,10 +6,8 @@ import MyPageAddressAdd from "./MyPageAddressAdd";
 
 import classes from "./MyPageAddressItem.module.css";
 
-const MyPageAddressItem = ({ addUser, getNum, setUpdateSate }) => {
+const MyPageAddressItem = ({ addUser, getNum, targetNum }) => {
   const navigate = useNavigate();
-
-  const [updateItem, setUpdateItem] = useState(false);
 
   const deleteAddr = async () => {
     if (window.confirm("삭제 하시겠습니까?")) {
@@ -24,6 +22,28 @@ const MyPageAddressItem = ({ addUser, getNum, setUpdateSate }) => {
         });
     }
   };
+
+  const [updateInfo, setUpdateInfo] = useState(addUser[0]);
+  // const updateInput = (e) => {
+  //   setUpdateInfo({
+  //     ...updateInfo,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+  // const updateAddr = async (e) => {
+  //   await axios
+  //     .post("http://localhost:5000/mypage/api/addrupdate", {
+  //       targetNum,
+  //       updateInfo,
+  //     })
+  //     .then((response) => {
+  //       if (response.data.status === 200) {
+  //         alert(response.data.message);
+  //         window.location.href = "http://localhost:3000/mypage/mypageaddress";
+  //         // setUpdateSate(true);
+  //       }
+  //     });
+  // };
 
   return (
     <React.Fragment>
@@ -46,7 +66,7 @@ const MyPageAddressItem = ({ addUser, getNum, setUpdateSate }) => {
         </div>
         <div className={classes["address-item-addr"]}>
           <span>상세주소 :</span>
-          <span>{addUser.uAdditionalAddr}</span>
+          <span>{addUser.dAdditionalAddr}</span>
         </div>
         <div className={classes["address-item-addr"]}>
           <span>전화번호 :</span>
