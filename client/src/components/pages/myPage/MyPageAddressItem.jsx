@@ -14,7 +14,7 @@ const MyPageAddressItem = ({ addUser, getNum, setUpdateSate }) => {
   const deleteAddr = async () => {
     if (window.confirm("삭제 하시겠습니까?")) {
       await axios
-        .post("http://localhost:5000/addrdelete", { addUser })
+        .post("http://localhost:5000/mypage/api/addrdelete", { addUser })
         .then((response) => {
           if (response.data.status === 200) {
             alert(response.data.message);

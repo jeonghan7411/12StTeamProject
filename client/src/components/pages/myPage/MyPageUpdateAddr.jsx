@@ -23,7 +23,10 @@ const MyPageUpdateAddr = ({
 
   const updateAddr = async (e) => {
     await axios
-      .post("http://localhost:5000/addrupdate", { targetNum, updateInfo })
+      .post("http://localhost:5000/mypage/api/addrupdate", {
+        targetNum,
+        updateInfo,
+      })
       .then((response) => {
         if (response.data.status === 200) {
           alert(response.data.message);

@@ -5,16 +5,18 @@ const bcrypt = require("bcrypt");
 const multer = require("multer");
 const moment = require("moment");
 require("dotenv").config();
+const mysql = require("mysql");
 const db = require("./db/db");
 const fs = require("fs");
 const app = express();
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const { send } = require("process");
-
+const mypage = require("./router/mypage");
 const saltRounds = 10;
 
 // middleware
+app.use("/mypage", mypage);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -140,11 +142,23 @@ app.post("/regist", (req, res) => {
     uAdditionalAddr,
     uBirth,
   } = req.body;
+
   let sql =
     "INSERT INTO users VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ? , 1000, ?, 1, NOW());";
+
+  let addrSql =
+    "INSERT INTO deliveryaddr VALUES(NULL, ?, ?, ?, ?, ?, ?, NULL);";
+  let addrSql2 = mysql.format(addrSql, [
+    uId,
+    uName,
+    uZipcode,
+    uAddress,
+    uAdditionalAddr,
+    uPhone,
+  ]);
   bcrypt.hash(uPasswd, saltRounds, (err, hash_passwd) => {
     db.query(
-      sql,
+      sql + addrSql2,
       [
         uId,
         uName,
@@ -157,65 +171,69 @@ app.post("/regist", (req, res) => {
         uBirth,
       ],
       (err) => {
-        if (err) throw err;
-        res.send({ status: 200 });
+        if (err) {
+          throw err;
+        } else {
+          res.send({ status: 200 });
+        }
       }
     );
   });
 });
 
-// 로그인 구현, 비밀번호 비크립트만 추가해서 수정하기 레지스트 끝나고나면
 app.post("/api/login", (req, res) => {
   let isUser = false;
   const { userID, userPW } = req.body;
   console.log(userID);
   console.log(userPW);
-  let sql = "SELECT * from users where uId = ? AND uPasswd = ?;";
-  db.query(sql, [userID, userPW], (err, rows) => {
+  let sql = "SELECT * from users where uId = ?;";
+
+  db.query(sql, [userID], (err, rows) => {
+    const userData = rows[0];
     if (err) {
       console.log(err);
     } else {
-      const userData = rows[0];
-
-      if (userData.uId === userID && userData.uPasswd === userPW) {
-        isUser = true;
-      } else {
-        return;
-      }
-      if (isUser) {
-        const ACCESS_SECRET_KEY = process.env.ACCESS_SECRET_KEY;
-        const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
-        //accessToken 발급
-        const accessToken = jwt.sign(
-          {
-            id: userData.uId,
-          },
-          ACCESS_SECRET_KEY,
-          {
-            expiresIn: "10m",
-            issuer: "12St",
+      bcrypt.compare(userPW, userData.uPasswd, (err, result) => {
+        if (err) {
+          throw err;
+        } else if (result) {
+          isUser = true;
+          if (isUser) {
+            const ACCESS_SECRET_KEY = process.env.ACCESS_SECRET_KEY;
+            const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
+            //accessToken 발급
+            const accessToken = jwt.sign(
+              {
+                id: userData.uId,
+              },
+              ACCESS_SECRET_KEY,
+              {
+                expiresIn: "10m",
+                issuer: "12St",
+              }
+            );
+            //refreshToken 발급
+            const refreshToken = jwt.sign(
+              {
+                id: userData.uId,
+              },
+              REFRESH_SECRET_KEY,
+              {
+                expiresIn: "24h",
+                issuer: "12St",
+              }
+            );
+            res.cookie("accessToken", accessToken, { httpOnly: true });
+            res.cookie("refreshToken", refreshToken, { httpOnly: true });
+            res.status(201).json({
+              result: "ok",
+              accessToken,
+            });
+          } else {
+            res.status(400).json({ error: "invalid user" });
           }
-        );
-        //refreshToken 발급
-        const refreshToken = jwt.sign(
-          {
-            id: userData.uId,
-          },
-          REFRESH_SECRET_KEY,
-          {
-            expiresIn: "24h",
-            issuer: "12St",
-          }
-        );
-        res.cookie("accessToken", accessToken, { httpOnly: true });
-        res.cookie("refreshToken", refreshToken, { httpOnly: true });
-        res.status(201).json({
-          result: "ok",
-          accessToken,
-        });
-      } else {
-        res.status(400).json({ error: "invalid user" });
-      }
+        }
+      });
     }
   });
 });
@@ -316,256 +334,6 @@ app.get("/api/login/refresh", (req, res) => {
   });
 });
 */
-
-app.get("/mypage", (req, res) => {
-  const token = req.cookies.accessToken;
-
-  if (token === undefined) {
-    res.send({
-      status: 401,
-      message: "로그인 정보가 없습니다.",
-    });
-  } else {
-    res.send({
-      status: 200,
-      message: "환영합니다.",
-      token,
-    });
-  }
-});
-
-app.get("/api/login/getuser", (req, res) => {
-  const token = req.cookies.accessToken;
-
-  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
-    const token = req.cookies.refreshToken;
-    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
-
-    let sql = "SELECT * from users WHERE uId = ?;";
-    db.query(sql, data.id, (err, user) => {
-      if (err) {
-        throw err;
-      }
-
-      res.send(user[0]);
-    });
-  });
-});
-
-app.post("/updateuser", (req, res) => {
-  const id = req.body.user.uId;
-  const name = req.body.user.uName;
-  const passwd = req.body.user.uPasswd;
-  const email = req.body.user.uEmail;
-  const phone = req.body.user.uPhone;
-  const zipcode = req.body.user.uZipcode;
-  const address = req.body.user.uAddress;
-  const birth = req.body.user.uBirth;
-  const detail = req.body.user.uDetail;
-
-  let sql =
-    "update users set uName=?, uPasswd=?, uEmail=?, uPhone=?, uZipcode=?,uAddress=?,uBirth=?,uAdditionalAddr =? where uId = ?;";
-
-  bcrypt.hash(passwd, saltRounds, (err, hash_passwd) => {
-    db.query(
-      sql,
-      [name, hash_passwd, email, phone, zipcode, address, birth, detail, id],
-      (err) => {
-        if (err) {
-          throw err;
-        }
-        console.log("ok");
-        res.send({
-          status: 200,
-          message: "회원수정 완료",
-        });
-      }
-    );
-  });
-});
-
-app.post("/checkingpw", (req, res) => {
-  const inputPw = req.body.checkInputPw;
-  const dataPw = req.body.user.uPasswd;
-
-  let sql = "SELECT * FROM users WHERE uId = ?";
-
-  db.query(sql, [req.body.user.uId], (err, user) => {
-    if (user[0] === undefined) {
-      console.log("No UserData");
-      res.send({
-        status: 404,
-        message: "해당 아이디 정보가 없습니다.",
-      });
-    } else {
-      bcrypt.compare(inputPw, dataPw, (err, result) => {
-        if (result) {
-          console.log("사용자 인증");
-          res.send({
-            status: 200,
-            message: "회원정보 인증 성공!",
-            searchPw: dataPw,
-          });
-        } else {
-          console.log("사용자 인증 실패");
-          res.send({
-            status: 400,
-            message: "비밀번호를 확인해주세요.",
-          });
-        }
-      });
-    }
-  });
-});
-
-app.post("/deleteuser", (req, res) => {
-  const id = req.body.user.uId;
-  let sql = "UPDATE users SET uAuth = ? WHERE uId = ?;";
-  db.query(sql, [0, id], (err) => {
-    if (err) {
-      throw err;
-    }
-    console.log("회원 비활성화");
-    res.send({
-      status: 200,
-      message: "탈퇴가 정상적으로 완료 되었습니다.",
-    });
-  });
-});
-
-app.post("/adddeliver", (req, res) => {
-  const DBId = req.body.user.uId;
-  const inputName = req.body.user.uName;
-  const inputZipcode = req.body.user.uZipcode;
-  const inputAddress = req.body.user.uAddress;
-  const inputDetail = req.body.user.uAdditionalAddr;
-  const inputPhone = req.body.user.uPhone;
-  const inputMemo = req.body.uMemo;
-  console.log(DBId);
-
-  let sql = "INSERT INTO deliveryaddr VALUES(NULL,?,?,?,?,?,?,?);";
-  db.query(
-    sql,
-    [
-      DBId,
-      inputName,
-      inputZipcode,
-      inputAddress,
-      inputDetail,
-      inputPhone,
-      inputMemo,
-    ],
-    (err) => {
-      if (err) {
-        throw err;
-      }
-      res.send({
-        status: 200,
-        message: "신규 주소 등록완료",
-      });
-    }
-  );
-});
-
-app.get("/addlist", (req, res) => {
-  const token = req.cookies.accessToken;
-
-  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
-    const token = req.cookies.refreshToken;
-    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
-
-    let sql = "SELECT * from users WHERE uId = ?;";
-    db.query(sql, data.id, (err, user) => {
-      if (err) {
-        throw err;
-      }
-
-      let addrSql =
-        "SELECT * FROM deliveryaddr where uId = ?  ORDER BY idx desc;";
-      db.query(addrSql, [user[0].uId], (err, user) => {
-        if (err) {
-          throw err;
-        } else {
-          res.send({ status: 200, user });
-        }
-      });
-    });
-  });
-});
-
-app.post("/addrdelete", (req, res) => {
-  const idx = req.body.addUser.idx;
-
-  let sql = "DELETE FROM deliveryaddr WHERE idx = ?;";
-  db.query(sql, [idx], (err) => {
-    if (err) {
-      throw err;
-    }
-    res.send({
-      status: 200,
-      message: "삭제 완료",
-    });
-  });
-});
-
-app.post("/addrupdate", (req, res) => {
-  const idx = parseInt(req.body.targetNum);
-  const { uName, dZipcode, dAddr, uAdditionalAddr, dPhone, dMemo } =
-    req.body.updateInfo;
-  let sql =
-    "UPDATE deliveryaddr SET uName= ?,dZipcode =? ,dAddr =?,uAdditionalAddr=?,dPhone=?,dMemo=? WHERE idx =?;";
-  db.query(
-    sql,
-    [uName, dZipcode, dAddr, uAdditionalAddr, dPhone, dMemo, idx],
-    (err) => {
-      if (err) {
-        throw err;
-      }
-      res.send({ status: 200, message: "수정 완료" });
-    }
-  );
-});
-
-app.post("/inquiry", (req, res) => {
-  const uId = req.body.uId;
-  const { bTitle, bBoardtype, bContent } = req.body.inquiry;
-  let sql = "INSERT INTO board VALUES (NULL,?,?,?,?,NOW());";
-
-  db.query(sql, [uId, bBoardtype, bTitle, bContent], (err) => {
-    if (err) {
-      throw err;
-    }
-    res.send({
-      status: 200,
-      message: "작성 완료",
-    });
-  });
-});
-
-app.get("/inquirylist", (req, res) => {
-  const token = req.cookies.accessToken;
-
-  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
-    const token = req.cookies.refreshToken;
-    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
-    console.log(data.id);
-    let sql = "SELECT * from users WHERE uId = ?;";
-    db.query(sql, data.id, (err, user) => {
-      if (err) {
-        throw err;
-      }
-
-      let addrSql = "SELECT * FROM board where uId = ?  ORDER BY bId desc;";
-      db.query(addrSql, [user[0].uId], (err, data) => {
-        if (err) {
-          throw err;
-        } else {
-          res.send({ status: 200, data });
-        }
-      });
-    });
-  });
-});
 
 //네이버 api 받아와서 db에 넣은 흔적
 /*

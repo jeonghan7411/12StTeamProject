@@ -17,7 +17,7 @@ const MyPageCheckPw = ({ setUserPw }) => {
   useEffect(() => {
     const fetchData = async () => {
       await axios
-        .get("http://localhost:5000/mypage", { withCredentials: true })
+        .get("http://localhost:5000/", { withCredentials: true })
         .then((response) => {
           if (response.data.status === 401) {
             alert(response.data.message);
@@ -34,7 +34,10 @@ const MyPageCheckPw = ({ setUserPw }) => {
     e.preventDefault();
 
     await axios
-      .post("http://localhost:5000/checkingpw", { user, checkInputPw })
+      .post("http://localhost:5000/api/checkingpw", {
+        user,
+        checkInputPw,
+      })
       .then((response) => {
         const msg = response.data.message;
         if (response.data.status === 200) {
