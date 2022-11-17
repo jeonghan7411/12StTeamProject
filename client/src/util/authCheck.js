@@ -6,7 +6,7 @@ export const handleLogout = async () => {
     withCredentials: true,
   });
   window.alert("로그아웃");
-  window.location.reload();
+  window.location.href = "/";
 };
 
 export const authCheck = async () => {
@@ -21,5 +21,16 @@ export const authCheck = async () => {
         alert("로그인이 필요합니다");
         window.location.href = "/login";
       }
+    });
+};
+
+export const getUserName = async (setUserName) => {
+  await axios
+    .get("http://localhost:5000/login/api/login/getusername", {
+      withCredentials: true,
+    })
+    .then((response) => {
+      // setUser(response.data);
+      setUserName(response.data);
     });
 };
