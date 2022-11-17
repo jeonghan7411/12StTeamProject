@@ -24,13 +24,7 @@ import Order from "./components/pages/order/Order";
 import OrderComplete from "./components/pages/order/OrderComplete";
 import CrlWrite from "./components/pages/myPage/CrlWrite";
 import Product from "./components/pages/productDetail/Product";
-import LogOut from "./components/pages/login/LogOut";
 import OrderDetail from "./components/pages/myPage/OrderDetail";
-import OrderAccount from "./components/pages/order/orderMethod/OrderAccount";
-import OrderCard from "./components/pages/order/orderMethod/OrderCard";
-import OrderCoperateCard from "./components/pages/order/orderMethod/OrderCoperateCard";
-import OrderPhone from "./components/pages/order/orderMethod/OrderPhone";
-import OrderNoneBank from "./components/pages/order/orderMethod/OrderNoneBank";
 import MyPageUserDelete from "./components/pages/myPage/MyPageUserDelete";
 import React from "react";
 
@@ -41,7 +35,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       await axios
-        .get("http://localhost:5000/api/get/products")
+        .get("http://localhost:5000/product/api/get/products")
         .then((response) => {
           setData(response.data.result);
         });

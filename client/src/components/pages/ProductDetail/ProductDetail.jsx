@@ -7,7 +7,7 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       await axios
-        .get("http://localhost:5000/api/get/productinfo/" + getIdx)
+        .get("http://localhost:5000/product/api/get/productinfo/" + getIdx)
         .then((response) => {
           setCurrentData(response.data.result[0]);
           // console.log(response.data.result[0]);

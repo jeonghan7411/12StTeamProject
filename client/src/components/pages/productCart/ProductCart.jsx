@@ -50,7 +50,7 @@ const ProductCart = () => {
     // 사용자 장바구니 정보 가져오기
     const fetchCartData = async () => {
       await axios
-        .get("http://localhost:5000/api/get/cartData", {
+        .get("http://localhost:5000/order/api/get/cartData", {
           withCredentials: true,
         })
         .then((response) => {
