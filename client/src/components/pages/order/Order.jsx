@@ -120,7 +120,7 @@ const Order = () => {
     // 유효성 조건 추가하고 통과시 서버 전송 로직 만들기
 
     await axios
-      .post("http://localhost:5000/order/Complete", {
+      .post("http://localhost:5000/order/api/order/Complete", {
         user,
         orderData,
         oUseMile: orderInfo.oUseMile,

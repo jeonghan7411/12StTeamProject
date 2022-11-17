@@ -181,7 +181,7 @@ const RegistUserInfoInput = () => {
 
     // 서버 전송
     await axios
-      .post("http://localhost:5000/regist", {
+      .post("http://localhost:5000/regist/api/regist", {
         uId: enteredId,
         uName: enteredName,
         uPasswd: enteredPasswd,
@@ -216,7 +216,9 @@ const RegistUserInfoInput = () => {
     // 사용자 입력값의 유효성이 true일 때 중복검사 가능
     if (idIsValid) {
       await axios
-        .post("http://localhost:5000/duplication", { uId: enteredId })
+        .post("http://localhost:5000/regist/api/duplication", {
+          uId: enteredId,
+        })
         .then((response) => {
           if (response.data.status === 409) {
             window.alert(response.data.message);

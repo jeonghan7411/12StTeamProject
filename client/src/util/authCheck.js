@@ -2,7 +2,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export const handleLogout = async () => {
-  await axios.get("http://localhost:5000/api/logout", {
+  await axios.get("http://localhost:5000/login/api/logout", {
     withCredentials: true,
   });
   window.alert("로그아웃");
@@ -11,7 +11,7 @@ export const handleLogout = async () => {
 
 export const authCheck = async () => {
   await axios
-    .get("http://localhost:5000/api/login/success", {
+    .get("http://localhost:5000/login/api/login/success", {
       withCredentials: true,
     })
     .then((response) => {

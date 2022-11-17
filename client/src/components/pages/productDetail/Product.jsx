@@ -61,7 +61,7 @@ const Product = () => {
   useEffect(() => {
     const fetchData = async () => {
       await axios
-        .get("http://localhost:5000/api/get/productinfo/" + getIdx)
+        .get("http://localhost:5000/product/api/get/productinfo/" + getIdx)
         .then((response) => {
           setCurrentData(response.data.result[0]);
           setCurrentImg(response.data.result[0].image);
