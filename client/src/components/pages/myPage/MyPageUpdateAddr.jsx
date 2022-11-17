@@ -11,16 +11,16 @@ import AddressModal from "../../layout/AddressModal";
 import classes from "./MyPageUpdateAddr.module.css";
 
 const MyPageUpdateAddr = ({ addUser, setUpdateSate, targetNum }) => {
-  const [updateInfo, setUpdateInfo] = useState(addUser[0]);
+  const [updateInfo, setUpdateInfo] = useState(addUser);
 
-  const [uName, setUname] = useState(addUser[0].uName);
-  const [dZipcode, setDzipcode] = useState(addUser[0].dZipcode);
-  const [dAddr, setDaddr] = useState(addUser[0].dAddr);
+  const [uName, setUname] = useState(addUser.uName);
+  const [dZipcode, setDzipcode] = useState(addUser.dZipcode);
+  const [dAddr, setDaddr] = useState(addUser.dAddr);
   const [dAdditionalAddr, setDAdditionalAddr] = useState(
-    addUser[0].dAdditionalAddr
+    addUser.dAdditionalAddr
   );
-  const [dPhone, setDphone] = useState(addUser[0].dPhone);
-  const [dMemo, setDmemo] = useState(addUser[0].dMemo);
+  const [dPhone, setDphone] = useState(addUser.dPhone);
+  const [dMemo, setDmemo] = useState(addUser.dMemo);
 
   const [inputZipCode, setInputZipCode] = useState("");
   const [inputAddr, setInputAddr] = useState("");
@@ -29,7 +29,7 @@ const MyPageUpdateAddr = ({ addUser, setUpdateSate, targetNum }) => {
   const handleAddrClose = () => {
     setShowAddr(false);
   };
-
+  console.log(targetNum);
   const updateAddr = async (e) => {
     await axios
       .post("http://localhost:5000/mypage/api/addrupdate", {
@@ -72,7 +72,6 @@ const MyPageUpdateAddr = ({ addUser, setUpdateSate, targetNum }) => {
     addrUpdate();
   }, [inputZipCode]);
 
-  console.log(addUser);
   return (
     <React.Fragment>
       <div className={classes.MyPageUpdateAddr}>

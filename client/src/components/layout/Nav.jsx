@@ -24,9 +24,11 @@ const Nav = () => {
   //       });
   //   };
 
-  //   getUserName(setUsername);
-  //   isLogin();
-  // }, [username]);
+    getUserName(setUsername);
+    isLogin();
+  }, []);
+
+
   return (
     <React.Fragment>
       <nav className={classes.nav}>
