@@ -8,14 +8,8 @@ import classes from "./Home.module.css";
 import { authCheck, handleLogout } from "../../../util/authCheck";
 
 const Home = ({ data }) => {
-  // 로그아웃, 쿠키 지우기
-
-  useEffect(() => {
-    authCheck();
-  }, []);
   return (
     <div>
-      <button onClick={handleLogout}>로그아웃</button>
       <Banner />
 
       <Cartegory />

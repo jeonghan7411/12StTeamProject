@@ -40,5 +40,17 @@ router.get("/api/get/productinfo/:getIdx", (req, res) => {
     }
   });
 });
+router.get("/api/get/products/category/", (req, res) => {
+  console.log(req.query.category);
+  console.log(req.query);
+  let sql = "SELECT * FROM products WHERE category1 like %?%;";
+  // db.query(sql, [req.params.getIdx], (err, result) => {
+  //   if (err) {
+  //     throw err;
+  //   } else {
+  //     res.send({ result });
+  //   }
+  // });
+});
 
 module.exports = router;

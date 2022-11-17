@@ -180,8 +180,9 @@ const Product = () => {
             <h3>{currentData.price}원</h3>
             {/* 원가 밑에 할인율 적용된 가격 */}
             <h2>
-              {currentData.price -
-                currentData.price * (currentData.pDiscount / 100)}
+              {(currentData.price -
+                currentData.price * (currentData.pDiscount / 100)) *
+                orderValue}
               원
             </h2>
             적립

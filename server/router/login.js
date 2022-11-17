@@ -129,6 +129,8 @@ router.get("/api/login/success", (req, res) => {
           });
           console.log("액세스토큰만료 재발급");
         });
+      } else {
+        res.send("login");
       }
     });
   }
@@ -139,6 +141,27 @@ router.get("/api/logout", (req, res) => {
   res.clearCookie("accessToken");
   res.clearCookie("refreshToken");
   res.status(200).json("Logout Success");
+});
+// 유저이름 가져오기
+router.get("/api/login/getusername", (req, res) => {
+  const token = req.cookies.accessToken;
+  if (token !== undefined) {
+    jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
+      const token = req.cookies.refreshToken;
+      const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+      let sql = "SELECT uName, uMile from users WHERE uId = ?;";
+      db.query(sql, data.id, (err, user) => {
+        if (err) {
+          throw err;
+        }
+
+        res.send(user[0]);
+      });
+    });
+  } else {
+    return;
+  }
 });
 
 module.exports = router;

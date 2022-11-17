@@ -29,7 +29,7 @@ const Login = ({ setUserToken }) => {
         console.log(response.data);
         window.alert("로그인 성공!");
         setUserToken(response.data.accessToken);
-        navigate("/");
+        window.location.href = "/";
       })
       .catch((error) => {
         console.log(error);
