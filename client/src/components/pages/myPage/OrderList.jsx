@@ -13,6 +13,7 @@ import axios from "axios";
 
 const OrderList = () => {
   const [user, setUser] = useState();
+
   useEffect(() => {
     authCheck();
     getUser(setUser);
@@ -22,7 +23,7 @@ const OrderList = () => {
     };
 
     fetchData();
-  });
+  }, []);
 
   const [orderList, setOrderList] = useState([]);
 
