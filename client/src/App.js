@@ -77,7 +77,7 @@ function App() {
             </Route>
             <Route path="/products/:getIdx" element={<Product />} />
             <Route path="/productsBest" element={<ProductsBest />} />
-            <Route path="/productsCategory" element={<ProductsCategory />} />
+            <Route path="/categories" element={<ProductsCategory />} />
             <Route path="/cart" element={<ProductCart />} />
 
             {/* 결제 */}

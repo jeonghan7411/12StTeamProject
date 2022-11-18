@@ -24,10 +24,9 @@ const Nav = () => {
   //       });
   //   };
 
-    getUserName(setUsername);
-    isLogin();
-  }, []);
-
+  //   getUserName(setUsername);
+  //   isLogin();
+  // }, []);
 
   return (
     <React.Fragment>
@@ -35,14 +34,14 @@ const Nav = () => {
         <div className={classes["nav-category"]}>
           <Link to={"/productsBest"}>베스트</Link>
           <span> | </span>
-          <Link>생활/건강</Link>
-          <Link>디지털/가전</Link>
-          <Link>패션잡화</Link>
-          <Link>가구/인테리어</Link>
-          <Link>출산/육아</Link>
-          <Link>패션의류</Link>
-          <Link>식품</Link>
-          <Link>스포츠/레저</Link>
+          <Link to={"/categories?type=life"}>생활/건강</Link>
+          <Link to={"/categories?type=digital"}>디지털/가전</Link>
+          <Link to={"/categories?type=fashionaccessories"}>패션잡화</Link>
+          <Link to={"/categories?type=furniture"}>가구/인테리어</Link>
+          <Link to={"/categories?type=maternity"}>출산/육아</Link>
+          <Link to={"/categories?type=fashionclothes"}>패션의류</Link>
+          <Link to={"/categories?type=foods"}>식품</Link>
+          <Link to={"/categories?type=sportsleisure"}>스포츠/레저</Link>
         </div>
 
         <div>
