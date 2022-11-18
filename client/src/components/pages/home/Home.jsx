@@ -10,7 +10,7 @@ import { authCheck, handleLogout } from "../../../util/authCheck";
 const Home = ({ data }) => {
   return (
     <div>
-      <Banner />
+      {/* <Banner /> */}
 
       <Cartegory />
 

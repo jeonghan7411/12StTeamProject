@@ -19,13 +19,13 @@ const login = require("./router/login");
 const regist = require("./router/regist");
 
 // middleware
+app.use(cookieParser());
+app.use(express.json());
 app.use("/mypage", mypage);
 app.use("/product", product);
 app.use("/regist", regist);
 app.use("/order", order);
 app.use("/login", login);
-app.use(cookieParser());
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("uploads"));
 app.use(
