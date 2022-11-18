@@ -19,6 +19,22 @@ router.use(
   })
 );
 
+router.post("/api/cart/insert", (req, res) => {
+  const { uId, productId, sQuantity } = req.body;
+  let sql = "INSERT INTO shoppingbasket VALUES ( NULL, ?, ?, ? );";
+
+  db.query(sql, [uId, productId, sQuantity], (err) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send({
+        status: 200,
+        message: "장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까>",
+      });
+    }
+  });
+});
+
 router.post("/api/cart/delete", (req, res) => {
   const { cartIdx } = req.body;
   console.log(cartIdx);

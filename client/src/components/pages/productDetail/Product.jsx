@@ -11,9 +11,11 @@ import testImg from "../../../assets/icon-grade1.png";
 import testImg2 from "../../../assets/icons/kakaoLogin.png";
 import { FaAngleUp, FaAngleDown, FaAngleRight } from "react-icons/fa";
 import Card from "../../UI/Card";
+import { getUser } from "../../../util/getUser";
 
 const Product = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState();
   const [currentData, setCurrentData] = useState([]);
   const [currentMenu, setCurrentMenu] = useState("productDetail");
   const [currentImg, setCurrentImg] = useState();
@@ -24,6 +26,26 @@ const Product = () => {
   const realPrice =
     (currentData.price - currentData.price * (currentData.pDiscount / 100)) *
     orderValue;
+
+  const handleInsertCart = async () => {
+    console.log(orderValue);
+    console.log(currentData.productId);
+    console.log(user.uId);
+
+    await axios
+      .post("http://localhost:5000/order/api/cart/insert", {
+        sQuantity: orderValue,
+        uId: user.uId,
+        productId: currentData.productId,
+      })
+      .then((response) => {
+        if (response.data.status === 200) {
+          if (window.confirm(response.data.message)) {
+            navigate();
+          }
+        }
+      });
+  };
 
   const setMenu = (e) => {
     setCurrentMenu(e.target.textContent);
@@ -72,6 +94,8 @@ const Product = () => {
           setCurrentImg(response.data.result[0].image);
         });
     };
+
+    getUser(setUser);
 
     fetchData();
   }, []);
@@ -205,7 +229,7 @@ const Product = () => {
             <span
               className={classes["product-content-detail__getMile__number"]}
             >
-              {realPrice * 0.03}
+              {Math.ceil(realPrice * 0.03)}
             </span>
             마일리지 적립
           </p>
@@ -241,6 +265,7 @@ const Product = () => {
             <div>
               <button
                 className={classes["product-content-detail-order-btn-addcart"]}
+                onClick={handleInsertCart}
               >
                 장바구니 담기
               </button>

@@ -44,7 +44,7 @@ const Order = () => {
     oMethod: "",
   });
 
-  console.log(orderData);
+  // console.log(orderData);
 
   // 결제 방법 선택
   const hadleOrderMethod = (select) => {
