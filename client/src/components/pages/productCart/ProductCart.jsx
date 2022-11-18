@@ -6,6 +6,7 @@ import { getUser } from "../../../util/getUser";
 import { useEffect } from "react";
 import { authCheck } from "../../../util/authCheck";
 import Card from "../../UI/Card";
+import ProductCartItem from "./ProductCartItem";
 const ProductCart = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
@@ -17,20 +18,25 @@ const ProductCart = () => {
   const [checkedItems, setCheckedItems] = useState([]);
   const [isAllChecked, setIsAllChecked] = useState(false);
 
-  // console.log(cart);
+  console.log(checkedItems);
+
   // 선택삭제 클릭
   const handleDelete = async () => {
     const cartIdx = new Set();
+    let newCart;
+
     checkedItems.forEach((it) => {
       cartIdx.add(cart[it - 1].idx);
+      newCart = cart.filter((data) => {
+        return cart[it - 1].idx !== data.idx;
+      });
     });
-    console.log(cartIdx);
 
-    await axios
-      .post("http://localhost:5000/order/api/cart/delete", {
-        cartIdx: [...cartIdx],
-      })
-      .then((response) => {});
+    setCart(newCart);
+
+    await axios.post("http://localhost:5000/order/api/cart/delete", {
+      cartIdx: [...cartIdx],
+    });
   };
 
   // 결제 버튼 클릭
@@ -155,47 +161,12 @@ const ProductCart = () => {
           </button>
         </div>
 
-        <ul className={classes["productcart-items"]}>
-          {cart.map((data, idx) => (
-            <li key={idx} className={classes["productcart-item"]}>
-              <input
-                type="checkbox"
-                className={classes["productcart-item-check"]}
-                onChange={(e) => handleCheck(e.target.checked, idx + 1)}
-                checked={
-                  isAllChecked
-                    ? "checked"
-                    : checkedItems.find((it) => it === idx + 1)
-                    ? "checked"
-                    : ""
-                }
-              />
-              <h3 className={classes["productcart-item-mallName"]}>
-                {data.mallname}
-              </h3>
-
-              <div className={classes["productcart-item-info"]}>
-                <Card className={classes["productcart-item-info__img"]}>
-                  <img src={data.image} alt={data.title} />
-                </Card>
-
-                <h4 className={classes["productcart-item-info__title"]}>
-                  {data.title}
-                </h4>
-              </div>
-              <div className={classes["productcart-item-price"]}>
-                <p className={classes["productcart-item-price__amount"]}>
-                  수량 : {data.sQuantity}
-                </p>
-                <p>가격 : {data.price}원</p>
-              </div>
-
-              <div className={classes["productcart-item-deliveryFee"]}>
-                배송비 <strong>{data.pDeliveryFee}</strong>원
-              </div>
-            </li>
-          ))}
-        </ul>
+        <ProductCartItem
+          onCheck={handleCheck}
+          isAllChecked={isAllChecked}
+          checkedItems={checkedItems}
+          cart={cart}
+        />
       </div>
 
       <div className={classes["productcart-order"]}>

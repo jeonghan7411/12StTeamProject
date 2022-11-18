@@ -1,0 +1,53 @@
+import React from "react";
+import { useEffect } from "react";
+import Card from "../../UI/Card";
+
+import classes from "./ProductCartItem.module.css";
+
+const ProductCartItem = ({ onCheck, isAllChecked, checkedItems, cart }) => {
+  return (
+    <ul className={classes["productcart-items"]}>
+      {cart.map((data, idx) => (
+        <li key={idx} className={classes["productcart-item"]}>
+          <input
+            type="checkbox"
+            className={classes["productcart-item-check"]}
+            onChange={(e) => onCheck(e.target.checked, idx + 1)}
+            checked={
+              isAllChecked
+                ? "checked"
+                : checkedItems.find((it) => it === idx + 1)
+                ? "checked"
+                : ""
+            }
+          />
+          <h3 className={classes["productcart-item-mallName"]}>
+            {data.mallname}
+          </h3>
+
+          <div className={classes["productcart-item-info"]}>
+            <Card className={classes["productcart-item-info__img"]}>
+              <img src={data.image} alt={data.title} />
+            </Card>
+
+            <h4 className={classes["productcart-item-info__title"]}>
+              {data.title}
+            </h4>
+          </div>
+          <div className={classes["productcart-item-price"]}>
+            <p className={classes["productcart-item-price__amount"]}>
+              수량 : {data.sQuantity}
+            </p>
+            <p>가격 : {data.price}원</p>
+          </div>
+
+          <div className={classes["productcart-item-deliveryFee"]}>
+            배송비 <strong>{data.pDeliveryFee}</strong>원
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default ProductCartItem;
