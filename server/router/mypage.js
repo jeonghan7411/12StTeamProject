@@ -322,4 +322,31 @@ router.post("/api/inquiry", (req, res) => {
   });
 });
 
+router.get("/api/pointlist", (req, res) => {
+  const token = req.cookies.accessToken;
+
+  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
+    const token = req.cookies.refreshToken;
+    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+    let sql = "SELECT * from users WHERE uId = ?;";
+    db.query(sql, data.id, (err, user) => {
+      if (err) {
+        throw err;
+      }
+      const uId = user[0].uId;
+
+      let addrSql =
+        "SELECT * FROM ordertable where uId = ?  ORDER BY idx desc;";
+      db.query(addrSql, [uId], (err, data) => {
+        if (err) {
+          throw err;
+        } else {
+          res.send({ status: 200, data });
+        }
+      });
+    });
+  });
+});
+
 module.exports = router;

@@ -1,3 +1,54 @@
+.pointlist {
+  margin-top: 50px;
+}
+
+.pointlist table {
+  text-align: center;
+  width: 100%;
+  text-align: center;
+  border: 1px solid var(--navy-color);
+}
+
+.pointlist thead {
+  background-color: var(--navy-color);
+  color: white;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.pointlist tr,
+.pointlist td {
+  border: 1px solid var(--navy-color);
+}
+
+.pointlist td {
+  padding: 10px;
+}
+
+.pointlist td:first-child {
+  width: 15%;
+}
+
+.pointlist td:nth-child(2) {
+  width: 30%;
+}
+
+.pointlist td:nth-child(3) {
+  width: 35%;
+}
+.pointlist tbody tr:nth-child(1) td:last-child {
+  color: rgb(7, 212, 51);
+}
+
+.pointlist tbody tr:nth-child(2) td:last-child {
+  color: red;
+}
+
+.pointlist tbody tr:hover {
+  background-color: var(--gray-color);
+}
+
+/* list FORM */
 .MyPageListForm {
   margin-top: 50px;
 }

@@ -42,7 +42,7 @@ const MyPageInquiry = () => {
 
   const [user, setUser] = useState({});
 
-  const [bTitle, setBtitle] = useState(orderData.pId);
+  const [bTitle, setBtitle] = useState(orderData.title);
   const [bBoardtype, setBboardtype] = useState();
   const [bContent, setBcontent] = useState();
 

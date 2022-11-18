@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
 import MyPageListTitle from "./MyPageListTitle";
 
 import classes from "./OrderDetail.module.css";
 const OrderDetail = () => {
+  const location = useLocation();
+  const [orderData, setOrderData] = useState(location.state.orderList);
+
+  const price = parseInt(orderData.price);
+  const usePoint = parseInt(orderData.oUsepoint);
+  const totalPrice = price + 2500 - usePoint;
+  console.log(orderData);
   return (
     <React.Fragment>
       <div className={classes.OrderDetail}>
@@ -12,7 +20,7 @@ const OrderDetail = () => {
         <div className={classes["detail-wrap-top"]}>
           <div className={classes["detail-top-item"]}>
             <label>주문일자</label>
-            <span>2022.11.12</span>
+            <span>{orderData.oDate}</span>
           </div>
           <div className={classes["detail-top-item"]}>
             <label>주문번호</label>
@@ -32,17 +40,17 @@ const OrderDetail = () => {
             <tbody>
               <tr>
                 <td>234534534</td>
-                <td>2</td>
+                <td>{orderData.title}</td>
                 <td>
                   <div className={classes["price-td"]}>
-                    <span>53,333원</span>
-                    <span>(2개)</span>
+                    <span>{orderData.price}</span>
+                    <span>({orderData.oQuantity}개)</span>
                   </div>
                 </td>
                 <td>
                   <div className={classes["seller-td"]}>
                     <span>3000원</span>
-                    <span>판매자</span>
+                    <span>{orderData.mallname}</span>
                   </div>
                 </td>
               </tr>
@@ -68,23 +76,23 @@ const OrderDetail = () => {
                   <td>
                     <div>
                       <span>상품금액</span>
-                      <span>50000원</span>
+                      <span>{price.toLocaleString("ko-kr")}원</span>
                     </div>
                     <div>
                       <span>배송비</span>
-                      <span>3000원</span>
+                      <span>2,500원</span>
                     </div>
                   </td>
                   <td>
                     <div>
                       <span>포인트 할인</span>
-                      <span>3000원</span>
+                      <span>{usePoint.toLocaleString("ko-kr")}</span>
                     </div>
                   </td>
                   <td>
                     <div>
                       <span>주문금액</span>
-                      <span>50000원</span>
+                      <span>{totalPrice.toLocaleString("ko-kr")}원</span>
                     </div>
                   </td>
                 </tr>
@@ -102,30 +110,30 @@ const OrderDetail = () => {
               <thead>
                 <tr>
                   <td>수령인</td>
-                  <td>나</td>
+                  <td>{orderData.oName}</td>
                   <td>주문자정보</td>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>연락처</td>
-                  <td>123123123</td>
+                  <td>{orderData.oPhone}</td>
                   <td rowSpan={3}>
                     <div>
-                      <span>이거주문한사람</span>
-                      <span>전화번호</span>
-                      <span>이메일</span>
+                      <span>{orderData.oName}</span>
+                      <span>{orderData.oPhone}</span>
+                      <span>{orderData.oEmail}</span>
                     </div>
                   </td>
                 </tr>
 
                 <tr>
                   <td>배송지</td>
-                  <td>부산그어딘가아아아아</td>
+                  <td>{`${orderData.oAddr} / ${orderData.oAdditionalAddr}`}</td>
                 </tr>
                 <tr>
                   <td>요청사항</td>
-                  <td>없음</td>
+                  <td>{orderData.oMemo}</td>
                 </tr>
               </tbody>
             </table>

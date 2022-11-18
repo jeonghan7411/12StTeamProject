@@ -8,6 +8,7 @@ import MyPageNullMsg from "./MyPageNullMsg";
 import classes from "./MyPointCheck.module.css";
 
 import { getUser } from "../../../util/getUser";
+import { authCheck } from "../../../util/authCheck";
 
 const MyPointCheck = () => {
   const [startDate, setStartDate] = useState();
@@ -41,25 +42,38 @@ const MyPointCheck = () => {
     // },
   ]);
 
-  const [checkInputPw, setCheckInputPw] = useState();
+  // const [checkInputPw, setCheckInputPw] = useState();
+  // const navigate = useNavigate();
 
   const [user, setUser] = useState({});
 
   const mile = parseInt(user.uMile);
-
-  const navigate = useNavigate();
+  const pointCheck = true;
 
   useEffect(() => {
+    // const fetchData = async () => {
+    //   await axios
+    //     .get("http://localhost:5000/mypage", { withCredentials: true })
+    //     .then((response) => {
+    //       if (response.data.status === 401) {
+    //         alert(response.data.message);
+    //         navigate("/login", { replace: true });
+    //       } else if (response.data.status === 200) {
+    //         getUser(setUser);
+    //       }
+    //     });
+    // };
+    // fetchData();
+    authCheck();
+    getUser(setUser);
+
     const fetchData = async () => {
       await axios
-        .get("http://localhost:5000/mypage", { withCredentials: true })
+        .get("http://localhost:5000/mypage/api/pointlist", {
+          withCredentials: true,
+        })
         .then((response) => {
-          if (response.data.status === 401) {
-            alert(response.data.message);
-            navigate("/login", { replace: true });
-          } else if (response.data.status === 200) {
-            getUser(setUser);
-          }
+          setPointList(response.data.data);
         });
     };
     fetchData();
@@ -119,16 +133,32 @@ const MyPointCheck = () => {
             </div>
           </form>
         </div>
-        {pointList.length === 0 && (
+        {/* {pointList.length === 0 && (
           <MyPageNullMsg
             className={classes["pointcheck-content-null"]}
             text={"적립 내역이 없습니다."}
           />
-        )}
+        )}*/}
 
         {pointList.map((item, key) => {
-          return <MyPageListForm props={item} title={"내역"} key={key} />;
+          return (
+            <MyPageListForm
+              props={item}
+              title={"내역"}
+              key={key}
+              pointCheck={pointCheck}
+            />
+          );
         })}
+
+        {/* {pointList.map((item) => (
+          <>
+            <div>사용 {item.oUsepoint}</div>
+            <div>적립 {item.oGetpoint}</div>
+            <div>날짜 {item.oDate}</div>
+          </>
+        ))}
+        <div>회원가입 축하 1000</div> */}
       </div>
     </React.Fragment>
   );
