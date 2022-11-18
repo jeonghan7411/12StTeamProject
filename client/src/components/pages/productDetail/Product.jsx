@@ -76,8 +76,6 @@ const Product = () => {
     fetchData();
   }, []);
 
-  console.log(currentData);
-
   useEffect(() => {
     setOrder([
       {
@@ -88,6 +86,7 @@ const Product = () => {
         productId: currentData.productId,
         image: currentData.image,
         pDeliveryFee: currentData.pDeliveryFee,
+        // pDiscount: currentData.pDiscount,
       },
     ]);
   }, [currentData, orderValue]);

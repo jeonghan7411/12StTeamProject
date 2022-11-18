@@ -66,7 +66,8 @@ const OrderPaymentInfo = ({
                   <span
                     className={classes["orderPaymentInfo-table__useMileError"]}
                   >
-                    보유하신 마일리지보다 많은 사용량은 사용하실 수 없습니다.
+                    {/* 보유하신 마일리지보다 많은 사용량은 사용하실 수 없습니다. */}
+                    {useMileInput.mileMsg}
                   </span>
                 )}
               </div>

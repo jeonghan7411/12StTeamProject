@@ -8,10 +8,10 @@ const week = [
   "토요일",
 ];
 
-const month = new Date().getMonth() + 1;
+const month = new Date().getMonth();
 
-const date = new Date().getDate() + 3;
+const date = new Date().getDate();
 
-const day = new Date().getDay() + 3;
+const day = new Date().getDay();
 
 export const deliveryDate = `${week[day]} ${month}/${date} 까지 도착 보장`;

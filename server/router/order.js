@@ -19,12 +19,24 @@ router.use(
   })
 );
 
+router.post("/api/cart/delete", (req, res) => {
+  const { cartIdx } = req.body;
+  console.log(cartIdx);
+  let sql = "DELETE FROM shoppingbasket WHERE idx = ?;";
+
+  cartIdx.forEach((it) => {
+    db.query(sql, it, (err) => {
+      if (err) throw err;
+    });
+  });
+});
+
 router.get("/api/get/cartData", (req, res) => {
   const token = req.cookies.accessToken;
   const data = jwt.verify(token, process.env.ACCESS_SECRET_KEY);
   let sql =
     "SELECT * FROM products INNER JOIN shoppingbasket ON products.productId = shoppingbasket.productId where uId = ? ORDER BY idx DESC;";
-  db.query(sql, [data.id], (err, result) => {
+  db.query(sql, data.id, (err, result) => {
     if (err) throw err;
 
     res.send(result);
@@ -41,7 +53,7 @@ router.post("/api/order/Complete", (req, res) => {
       [
         user.uId,
         data.productId,
-        data.amount,
+        data.sQuantity,
         user.uName,
         user.uPhone,
         user.uZipcode,
@@ -53,7 +65,11 @@ router.post("/api/order/Complete", (req, res) => {
         oMethod,
       ],
       (err) => {
-        if (err) throw err;
+        if (err) {
+          throw err;
+        } else {
+          res.send({ status: 200 });
+        }
       }
     );
   });
@@ -64,19 +80,19 @@ router.post("/api/order/Complete", (req, res) => {
   });
 });
 
-router.post("/api/order/get/userData", (req, res) => {
-  const uId = req.body.uId;
+// router.post("/api/order/get/userData", (req, res) => {
+//   const uId = req.body.uId;
 
-  let sql1 =
-    "SELECT uId, uName, uEmail, uZipcode, uAddress, uAdditionalAddr, uPhone, uMile, uEmail FROM users WHERE uId = ?;";
+//   let sql1 =
+//     "SELECT uId, uName, uEmail, uZipcode, uAddress, uAdditionalAddr, uPhone, uMile, uEmail FROM users WHERE uId = ?;";
 
-  let sql2 = "SELECT * FROM deliveryaddr WHERE uId = ?;";
+//   let sql2 = "SELECT * FROM deliveryaddr WHERE uId = ?;";
 
-  db.query(sql1 + sql2, [uId, uId], (err, results, field) => {
-    if (err) throw err;
+//   db.query(sql1 + sql2, [uId, uId], (err, results, field) => {
+//     if (err) throw err;
 
-    res.send({ userData: results[0], deliveryData: results[1] });
-  });
-});
+//     res.send({ userData: results[0], deliveryData: results[1] });
+//   });
+// });
 
 module.exports = router;

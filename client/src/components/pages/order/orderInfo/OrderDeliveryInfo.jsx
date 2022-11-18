@@ -2,20 +2,11 @@ import React from "react";
 
 import classes from "./OrderDeliveryInfo.module.css";
 
-const OrderDeliveryInfo = ({ userData, onShowModal }) => {
+const OrderDeliveryInfo = ({ userData }) => {
   return (
     <div className={classes["orderDeliveryInfo"]}>
       <div className={classes["orderDeliveryInfo-deliveryChange"]}>
         <h4>받는 사람 정보</h4>
-        <button
-          onClick={() =>
-            onShowModal((prev) => {
-              return { ...prev, isShowDeliveryInfo: true };
-            })
-          }
-        >
-          배송지 정보 변경
-        </button>
       </div>
 
       <table className={classes["orderDeliveryInfo-table"]}>
@@ -47,17 +38,6 @@ const OrderDeliveryInfo = ({ userData, onShowModal }) => {
             </td>
             <td className={classes["orderDeliveryInfo-table__memo"]}>
               <span></span>
-
-              <button
-                className={classes["orderDeliveryInfo-table__changeMemo"]}
-                onClick={() =>
-                  onShowModal((prev) => {
-                    return { ...prev, isShowDeliveryMemo: true };
-                  })
-                }
-              >
-                요청사항 수정
-              </button>
             </td>
           </tr>
         </tbody>
