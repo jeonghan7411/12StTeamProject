@@ -17,6 +17,22 @@ const ProductCart = () => {
   const [checkedItems, setCheckedItems] = useState([]);
   const [isAllChecked, setIsAllChecked] = useState(false);
 
+  // console.log(cart);
+  // 선택삭제 클릭
+  const handleDelete = async () => {
+    const cartIdx = new Set();
+    checkedItems.forEach((it) => {
+      cartIdx.add(cart[it - 1].idx);
+    });
+    console.log(cartIdx);
+
+    await axios
+      .post("http://localhost:5000/order/api/cart/delete", {
+        cartIdx: [...cartIdx],
+      })
+      .then((response) => {});
+  };
+
   // 결제 버튼 클릭
   const handlePayment = () => {
     // 상품 전체 선택시
@@ -37,10 +53,10 @@ const ProductCart = () => {
     if (checked) {
       if (id === "allChecked") {
         setIsAllChecked(true);
+        setCheckedItems([]);
+
         cart.forEach((it, idx) => {
-          price +=
-            (it.price - Math.ceil((it.price * it.pDiscount) / 100)) *
-            +it.sQuantity;
+          price += it.price * +it.sQuantity;
 
           delivery += it.pDeliveryFee;
 
@@ -55,32 +71,24 @@ const ProductCart = () => {
       }
       setCheckedItems([...checkedItems, id]);
 
-      price =
-        cart[id - 1].price * cart[id - 1].sQuantity -
-        Math.ceil((cart[id - 1].price * cart[id - 1].pDiscount) / 100) *
-          cart[id - 1].sQuantity;
+      price = cart[id - 1].price * cart[id - 1].sQuantity;
 
       setTotalPrice({
         deliveryFee: totalPrice.deliveryFee + cart[id - 1].pDeliveryFee,
         productPrice: totalPrice.productPrice + price,
       });
     } else {
+      setIsAllChecked(false);
       if (id === "allChecked") {
-        setIsAllChecked(false);
         setCheckedItems([]);
 
-        price = 0;
-
-        setTotalPrice({ productPrice: price, deliveryFee: price });
+        setTotalPrice({ productPrice: 0, deliveryFee: 0 });
         return;
       }
 
       setCheckedItems(checkedItems.filter((it) => it !== id));
 
-      price =
-        cart[id - 1].price * cart[id - 1].sQuantity -
-        Math.ceil((cart[id - 1].price * cart[id - 1].pDiscount) / 100) *
-          cart[id - 1].sQuantity;
+      price = cart[id - 1].price * cart[id - 1].sQuantity;
 
       setTotalPrice({
         deliveryFee: totalPrice.deliveryFee - cart[id - 1].pDeliveryFee,
@@ -99,6 +107,10 @@ const ProductCart = () => {
           withCredentials: true,
         })
         .then((response) => {
+          response.data.forEach((it) => {
+            it.price = it.price - Math.ceil((it.price * it.pDiscount) / 100);
+          });
+
           setCart(response.data);
         });
     };
@@ -129,12 +141,16 @@ const ProductCart = () => {
             <input
               id="allCheck"
               type="checkbox"
+              checked={isAllChecked}
               onChange={(e) => handleCheck(e.target.checked, "allChecked")}
             />
             <label htmlFor="allCheck">전체 선택</label>
           </div>
 
-          <button className={classes["productcart-cart-handler__delete"]}>
+          <button
+            className={classes["productcart-cart-handler__delete"]}
+            onClick={handleDelete}
+          >
             선택 삭제
           </button>
         </div>
