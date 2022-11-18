@@ -5,7 +5,7 @@ import Banner from "../home/Banner";
 import HomeProduct from "../home/HomeProduct";
 
 import classes from "./ProductsCategory.module.css";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 const ProductsCategory = () => {
@@ -14,6 +14,7 @@ const ProductsCategory = () => {
   const [category2, setCategory2] = useState([]);
   const [products, setProducts] = useState([]);
   const type = searchParams.get("type");
+
   useEffect(() => {
     const fetchData = async () => {
       await axios
@@ -28,8 +29,7 @@ const ProductsCategory = () => {
     };
     fetchData();
   }, [type]);
-  // console.log(category);
-  // console.log(category2);
+
   return (
     <div className={classes.productsCategory}>
       {/* 좌측 카테고리 정렬 (상단 카테고리 중분류 + 소분류, 하단 대분류) */}
