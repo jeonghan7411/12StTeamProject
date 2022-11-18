@@ -45,6 +45,8 @@ const MyPointCheck = () => {
 
   const [user, setUser] = useState({});
 
+  const mile = parseInt(user.uMile);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,7 +80,7 @@ const MyPointCheck = () => {
           <div className={classes["check-content-item"]}>
             <div>나의 포인트</div>
             <div>
-              <span>{parseInt(user.uMile).toLocaleString("ko-kr")}</span>원
+              <span>{mile === "NaN" ? 0 : mile.toLocaleString("ko-kr")}</span>원
             </div>
           </div>
           <div className={classes["check-content-item"]}>

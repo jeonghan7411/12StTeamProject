@@ -16,7 +16,7 @@ import { authCheck } from "../../../util/authCheck";
 const MyPage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
-
+  const mile = user.uMile;
   useEffect(() => {
     // const fetchData = async () => {
     //   await axios
@@ -78,7 +78,9 @@ const MyPage = () => {
           </div>
           <div className={classes["mypage-quick-item"]}>
             <div>
-              <NavLink to="mypointcheck">{user.uMile}</NavLink>
+              <NavLink to="mypointcheck">
+                {/* {mile === "NaN" ? 0 : mile.toLocaleString("ko-kr")} */}
+              </NavLink>
             </div>
             <div>나의 포인트</div>
           </div>

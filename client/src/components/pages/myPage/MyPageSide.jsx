@@ -12,12 +12,7 @@ const MyPageSide = () => {
           <div>
             <MyPageSideLink to="/mypage" text={"주문목록"} first={true} />
           </div>
-          <div>
-            <MyPageSideLink
-              to="cancel-return-exchange-write"
-              text={"취소/반품/교환/환불 신청"}
-            />
-          </div>
+
           <div>
             <MyPageSideLink
               to="cancel-return-exchange"
@@ -38,9 +33,6 @@ const MyPageSide = () => {
 
         <div className={classes["side-item"]}>
           <h2>MY 활동</h2>
-          <div>
-            <MyPageSideLink to="mypageinquiry" text={"문의하기"} />
-          </div>
           <div>
             <MyPageSideLink to="mypageinquirylist" text={"문의내역"} />
           </div>

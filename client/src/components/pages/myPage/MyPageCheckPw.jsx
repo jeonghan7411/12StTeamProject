@@ -5,6 +5,7 @@ import classes from "./MyPageCheckPw.module.css";
 import MyPageListTitle from "./MyPageListTitle";
 
 import { getUser } from "../../../util/getUser";
+import { authCheck } from "../../../util/authCheck";
 
 const MyPageCheckPw = ({ setUserPw }) => {
   const [checkInputPw, setCheckInputPw] = useState();
@@ -15,26 +16,28 @@ const MyPageCheckPw = ({ setUserPw }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      await axios
-        .get("http://localhost:5000/", { withCredentials: true })
-        .then((response) => {
-          if (response.data.status === 401) {
-            alert(response.data.message);
-            navigate("/login", { replace: true });
-          } else if (response.data.status === 200) {
-            getUser(setUser);
-          }
-        });
-    };
-    fetchData();
+    // const fetchData = async () => {
+    //   await axios
+    //     .get("http://localhost:5000/", { withCredentials: true })
+    //     .then((response) => {
+    //       if (response.data.status === 401) {
+    //         alert(response.data.message);
+    //         navigate("/login", { replace: true });
+    //       } else if (response.data.status === 200) {
+    //         getUser(setUser);
+    //       }
+    //     });
+    // };
+    // fetchData();
+    authCheck();
+    getUser(setUser);
   }, []);
 
   const checkPw = async (e) => {
     e.preventDefault();
 
     await axios
-      .post("http://localhost:5000/api/checkingpw", {
+      .post("http://localhost:5000/mypage/api/checkingpw", {
         user,
         checkInputPw,
       })
