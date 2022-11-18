@@ -1,7 +1,6 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import eximg from "../../../assets/icon-grade1.png";
 import classes from "./OrderItem.module.css";
 const OrderItem = ({ orderList }) => {
   const navigate = useNavigate();
@@ -13,16 +12,23 @@ const OrderItem = ({ orderList }) => {
             <h2>{orderList.oDate}</h2>
           </div>
           <div>
-            <Link to={"orderdetail"}>주문 상세</Link>
+            {/* <Link to={"orderdetail"}>주문 상세</Link> */}
+            <button
+              onClick={() =>
+                navigate("/mypage/orderdetail", { state: { orderList } })
+              }
+            >
+              주문 상세
+            </button>
           </div>
         </div>
 
         <div className={classes["orderitem-wrap-items"]}>
           <div className={classes["orderitem-wrap-left"]}>
             <div className={classes["orderitem-item-title"]}>
-              <h3>{orderList.category1}</h3>
-              <h3>{orderList.category2}</h3>
-              <h3>{orderList.category3}</h3>
+              <span>
+                {`${orderList.category1} > ${orderList.category2} > ${orderList.category3}`}
+              </span>
             </div>
             <div className={classes["orderitem-item-content"]}>
               <div className={classes["orderitem-item-img"]}>

@@ -10,15 +10,21 @@
 .orderitem-wrap-title {
   display: flex;
   justify-content: space-between;
+
+  align-items: center;
 }
 
-.orderitem-wrap-title a {
-  color: var(--navy-color);
+.orderitem-wrap-title h2 {
+}
+
+.orderitem-wrap-title button {
+  background-color: var(--navy-color);
+  color: white;
+
+  padding: 7px;
+  border-radius: 5px;
+
   font-weight: bold;
-}
-
-.orderitem-wrap-title a:hover {
-  text-decoration: underline;
 }
 
 .orderitem-wrap-items {
@@ -34,7 +40,12 @@
   width: 80%;
 }
 
-.orderitem-item-title h3 {
+.orderitem-item-title {
+  display: flex;
+  margin-bottom: 55px;
+}
+
+.orderitem-item-title span {
   font-size: 18px;
   font-weight: bold;
 }
@@ -46,6 +57,9 @@
 
 .orderitem-item-img {
   width: 100px;
+  border: 1px solid var(--gray-color);
+  border-radius: 5px;
+  padding: 5px;
 }
 
 .orderitem-item-img img {
