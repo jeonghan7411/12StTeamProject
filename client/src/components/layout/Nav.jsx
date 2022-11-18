@@ -7,6 +7,7 @@ import { getUserName, handleLogout } from "../../util/authCheck";
 const Nav = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [username, setUsername] = useState({});
+
   // useEffect(() => {
   //   const isLogin = async () => {
   //     await axios
@@ -34,7 +35,7 @@ const Nav = () => {
         <div className={classes["nav-category"]}>
           <Link to={"/productsBest"}>베스트</Link>
           <span> | </span>
-          <Link to={"/categories?type=life"}>생활/건강</Link>
+          <a href={"/categories?type=life"}>생활/건강</a>
           <Link to={"/categories?type=digital"}>디지털/가전</Link>
           <Link to={"/categories?type=fashionaccessories"}>패션잡화</Link>
           <Link to={"/categories?type=furniture"}>가구/인테리어</Link>

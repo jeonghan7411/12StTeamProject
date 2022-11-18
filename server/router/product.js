@@ -107,7 +107,7 @@ router.get("/api/get/products/subcategory", (req, res) => {
 
 router.get("/api/get/products/subcategory2", (req, res) => {
   let sql1 = "SELECT * FROM products WHERE category3 = ?;";
-  console.log(req.query.type3);
+  // console.log(req.query.type3);
   db.query(sql1, [req.query.type3], (err, result) => {
     if (err) {
       throw err;

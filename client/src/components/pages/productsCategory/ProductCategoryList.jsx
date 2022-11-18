@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { HiArrowCircleDown } from "react-icons/hi";
 
 import classes from "./ProductCategoryList.module.css";
+import ProductCategoryListDetail from "./ProductCategoryListDetail";
 
 const DUMMY_DATA = [1, 2, 3, 4, 5];
 
@@ -14,11 +15,11 @@ const ProductCategoryList = ({ title, type, setProducts }) => {
   const [isShown, setIsShown] = useState(false);
   const [subtitle, setSubtitle] = useState("");
   const [category3, setCategory3] = useState([]);
-  const [subtitle2, setSubtitle2] = useState("");
-
   useEffect(() => {
     setSubtitle(title);
   }, [subtitle]);
+
+  // console.log(type);
   const fetchData = async () => {
     await axios
       .get(
@@ -30,16 +31,6 @@ const ProductCategoryList = ({ title, type, setProducts }) => {
         setProducts(response.data.products);
       });
   };
-  const fetchData2 = async () => {
-    await axios.get(
-      "http://www.localhost:5000/product/api/get/products/subcategory2?type3=" +
-        subtitle2
-    );
-    // .then((response) => {
-    //   setProducts(response.data.products);
-    // });
-  };
-  // console.log(type2);
   const handleSubtitle = () => {
     setIsShown((prev) => !prev);
     setSubtitle(title);
@@ -47,10 +38,6 @@ const ProductCategoryList = ({ title, type, setProducts }) => {
     fetchData();
   };
 
-  const handleSubtitle2 = () => {
-    console.log(subtitle2);
-    fetchData2();
-  };
   return (
     <ul className={classes["productsCategory-categoryList-wrap"]}>
       <div
@@ -63,12 +50,13 @@ const ProductCategoryList = ({ title, type, setProducts }) => {
       {isShown && (
         <div className={classes["productsCategory-categoryList-items"]}>
           {category3.map((it) => (
-            <Link
-              onClick={handleSubtitle2}
-              to={`/categories?type=${type}&type2=${subtitle}&type3=${it.category3}`}
-            >
-              <li>{it.category3}</li>
-            </Link>
+            <ProductCategoryListDetail
+              key={it.category3}
+              title={it.category3}
+              type={type}
+              subtitle={subtitle}
+              setProducts={setProducts}
+            />
           ))}
         </div>
       )}
