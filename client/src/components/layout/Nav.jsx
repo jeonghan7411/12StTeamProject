@@ -24,10 +24,9 @@ const Nav = () => {
   //       });
   //   };
 
-    getUserName(setUsername);
-    isLogin();
-  }, []);
-
+  //   getUserName(setUsername);
+  //   isLogin();
+  // }, []);
 
   return (
     <React.Fragment>

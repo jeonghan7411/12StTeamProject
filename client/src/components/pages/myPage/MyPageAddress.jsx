@@ -10,7 +10,6 @@ import axios from "axios";
 
 import { getUser } from "../../../util/getUser";
 import { authCheck } from "../../../util/authCheck";
-import MyPageUpdateAddr from "./MyPageUpdateAddr";
 
 const MyPageAddress = () => {
   const [user, setUser] = useState({}); //유저 정보 받아오는 곳
@@ -85,6 +84,7 @@ const MyPageAddress = () => {
       });
     setAddAddress(!addAddress);
   };
+  console.log(addUser);
 
   const [updateState, setUpdateSate] = useState(false);
   // const [testa, setTestA] = useState({});
@@ -155,14 +155,16 @@ const MyPageAddress = () => {
                   />
                 )}
 
-                {addUser.map((user) => (
-                  <MyPageAddressItem
-                    key={user.idx}
-                    addUser={user}
-                    getNum={getNum}
-                    targetNum={targetNum}
-                    setTargetNum={setTargetNum}
-                  />
+                {addUser.map((user, key) => (
+                  <>
+                    <MyPageAddressItem
+                      key={key}
+                      addUser={user}
+                      getNum={getNum}
+                      targetNum={targetNum}
+                      setTargetNum={setTargetNum}
+                    />
+                  </>
                 ))}
               </div>
             ) : (

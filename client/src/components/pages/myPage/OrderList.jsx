@@ -19,13 +19,22 @@ const OrderList = () => {
     getUser(setUser);
 
     const fetchData = async () => {
-      // await axios.get("http://localhost:5000/api/get/orderlist");
+      await axios
+        .get("http://localhost:5000/mypage/api/orderlist", {
+          withCredentials: true,
+        })
+        .then((response) => {
+          if (response.data.status === 200) {
+            setOrderList(response.data.result);
+          }
+        });
     };
 
     fetchData();
   }, []);
 
   const [orderList, setOrderList] = useState([]);
+  console.log(orderList);
 
   const [searchKeyword, setSearchKeyword] = useState("");
   return (

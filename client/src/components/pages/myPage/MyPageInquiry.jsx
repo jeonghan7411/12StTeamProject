@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import MyPageListTitle from "./MyPageListTitle";
 import MyPageWriteForm from "./MyPageWriteForm";
 
 import classes from "./MyPageInquiry.module.css";
-import { useEffect } from "react";
-import { useState } from "react";
+
 import { authCheck } from "../../../util/authCheck";
 import { getUser } from "../../../util/getUser";
 import axios from "axios";
 
 const MyPageInquiry = () => {
+  const location = useLocation();
+  const [orderData, setOrderData] = useState(location.state.orderList);
   const writeForm = {
     title: "제목",
     category: "유형",
@@ -39,11 +41,10 @@ const MyPageInquiry = () => {
   ];
 
   const [user, setUser] = useState({});
-  const [inquiry, setInquiry] = useState({
-    bTitle: "",
-    bBoardtype: "",
-    bContent: "",
-  });
+
+  const [bTitle, setBtitle] = useState(orderData.pId);
+  const [bBoardtype, setBboardtype] = useState();
+  const [bContent, setBcontent] = useState();
 
   useEffect(() => {
     authCheck();
@@ -55,7 +56,12 @@ const MyPageInquiry = () => {
     const uId = user.uId;
     const fetchData = async () => {
       await axios
-        .post("http://localhost:5000/mypage/api/inquiry", { uId, inquiry })
+        .post("http://localhost:5000/mypage/api/inquiry", {
+          uId,
+          bTitle,
+          bBoardtype,
+          bContent,
+        })
         .then((response) => {
           if (response.data.status === 200) {
             alert(response.data.message);
@@ -75,10 +81,15 @@ const MyPageInquiry = () => {
 
         <form action="inquiry" onSubmit={inquirySubmit}>
           <MyPageWriteForm
-            inquiry={inquiry}
-            setInquiry={setInquiry}
+            bTitle={bTitle}
+            bBoardtype={bBoardtype}
+            bContent={bContent}
+            setBtitle={setBtitle}
+            setBboardtype={setBboardtype}
+            setBcontent={setBcontent}
             writeForm={writeForm}
             optionItem={optionItem}
+            orderData={orderData}
           />
         </form>
       </div>

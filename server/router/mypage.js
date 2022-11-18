@@ -54,6 +54,40 @@ router.get("/api/login/getuser", (req, res) => {
   });
 });
 
+router.get("/api/orderlist", (req, res) => {
+  const token = req.cookies.accessToken;
+
+  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
+    const token = req.cookies.refreshToken;
+    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+    let sql = "SELECT * from users WHERE uId = ?;";
+    db.query(sql, data.id, (err, user) => {
+      if (err) {
+        throw err;
+      }
+
+      let ordertable =
+        "SELECT * FROM ordertable INNER JOIN products ON ordertable.pId = products.productId WHERE uId = ? ORDER BY idx DESC;";
+
+      db.query(ordertable, [user[0].uId], (err, result) => {
+        if (err) {
+          throw err;
+        }
+        res.send({
+          status: 200,
+          result,
+        });
+      });
+      // SELECT ~~
+
+      // FROM TABLE_A
+
+      // LEFT JOIN TABLE_B ON TABLE_A.KEY = TABLE_B.KEY
+    });
+  });
+});
+
 router.post("/api/updateuser", (req, res) => {
   const id = req.body.user.uId;
   const name = req.body.user.uName;
@@ -136,7 +170,6 @@ router.post("/api/deleteuser", (req, res) => {
 });
 
 router.post("/api/adddeliver", (req, res) => {
-  console.log(req.body);
   const DBId = req.body.user.uId;
   const inputName = req.body.user.uName;
   const inputZipcode = req.body.user.uZipcode;
@@ -210,21 +243,21 @@ router.post("/api/addrdelete", (req, res) => {
   });
 });
 
-router.post("/api/showinfo", (req, res) => {
-  console.log("dd");
-  console.log(req.body);
-});
+// router.post("/api/showinfo", (req, res) => {
+//   console.log("dd");
+//   console.log(req.body);
+// });
 
 router.post("/api/addrupdate", (req, res) => {
-  const idx = parseInt(req.body.targetNum);
-  console.log(idx);
+  const uIdx = parseInt(req.body.uIdx);
+  console.log(req.body);
   const { uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo } = req.body;
 
   let sql =
     "UPDATE deliveryaddr SET uName= ?,dZipcode =? ,dAddr =?,dAdditionalAddr=?,dPhone=?,dMemo=? WHERE idx =?;";
   db.query(
     sql,
-    [uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo, idx],
+    [uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo, uIdx],
     (err) => {
       if (err) {
         throw err;
@@ -234,11 +267,35 @@ router.post("/api/addrupdate", (req, res) => {
   );
 });
 
-router.post("/api/inquiry", (req, res) => {
-  const uId = req.body.uId;
-  const { bTitle, bBoardtype, bContent } = req.body.inquiry;
-  let sql = "INSERT INTO board VALUES (NULL,?,?,?,?,NOW());";
+router.get("/api/boardlist", (req, res) => {
+  const token = req.cookies.accessToken;
 
+  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
+    const token = req.cookies.refreshToken;
+    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+    let sql = "SELECT * from users WHERE uId = ?;";
+    db.query(sql, data.id, (err, user) => {
+      if (err) {
+        throw err;
+      }
+      const uId = user[0].uId;
+
+      let addrSql = "SELECT * FROM board where uId = ?  ORDER BY bId desc;";
+      db.query(addrSql, [uId], (err, data) => {
+        if (err) {
+          throw err;
+        } else {
+          res.send({ status: 200, data });
+        }
+      });
+    });
+  });
+});
+
+router.post("/api/crlwrite", (req, res) => {
+  const { uId, bTitle, bBoardtype, bContent } = req.body;
+  let sql = "INSERT INTO board VALUES (NULL,?,?,?,?,NOW())";
   db.query(sql, [uId, bBoardtype, bTitle, bContent], (err) => {
     if (err) {
       throw err;
@@ -250,27 +307,17 @@ router.post("/api/inquiry", (req, res) => {
   });
 });
 
-router.get("/api/inquirylist", (req, res) => {
-  const token = req.cookies.accessToken;
+router.post("/api/inquiry", (req, res) => {
+  const { uId, bTitle, bBoardtype, bContent } = req.body;
+  let sql = "INSERT INTO board VALUES (NULL,?,?,?,?,NOW());";
 
-  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
-    const token = req.cookies.refreshToken;
-    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
-    console.log(data.id);
-    let sql = "SELECT * from users WHERE uId = ?;";
-    db.query(sql, data.id, (err, user) => {
-      if (err) {
-        throw err;
-      }
-
-      let addrSql = "SELECT * FROM board where uId = ?  ORDER BY bId desc;";
-      db.query(addrSql, [user[0].uId], (err, data) => {
-        if (err) {
-          throw err;
-        } else {
-          res.send({ status: 200, data });
-        }
-      });
+  db.query(sql, [uId, bBoardtype, bTitle, bContent], (err) => {
+    if (err) {
+      throw err;
+    }
+    res.send({
+      status: 200,
+      message: "작성 완료",
     });
   });
 });
