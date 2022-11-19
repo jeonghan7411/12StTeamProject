@@ -14,20 +14,6 @@ const MyPageInquiryList = () => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    // authCheck();
-    // getUser(setUser);
-
-    // const getBoard = async () => {
-    //   await axios
-    //     .get("http://localhost:5000/mypage/api/boardlist", {
-    //       withCredentials: true,
-    //     })
-    //     .then((response) => {
-    //       if (response.data.status === 200) {
-    //         setInquiry(response.data.data);
-    //       }
-    //     });
-    // };
     getBoard(setBoarData);
   }, []);
 
@@ -52,16 +38,6 @@ const MyPageInquiryList = () => {
           {getInfo.map((item, key) => {
             return <MyPageListForm key={key} props={item} title={"상품명"} />;
           })}
-
-          {/* {inquiry.map((item) => {
-            return (
-              <MyPageListForm
-                props={item}
-                title={"제목"}
-                inquiryList={inquiryList}
-              />
-            );
-          })} */}
         </div>
       </div>
     </React.Fragment>

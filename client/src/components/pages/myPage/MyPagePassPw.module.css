@@ -1,102 +1,116 @@
-.passpw-container {
-  display: flex;
+.MyPagePassPw table {
+  width: 100%;
+
+  align-items: center;
 }
 
-.passpw-wrap-content {
-  padding: 20px;
-  display: flex;
+.MyPagePassPw table thead tr {
+  border-top: 3px solid var(--navy-color);
+
+  align-items: center;
 }
 
-.passpw-wrap-title h2 {
-  font-size: 34px;
-  font-weight: bold;
-  height: 500px;
-  padding-left: 50px;
-  padding-right: 100px;
-}
-
-.passpw-wrap-item {
-  margin-top: 10px;
-  margin-left: 150px;
-}
-
-.passpw-content-item {
-  margin-bottom: 30px;
-  height: 80px;
-}
-
-.passpw-item-title {
-  margin-bottom: 10px;
-  font-weight: bold;
+.MyPagePassPw table td:first-child {
   font-size: 18px;
+  font-weight: bold;
+
+  width: 30%;
+}
+
+.MyPagePassPw table td:first-child h2 {
+  margin-left: 50px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.MyPagePassPw table tr {
+  border-bottom: 1px solid gray;
 }
 
 .passpw-item-input {
-  width: 300px;
+  display: flex;
+  align-items: center;
 }
 
 .passpw-item-input input {
-  border-radius: 5px;
-  width: 100%;
-  border: 1px solid var(--navy-color);
   padding: 10px;
+
+  width: 100%;
+}
+
+.id-input {
+  border: none;
 }
 
 .passwd-show-icon {
-  cursor: pointer;
   position: relative;
+  left: 160px;
   top: -25px;
-  left: 270px;
 }
 
-.addr-title {
-  align-items: center;
-  display: flex;
-}
-
-.addr-title button {
-  color: white;
-  background-color: var(--navy-color);
-
-  border-radius: 5px;
-  padding: 5px;
-
-  margin-left: 15px;
-}
-
-.addr-input input {
+.addr-zipcode-input {
+  width: 200px;
   margin-bottom: 10px;
+}
+
+.addr-zipcode-input div:first-child {
+  margin-right: 10px;
+}
+
+.addr-zipcode-input button {
+  font-weight: bold;
+  color: var(--navy-color);
+
+  width: 100px;
+
+  padding: 8px;
+
+  border: 2px solid var(--navy-color);
+}
+.addr-addr-input div {
+  width: 400px;
+  margin-bottom: 10px;
+}
+
+.addr-detail-input div {
+  width: 400px;
+  margin-bottom: 10px;
+}
+
+.err-msg {
+  color: red;
+
+  font-weight: bold;
+
+  margin-left: 30px;
+}
+
+.err-pw {
+  margin-bottom: 20px;
 }
 
 .passpw-wrap-button {
   display: flex;
   justify-content: center;
-  margin-top: 120px;
+
+  margin-top: 50px;
 }
 
-.passpw-wrap-button button:first-child {
-  color: white;
-  background-color: var(--navy-color);
-  padding: 10px;
-  border-radius: 5px;
-  margin-right: 5px;
-}
-
-.passpw-wrap-button button:last-child {
-  background-color: var(--gray-color);
-  padding: 10px;
-  border-radius: 5px;
-  margin-left: 5px;
-}
-
-.err-msg {
-  font-size: 12px;
+.passpw-wrap-button button {
+  font-size: 18px;
   font-weight: bold;
-  color: red;
 
-  margin-top: 10px;
+  border: 1px solid var(--navy-color);
+
+  padding: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
-.err-pw {
-  margin-top: -5px;
+.left-button {
+  background-color: var(--navy-color);
+  color: white;
 }

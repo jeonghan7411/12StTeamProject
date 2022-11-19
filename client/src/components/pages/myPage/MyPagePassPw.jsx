@@ -6,21 +6,41 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import classes from "./MyPagePassPw.module.css";
 
 import axios from "axios";
-import { getUser } from "../../../util/getUser";
-import AddressModal from "../../layout/AddressModal";
-import MyPageInput from "./MyPageInput";
 
-const MyPagePassPw = () => {
+import AddressModal from "../../layout/AddressModal";
+
+const MyPagePassPw = ({ user, setUserPw }) => {
   const navigate = useNavigate();
   //modal
   const [showAddr, setShowAddr] = useState(false);
 
-  const [nameUpdate, setNameUpdate] = useState(false);
-  const [pwUpdate, setPwUpdate] = useState(false);
-  const [birthUpdate, setBirthUpdate] = useState(false);
-  const [phoneUpdate, setPhoneUpdate] = useState(false);
-  const [emailUpdate, setEmailUpdate] = useState(false);
-  const [addrUpdate, setAddrUpdate] = useState(false);
+  const handleAddrClose = () => {
+    setShowAddr(false);
+  };
+
+  //유저 정보
+  const [uName, setUname] = useState(user.uName);
+  const [uPasswd, setUpasswd] = useState(user.uPasswd);
+  const [CheckPasswd, setCheckPasswd] = useState("");
+  const [uPhone, setUphone] = useState(user.uPhone);
+  const [uEmail, setUemail] = useState(user.uEmail);
+  const [uBirth, setUbirth] = useState(user.uBirth);
+  const [uZipcode, setUzipcode] = useState(user.uZipcode);
+  const [uAddress, setUaddress] = useState(user.uAddress);
+  const [uAdditionalAddr, setUadditionalAddr] = useState(user.uAdditionalAddr);
+
+  const updateUname = useRef();
+  const updateUbirth = useRef();
+  const updateUpasswd = useRef();
+  const updateUpasswdCheck = useRef();
+  const updateUphone = useRef();
+  const updateUemail = useRef();
+  const updateZipcode = useRef();
+  const updateAddrCode = useRef();
+  const updateUdetail = useRef();
+
+  //주소 업데이트
+  const [updateAddr, setUpdateAddr] = useState(false);
 
   // 주소 값 받아오기
   const [inputZipCode, setInputZipCode] = useState("");
@@ -48,43 +68,37 @@ const MyPagePassPw = () => {
   const [errEmailMsg, setErrEmailMsg] = useState("");
   const [errBirthMsg, setErrBirthMsg] = useState("");
 
-  const [user, setUser] = useState({});
+  //주소 모달에서 값 받아오기
+  const getAddrInfo = () => {
+    if (inputZipCode === "") {
+      updateZipcode.current.value = uZipcode;
+    } else {
+      updateZipcode.current.value = inputZipCode;
+      setUzipcode(inputZipCode);
+    }
+    if (inputAddr === "") {
+      updateAddrCode.current.value = uAddress;
+    } else {
+      updateAddrCode.current.value = inputAddr;
+      setUaddress(inputAddr);
+      updateUdetail.current.value = "";
+      setUadditionalAddr("");
+    }
+  };
+
+  //주소 받아온 값 변경 될 떄마다 표시
   useEffect(() => {
-    const fetchData = async () => {
-      await axios
-        .get("http://localhost:5000/mypage", { withCredentials: true })
-        .then((response) => {
-          if (response.data.status === 401) {
-            alert(response.data.message);
-            navigate("/login", { replace: true });
-          } else if (response.data.status === 200) {
-            getUser(setUser);
-          }
-        });
-    };
+    if (updateAddr === true) {
+      getAddrInfo();
+    }
+  }, [inputZipCode]);
 
-    fetchData();
-  }, []);
+  //수정 유효성 검사
 
-  const handleAddrClose = () => {
-    setShowAddr(false);
-  };
-
-  const updateUserHandle = async () => {
-    await axios
-      .post("http://localhost:5000/mypage/api/updateuser", { user })
-      .then((response) => {
-        if (response.data.status === 200) {
-          alert(response.data.message);
-          navigate("/mypage", { replace: true });
-        }
-      });
-  };
-  console.log(user);
-  const infoHandler = (e) => {
+  const inputCheck = (e) => {
     const nullMsg = "공백값은 입력할수 없습니다. ";
-    const getName = e.target.name;
-    const getItem = e.target.value;
+    const newInfoName = e.target.name;
+    const newInfo = e.target.value;
 
     const nullCheck = /\s/; //공백체크
     const nameCheck = /^[가-힝a-zA-Z]{2,}$/;
@@ -96,230 +110,206 @@ const MyPagePassPw = () => {
     const emailCheck =
       /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
-    switch (getName) {
+    switch (newInfoName) {
       case "uName":
-        if (nullCheck.exec(getItem) || getItem === "") {
+        if (nullCheck.exec(newInfo) || newInfo === "") {
+          setUname("");
           setNameErr(true);
           setErrNameMsg(nullMsg);
-          setUser({
-            ...user,
-            [getName]: "",
-          });
+          updateUname.current.value = "";
           return;
-        } else if (getItem.length < 2) {
+        } else if (newInfo.length < 2) {
+          setUname("");
           setNameErr(true);
-          setErrNameMsg("이름은 최소 2글자 이상 입력해주세요. ");
+          setErrNameMsg("이름은 최소 2글자 이상 입력해주세요.");
           return;
-        } else if (getItem.length > 5) {
+        } else if (newInfo.length > 5) {
+          setUname("");
           setNameErr(true);
           setErrNameMsg("이름은 최대 5글자를 넘길수 없습니다.");
           return;
-        } else if (!nameCheck.exec(getItem)) {
+        } else if (!nameCheck.exec(newInfo)) {
+          setUname("");
           setNameErr(true);
           setErrNameMsg("올바른 이름의 형식이 아닙니다.");
           return;
-        } else if (nameCheck.exec(getItem)) {
+        } else if (nameCheck.exec(newInfo)) {
           setNameErr(false);
-          setUser({
-            ...user,
-            [getName]: getItem,
-          });
+          setUname(newInfo);
         }
         break;
 
       case "uBirth":
-        if (nullCheck.exec(getItem) || getItem === "") {
-          // birthErrInput.current.value = "";
-
+        if (nullCheck.exec(newInfo) || newInfo === "") {
+          setUbirth("");
           setBirthErr(true);
-          setErrBirthMsg("공백일시 이전 정보로 저장됩니다. ");
-          setUser({
-            ...user,
-            [getName]: "",
-          });
+          setErrBirthMsg(nullMsg);
+          updateUbirth.current.value = "";
           return;
-        } else if (!numCheck.exec(getItem)) {
+        } else if (!numCheck.exec(newInfo)) {
+          setUbirth("");
           setBirthErr(true);
           setErrBirthMsg("생년월일은 숫자만 입력 가능합니다.");
+          updateUbirth.current.value = "";
           return;
-        } else if (getItem.length > 6) {
+        } else if (newInfo.length != 8) {
+          setUbirth("");
           setBirthErr(true);
-          setErrBirthMsg("생년월일은 최대 6자리 입니다.");
-          return;
-        } else if (getItem.length < 6) {
-          setBirthErr(true);
-          setErrBirthMsg("생년월일 6자리를 입력해주세요.");
+          setErrBirthMsg("생년월일은 8자리를 입력해 주세요.");
           return;
         } else {
           setBirthErr(false);
-          setUser({
-            ...user,
-            [getName]: getItem,
-          });
+          setUbirth(newInfo);
         }
         break;
 
       case "uPasswd":
-        if (nullCheck.exec(getItem) || getItem === "" || getItem === null) {
-          // pwInput.current.value = "";
+        if (nullCheck.exec(newInfo) || newInfo === "" || newInfo === null) {
+          setUpasswd("");
           setPwErr(true);
           setErrPwMsg(nullMsg);
-          setUser({
-            ...user,
-            [getName]: "",
-          });
+          updateUpasswd.current.value = "";
           return;
-        } else if (getItem.length < 8) {
+        } else if (newInfo.length < 8) {
+          setUpasswd("");
           setPwErr(true);
           setErrPwMsg("비밀번호는 최소 8글자 이상 입력해주세요. ");
           return;
-        } else if (getItem.length > 15) {
+        } else if (newInfo.length > 15) {
+          setUpasswd("");
           setPwErr(true);
           setErrPwMsg("비밀번호는 최대 15 자를 넘길수 없습니다.");
           return;
-        } else if (!spcCheck.exec(getItem)) {
+        } else if (!spcCheck.exec(newInfo)) {
+          setUpasswd("");
           setPwErr(true);
           setErrPwMsg(
             "! @ # 중 하나를 포함 해야하며 이외 특수문자는 사용이 불가합니다."
           );
           return;
-        } else if (!pwCheck.exec(getItem) || !numCheck.exec(getItem)) {
+        } else if (!pwCheck.exec(newInfo) || !numCheck.exec(newInfo)) {
+          setUpasswd("");
           setPwErr(true);
           setErrPwMsg("문자 와 숫자는 1개이상 포함되어야 합니다.");
           return;
-        } else if (pwCheck.exec(getItem)) {
+        } else if (pwCheck.exec(newInfo)) {
           setPwErr(false);
-          setUser({
-            ...user,
-            [getName]: getItem,
-          });
+          setUpasswd(newInfo);
+          setErrPwMsg("");
         }
         break;
-      case "checkUpdatePw":
-        if (nullCheck.exec(getItem) || getItem === "") {
-          // pwCheckInput.current.value = "";
+
+      case "CheckPasswd":
+        if (nullCheck.exec(newInfo) || newInfo === "" || newInfo === null) {
+          setCheckPasswd("");
           setPwCheckErr(true);
-          setErrPwCheckMsg(nullMsg);
-          setUser({
-            ...user,
-            [getName]: "",
-          });
+          setErrPwMsg(nullMsg);
+          updateUpasswdCheck.current.value = "";
           return;
-        } else if (getItem.length < 8) {
+        } else if (newInfo.length < 8) {
+          setCheckPasswd("");
           setPwCheckErr(true);
-          setErrPwCheckMsg("비밀번호는 최소 8글자 이상 입력해주세요. ");
+          setErrPwMsg("비밀번호는 최소 8글자 이상 입력해주세요. ");
           return;
-        } else if (getItem.length > 15) {
+        } else if (newInfo.length > 15) {
+          setCheckPasswd("");
           setPwCheckErr(true);
-          setErrPwCheckMsg("비밀번호는 최대 15 자를 넘길수 없습니다.");
+          setErrPwMsg("비밀번호는 최대 15 자를 넘길수 없습니다.");
           return;
-        } else if (!spcCheck.exec(getItem)) {
+        } else if (!spcCheck.exec(newInfo)) {
+          setCheckPasswd("");
           setPwCheckErr(true);
-          setErrPwCheckMsg(
+          setErrPwMsg(
             "! @ # 중 하나를 포함 해야하며 이외 특수문자는 사용이 불가합니다."
           );
           return;
-        } else if (!pwCheck.exec(getItem) || !numCheck.exec(getItem)) {
+        } else if (!pwCheck.exec(newInfo) || !numCheck.exec(newInfo)) {
+          setCheckPasswd("");
           setPwCheckErr(true);
-          setErrPwCheckMsg("문자 와 숫자는 1개이상 포함되어야 합니다.");
+          setErrPwMsg("문자 와 숫자는 1개이상 포함되어야 합니다.");
           return;
-        } else if (user.uPasswd !== getItem) {
+        } else if (uPasswd !== newInfo) {
+          setCheckPasswd("");
           setPwCheckErr(true);
           setErrPwCheckMsg("비밀번호가 일치하지 않습니다.");
-          return;
-        } else {
+        } else if (pwCheck.exec(newInfo)) {
           setPwCheckErr(false);
-          setUser({
-            ...user,
-            [getName]: getItem,
-          });
+          setCheckPasswd(newInfo);
+          setErrPwCheckMsg("");
         }
         break;
 
       case "uPhone":
-        if (nullCheck.exec(getItem) || getItem === "") {
-          // phoneErrInput.current.value = "";
+        if (nullCheck.exec(newInfo) || newInfo === "") {
+          setUphone("");
           setPhoneErr(true);
           setErrPhoneMsg(nullMsg);
-          setUser({
-            ...user,
-            [getName]: "",
-          });
+          updateUphone.current.value = "";
           return;
-        } else if (!numCheck.exec(getItem)) {
-          // phoneErrInput.current.value = "";
+        } else if (!numCheck.exec(newInfo)) {
+          setUphone("");
           setPhoneErr(true);
           setErrPhoneMsg("휴대폰번호는 숫자만 입력 가능합니다.");
+          updateUphone.current.value = "";
           return;
-        } else if (getItem.length < 11) {
+        } else if (newInfo.length < 11) {
+          setUphone("");
           setPhoneErr(true);
           setErrPhoneMsg("휴대폰번호는 10자리에서 11자리를 입력해주세요 ");
           return;
-        } else if (getItem.length > 11) {
+        } else if (newInfo.length > 11) {
+          setUphone("");
           setPhoneErr(true);
-          setErrPhoneMsg("휴대폰번호는 최대 11 자를 넘길수 없습니다.");
+          setErrPhoneMsg("휴대폰번호는 최대 11자리를 넘길수 없습니다. ");
           return;
-        } else if (!telPhoneCheck.exec(getItem)) {
+        } else if (!telPhoneCheck.exec(newInfo)) {
+          setUphone("");
           setPhoneErr(true);
           setErrPhoneMsg("휴대폰번호 앞자리를 확인해주세요.");
           return;
         } else {
           setPhoneErr(false);
-          setUser({
-            ...user,
-            [getName]: getItem,
-          });
-        }
-        break;
-
-      case "uDetail":
-        // setAddrErr(false);
-
-        if (nullCheck.exec(getItem) || getItem === "") {
-          // AddrInput.current.value = "";
-          setAddrErr(true);
-          setErrAddrMsg(nullMsg);
-          setUser({
-            ...user,
-            [getName]: "",
-          });
-        } else if (spcCheck.exec(getItem)) {
-          // AddrInput.current.value = "";
-          setAddrErr(true);
-          setErrAddrMsg("특수 문자를 제외한 정보만 입력해주세요");
-          return;
-        } else {
-          setAddrErr(false);
-          setUser({
-            ...user,
-            zipcode: inputZipCode,
-            uAddress: inputAddr,
-            [getName]: getItem,
-          });
+          setUphone(newInfo);
         }
         break;
 
       case "uEmail":
-        if (nullCheck.exec(getItem) || getItem === "") {
-          // EmailErrInput.current.value = "";
+        if (nullCheck.exec(newInfo) || newInfo === "") {
+          setUemail("");
           setEmailErr(true);
           setErrEmailMsg(nullMsg);
-          setUser({
-            ...user,
-            [getName]: "",
-          });
+
+          updateUemail.current.value = "";
           return;
-        } else if (!emailCheck.exec(getItem)) {
+        } else if (!emailCheck.exec(newInfo)) {
+          setUemail("");
           setEmailErr(true);
           setErrEmailMsg("E-mail이 올바르지 않습니다. ");
           return;
         } else {
           setEmailErr(false);
-          setUser({
-            ...user,
-            [getName]: getItem,
-          });
+          setUemail(newInfo);
         }
+        break;
+
+      case "uDetail":
+        if (spcCheck.exec(newInfo)) {
+          updateUdetail.current.value = "";
+          setUadditionalAddr("");
+          setAddrErr(true);
+          setErrAddrMsg("특수 문자를 제외한 정보만 입력해주세요");
+          return;
+        } else {
+          setAddrErr(false);
+          setUadditionalAddr(newInfo);
+        }
+
+        // if (nullCheck.exec(newInfo)) {
+        //   setUadditionalAddr("");
+        //   setAddrErr(true);
+        //   setErrAddrMsg(nullMsg);
+        //   updateUdetail.current.value = "";
+        // } else
         break;
 
       default:
@@ -327,418 +317,325 @@ const MyPagePassPw = () => {
     }
   };
 
-  const [pass, setPass] = useState(false);
-
-  const inputCheck = () => {
-    const { uName, uBirth, uPasswd, checkUpdatePw, uPhone, uEmail } = user;
-
-    if (uName === undefined || uName === "" || nameErr === true) {
-      // nameInput.current.focus();
-      setNameErr(true);
-      setErrNameMsg("이름을 확인해 주세요. ");
-      return;
-    }
-
-    if (uBirth === undefined || uBirth === "" || uBirth === true) {
-      // birthErrInput.current.focus();
-      setBirthErr(true);
-      setErrBirthMsg("생년월일을 입력해 주세요. ");
-      return;
-    }
-
-    if (uPasswd === undefined || uPasswd === "" || uPasswd === true) {
-      // pwInput.current.focus();
-      setPwErr(true);
-      setErrPwMsg("비밀번호를 입력해 주세요. ");
-      return;
-    }
-
-    if (checkUpdatePw !== uPasswd || pwCheckErr === true) {
-      // pwCheckInput.current.focus();
-      setPwCheckErr(true);
-      setErrPwCheckMsg("비밀번호가 일치하지 않습니다. ");
-      return;
-    }
-
-    if (uPhone === undefined || uPhone === "" || phoneErr === true) {
-      // phoneErrInput.current.focus();
-      setPhoneErr(true);
-      setErrPhoneMsg("전화번호를 입력해 주세요. ");
-      return;
-    }
-
-    if (uEmail === undefined || uEmail === "" || emailErr === true) {
-      // EmailErrInput.current.focus();
-      setEmailErr(true);
-      setErrEmailMsg("이메일을 확인해 주세요. ");
-      return;
-    }
-
-    if (user.zipcode === "" || user.zipcode === undefined || addrErr === true) {
-      // EmailErrInput.current.focus();
-      setAddrErr(true);
-      setErrAddrMsg("주소를 확인해 주세요. ");
-    }
-    setPass(true);
-  };
+  //마지막 유효성 검사
 
   const submitUpdate = async (e) => {
     e.preventDefault();
-    inputCheck();
-    if (pass === false) {
-      alert("빈 곳이 있습니다.");
-      return;
+
+    if (
+      nameErr === true ||
+      birthErr === true ||
+      emailErr === true ||
+      phoneErr === true
+    ) {
+      alert("수정 정보를 확인해주세요");
+    } else if (uPasswd.length > 16) {
+      alert("비밀번호를 입력해주세요.");
+    } else if (CheckPasswd === "" || CheckPasswd != uPasswd) {
+      updateUpasswdCheck.current.focus();
+      alert("비밀번호가 같지않습니다. ");
     } else {
       updateUserHandle();
     }
+  };
+
+  //수정 통신
+  const updateUserHandle = async () => {
+    const idx = user.idx;
+    await axios
+      .post("http://localhost:5000/mypage/api/updateuser", {
+        idx,
+        uName,
+        uPasswd,
+        uPhone,
+        uEmail,
+        uBirth,
+        uZipcode,
+        uAddress,
+        uAdditionalAddr,
+      })
+      .then((response) => {
+        if (response.data.status === 200) {
+          alert(response.data.message);
+          navigate("/mypage", { replace: true });
+        }
+      });
   };
 
   return (
     <React.Fragment>
       <div className={classes.MyPagePassPw}>
         <RegistSection title={"회원정보 수정"} />
-        <div className={classes["passpw-container"]}>
-          <div className={classes["passpw-wrap-title"]}>
-            <h2>개인정보</h2>
-          </div>
-          <form action="/updateUser" method="post" onSubmit={submitUpdate}>
-            <div className={classes["passpw-wrap-content"]}>
-              <div className={classes["passpw-wrap-item"]}>
-                <div className={classes["passpw-content-item"]}>
-                  <div className={classes["passpw-item-title"]}>
-                    <h2>아이디</h2>
-                  </div>
+        <form action="/updateUser" method="post" onSubmit={submitUpdate}>
+          <table>
+            <thead>
+              <tr>
+                <td>
+                  <h2>이름</h2>
+                </td>
+                <td>
                   <div className={classes["passpw-item-input"]}>
-                    <input
-                      type="text"
-                      name="updateId"
-                      value={user.uId}
-                      readOnly
-                    />
-                    <input type="hidden" name="userIdx" value={user.idx} />
-                  </div>
-                </div>
-
-                <div className={classes["passpw-content-item"]}>
-                  <div className={classes["passpw-item-title"]}>
-                    <h2>이름</h2>
-                  </div>
-                  <div className={classes["passpw-item-input"]}>
-                    {!nameUpdate ? (
-                      <>
-                        <MyPageInput
-                          type={"text"}
-                          value={user.uName}
-                          onClick={() => setNameUpdate(true)}
-                        />
-                      </>
-                    ) : (
-                      <MyPageInput
-                        type={"text"}
+                    <div>
+                      <input
+                        type="text"
+                        ref={updateUname}
+                        defaultValue={uName}
                         name="uName"
-                        onChange={infoHandler}
+                        maxLength={5}
+                        minLength={2}
+                        onChange={inputCheck}
                       />
+                    </div>
+                    {nameErr && (
+                      <div className={classes["err-msg"]}>{errNameMsg}</div>
                     )}
                   </div>
-                  {nameErr && (
-                    <div className={classes["err-msg"]}>{errNameMsg}</div>
-                  )}
-                </div>
-
-                <div className={classes["passpw-content-item"]}>
-                  <div className={classes["passpw-item-title"]}>
-                    <h2>생년월일</h2>
-                  </div>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <h2>아이디</h2>
+                </td>
+                <td>
                   <div className={classes["passpw-item-input"]}>
-                    {!birthUpdate ? (
-                      <>
-                        <MyPageInput
-                          type={"text"}
-                          value={user.uBirth}
-                          onClick={() => setBirthUpdate(true)}
-                        />
-                      </>
-                    ) : (
-                      <MyPageInput
+                    <div>
+                      <input
                         type="text"
-                        name="uBirth"
-                        onChange={infoHandler}
+                        name="updateId"
+                        defaultValue={user.uId}
+                        className={classes["id-input"]}
+                        readOnly
                       />
-                    )}
+                      <input
+                        type="hidden"
+                        name="userIdx"
+                        defaultValue={user.idx}
+                      />
+                    </div>
                   </div>
-                  {birthErr && (
-                    <div className={classes["err-msg"]}>{errBirthMsg}</div>
-                  )}
-                </div>
-
-                <div className={classes["passpw-content-item"]}>
-                  <div className={classes["passpw-item-title"]}>
-                    <h2>비밀번호</h2>
-                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h2>비밀번호</h2>
+                </td>
+                <td>
                   <div className={classes["passpw-item-input"]}>
-                    {/* <input
-                      type={!showPw ? "password" : "text"}
-                      name="uPasswd"
-                      ref={pwInput}
-                      onChange={infoHandler}
-                    /> */}
-                    {!pwUpdate ? (
-                      <>
-                        <MyPageInput
-                          type={!showPw ? "password" : "text"}
-                          value={user.uPasswd}
-                          onClick={() => setPwUpdate(true)}
-                        />
-                      </>
-                    ) : (
-                      <MyPageInput
+                    <div>
+                      <input
                         type={!showPw ? "password" : "text"}
+                        ref={updateUpasswd}
                         name="uPasswd"
-                        onChange={infoHandler}
+                        maxLength={15}
+                        minLength={8}
+                        onChange={inputCheck}
                       />
-                    )}
-                    {!showPw ? (
-                      <>
-                        <FaEyeSlash
-                          onClick={() => setShowPw(!showPw)}
-                          className={classes["passwd-show-icon"]}
-                        />
-                      </>
-                    ) : (
-                      <>
-                        <FaEye
-                          onClick={() => setShowPw(!showPw)}
-                          className={classes["passwd-show-icon"]}
-                        />
-                      </>
-                    )}
-                  </div>
-                  {pwErr && (
-                    <div
-                      className={`${classes["err-msg"]} ${classes["err-pw"]}`}
-                    >
-                      {errPwMsg}
+                      {!showPw ? (
+                        <div className={classes["passwd-show-icon"]}>
+                          <FaEyeSlash onClick={() => setShowPw(!showPw)} />
+                        </div>
+                      ) : (
+                        <div className={classes["passwd-show-icon"]}>
+                          <FaEye onClick={() => setShowPw(!showPw)} />
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-
-                <div className={classes["passpw-content-item"]}>
-                  <div className={classes["passpw-item-title"]}>
-                    <h2>비밀번호 확인</h2>
-                  </div>
-                  <div className={classes["passpw-item-input"]}>
-                    <input
-                      type={!showCkPw ? "password" : "text"}
-                      name="checkUpdatePw"
-                      // ref={pwCheckInput}
-                      onChange={infoHandler}
-                    />
-                    {!showCkPw ? (
-                      <div>
-                        <FaEyeSlash
-                          onClick={() => setShowCkPw(!showCkPw)}
-                          className={classes["passwd-show-icon"]}
-                        />
+                    {pwErr && (
+                      <div
+                        className={`${classes["err-msg"]} ${classes["err-pw"]}`}
+                      >
+                        {errPwMsg}
                       </div>
-                    ) : (
-                      <>
-                        <FaEye
-                          onClick={() => setShowCkPw(!showCkPw)}
-                          className={classes["passwd-show-icon"]}
-                        />
-                      </>
                     )}
                   </div>
-                  {pwCheckErr && (
-                    <div
-                      className={`${classes["err-msg"]} ${classes["err-pw"]}`}
-                    >
-                      {errPwCheckMsg}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h2>비밀번호 확인</h2>
+                </td>
+                <td>
+                  <div className={classes["passpw-item-input"]}>
+                    <div>
+                      <input
+                        type={!showCkPw ? "password" : "text"}
+                        ref={updateUpasswdCheck}
+                        name="CheckPasswd"
+                        maxLength={15}
+                        minLength={8}
+                        onChange={inputCheck}
+                      />
+                      {!showCkPw ? (
+                        <div className={classes["passwd-show-icon"]}>
+                          <FaEyeSlash onClick={() => setShowCkPw(!showCkPw)} />
+                        </div>
+                      ) : (
+                        <div className={classes["passwd-show-icon"]}>
+                          <FaEye onClick={() => setShowCkPw(!showCkPw)} />
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className={classes["passpw-content-item"]}>
-                  <div className={classes["passpw-item-title"]}>
-                    <h2>전화번호</h2>
+                    {pwCheckErr && (
+                      <div
+                        className={`${classes["err-msg"]} ${classes["err-pw"]}`}
+                      >
+                        {errPwCheckMsg}
+                      </div>
+                    )}
                   </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h2>생년월일</h2>
+                </td>
+                <td>
                   <div className={classes["passpw-item-input"]}>
-                    {/* <input
-                      type="text"
-                      name="uPhone"
-                      ref={phoneErrInput}
-                      onChange={infoHandler}
-                      placeholder="-를 제외한 11~12자리"
-                    /> */}
-
-                    {!phoneUpdate ? (
-                      <>
-                        <MyPageInput
-                          type={"text"}
-                          value={user.uPhone}
-                          onClick={() => setPhoneUpdate(true)}
-                        />
-                      </>
-                    ) : (
-                      <MyPageInput
+                    <div>
+                      <input
                         type="text"
+                        ref={updateUbirth}
+                        maxLength={8}
+                        minLength={8}
+                        defaultValue={uBirth}
+                        name="uBirth"
+                        onChange={inputCheck}
+                      />
+                    </div>
+                    {birthErr && (
+                      <div className={classes["err-msg"]}>{errBirthMsg}</div>
+                    )}
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h2>전화번호</h2>
+                </td>
+                <td>
+                  <div className={classes["passpw-item-input"]}>
+                    <div>
+                      <input
+                        type="text"
+                        ref={updateUphone}
                         name="uPhone"
-                        onChange={infoHandler}
+                        maxLength={11}
+                        minLength={10}
+                        defaultValue={uPhone}
+                        onChange={inputCheck}
                       />
+                    </div>
+                    {phoneErr && (
+                      <div className={classes["err-msg"]}>{errPhoneMsg}</div>
                     )}
                   </div>
-                  {phoneErr && (
-                    <div className={classes["err-msg"]}>{errPhoneMsg}</div>
-                  )}
-                </div>
-
-                <div className={classes["passpw-content-item"]}>
-                  <div className={classes["passpw-item-title"]}>
-                    <h2>이메일</h2>
-                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h2>이메일</h2>
+                </td>
+                <td>
                   <div className={classes["passpw-item-input"]}>
-                    {/* <input
-                      type="text"
-                      name="uEmail"
-                      ref={EmailErrInput}
-                      onChange={infoHandler}
-     
-                    /> */}
-                    {/* <input type="text" defaultValue={user.uEmail} />  value 바꾸기*/}
-                    {!emailUpdate ? (
-                      <>
-                        <MyPageInput
-                          type={"text"}
-                          value={user.uEmail}
-                          onClick={() => setEmailUpdate(true)}
-                        />
-                      </>
-                    ) : (
-                      <MyPageInput
+                    <div>
+                      <input
                         type="text"
+                        ref={updateUemail}
                         name="uEmail"
-                        onChange={infoHandler}
+                        // ref={EmailErrInput}
+                        defaultValue={uEmail}
+                        onChange={inputCheck}
                       />
+                    </div>
+                    {emailErr && (
+                      <div className={classes["err-msg"]}>{errEmailMsg}</div>
                     )}
                   </div>
-                  {emailErr && (
-                    <div className={classes["err-msg"]}>{errEmailMsg}</div>
-                  )}
-                </div>
-
-                <div className={classes["passpw-content-item"]}>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h2>주소</h2>
+                </td>
+                <td>
                   <div
-                    className={`${classes["passpw-item-title"]} ${classes["addr-title"]}`}
+                    className={`${classes["passpw-item-input"]} ${classes["addr-zipcode-input"]}`}
                   >
-                    <h2>주소</h2>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setShowAddr(true);
-                        setUser({
-                          ...user,
-                          uDetail: "",
-                        });
-                        setAddrUpdate(true);
-                      }}
-                    >
-                      주소찾기
-                    </button>
-                    {showAddr && (
-                      <AddressModal
-                        onClose={handleAddrClose}
-                        setInputAddr={setInputAddr}
-                        setInputZipCode={setInputZipCode}
+                    <div>
+                      <input
+                        type="text"
+                        ref={updateZipcode}
+                        defaultValue={uZipcode}
+                        readOnly
                       />
-                    )}
+                    </div>
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowAddr(true);
+                          setUpdateAddr(true);
+                        }}
+                      >
+                        주소찾기
+                      </button>
+                      {showAddr && (
+                        <AddressModal
+                          onClose={handleAddrClose}
+                          setInputAddr={setInputAddr}
+                          setInputZipCode={setInputZipCode}
+                        />
+                      )}
+                    </div>
                   </div>
                   <div
-                    className={`${classes["passpw-item-input"]} ${classes["addr-input"]}`}
+                    className={`${classes["passpw-item-input"]} ${classes["addr-addr-input"]}`}
                   >
-                    {/* <input
-                      type="text"
-                      name="zipcode"
-                      onChange={infoHandler}
-                      value={inputZipCode}
-                    />
-
-                    <input
-                      type="text"
-                      name="updateAddressFirst"
-                      onChange={infoHandler}
-                      value={inputAddr}
-                    />
-                    <input
-                      type="text"
-                      name="updateAddressDetail"
-                      ref={AddrInput}
-                      onChange={infoHandler}
-                      placeholder="상세주소가 없으면 없음 이라 작성"
-                    /> */}
-
-                    {!addrUpdate ? (
-                      <>
-                        <MyPageInput
-                          type={"text"}
-                          value={user.uZipcode}
-                          onClick={() => setAddrUpdate(true)}
-                        />
-                        <MyPageInput
-                          type={"text"}
-                          value={user.uAddress}
-                          onClick={() => setAddrUpdate(true)}
-                        />
-                        <MyPageInput type={"text"} value={user.uDetail} />
-                      </>
-                    ) : (
-                      <>
-                        <MyPageInput
-                          name="uZipcode"
-                          onChange={infoHandler}
-                          value={inputZipCode}
-                          onClick={() => setAddrUpdate(true)}
-                        />
-                        <MyPageInput
-                          name="uAddress"
-                          onChange={infoHandler}
-                          value={inputAddr}
-                          onClick={() => setAddrUpdate(true)}
-                        />
-                        {/* <MyPageInput
-                          name="uDetail"
-                          onChange={infoHandler}
-                          placeholder={"상세주소가 없다면 없음이라 작성"}
-                          onClick={() => setAddrUpdate(true)}
-                        /> */}
-                        <input
-                          type="text"
-                          name="uDetail"
-                          onChange={infoHandler}
-                          placeholder={"상세주소가 없다면 없음이라 작성"}
-                        />
-                      </>
+                    <div>
+                      <input
+                        type="text"
+                        ref={updateAddrCode}
+                        defaultValue={uAddress}
+                        readOnly
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className={`${classes["passpw-item-input"]} ${classes["addr-detail-input"]}`}
+                  >
+                    <div>
+                      <input
+                        type="text"
+                        name="uDetail"
+                        ref={updateUdetail}
+                        defaultValue={uAdditionalAddr}
+                        onChange={inputCheck}
+                      />
+                    </div>
+                    {addrErr && (
+                      <div className={classes["err-msg"]}>{errAddrMsg}</div>
                     )}
                   </div>
-                  {addrErr && (
-                    <div className={classes["err-msg"]}>{errAddrMsg}</div>
-                  )}
-                </div>
-              </div>
-            </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div className={classes["passpw-wrap-button"]}>
+            <div>
+              <button className={classes["left-button"]}>수정</button>
 
-            <div className={classes["passpw-wrap-button"]}>
-              <div>
-                <button>수정</button>
-
-                <button
-                  type="button"
-                  onClick={() => navigate(-1, { replace: true })}
-                >
-                  취소
-                </button>
-              </div>
+              <button
+                type="button"
+                className={classes["right-button"]}
+                onClick={() => setUserPw(false)}
+              >
+                취소
+              </button>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </React.Fragment>
   );
