@@ -1,5 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import DetailModal from "./DetailModal";
 
 import classes from "./MyPageListForm.module.css";
 const MyPageListForm = ({ props, title, pointCheck }) => {
@@ -8,6 +9,13 @@ const MyPageListForm = ({ props, title, pointCheck }) => {
 
   const getpoint = props.oGetpoint;
   const usepoint = props.oUsepoint;
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleClose = () => {
+    setShowModal(false);
+  };
+  console.log(props);
   return (
     <React.Fragment>
       {pointCheck === true ? (
@@ -51,13 +59,23 @@ const MyPageListForm = ({ props, title, pointCheck }) => {
               <tr>
                 <td>{props.bBoardtype}</td>
                 <td>
-                  <Link>{inquiryTitle.substring(0, 10) + "..."}</Link>
+                  <button onClick={() => setShowModal(true)}>
+                    {inquiryTitle.substring(0, 10) + "..."}
+                  </button>
                 </td>
                 <td>{inquiryContent.substring(0, 10) + "..."}</td>
                 <td>{props.bWriteDate}</td>
               </tr>
             </tbody>
           </table>
+          {showModal && (
+            <DetailModal
+              showModal={showModal}
+              setShowModal={setShowModal}
+              onClose={handleClose}
+              props={props}
+            />
+          )}
         </div>
       )}
     </React.Fragment>

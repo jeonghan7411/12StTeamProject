@@ -56,7 +56,6 @@
 .MyPageListForm table {
   text-align: center;
   width: 100%;
-  text-align: center;
   border: 1px solid var(--navy-color);
 }
 
@@ -91,7 +90,10 @@
   color: red;
 }
 
-.MyPageListForm td:nth-child(2) a {
+.MyPageListForm td:nth-child(2) button {
+  font-size: 16px;
+  font-weight: bold;
+
   text-decoration: underline;
 }
 

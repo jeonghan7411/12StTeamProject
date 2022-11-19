@@ -89,23 +89,46 @@ router.get("/api/orderlist", (req, res) => {
 });
 
 router.post("/api/updateuser", (req, res) => {
-  const id = req.body.user.uId;
-  const name = req.body.user.uName;
-  const passwd = req.body.user.uPasswd;
-  const email = req.body.user.uEmail;
-  const phone = req.body.user.uPhone;
-  const zipcode = req.body.user.uZipcode;
-  const address = req.body.user.uAddress;
-  const birth = req.body.user.uBirth;
-  const detail = req.body.user.uDetail;
+  const {
+    idx,
+    uName,
+    uPasswd,
+    uPhone,
+    uEmail,
+    uBirth,
+    uZipcode,
+    uAddress,
+    uAdditionalAddr,
+  } = req.body;
 
+  console.log(
+    idx,
+    uName,
+    uPasswd,
+    uPhone,
+    uEmail,
+    uBirth,
+    uZipcode,
+    uAddress,
+    uAdditionalAddr
+  );
   let sql =
-    "update users set uName=?, uPasswd=?, uEmail=?, uPhone=?, uZipcode=?,uAddress=?,uBirth=?,uAdditionalAddr =? where uId = ?;";
+    "update users set uName=?, uPasswd=?, uEmail=?, uPhone=?, uZipcode=?,uAddress=?,uBirth=?,uAdditionalAddr =? where idx = ?;";
 
-  bcrypt.hash(passwd, saltRounds, (err, hash_passwd) => {
+  bcrypt.hash(uPasswd, saltRounds, (err, hash_passwd) => {
     db.query(
       sql,
-      [name, hash_passwd, email, phone, zipcode, address, birth, detail, id],
+      [
+        uName,
+        hash_passwd,
+        uEmail,
+        uPhone,
+        uZipcode,
+        uAddress,
+        uBirth,
+        uAdditionalAddr,
+        idx,
+      ],
       (err) => {
         if (err) {
           throw err;
@@ -170,26 +193,14 @@ router.post("/api/deleteuser", (req, res) => {
 });
 
 router.post("/api/adddeliver", (req, res) => {
-  const DBId = req.body.user.uId;
-  const inputName = req.body.user.uName;
-  const inputZipcode = req.body.user.uZipcode;
-  const inputAddress = req.body.user.uAddress;
-  const inputDetail = req.body.user.uAdditionalAddr;
-  const inputPhone = req.body.user.uPhone;
-  const inputMemo = req.body.uMemo;
+  const { uId, uName, uPhone, uZipcode, uAddress, uAdditionalAddr, uMemo } =
+    req.body;
 
+  console.log(req.body);
   let sql = "INSERT INTO deliveryaddr VALUES(NULL,?,?,?,?,?,?,?);";
   db.query(
     sql,
-    [
-      DBId,
-      inputName,
-      inputZipcode,
-      inputAddress,
-      inputDetail,
-      inputPhone,
-      inputMemo,
-    ],
+    [uId, uName, uZipcode, uAddress, uAdditionalAddr, uPhone, uMemo],
     (err) => {
       if (err) {
         throw err;

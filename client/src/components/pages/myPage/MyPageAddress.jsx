@@ -13,7 +13,7 @@ import { authCheck } from "../../../util/authCheck";
 
 const MyPageAddress = () => {
   const [user, setUser] = useState({}); //유저 정보 받아오는 곳
-  const [uMemo, setUmemo] = useState("");
+
   const [addUser, setAddUser] = useState([]); // 추가 된 주소 저장
   const [reset, setReset] = useState(false);
 
@@ -22,35 +22,6 @@ const MyPageAddress = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // const fetchData = async () => {
-
-    //   await axios
-    //     .get("http://localhost:5000/mypage", { withCredentials: true })
-    //     .then((response) => {
-    //       if (response.data.status === 401) {
-    //         alert(response.data.message);
-    //         navigate("/login", { replace: true });
-    //       } else if (response.data.status === 200) {
-    //         getUser(setUser);
-    //         const addlist = async () => {
-    //           await axios
-    //             .get("http://localhost:5000/addlist", {
-    //               withCredentials: true,
-    //             })
-    //             .then((listRes) => {
-    //               if (listRes.data.status === 200) {
-    //                 setAddUser(listRes.data.user);
-
-    //                 // navigate("/mypage/mypageaddress", { replace: true });
-    //               }
-    //             });
-    //         };
-    //         addlist();
-    //       }
-    //     });
-    // };
-    // fetchData();
-
     authCheck();
     getUser(setUser);
 
@@ -72,19 +43,18 @@ const MyPageAddress = () => {
     addlist();
   }, [reset]);
 
-  const addDeliver = async () => {
-    await axios
-      .post("http://localhost:5000/mypage/api/adddeliver", { user, uMemo })
-      .then((response) => {
-        if (response.data.status === 200) {
-          alert(response.data.message);
-          setReset(!reset);
-          // window.location.href = "http://localhost:3000/mypage/mypageaddress";
-        }
-      });
-    setAddAddress(!addAddress);
-  };
-  console.log(addUser);
+  // const addDeliver = async () => {
+  //   await axios
+  //     .post("http://localhost:5000/mypage/api/adddeliver", { user, uMemo })
+  //     .then((response) => {
+  //       if (response.data.status === 200) {
+  //         alert(response.data.message);
+  //         setReset(!reset);
+  //         // window.location.href = "http://localhost:3000/mypage/mypageaddress";
+  //       }
+  //     });
+  //   setAddAddress(!addAddress);
+  // };
 
   const [updateState, setUpdateSate] = useState(false);
   // const [testa, setTestA] = useState({});
@@ -98,7 +68,7 @@ const MyPageAddress = () => {
 
   const addAddressItem = async (e) => {
     e.preventDefault();
-    addDeliver();
+    // addDeliver();
   };
 
   return (
@@ -107,45 +77,56 @@ const MyPageAddress = () => {
         <div>
           <MyPageListTitle text={"배송지 관리"} />
         </div>
+        {addAddress === true ? (
+          <MyPageAddressAdd
+            user={user}
+            setAddAddress={setAddAddress}
+            reset={reset}
+            setReset={setReset}
+          />
+        ) : (
+          <>
+            <div>
+              {addUser.length === 0 && (
+                <MyPageNullMsg
+                  className={classes["address-content-null"]}
+                  text={"등록된 주소가 없습니다."}
+                />
+              )}
+
+              {addUser.map((user, key) => (
+                <>
+                  <MyPageAddressItem
+                    key={key}
+                    addUser={user}
+                    getNum={getNum}
+                    targetNum={targetNum}
+                    setTargetNum={setTargetNum}
+                    setUpdateSate={setUpdateSate}
+                  />
+                </>
+              ))}
+            </div>
+          </>
+        )}
+        <div className={classes["address-wrap-content"]}></div>
+
+        <div className={classes["address-wrap-button"]}>
+          {addAddress === false && updateState === false ? (
+            <button type="button" onClick={() => setAddAddress(true)}>
+              추가하기
+            </button>
+          ) : (
+            <></>
+          )}
+        </div>
+
+        {/* <div>
+          <MyPageListTitle text={"배송지 관리"} />
+        </div>
 
         <form method="post" onSubmit={addAddressItem}>
           <div className={classes["address-wrap-content"]}>
-            {/* {!addAddress ? (
-              <>
-                {addUser.length === 0 && (
-                  <MyPageNullMsg
-                    className={classes["address-content-null"]}
-                    text={"등록된 주소가 없습니다."}
-                  />
-                )}
-                {!updateState ? (
-                  <>
-                    {addUser.map((user) => (
-                      <MyPageAddressItem
-                        key={user.idx}
-                        addUser={user}
-                        getNum={getNum}
-                        targetNum={targetNum}
-                        setTargetNum={setTargetNum}
-                      />
-                    ))}
-                  </>
-                ) : (
-                  <MyPageUpdateAddr
-                    addUser={addUser}
-                    targetNum={targetNum}
-                    setUpdateSate={setUpdateSate}
-                  />
-                )}
-              </>
-            ) : (
-              <MyPageAddressAdd
-                user={user}
-                setUser={setUser}
-                setUmemo={setUmemo}
-              />
-            )} */}
-
             {!addAddress ? (
               <div>
                 {addUser.length === 0 && (
@@ -168,11 +149,7 @@ const MyPageAddress = () => {
                 ))}
               </div>
             ) : (
-              <MyPageAddressAdd
-                user={user}
-                setUser={setUser}
-                setUmemo={setUmemo}
-              />
+              <MyPageAddressAdd user={user} setUser={setUser} />
             )}
           </div>
 
@@ -192,7 +169,7 @@ const MyPageAddress = () => {
               </div>
             )}
           </div>
-        </form>
+        </form> */}
       </div>
     </React.Fragment>
   );

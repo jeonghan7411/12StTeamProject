@@ -8,9 +8,12 @@
 }
 
 .address-item-addr {
+  width: 800px;
+
   display: flex;
 
   margin-top: 15px;
+  margin-bottom: 20px;
 
   align-items: center;
 }
@@ -42,4 +45,38 @@
   padding: 5px;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+/* update  */
+
+input {
+  width: 100%;
+}
+
+.address-item-addr span:first-child {
+  font-size: 18px;
+  font-weight: bold;
+  width: 120px;
+}
+
+.address-item-addr span:nth-child(2) {
+  width: 500px;
+}
+
+.address-item-addr input {
+  padding: 10px;
+}
+
+.zipcode-wrap-input {
+  margin-left: 15px;
+}
+
+.search-wrap-button button {
+  font-weight: bold;
+  color: var(--navy-color);
+
+  border: 2px solid var(--navy-color);
+  border-radius: 5px;
+
+  padding: 8px;
 }

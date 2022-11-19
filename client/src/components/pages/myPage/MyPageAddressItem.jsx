@@ -8,7 +8,7 @@ import MyPageAddressAdd from "./MyPageAddressAdd";
 
 import classes from "./MyPageAddressItem.module.css";
 
-const MyPageAddressItem = ({ addUser, setTargetNum }) => {
+const MyPageAddressItem = ({ addUser, setTargetNum, setUpdateSate }) => {
   const navigate = useNavigate();
 
   const deleteAddr = async () => {
@@ -66,7 +66,7 @@ const MyPageAddressItem = ({ addUser, setTargetNum }) => {
   const [inputAddr, setInputAddr] = useState("");
   const [showAddr, setShowAddr] = useState(false);
 
-  const updateZipcod = useRef();
+  const updateZipcode = useRef();
   const updateAddrCode = useRef();
 
   const handleAddrClose = () => {
@@ -75,9 +75,9 @@ const MyPageAddressItem = ({ addUser, setTargetNum }) => {
 
   const getAddrINfo = () => {
     if (inputZipCode === "") {
-      updateZipcod.current.value = dZipcode;
+      updateZipcode.current.value = dZipcode;
     } else {
-      updateZipcod.current.value = inputZipCode;
+      updateZipcode.current.value = inputZipCode;
       setDzipcode(inputZipCode);
     }
     if (inputAddr === "") {
@@ -114,14 +114,14 @@ const MyPageAddressItem = ({ addUser, setTargetNum }) => {
         <div className={classes["address-item-addr"]}>
           <span>우편번호 :</span>
 
-          <span>
+          <span className={classes["zipcode-wrap-input"]}>
             {updateInput === true ? (
               <input
                 type="text"
                 name="dZipcode"
                 defaultValue={addUser.dZipcode}
                 onChange={getAddrINfo}
-                ref={updateZipcod}
+                ref={updateZipcode}
               />
             ) : (
               <h2> {addUser.dZipcode}</h2>
@@ -129,7 +129,7 @@ const MyPageAddressItem = ({ addUser, setTargetNum }) => {
           </span>
 
           {updateInput && (
-            <span>
+            <span className={classes["search-wrap-button"]}>
               <button
                 type="button"
                 onClick={() => {
@@ -217,6 +217,7 @@ const MyPageAddressItem = ({ addUser, setTargetNum }) => {
                 onClick={(e) => {
                   setUpdateInput(!updateInput);
                   setTargetNum(e.target.name);
+                  setUpdateSate(true);
                 }}
                 name={addUser.idx}
               >
@@ -233,7 +234,10 @@ const MyPageAddressItem = ({ addUser, setTargetNum }) => {
               </button>
               <button
                 type="button"
-                onClick={() => setUpdateInput(!updateInput)}
+                onClick={() => {
+                  setUpdateInput(!updateInput);
+                  setUpdateSate(false);
+                }}
               >
                 취소
               </button>
