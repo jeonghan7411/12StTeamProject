@@ -7,7 +7,7 @@ import ProductReview from "./ProductReview";
 import ProductShippingAnnounce from "./ProductShippingAnnounce";
 import classes from "./Product.module.css";
 import productImg from "../../../assets/profile.jpg";
-import testImg from "../../../assets/icon-grade1.png";
+
 import testImg2 from "../../../assets/icons/kakaoLogin.png";
 import { FaAngleUp, FaAngleDown, FaAngleRight } from "react-icons/fa";
 import Card from "../../UI/Card";
@@ -16,40 +16,39 @@ import { getUser } from "../../../util/getUser";
 const Product = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState();
-  const [currentData, setCurrentData] = useState([]);
-  const [currentMenu, setCurrentMenu] = useState("productDetail");
+  const [currentData, setCurrentData] = useState({
+    productData: [],
+    productInquire: [],
+  });
+
+  const [currentMenu, setCurrentMenu] = useState("상품 상세");
   const [currentImg, setCurrentImg] = useState();
   const [orderValue, setOrderValue] = useState(1);
   const [order, setOrder] = useState([]);
   const { getIdx } = useParams();
 
+  const { productData, productInquire } = currentData;
+
   const realPrice =
-    (currentData.price - currentData.price * (currentData.pDiscount / 100)) *
+    (productData.price - productData.price * (productData.pDiscount / 100)) *
     orderValue;
 
   const handleInsertCart = async () => {
-    console.log(orderValue);
-    console.log(currentData.productId);
-    console.log(user.uId);
-
     await axios
       .post("http://localhost:5000/order/api/cart/insert", {
         sQuantity: orderValue,
         uId: user.uId,
-        productId: currentData.productId,
+        productId: productData.productId,
       })
       .then((response) => {
         if (response.data.status === 200) {
           if (window.confirm(response.data.message)) {
-            navigate();
+            navigate("/cart");
           }
         }
       });
   };
 
-  const setMenu = (e) => {
-    setCurrentMenu(e.target.textContent);
-  };
   const setPreviewImg = (e) => {
     setCurrentImg(e.target.src);
   };
@@ -86,16 +85,20 @@ const Product = () => {
   };
 
   useEffect(() => {
+    getUser(setUser);
+
     const fetchData = async () => {
       await axios
         .get("http://localhost:5000/product/api/get/productinfo/" + getIdx)
         .then((response) => {
-          setCurrentData(response.data.result[0]);
-          setCurrentImg(response.data.result[0].image);
+          const { productData, productInquire } = response.data;
+
+          setCurrentData({
+            productData: productData[0],
+            productInquire: productInquire,
+          });
         });
     };
-
-    getUser(setUser);
 
     fetchData();
   }, []);
@@ -103,43 +106,44 @@ const Product = () => {
   useEffect(() => {
     setOrder([
       {
-        title: currentData.title,
+        title: productData.title,
         sQuantity: orderValue,
         price:
-          currentData.price - currentData.price * (currentData.pDiscount / 100),
-        productId: currentData.productId,
-        image: currentData.image,
-        pDeliveryFee: currentData.pDeliveryFee,
-        // pDiscount: currentData.pDiscount,
+          productData.price - productData.price * (productData.pDiscount / 100),
+        productId: productData.productId,
+        image: productData.image,
+        pDeliveryFee: productData.pDeliveryFee,
       },
     ]);
-  }, [currentData, orderValue]);
+    setCurrentImg(productData.image);
+  }, [productData, orderValue]);
+
   return (
     <React.Fragment>
       <div className={classes["product-path"]}>
         <Link to={"/"}>홈</Link> <FaAngleRight />
         {/* 카테고리 대중소 */}
-        <Link>{currentData.category1}</Link>
+        <Link>{productData.category1}</Link>
         {
           <>
-            {currentData.category4 !== "" ? (
+            {productData.category4 !== "" ? (
               <>
-                <FaAngleRight /> <Link>{currentData.category2}</Link>
-                <FaAngleRight /> <Link>{currentData.category3}</Link>
-                <FaAngleRight /> <Link>{currentData.category4}</Link>
+                <FaAngleRight /> <Link>{productData.category2}</Link>
+                <FaAngleRight /> <Link>{productData.category3}</Link>
+                <FaAngleRight /> <Link>{productData.category4}</Link>
               </>
             ) : (
               <>
-                {currentData.category3 !== "" ? (
+                {productData.category3 !== "" ? (
                   <>
-                    <FaAngleRight /> <Link>{currentData.category2}</Link>
-                    <FaAngleRight /> <Link>{currentData.category3}</Link>
+                    <FaAngleRight /> <Link>{productData.category2}</Link>
+                    <FaAngleRight /> <Link>{productData.category3}</Link>
                   </>
                 ) : (
                   <>
-                    {currentData.category2 !== "" ? (
+                    {productData.category2 !== "" ? (
                       <>
-                        <FaAngleRight /> <Link>{currentData.category2}</Link>
+                        <FaAngleRight /> <Link>{productData.category2}</Link>
                       </>
                     ) : (
                       ""
@@ -154,10 +158,8 @@ const Product = () => {
       <div className={classes["product-content"]}>
         <div className={classes["product-content-img"]}>
           <div className={classes["product-content-img-List"]}>
-            {/* 이미지 클릭시 해당 이미지로 메인 이미지 변경 */}
-            {/* DB 추가되면 동적처리 필요 */}
             <div className={classes["product-content-img-item"]}>
-              <img src={currentData.image} alt="" onClick={setPreviewImg} />
+              <img src={productData.image} alt="" onClick={setPreviewImg} />
             </div>
             <div className={classes["product-content-img-item"]}>
               <img src={testImg2} alt="" onClick={setPreviewImg} />
@@ -173,42 +175,15 @@ const Product = () => {
         <div className={classes["product-content-detail"]}>
           <div className={classes["product-content-detail-mall"]}>
             <h4>
-              {
-                // <>
-                //   {currentData.category4 !== "" ? (
-                //     <>
-                //       <Link>{currentData.category4}</Link>
-                //     </>
-                //   ) : (
-                //     <>
-                //       {currentData.category3 !== "" ? (
-                //         <>
-                //           <Link>{currentData.category3}</Link>
-                //         </>
-                //       ) : (
-                //         <>
-                //           {currentData.category2 !== "" ? (
-                //             <>
-                //               <Link>{currentData.category2}</Link>
-                //             </>
-                //           ) : (
-                //             <Link>{currentData.category1}</Link>
-                //           )}
-                //         </>
-                //       )}
-                //     </>
-                //   )}
-                // </>
-                <Link>{currentData.mallname}</Link>
-              }
+              <Link>{productData.mallname}</Link>
             </h4>
-            <h2>{currentData.title}</h2>
+            <h2>{productData.title}</h2>
             <p>상품평 별점</p>
           </div>
           <div className={classes["product-content-detail-price"]}>
             {/* 할인율 */}
             <h3 className={classes["product-content-detail-price__discount"]}>
-              {currentData.pDiscount}
+              {productData.pDiscount}
               <span
                 className={classes["product-content-detail-price__percent"]}
               >
@@ -221,7 +196,7 @@ const Product = () => {
             </h2>
             {/* 원가 */}
             <h3 className={classes["product-content-detail-price__price"]}>
-              {currentData.price}원
+              {productData.price}원
             </h3>
           </div>
           <p className={classes["product-content-detail__getMile"]}>
@@ -279,37 +254,36 @@ const Product = () => {
               </button>
             </div>
           </div>
-          <div className={classes["product-content-detail-info"]}>
-            <li>상품정보</li>
-            <li>1</li>
-            <li>2</li>
-            <li>3</li>
-          </div>
         </div>
       </div>
 
       <div className={classes["product-infos"]}>
         <li
           className={currentMenu === "상품 상세" ? classes.click : ""}
-          onClick={setMenu}
+          onClick={() => setCurrentMenu("상품 상세")}
         >
           상품 상세
         </li>
         <li
           className={currentMenu === "상품평" ? classes.click : ""}
-          onClick={setMenu}
+          onClick={() => setCurrentMenu("상품평")}
         >
           상품평
+          <span className={classes["product-infos__amount"]}>{`( 0 )`}</span>
         </li>
         <li
           className={currentMenu === "상품문의" ? classes.click : ""}
-          onClick={setMenu}
+          onClick={() => setCurrentMenu("상품문의")}
         >
           상품문의
+          <span className={classes["product-infos__amount"]}>
+            {`( ${productInquire.length} )`}
+          </span>
         </li>
+
         <li
           className={currentMenu === "상품배송교환" ? classes.click : ""}
-          onClick={setMenu}
+          onClick={() => setCurrentMenu("상품배송교환")}
         >
           상품배송교환
         </li>
@@ -318,11 +292,14 @@ const Product = () => {
         {currentMenu === "상품평" ? (
           <ProductReview />
         ) : currentMenu === "상품문의" ? (
-          <ProductQnA />
+          <ProductQnA productInquire={productInquire} />
         ) : currentMenu === "상품배송교환" ? (
-          <ProductShippingAnnounce />
+          <ProductShippingAnnounce
+            productInquire={productInquire}
+            productData={productData}
+          />
         ) : (
-          <ProductDetail />
+          <ProductDetail productData={productData} />
         )}
       </div>
     </React.Fragment>

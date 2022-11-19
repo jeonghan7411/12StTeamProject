@@ -16,7 +16,6 @@
 }
 
 .orderProduct-info__deliveryDate {
-  color: rgb(0, 137, 25);
   background-color: #f4f4f4;
 
   display: flex;
@@ -28,6 +27,11 @@
 
   font-size: 16px;
   font-weight: bold;
+}
+
+.orderProduct-info__deliveryDate__date {
+  color: rgb(0, 137, 25);
+  margin: 0 5px;
 }
 
 .orderProduct-info__content {

@@ -1,3 +1,18 @@
+.productcart-noneItem {
+  border: 1px solid rgb(220, 220, 220);
+  margin-bottom: 20px;
+  border-radius: 8px;
+  height: 400px;
+  background-color: rgb(240, 240, 240);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.productcart-noneItem-content {
+  font-size: 28px;
+  font-weight: bold;
+}
+
 .productcart-item {
   border: 1px solid rgb(220, 220, 220);
   margin-bottom: 20px;
