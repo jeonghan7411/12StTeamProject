@@ -18,24 +18,24 @@ const ProductCart = () => {
   const [checkedItems, setCheckedItems] = useState([]);
   const [isAllChecked, setIsAllChecked] = useState(false);
 
-  console.log(checkedItems);
-
   // 선택삭제 클릭
   const handleDelete = async () => {
-    const cartIdx = new Set();
-    let newCart;
+    setCheckedItems([]);
+    const cartIdx = [];
+    let newCart = [...cart];
 
     checkedItems.forEach((it) => {
-      cartIdx.add(cart[it - 1].idx);
-      newCart = cart.filter((data) => {
-        return cart[it - 1].idx !== data.idx;
-      });
+      cartIdx.push(cart[it - 1].idx);
     });
 
-    setCart(newCart);
+    checkedItems.forEach((it) => {
+      newCart.splice(it - 1, 1, 0);
+    });
+
+    setCart(newCart.filter((it) => it !== 0));
 
     await axios.post("http://localhost:5000/order/api/cart/delete", {
-      cartIdx: [...cartIdx],
+      cartIdx,
     });
   };
 
@@ -199,7 +199,6 @@ const ProductCart = () => {
             </span>
           </div>
           <div className={classes["productcart-order-purchase-btn"]}>
-            {/* 여기 주문하기 온클릭 링크 나중에 노드로 바꾸고 노드에서 리다렉 */}
             <input type={"button"} value="주문하기" onClick={handlePayment} />
           </div>
         </div>

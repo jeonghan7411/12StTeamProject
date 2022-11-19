@@ -44,7 +44,7 @@ const Order = () => {
     oMethod: "",
   });
 
-  // console.log(orderData);
+  console.log(useMileInput);
 
   // 결제 방법 선택
   const hadleOrderMethod = (select) => {
@@ -77,10 +77,6 @@ const Order = () => {
         return { ...prev, oUseMile: value };
       });
     }
-
-    setUser((prev) => {
-      return { ...prev, uMile: user.uMile - value };
-    });
   };
 
   // 결제 버튼 클릭

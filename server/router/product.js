@@ -29,17 +29,21 @@ router.get("/api/get/products", (req, res) => {
     }
   });
 });
+
 router.get("/api/get/productinfo/:getIdx", (req, res) => {
-  console.log(req.params.getIdx);
-  let sql = "SELECT * FROM products WHERE productId = ?;";
-  db.query(sql, [req.params.getIdx], (err, result) => {
+  const { getIdx } = req.params;
+  console.log(getIdx);
+  let sql1 = "SELECT * FROM products WHERE productId = ?;";
+  let sql2 = "SELECT * FROM board WHERE productId = ? ORDER BY bId DESC;";
+  db.query(sql1 + sql2, [getIdx, getIdx], (err, result, asd) => {
     if (err) {
       throw err;
     } else {
-      res.send({ result });
+      res.send({ productData: result[0], productInquire: result[1] });
     }
   });
 });
+
 router.get("/api/get/products/category", (req, res) => {
   const type = req.query.type;
   let category = "";

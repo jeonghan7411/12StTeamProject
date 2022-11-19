@@ -1,31 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
 
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { TbZoomQuestion } from "react-icons/tb";
 
 import classes from "./ProductDetail.module.css";
-const ProductDetail = () => {
-  const { getIdx } = useParams();
-  const [currentData, setCurrentData] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      await axios
-        .get("http://localhost:5000/product/api/get/productinfo/" + getIdx)
-        .then((response) => {
-          setCurrentData(response.data.result[0]);
-          // console.log(response.data.result[0]);
-        });
-    };
-    fetchData();
-  }, []);
-
+const ProductDetail = ({ productData }) => {
   return (
     <div className={classes.productDetail}>
       <img
-        src={currentData.image}
-        alt={currentData.title}
+        src={productData.image}
+        alt={productData.title}
         className={classes["productDetail-product__img"]}
       />
 
@@ -81,8 +65,8 @@ const ProductDetail = () => {
         </p>
 
         <img
-          src={currentData.image}
-          alt={currentData.title}
+          src={productData.image}
+          alt={productData.title}
           className={
             classes["productDetail-product-info1__changeInfo__content__img"]
           }
@@ -103,8 +87,8 @@ const ProductDetail = () => {
       </p>
 
       <img
-        src={currentData.image}
-        alt={currentData.title}
+        src={productData.image}
+        alt={productData.title}
         className={classes["productDetail-product__img"]}
       />
 
@@ -140,8 +124,8 @@ const ProductDetail = () => {
       </p>
 
       <img
-        src={currentData.image}
-        alt={currentData.title}
+        src={productData.image}
+        alt={productData.title}
         className={classes["productDetail-product__img"]}
       />
     </div>

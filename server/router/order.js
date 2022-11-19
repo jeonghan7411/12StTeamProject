@@ -29,7 +29,7 @@ router.post("/api/cart/insert", (req, res) => {
     } else {
       res.send({
         status: 200,
-        message: "장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까>",
+        message: "장바구니에 추가되었습니다. 장바구니로 이동하시겠습니까?",
       });
     }
   });
