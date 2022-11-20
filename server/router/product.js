@@ -32,7 +32,7 @@ router.get("/api/get/products", (req, res) => {
 
 router.get("/api/get/productinfo/:getIdx", (req, res) => {
   const { getIdx } = req.params;
-  console.log(getIdx);
+  // console.log(getIdx);
   let sql1 = "SELECT * FROM products WHERE productId = ?;";
   let sql2 = "SELECT * FROM board WHERE productId = ? ORDER BY bId DESC;";
   db.query(sql1 + sql2, [getIdx, getIdx], (err, result, asd) => {
@@ -77,7 +77,8 @@ router.get("/api/get/products/category", (req, res) => {
       break;
   }
   // console.log(category);
-  let sql1 = "SELECT * FROM products WHERE category1 = ?;";
+  let sql1 =
+    "SELECT * FROM products WHERE category1 = ? ORDER BY productId DESC limit 0, 20;";
   let sql1s = mysql.format(sql1, category);
   let sql2 = "SELECT DISTINCT category2 FROM products WHERE category1 = ?;";
   let sql2s = mysql.format(sql2, category);
@@ -88,6 +89,76 @@ router.get("/api/get/products/category", (req, res) => {
       const products = result[0];
       const category2 = result[1];
       res.send({ category, category2, products });
+    }
+  });
+});
+
+router.get("/api/get/productinfo/:getIdx", (req, res) => {
+  const { getIdx } = req.params;
+  console.log(getIdx);
+  let sql1 = "SELECT * FROM products WHERE productId = ?;";
+  let sql2 = "SELECT * FROM board WHERE productId = ? ORDER BY bId DESC;";
+  db.query(sql1 + sql2, [getIdx, getIdx], (err, result, asd) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send({ productData: result[0], productInquire: result[1] });
+    }
+  });
+});
+
+router.get("/api/get/products/category/fetchdata", (req, res) => {
+  const type = req.query.type;
+  let category = "";
+  switch (type) {
+    case "life":
+      category = "생활/건강";
+      break;
+    case "digital":
+      category = "디지털/가전";
+      break;
+    case "fashionaccessories":
+      category = "패션잡화";
+      break;
+    case "fashionaccessories":
+      category = "패션잡화";
+      break;
+    case "furniture":
+      category = "가구/인테리어";
+      break;
+    case "maternity":
+      category = "출산/육아";
+      break;
+    case "fashionclothes":
+      category = "패션의류";
+      break;
+    case "foods":
+      category = "식품";
+      break;
+    case "sportsleisure":
+      category = "스포츠/레저";
+      break;
+  }
+  console.log(category);
+  let startNum = Number.parseInt(req.query.startNum) || 0;
+  let offsetNum = Number.parseInt(req.query.offsetNum) || 20;
+
+  let sql1 =
+    "SELECT * FROM products WHERE category1 = ? ORDER BY productId DESC LIMIT ?, ?;";
+  let sql1s = mysql.format(sql1, [category, startNum, offsetNum]);
+
+  db.query(sql1s, (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      const products = result;
+      // console.log(products);
+      res.send({
+        products,
+        startNum: products.length ? startNum + offsetNum : 0,
+        offsetNum: offsetNum,
+        moreData: products.length >= offsetNum ? true : false,
+      });
     }
   });
 });
