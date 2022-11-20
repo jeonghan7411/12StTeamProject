@@ -22,7 +22,7 @@ const CrlWrite = () => {
 
   const optionItem = [
     {
-      value: "",
+      value: "0",
       option: "유형선택",
     },
     {
@@ -50,26 +50,31 @@ const CrlWrite = () => {
 
   const crlWriteSubmit = (e) => {
     e.preventDefault();
-    const uId = user.uId;
-    const pId = orderData.pId;
-    const fetchData = async () => {
-      await axios
-        .post("http://localhost:5000/mypage/api/crlwrite", {
-          uId,
-          pId,
-          bTitle,
-          bBoardtype,
-          bContent,
-        })
-        .then((response) => {
-          if (response.data.status === 200) {
-            alert(response.data.message);
-            window.location.href =
-              "http://localhost:3000/mypage/cancel-return-exchange";
-          }
-        });
-    };
-    fetchData(0);
+
+    if (bBoardtype === undefined || bBoardtype === "0") {
+      alert("문의 유형을 선택해주세요");
+    } else {
+      const uId = user.uId;
+      const pId = orderData.pId;
+      const fetchData = async () => {
+        await axios
+          .post("http://localhost:5000/mypage/api/write", {
+            uId,
+            pId,
+            bTitle,
+            bBoardtype,
+            bContent,
+          })
+          .then((response) => {
+            if (response.data.status === 200) {
+              alert(response.data.message);
+              window.location.href =
+                "http://localhost:3000/mypage/cancel-return-exchange";
+            }
+          });
+      };
+      fetchData();
+    }
   };
 
   return (
@@ -77,7 +82,7 @@ const CrlWrite = () => {
       <div className={classes.CrlWrite}>
         <MyPageListTitle text={"취소 반품 교환 환불 신청"} />
 
-        <form action="crlwrite" onSubmit={crlWriteSubmit}>
+        <form onSubmit={crlWriteSubmit}>
           <MyPageWriteForm
             writeForm={writeForm}
             optionItem={optionItem}

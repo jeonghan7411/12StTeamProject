@@ -12,18 +12,10 @@ import axios from "axios";
 const MyPageInquiry = () => {
   const location = useLocation();
   const [orderData, setOrderData] = useState(location.state.orderList);
-  const writeForm = {
-    title: "제목",
-    category: "유형",
-    optiontitle: "유형선택",
-    optionFirst: "상품문의",
-    optionSecond: "배송문의",
-    optionThird: "교환/환불문의",
-  };
 
   const optionItem = [
     {
-      value: 0,
+      value: "0",
       option: "유형선택",
     },
     {
@@ -53,30 +45,32 @@ const MyPageInquiry = () => {
 
   const inquirySubmit = (e) => {
     e.preventDefault();
-    const uId = user.uId;
-    const pId = orderData.pId;
-    const fetchData = async () => {
-      await axios
-        .post("http://localhost:5000/mypage/api/inquiry", {
-          uId,
-          pId,
-          bTitle,
-          bBoardtype,
-          bContent,
-        })
-        .then((response) => {
-          if (response.data.status === 200) {
-            alert(response.data.message);
-            window.location.href =
-              "http://localhost:3000/mypage/mypageinquirylist";
-          }
-        });
-    };
 
-    fetchData();
+    if (bBoardtype === undefined || bBoardtype === "0") {
+      alert("문의 유형을 선택해주세요");
+    } else {
+      const uId = user.uId;
+      const pId = orderData.pId;
+      const fetchData = async () => {
+        await axios
+          .post("http://localhost:5000/mypage/api/write", {
+            uId,
+            pId,
+            bTitle,
+            bBoardtype,
+            bContent,
+          })
+          .then((response) => {
+            if (response.data.status === 200) {
+              alert(response.data.message);
+              window.location.href =
+                "http://localhost:3000/mypage/mypageinquirylist";
+            }
+          });
+      };
+      fetchData();
+    }
   };
-
-  console.log(orderData.pId);
 
   return (
     <React.Fragment>
@@ -91,7 +85,6 @@ const MyPageInquiry = () => {
             setBtitle={setBtitle}
             setBboardtype={setBboardtype}
             setBcontent={setBcontent}
-            writeForm={writeForm}
             optionItem={optionItem}
             orderData={orderData}
           />

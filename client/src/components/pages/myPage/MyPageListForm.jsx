@@ -15,7 +15,7 @@ const MyPageListForm = ({ props, title, pointCheck }) => {
   const handleClose = () => {
     setShowModal(false);
   };
-  console.log(props);
+
   return (
     <React.Fragment>
       {pointCheck === true ? (

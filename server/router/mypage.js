@@ -308,23 +308,9 @@ router.get("/api/boardlist", (req, res) => {
   });
 });
 
-router.post("/api/crlwrite", (req, res) => {
+router.post("/api/write", (req, res) => {
   const { uId, pId, bTitle, bBoardtype, bContent } = req.body;
   let sql = "INSERT INTO board VALUES (NULL,?,?,?,?,?,NOW())";
-  db.query(sql, [uId, pId, bBoardtype, bTitle, bContent], (err) => {
-    if (err) {
-      throw err;
-    }
-    res.send({
-      status: 200,
-      message: "작성 완료",
-    });
-  });
-});
-
-router.post("/api/inquiry", (req, res) => {
-  const { uId, pId, bTitle, bBoardtype, bContent } = req.body;
-  let sql = "INSERT INTO board VALUES (NULL,?,?,?,?,?,NOW());";
 
   db.query(sql, [uId, pId, bBoardtype, bTitle, bContent], (err) => {
     if (err) {
@@ -336,6 +322,21 @@ router.post("/api/inquiry", (req, res) => {
     });
   });
 });
+
+// router.post("/api/inquiry", (req, res) => {
+//   const { uId, pId, bTitle, bBoardtype, bContent } = req.body;
+//   let sql = "INSERT INTO board VALUES (NULL,?,?,?,?,?,NOW());";
+
+//   db.query(sql, [uId, pId, bBoardtype, bTitle, bContent], (err) => {
+//     if (err) {
+//       throw err;
+//     }
+//     res.send({
+//       status: 200,
+//       message: "작성 완료",
+//     });
+//   });
+// });
 
 router.get("/api/pointlist", (req, res) => {
   const token = req.cookies.accessToken;

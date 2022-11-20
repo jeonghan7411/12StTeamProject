@@ -56,7 +56,15 @@ const OrderItem = ({ orderList }) => {
             </div>
           </div>
           <div className={classes["orderitem-wrap-right"]}>
-            <button>리뷰쓰기</button>
+            <button
+              onClick={() =>
+                navigate("/mypage/reviewwrite", {
+                  state: { orderList },
+                })
+              }
+            >
+              리뷰쓰기
+            </button>
             <button
               onClick={() =>
                 navigate("/mypage/cancel-return-exchange-write", {

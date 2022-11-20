@@ -27,6 +27,8 @@ import Product from "./components/pages/productDetail/Product";
 import OrderDetail from "./components/pages/myPage/OrderDetail";
 import MyPageUserDelete from "./components/pages/myPage/MyPageUserDelete";
 import React from "react";
+import ReviewWrite from "./components/pages/myPage/ReviewWrite";
+import AdminHome from "./components/pages/admin/AdminHome";
 
 function App() {
   const [userToken, setUserToken] = useState();
@@ -54,6 +56,7 @@ function App() {
         <main className={classes.main}>
           <Routes>
             <Route path="/" element={<Home data={data} />} />
+            <Route path="/adminindex" element={<AdminHome />} />
             <Route
               path="/login"
               element={<Login setUserToken={setUserToken} />}
@@ -67,6 +70,7 @@ function App() {
                 path="cancel-return-exchange-write"
                 element={<CrlWrite />}
               />
+              <Route path="reviewwrite" element={<ReviewWrite />} />
               <Route path="cancel-return-exchange" element={<CrlList />} />
               <Route path="mypointcheck" element={<MyPointCheck />} />
               <Route path="mypageinquiry" element={<MyPageInquiry />} />
