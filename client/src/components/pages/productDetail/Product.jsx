@@ -27,34 +27,6 @@ const Product = () => {
   const [order, setOrder] = useState([]);
   const { getIdx } = useParams();
 
-  // -------------------------------------------------------------------------------
-  // const [count, setCount] = useState(0); // 아이템 총개수
-  // const [currentPage, setCurrntPage] = useState(1); // 현재페이지
-  // const [perPage] = useState(7);
-
-  // const [indexOfLastPost, setIndexOfLastPost] = useState(0);
-  // const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
-  // const [currentPosts, setCurrentPosts] = useState(0);
-
-  // useEffect(() => {
-  //   setCount(currentData.productInquire.length);
-  //   setIndexOfLastPost(currentPage * perPage);
-  //   setIndexOfFirstPost(indexOfLastPost - perPage);
-  //   setCurrentPosts(
-  //     currentData.productInquire.slice(indexOfFirstPost, indexOfLastPost)
-  //   );
-  // }, [
-  //   perPage,
-  //   indexOfFirstPost,
-  //   indexOfLastPost,
-  //   currentData.productInquire,
-  //   perPage,
-  // ]);
-
-  // console.log(currentPosts);
-
-  // -------------------------------------------------------------------------------
-
   const { productData, productInquire } = currentData;
 
   const realPrice =

@@ -11,6 +11,7 @@ import OrderProduct from "./orderInfo/OrderProduct";
 import classes from "./Order.module.css";
 import ModalOrderDeliveryInfoChange from "./orderInfo/ModalOrderDeliveryInfoChange";
 import { getUser } from "../../../util/getUser";
+import { authCheck } from "../../../util/authCheck";
 
 const Order = () => {
   const [user, setUser] = useState({});
@@ -100,19 +101,21 @@ const Order = () => {
   };
 
   useEffect(() => {
+    authCheck();
+    getUser(setUser);
     // 구매자 정보 가져오기
-    const fetchUserData = async () => {
-      await axios
-        .get("http://localhost:5000/mypage", { withCredentials: true })
-        .then((response) => {
-          if (response.data.status === 401) {
-            alert(response.data.message);
-            navigate("/login", { replace: true });
-          } else if (response.data.status === 200) {
-            getUser(setUser);
-          }
-        });
-    };
+    // const fetchUserData = async () => {
+    //   await axios
+    //     .get("http://localhost:5000/mypage", { withCredentials: true })
+    //     .then((response) => {
+    //       if (response.data.status === 401) {
+    //         alert(response.data.message);
+    //         navigate("/login", { replace: true });
+    //       } else if (response.data.status === 200) {
+    //         getUser(setUser);
+    //       }
+    //     });
+    // };
 
     let totalprice = 0;
     let totalDeliveryFee = 0;
@@ -130,7 +133,7 @@ const Order = () => {
       oMethod: "",
     });
 
-    fetchUserData();
+    // fetchUserData();
   }, []);
 
   return (
