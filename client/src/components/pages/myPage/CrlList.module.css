@@ -24,3 +24,16 @@
   margin-top: 100px;
   margin-left: 350px;
 }
+
+.select-wrap {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+
+  align-items: center;
+}
+
+.select-wrap label {
+  font-weight: bold;
+  margin-right: 15px;
+}

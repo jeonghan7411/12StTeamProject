@@ -9,43 +9,19 @@ import classes from "./MyPointCheck.module.css";
 
 import { getUser } from "../../../util/getUser";
 import { authCheck } from "../../../util/authCheck";
+import Pagination from "./Pagination";
 
 const MyPointCheck = () => {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [isShowList, setIsShowList] = useState(false);
 
-  const [pointList, setPointList] = useState([
-    // {
-    //   idx: 1,
-    //   id: "홍길동",
-    //   content: "+ 1000",
-    //   regdate: `${new Date().getFullYear()}년 ${
-    //     new Date().getMonth() + 1
-    //   }월 ${new Date().getDate()}일`,
-    // },
-    // {
-    //   idx: 1,
-    //   id: "홍길동",
-    //   content: "+ 1000",
-    //   regdate: `${new Date().getFullYear()}년 ${
-    //     new Date().getMonth() + 1
-    //   }월 ${new Date().getDate()}일`,
-    // },
-    // {
-    //   idx: 1,
-    //   id: "홍길동",
-    //   content: "+ 1000",
-    //   regdate: `${new Date().getFullYear()}년 ${
-    //     new Date().getMonth() + 1
-    //   }월 ${new Date().getDate()}일`,
-    // },
-  ]);
-
-  // const [checkInputPw, setCheckInputPw] = useState();
-  // const navigate = useNavigate();
+  const [pointList, setPointList] = useState([]);
 
   const [user, setUser] = useState({});
+
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
 
   const mile = parseInt(user.uMile);
   const pointCheck = true;
@@ -81,15 +57,12 @@ const MyPointCheck = () => {
 
   const searchDate = (e) => {
     e.preventDefault();
-    console.log(startDate);
-    console.log(endDate);
   };
 
   return (
     <React.Fragment>
       <div className={classes.MyPointCheck}>
         <MyPageListTitle text={"포인트 내역 확인"} />
-
         <div className={classes["check-content-wrap"]}>
           <div className={classes["check-content-item"]}>
             <div>나의 포인트</div>
@@ -104,7 +77,6 @@ const MyPointCheck = () => {
             </div>
           </div>
         </div>
-
         <div className={classes["point-check-date"]}>
           <MyPageListTitle text={"적립 및 사용내역 보기"} />
           <form onSubmit={searchDate}>
@@ -133,14 +105,26 @@ const MyPointCheck = () => {
             </div>
           </form>
         </div>
-        {/* {pointList.length === 0 && (
+        <div className={classes["select-wrap"]}>
+          <label>표시할 게시물</label>
+          <select
+            // type={Number}
+            value={limit}
+            onChange={({ target: { value } }) => setLimit(Number(value))}
+          >
+            <option value="1">1개씩 보기</option>
+            <option value="3">3개씩 보기</option>
+            <option value="5">5개씩 보기</option>
+            <option value="10">10개씩 보기</option>
+          </select>
+        </div>
+        {pointList.length === 0 && (
           <MyPageNullMsg
             className={classes["pointcheck-content-null"]}
             text={"적립 내역이 없습니다."}
           />
-        )}*/}
-
-        {pointList.map((item, key) => {
+        )}
+        {pointList.slice(offset, offset + limit).map((item, key) => {
           return (
             <MyPageListForm
               props={item}
@@ -150,15 +134,16 @@ const MyPointCheck = () => {
             />
           );
         })}
-
-        {/* {pointList.map((item) => (
-          <>
-            <div>사용 {item.oUsepoint}</div>
-            <div>적립 {item.oGetpoint}</div>
-            <div>날짜 {item.oDate}</div>
-          </>
-        ))}
-        <div>회원가입 축하 1000</div> */}
+        {pointList.length != 0 && (
+          <div className={classes["page-wrap"]}>
+            <Pagination
+              total={pointList.length}
+              limit={limit}
+              page={page}
+              setPage={setPage}
+            />
+          </div>
+        )}
       </div>
     </React.Fragment>
   );

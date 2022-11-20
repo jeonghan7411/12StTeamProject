@@ -88,7 +88,7 @@ const OrderList = () => {
         <div className={classes["select-wrap"]}>
           <label>표시할 게시물</label>
           <select
-            type={Number}
+            // type={Number}
             value={limit}
             onChange={({ target: { value } }) => setLimit(Number(value))}
           >
@@ -111,14 +111,16 @@ const OrderList = () => {
             return <OrderItem orderList={item} key={key} />;
           })}
 
-          <div>
-            <Pagination
-              total={orderList.length}
-              limit={limit}
-              page={page}
-              setPage={setPage}
-            />
-          </div>
+          {orderList.length != 0 && (
+            <div>
+              <Pagination
+                total={orderList.length}
+                limit={limit}
+                page={page}
+                setPage={setPage}
+              />
+            </div>
+          )}
         </div>
       </div>
     </React.Fragment>

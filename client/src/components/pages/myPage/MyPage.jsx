@@ -46,6 +46,7 @@ const MyPage = () => {
             </div>
             <div>
               안녕하세요 <span>{user.uName}</span>님.
+              <a href="adminindex">dd</a>
             </div>
           </div>
           <div className={classes["mypage-title-right"]}>

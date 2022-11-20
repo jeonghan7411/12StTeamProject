@@ -1,12 +1,11 @@
 import React from "react";
-import { useState } from "react";
 
 import classes from "./MyPageWriteForm.module.css";
 
 const MyPageWriteForm = ({
   setBboardtype,
   setBcontent,
-  writeForm,
+
   optionItem,
   orderData,
 }) => {
@@ -14,19 +13,18 @@ const MyPageWriteForm = ({
     <React.Fragment>
       <div className={classes["write-wrap-content"]}>
         <div className={classes["write-content-label"]}>
-          <div>{writeForm.title}</div>
+          <div>제목</div>
           <div>
             <input
               type="text"
               name="bTitle"
-              // onChange={inquiryHandler}
               defaultValue={orderData.title}
               readOnly
             />
           </div>
         </div>
         <div className={classes["write-content-label"]}>
-          <div>{writeForm.category}</div>
+          <div>유형</div>
           <div>
             <select
               name="bBoardtype"
@@ -47,7 +45,6 @@ const MyPageWriteForm = ({
           <div>
             <textarea
               name="bContent"
-              // onChange={inquiryHandler}
               onChange={(e) => setBcontent(e.target.value)}
             ></textarea>
           </div>
