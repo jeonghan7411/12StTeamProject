@@ -21,11 +21,39 @@ const Product = () => {
     productInquire: [],
   });
 
-  const [currentMenu, setCurrentMenu] = useState("상품 상세");
+  const [currentMenu, setCurrentMenu] = useState("상품문의");
   const [currentImg, setCurrentImg] = useState();
   const [orderValue, setOrderValue] = useState(1);
   const [order, setOrder] = useState([]);
   const { getIdx } = useParams();
+
+  // -------------------------------------------------------------------------------
+  // const [count, setCount] = useState(0); // 아이템 총개수
+  // const [currentPage, setCurrntPage] = useState(1); // 현재페이지
+  // const [perPage] = useState(7);
+
+  // const [indexOfLastPost, setIndexOfLastPost] = useState(0);
+  // const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
+  // const [currentPosts, setCurrentPosts] = useState(0);
+
+  // useEffect(() => {
+  //   setCount(currentData.productInquire.length);
+  //   setIndexOfLastPost(currentPage * perPage);
+  //   setIndexOfFirstPost(indexOfLastPost - perPage);
+  //   setCurrentPosts(
+  //     currentData.productInquire.slice(indexOfFirstPost, indexOfLastPost)
+  //   );
+  // }, [
+  //   perPage,
+  //   indexOfFirstPost,
+  //   indexOfLastPost,
+  //   currentData.productInquire,
+  //   perPage,
+  // ]);
+
+  // console.log(currentPosts);
+
+  // -------------------------------------------------------------------------------
 
   const { productData, productInquire } = currentData;
 
@@ -178,7 +206,12 @@ const Product = () => {
               <Link>{productData.mallname}</Link>
             </h4>
             <h2>{productData.title}</h2>
-            <p>상품평 별점</p>
+            <p className={classes["product-content-detail__rating"]}>
+              상품평점
+              <span className={classes["product-content-detail__rating__star"]}>
+                ★★★★★
+              </span>
+            </p>
           </div>
           <div className={classes["product-content-detail-price"]}>
             {/* 할인율 */}

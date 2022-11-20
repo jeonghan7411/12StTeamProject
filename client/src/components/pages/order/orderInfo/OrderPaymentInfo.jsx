@@ -98,15 +98,15 @@ const OrderPaymentInfo = ({
               <div
                 className={classes["orderPaymentInfo-table__payment__select"]}
               >
-                {paymentMethod.map((it) => (
-                  <Fragment>
+                {paymentMethod.map((it, idx) => (
+                  <div key={idx}>
                     <input
                       type="radio"
                       onClick={() => onOrderMethod(it)}
                       checked={orderInfo.oMethod === it}
                     />
                     <span>{it}</span>
-                  </Fragment>
+                  </div>
                 ))}
               </div>
 

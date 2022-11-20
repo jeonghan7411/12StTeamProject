@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, Fragment } from "react";
 import { useEffect } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { authCheck } from "../../../util/authCheck";
 import { getUser } from "../../../util/getUser";
 
 import classes from "./OrderComplete.module.css";
@@ -10,34 +11,21 @@ import OrderDeliveryInfo from "./orderInfo/OrderDeliveryInfo";
 import OrderProduct from "./orderInfo/OrderProduct";
 
 const OrderComplete = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState({});
   // 구매시간
   const buyDate = new Date();
-  const location = useLocation();
+
   const [orderCompleteData, setOrderCompleteData] = useState({
     orderProducts: location.state.orderProducts,
     orderData: location.state.orderData,
   });
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    const fetchUserData = async () => {
-      await axios
-        .get("http://localhost:5000/mypage", { withCredentials: true })
-        .then((response) => {
-          if (response.data.status === 401) {
-            alert(response.data.message);
-            navigate("/login", { replace: true });
-          } else if (response.data.status === 200) {
-            getUser(setUser);
-          }
-        });
-    };
-    fetchUserData();
+    authCheck();
+    getUser(setUser);
   }, []);
-
-  // console.log(orderCompleteData.orderData);
 
   return (
     <div className={classes.orderComplete}>
@@ -58,46 +46,7 @@ const OrderComplete = () => {
         </section>
 
         <section className={classes["orderComplete-recript-section"]}>
-          <h4 className={classes["orderComplete-recript-title"]}>
-            받는 사람 정보
-          </h4>
-
-          <table className={classes["orderComplete-recript-table"]}>
-            <tbody>
-              <tr>
-                <td className={classes["orderComplete-recript-table__col1"]}>
-                  이름
-                </td>
-                <td className={classes["orderComplete-recript-table__col2"]}>
-                  {user.uName}
-                </td>
-              </tr>
-              <tr>
-                <td className={classes["orderComplete-recript-table__col1"]}>
-                  배송지 주소
-                </td>
-                <td className={classes["orderComplete-recript-table__col2"]}>
-                  {user.uAddress}
-                </td>
-              </tr>
-              <tr>
-                <td className={classes["orderComplete-recript-table__col1"]}>
-                  연락처
-                </td>
-                <td className={classes["orderComplete-recript-table__col2"]}>
-                  {user.uPhone}
-                </td>
-              </tr>
-              <tr>
-                <td className={classes["orderComplete-recript-table__col1"]}>
-                  배송요청사항
-                </td>
-                <td className={classes["orderComplete-recript-table__memo"]}>
-                  {user.uAddress}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <OrderDeliveryInfo userData={user} />
         </section>
 
         <section className={classes["orderComplete-recript-section"]}>
