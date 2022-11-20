@@ -1,9 +1,14 @@
 import React from "react";
+import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { authCheck } from "../../../util/authCheck";
 
 import classes from "./OrderItem.module.css";
 const OrderItem = ({ orderList }) => {
   const navigate = useNavigate();
+  useEffect(() => {
+    authCheck();
+  }, []);
   return (
     <React.Fragment>
       <div className={classes.OrderItem}>

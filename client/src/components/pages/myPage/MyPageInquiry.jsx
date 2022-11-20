@@ -54,10 +54,12 @@ const MyPageInquiry = () => {
   const inquirySubmit = (e) => {
     e.preventDefault();
     const uId = user.uId;
+    const pId = orderData.pId;
     const fetchData = async () => {
       await axios
         .post("http://localhost:5000/mypage/api/inquiry", {
           uId,
+          pId,
           bTitle,
           bBoardtype,
           bContent,
@@ -73,6 +75,8 @@ const MyPageInquiry = () => {
 
     fetchData();
   };
+
+  console.log(orderData.pId);
 
   return (
     <React.Fragment>

@@ -19,22 +19,36 @@ router.use(
   })
 );
 
-router.get("/", (req, res) => {
+router.get("/getbasket", (req, res) => {
   const token = req.cookies.accessToken;
 
-  if (token === undefined) {
-    res.send({
-      status: 401,
-      message: "로그인 정보가 없습니다.",
+  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
+    const token = req.cookies.refreshToken;
+    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+    let sql = "SELECT COUNT(uId) FROM shoppingbasket WHERE uId = ?;";
+
+    db.query(sql, [data.id], (err, result) => {
+      if (err) {
+        throw err;
+      }
+      res.send({
+        count: result,
+      });
     });
-  } else {
-    res.send({
-      status: 200,
-      message: "환영합니다.",
-      token,
-    });
-  }
+  });
 });
+
+// router.get("/searchlist", (req, res) => {
+//   const token = req.cookies.accessToken;
+
+//   jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
+//     const token = req.cookies.refreshToken;
+//     const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+//     let sql = "SELECT * FROM ordertable WHERE uId = ?;";
+//   });
+// });
 
 router.get("/api/login/getuser", (req, res) => {
   const token = req.cookies.accessToken;
@@ -79,11 +93,6 @@ router.get("/api/orderlist", (req, res) => {
           result,
         });
       });
-      // SELECT ~~
-
-      // FROM TABLE_A
-
-      // LEFT JOIN TABLE_B ON TABLE_A.KEY = TABLE_B.KEY
     });
   });
 });
@@ -254,11 +263,6 @@ router.post("/api/addrdelete", (req, res) => {
   });
 });
 
-// router.post("/api/showinfo", (req, res) => {
-//   console.log("dd");
-//   console.log(req.body);
-// });
-
 router.post("/api/addrupdate", (req, res) => {
   const uIdx = parseInt(req.body.uIdx);
   console.log(req.body);
@@ -305,9 +309,9 @@ router.get("/api/boardlist", (req, res) => {
 });
 
 router.post("/api/crlwrite", (req, res) => {
-  const { uId, bTitle, bBoardtype, bContent } = req.body;
-  let sql = "INSERT INTO board VALUES (NULL,?,?,?,?,NOW())";
-  db.query(sql, [uId, bBoardtype, bTitle, bContent], (err) => {
+  const { uId, pId, bTitle, bBoardtype, bContent } = req.body;
+  let sql = "INSERT INTO board VALUES (NULL,?,?,?,?,?,NOW())";
+  db.query(sql, [uId, pId, bBoardtype, bTitle, bContent], (err) => {
     if (err) {
       throw err;
     }
@@ -319,10 +323,10 @@ router.post("/api/crlwrite", (req, res) => {
 });
 
 router.post("/api/inquiry", (req, res) => {
-  const { uId, bTitle, bBoardtype, bContent } = req.body;
-  let sql = "INSERT INTO board VALUES (NULL,?,?,?,?,NOW());";
+  const { uId, pId, bTitle, bBoardtype, bContent } = req.body;
+  let sql = "INSERT INTO board VALUES (NULL,?,?,?,?,?,NOW());";
 
-  db.query(sql, [uId, bBoardtype, bTitle, bContent], (err) => {
+  db.query(sql, [uId, pId, bBoardtype, bTitle, bContent], (err) => {
     if (err) {
       throw err;
     }

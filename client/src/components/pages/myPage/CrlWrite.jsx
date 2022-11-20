@@ -51,10 +51,12 @@ const CrlWrite = () => {
   const crlWriteSubmit = (e) => {
     e.preventDefault();
     const uId = user.uId;
+    const pId = orderData.pId;
     const fetchData = async () => {
       await axios
         .post("http://localhost:5000/mypage/api/crlwrite", {
           uId,
+          pId,
           bTitle,
           bBoardtype,
           bContent,
