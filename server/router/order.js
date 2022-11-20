@@ -37,7 +37,7 @@ router.post("/api/cart/insert", (req, res) => {
 
 router.post("/api/cart/delete", (req, res) => {
   const { cartIdx } = req.body;
-  console.log(cartIdx);
+
   let sql = "DELETE FROM shoppingbasket WHERE idx = ?;";
 
   cartIdx.forEach((it) => {
@@ -61,6 +61,7 @@ router.get("/api/get/cartData", (req, res) => {
 
 router.post("/api/order/Complete", (req, res) => {
   const { orderData, user, oUseMile, oGetMile, oMethod } = req.body;
+
   orderData.forEach((data) => {
     let sql =
       "INSERT INTO orderTable VALUES( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW());";
@@ -83,8 +84,6 @@ router.post("/api/order/Complete", (req, res) => {
       (err) => {
         if (err) {
           throw err;
-        } else {
-          res.send({ status: 200 });
         }
       }
     );
@@ -95,20 +94,5 @@ router.post("/api/order/Complete", (req, res) => {
     if (err) throw err;
   });
 });
-
-// router.post("/api/order/get/userData", (req, res) => {
-//   const uId = req.body.uId;
-
-//   let sql1 =
-//     "SELECT uId, uName, uEmail, uZipcode, uAddress, uAdditionalAddr, uPhone, uMile, uEmail FROM users WHERE uId = ?;";
-
-//   let sql2 = "SELECT * FROM deliveryaddr WHERE uId = ?;";
-
-//   db.query(sql1 + sql2, [uId, uId], (err, results, field) => {
-//     if (err) throw err;
-
-//     res.send({ userData: results[0], deliveryData: results[1] });
-//   });
-// });
 
 module.exports = router;

@@ -21,12 +21,6 @@ const Order = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalDeliveyFee, setTotalDeliveryFee] = useState(0);
 
-  // 모달 관리
-  const [showModal, setShowMadal] = useState({
-    isShowDeliveryInfo: false,
-    isShowDeliveryMemo: false,
-  });
-
   // 사용자 마일리지 입력
   const [useMileInput, setUseMileInput] = useState({
     value: 0,
@@ -43,8 +37,6 @@ const Order = () => {
     oGetMile: 0,
     oMethod: "",
   });
-
-  console.log(useMileInput);
 
   // 결제 방법 선택
   const hadleOrderMethod = (select) => {
@@ -86,34 +78,25 @@ const Order = () => {
       return;
     }
 
-    await axios
-      .post("http://localhost:5000/order/api/order/Complete", {
-        user,
-        orderData,
-        oUseMile: orderInfo.oUseMile,
-        oGetMile: orderInfo.oGetMile,
-        oMethod: orderInfo.oMethod,
-      })
-      .then(
-        (response) => {
-          if (response.data.status === 200) {
-            navigate("/orderComplete", {
-              state: {
-                orderProducts: orderData,
-                orderData: {
-                  ...userData,
-                  ...orderInfo,
-                  totalDeliveyFee,
-                  totalPrice,
-                },
-              },
-            });
-          } else {
-            window.alert("상품 구매에 실패하였습니다.");
-          }
-        }
-        // 서버에서 오는게 200이면 페이지 전환하기
-      );
+    navigate("/orderComplete", {
+      state: {
+        orderProducts: orderData,
+        orderData: {
+          ...userData,
+          ...orderInfo,
+          totalDeliveyFee,
+          totalPrice,
+        },
+      },
+    });
+
+    await axios.post("http://localhost:5000/order/api/order/Complete", {
+      user: user,
+      orderData,
+      oUseMile: orderInfo.oUseMile,
+      oGetMile: orderInfo.oGetMile,
+      oMethod: orderInfo.oMethod,
+    });
   };
 
   useEffect(() => {

@@ -46,6 +46,7 @@ const ProductCart = () => {
       navigate("/order", { state: { order: cart } });
     } else {
       const orderData = checkedItems.map((it) => cart[it - 1]);
+
       navigate("/order", { state: { order: orderData } });
     }
   };

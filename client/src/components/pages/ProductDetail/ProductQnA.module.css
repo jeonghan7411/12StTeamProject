@@ -44,3 +44,28 @@
   display: flex;
   padding-left: 38px;
 }
+
+.productQnA-pagination {
+  padding-top: 30px;
+  border-top: 1px solid RGB(215, 215, 215);
+}
+
+.productQnA-pagination ul {
+  display: flex;
+  justify-content: center;
+}
+
+.productQnA-pagination li {
+  margin: 0 10px;
+  width: 28px;
+  height: 28px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.productQnA-pagination a:active {
+  color: tomato;
+}
+.active {
+  color: tomato;
+}
