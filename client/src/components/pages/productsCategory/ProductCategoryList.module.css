@@ -11,3 +11,7 @@
 
   color: RGB(62, 62, 62);
 }
+
+.productsCategory-categoryList:focus {
+  font-weight: bold;
+}
