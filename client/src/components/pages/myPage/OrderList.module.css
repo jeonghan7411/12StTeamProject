@@ -61,3 +61,21 @@ button {
   margin-top: 100px;
   margin-left: 250px;
 }
+
+.select-wrap {
+  margin-left: 15px;
+  align-items: center;
+}
+.select-wrap label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.select-wrap select {
+  margin-left: 10px;
+
+  padding-left: 5px;
+  padding-right: 5px;
+
+  outline: none;
+}

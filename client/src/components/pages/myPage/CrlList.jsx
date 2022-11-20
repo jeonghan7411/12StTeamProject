@@ -8,11 +8,13 @@ import MyPageNullMsg from "./MyPageNullMsg";
 import { useEffect } from "react";
 import { getBoard } from "../../../util/getBoard";
 import MyPageListForm from "./MyPageListForm";
+import { authCheck } from "../../../util/authCheck";
 
 const CrlList = () => {
   const [boardData, setBoardData] = useState([]);
 
   useEffect(() => {
+    authCheck();
     getBoard(setBoardData);
   }, []);
 

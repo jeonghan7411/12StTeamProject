@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { authCheck } from "../../../util/authCheck";
 import MyPageListTitle from "./MyPageListTitle";
 
 import classes from "./OrderDetail.module.css";
@@ -10,7 +12,9 @@ const OrderDetail = () => {
   const price = parseInt(orderData.price);
   const usePoint = parseInt(orderData.oUsepoint);
   const totalPrice = price + 2500 - usePoint;
-  console.log(orderData);
+  useEffect(() => {
+    authCheck();
+  }, []);
   return (
     <React.Fragment>
       <div className={classes.OrderDetail}>

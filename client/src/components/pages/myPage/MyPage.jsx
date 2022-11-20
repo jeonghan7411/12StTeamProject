@@ -17,22 +17,23 @@ const MyPage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const mile = parseInt(user.uMile);
+  const [count, setCount] = useState("");
+
   useEffect(() => {
-    // const fetchData = async () => {
-    //   await axios
-    //     .get("http://localhost:5000/mypage", { withCredentials: true })
-    //     .then((response) => {
-    //       if (response.data.status === 401) {
-    //         alert(response.data.message);
-    //         navigate("/login", { replace: true });
-    //       } else if (response.data.status === 200) {
-    //         getUser(setUser);
-    //       }
-    //     });
-    // };
-    // fetchData();
     authCheck();
     getUser(setUser);
+
+    const fetchData = async () => {
+      await axios
+        .get("http://localhost:5000/mypage/getbasket", {
+          withCredentials: true,
+        })
+        .then((response) => {
+          setCount(response.data.count[0]);
+        });
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -72,7 +73,7 @@ const MyPage = () => {
           </div>
           <div className={classes["mypage-quick-item"]}>
             <div>
-              <NavLink to="/cart">0</NavLink>
+              <NavLink to="/cart">{Object.values(count)}</NavLink>
             </div>
             <div>장바구니</div>
           </div>

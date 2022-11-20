@@ -5,6 +5,7 @@ import classes from "./MyPageUserDelete.module.css";
 
 import axios from "axios";
 import { getUser } from "../../../util/getUser";
+import { authCheck } from "../../../util/authCheck";
 
 const MyPageUserDelete = () => {
   const [userPw, setUserPw] = useState(false);
@@ -31,29 +32,30 @@ const MyPageUserDelete = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      await axios
-        .get("http://localhost:5000/mypage", { withCredentials: true })
-        .then((response) => {
-          if (response.data.status === 401) {
-            alert(response.data.message);
-            navigate("/login", { replace: true });
-          } else if (response.data.status === 200) {
-            getUser(setUser);
-          }
-        });
-    };
+    // const fetchData = async () => {
+    //   await axios
+    //     .get("http://localhost:5000/mypage", { withCredentials: true })
+    //     .then((response) => {
+    //       if (response.data.status === 401) {
+    //         alert(response.data.message);
+    //         navigate("/login", { replace: true });
+    //       } else if (response.data.status === 200) {
+    //         getUser(setUser);
+    //       }
+    //     });
+    // };
 
-    fetchData();
+    // fetchData();
+    authCheck();
+    getUser(setUser);
   }, []);
   console.log(user);
-
   return (
     <React.Fragment>
       <div className={classes.MyPageUserDelete}>
         {!userPw ? (
           <div className={classes.checkwrap}>
-            <MyPageCheckPw setUserPw={setUserPw} userPw={userPw} />
+            <MyPageCheckPw setUserPw={setUserPw} userPw={userPw} user={user} />
           </div>
         ) : (
           <div className={classes["delete-wrap-content"]}>
