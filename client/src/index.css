@@ -22,9 +22,24 @@ input:focus {
 button {
   cursor: pointer;
 }
+
 :root {
   --gray-color: RGB(245, 245, 245);
   --red-color: RGB(240, 85, 86);
   --navy-color: RGB(49, 72, 95);
   --black-color: RGB(40, 40, 40);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination li.active {
+  background-color: var(--red-color);
+  border-radius: 50px;
+}
+
+.pagination li.active a {
+  color: white;
 }

@@ -12,7 +12,7 @@ const OrderProduct = ({ orderData }) => {
     <div className={classes["orderProduct"]}>
       {orderData.map((data, key) => {
         return (
-          <Fragment>
+          <div key={key}>
             <h4>
               배송 {orderData.length}건 중 {key + 1}
             </h4>
@@ -41,7 +41,7 @@ const OrderProduct = ({ orderData }) => {
                 </div>
               </div>
             </div>
-          </Fragment>
+          </div>
         );
       })}
     </div>
