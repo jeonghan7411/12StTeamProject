@@ -19,26 +19,47 @@ router.use(
   })
 );
 
-router.get("/getbasket", (req, res) => {
+router.get("/api/getbasket", (req, res) => {
   const token = req.cookies.accessToken;
 
   jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
     const token = req.cookies.refreshToken;
     const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
 
-    let sql = "SELECT COUNT(uId) FROM shoppingbasket WHERE uId = ?;";
-
-    db.query(sql, [data.id], (err, result) => {
+    // let sql = "SELECT COUNT(uId) FROM shoppingbasket WHERE uId = ?;";
+    let sql1 = "SELECT COUNT(uId) FROM shoppingbasket WHERE uId = ?;";
+    let sql2 = "SELECT * FROM board WHERE uId=?;";
+    // db.query(sql, [data.id], (err, result) => {
+    db.query(sql1 + sql2, [data.id, data.id], (err, result) => {
       if (err) {
         throw err;
       }
       res.send({
-        count: result,
+        count: result[0],
+        result,
       });
     });
   });
 });
 
+// router.get("/api/getboard", (req, res) => {
+//   const token = req.cookies.accessToken;
+
+//   jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
+//     const token = req.cookies.refreshToken;
+//     const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+//     let sql = "SELECT * FROM board WHERE uId = ?;";
+//     db.query(sql, [data.id], (err, result) => {
+//       if (err) {
+//         throw err;
+//       }
+//       res.send({
+//         count: result,
+//       });
+//     });
+//   });
+// });
 // router.post("/searchlist", (req, res) => {
 //   const uId = req.body.orderList[0].uId;
 //   const keyWord = "%" + req.body.searchKeyword + "%";

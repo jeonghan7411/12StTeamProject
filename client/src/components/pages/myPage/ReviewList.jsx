@@ -1,8 +1,12 @@
 import React, { useEffect } from "react";
+import { useState } from "react";
+import Pagination from "react-js-pagination";
 import { authCheck } from "../../../util/authCheck";
 import { getBoard } from "../../../util/getBoard";
 import { getUser } from "../../../util/getUser";
+import MyPageListForm from "./MyPageListForm";
 import MyPageListTitle from "./MyPageListTitle";
+import MyPageNullMsg from "./MyPageNullMsg";
 
 import classes from "./ReviewList.module.css";
 const ReviewList = () => {
@@ -40,10 +44,10 @@ const ReviewList = () => {
             <option value="10">10개씩 보기</option>
           </select>
         </div>
-        <div className={classes["inquiry-list-wrap-table"]}>
+        <div className={classes["review-list-wrap-table"]}>
           {getInfo.length === 0 && (
             <MyPageNullMsg
-              className={classes["inquirylist-content-null"]}
+              className={classes["review-content-null"]}
               text={"리뷰 내역이 없습니다."}
             />
           )}

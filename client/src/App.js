@@ -32,6 +32,7 @@ import AdminHome from "./components/pages/admin/AdminHome";
 import SearchResult from "./components/pages/search/SearchResult";
 
 import { getUser } from "./util/getUser";
+import ReviewList from "./components/pages/myPage/ReviewList";
 
 function App() {
   const [userToken, setUserToken] = useState();
@@ -78,6 +79,8 @@ function App() {
                 element={<CrlWrite />}
               />
               <Route path="reviewwrite" element={<ReviewWrite />} />
+              <Route path="reviewlist" element={<ReviewList />} />
+
               <Route path="cancel-return-exchange" element={<CrlList />} />
               <Route path="mypointcheck" element={<MyPointCheck />} />
               <Route path="mypageinquiry" element={<MyPageInquiry />} />
