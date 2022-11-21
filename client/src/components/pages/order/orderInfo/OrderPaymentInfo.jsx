@@ -28,13 +28,13 @@ const OrderPaymentInfo = ({
               총 상품 가격
             </td>
             <td className={classes["orderPaymentInfo-table__col2"]}>
-              {totalPrice}원
+              {totalPrice.toLocaleString("ko-kr")}원
             </td>
           </tr>
           <tr>
             <td className={classes["orderPaymentInfo-table__col1"]}>배송비</td>
             <td className={classes["orderPaymentInfo-table__col2"]}>
-              {totalDeliveyFee}원
+              {totalDeliveyFee.toLocaleString("ko-kr")}원
             </td>
           </tr>
           <tr>
@@ -60,7 +60,8 @@ const OrderPaymentInfo = ({
                   적용
                 </button>
                 <span className={classes["orderPaymentInfo-table__totalMile"]}>
-                  보유 마일리지 : <span>{userData.uMile}</span>원
+                  보유 마일리지 :{" "}
+                  <span>{userData.uMile.toLocaleString("ko-kr")}</span>원
                 </span>
                 {!useMileInput.isValid && (
                   <span
@@ -78,7 +79,7 @@ const OrderPaymentInfo = ({
               마일리지 적립
             </td>
             <td className={classes["orderPaymentInfo-table__col2"]}>
-              {orderInfo.oGetMile}원
+              {orderInfo.oGetMile.toLocaleString("ko-kr")}원
             </td>
           </tr>
           <tr>
@@ -86,7 +87,12 @@ const OrderPaymentInfo = ({
               총 결제금액
             </td>
             <td className={classes["orderPaymentInfo-table__col2"]}>
-              {totalDeliveyFee + totalPrice - orderInfo.oUseMile}원
+              {(
+                totalDeliveyFee +
+                totalPrice -
+                orderInfo.oUseMile
+              ).toLocaleString("ko-kr")}
+              원
             </td>
           </tr>
 

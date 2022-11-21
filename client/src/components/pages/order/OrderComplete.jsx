@@ -66,7 +66,10 @@ const OrderComplete = () => {
                   총 상품 금액
                 </td>
                 <td className={classes["orderComplete-recript-table__col2"]}>
-                  {orderCompleteData.orderData.totalPrice}원
+                  {orderCompleteData.orderData.totalPrice.toLocaleString(
+                    "ko-kr"
+                  )}
+                  원
                 </td>
               </tr>
 
@@ -75,7 +78,10 @@ const OrderComplete = () => {
                   배송비
                 </td>
                 <td className={classes["orderComplete-recript-table__col2"]}>
-                  {orderCompleteData.orderData.totalDeliveyFee}원
+                  {orderCompleteData.orderData.totalDeliveyFee.toLocaleString(
+                    "ko-kr"
+                  )}
+                  원
                 </td>
               </tr>
               <tr>
@@ -110,9 +116,11 @@ const OrderComplete = () => {
                   <span
                     className={classes["orderComplete-recript__totalPrice"]}
                   >
-                    {orderCompleteData.orderData.totalPrice +
+                    {(
+                      orderCompleteData.orderData.totalPrice +
                       orderCompleteData.orderData.totalDeliveyFee -
-                      orderCompleteData.orderData.oUseMile}
+                      orderCompleteData.orderData.oUseMile
+                    ).toLocaleString("ko-kr")}
                     원
                   </span>
                 </td>

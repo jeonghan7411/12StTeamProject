@@ -28,8 +28,10 @@ const HomeProduct = (props) => {
             <div className={classes["product-content-priceWrap"]}>
               <span className={classes["product-content-price"]}>
                 {/* 할인된 가격 */}
-                {props.data.price -
-                  props.data.price * (props.data.pDiscount / 100)}
+                {(
+                  props.data.price -
+                  props.data.price * (props.data.pDiscount / 100)
+                ).toLocaleString("ko-kr")}
                 원
               </span>
               <span className={classes["product-content-costPrice"]}>

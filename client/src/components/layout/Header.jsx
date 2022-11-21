@@ -21,7 +21,13 @@ const Header = () => {
   const handlesearchSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.post();
+    await axios
+      .post("http://localhost:5000/search/api/getData", {
+        searchValue,
+      })
+      .then((response) => {
+        navigate("/searchResult", { state: { result: response.data } });
+      });
   };
 
   return (

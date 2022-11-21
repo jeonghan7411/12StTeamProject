@@ -17,6 +17,7 @@ const product = require("./router/product");
 const order = require("./router/order");
 const login = require("./router/login");
 const regist = require("./router/regist");
+const search = require("./router/search");
 
 // middleware
 app.use(cookieParser());
@@ -26,6 +27,7 @@ app.use("/product", product);
 app.use("/regist", regist);
 app.use("/order", order);
 app.use("/login", login);
+app.use("/search", search);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static("uploads"));
 app.use(
