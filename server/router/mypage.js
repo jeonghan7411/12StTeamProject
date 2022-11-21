@@ -39,14 +39,19 @@ router.get("/getbasket", (req, res) => {
   });
 });
 
-// router.get("/searchlist", (req, res) => {
-//   const token = req.cookies.accessToken;
-
-//   jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
-//     const token = req.cookies.refreshToken;
-//     const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
-
-//     let sql = "SELECT * FROM ordertable WHERE uId = ?;";
+// router.post("/searchlist", (req, res) => {
+//   const uId = req.body.orderList[0].uId;
+//   const keyWord = "%" + req.body.searchKeyword + "%";
+//   let sql = "SELECT * FROM ordertable WHERE uId = ? AND ptitle like ?";
+//   console.log(req.body);
+//   db.query(sql, [uId, keyWord], (err, orderResult) => {
+//     if (err) {
+//       throw err;
+//     } else {
+//       res.send({
+//         result: orderResult,
+//       });
+//     }
 //   });
 // });
 

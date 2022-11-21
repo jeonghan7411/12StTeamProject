@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MyPageListForm from "./MyPageListForm";
 import MyPageListTitle from "./MyPageListTitle";
@@ -9,7 +8,7 @@ import classes from "./MyPointCheck.module.css";
 
 import { getUser } from "../../../util/getUser";
 import { authCheck } from "../../../util/authCheck";
-import Pagination from "./Pagination";
+import Pagination from "react-js-pagination";
 
 const MyPointCheck = () => {
   const [startDate, setStartDate] = useState();
@@ -19,9 +18,10 @@ const MyPointCheck = () => {
 
   const [user, setUser] = useState({});
 
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
-  const offset = (page - 1) * limit;
+  const [currentPage, setCurrntPage] = useState(1); // 현재페이지
+  const [indexOfLastQnA, setIndexOfLastQnA] = useState(0);
+  const [indexOfFirstQnA, setIndexOfFirstQnA] = useState(0);
+  const [perPage, setPerPage] = useState(10);
 
   const mile = parseInt(user.uMile);
   const pointCheck = true;
@@ -40,8 +40,6 @@ const MyPointCheck = () => {
     //     });
     // };
     // fetchData();
-    authCheck();
-    getUser(setUser);
 
     const fetchData = async () => {
       await axios
@@ -53,7 +51,11 @@ const MyPointCheck = () => {
         });
     };
     fetchData();
-  }, []);
+    authCheck();
+    getUser(setUser);
+    setIndexOfLastQnA(currentPage * perPage);
+    setIndexOfFirstQnA(indexOfLastQnA - perPage);
+  }, [currentPage, indexOfFirstQnA, indexOfLastQnA, perPage]);
 
   const searchDate = (e) => {
     e.preventDefault();
@@ -109,8 +111,8 @@ const MyPointCheck = () => {
           <label>표시할 게시물</label>
           <select
             // type={Number}
-            value={limit}
-            onChange={({ target: { value } }) => setLimit(Number(value))}
+            value={perPage}
+            onChange={({ target: { value } }) => setPerPage(Number(value))}
           >
             <option value="1">1개씩 보기</option>
             <option value="3">3개씩 보기</option>
@@ -124,7 +126,7 @@ const MyPointCheck = () => {
             text={"적립 내역이 없습니다."}
           />
         )}
-        {pointList.slice(offset, offset + limit).map((item, key) => {
+        {pointList.slice(indexOfFirstQnA, indexOfLastQnA).map((item, key) => {
           return (
             <MyPageListForm
               props={item}
@@ -135,12 +137,15 @@ const MyPointCheck = () => {
           );
         })}
         {pointList.length != 0 && (
-          <div className={classes["page-wrap"]}>
+          <div>
             <Pagination
-              total={pointList.length}
-              limit={limit}
-              page={page}
-              setPage={setPage}
+              activePage={currentPage} // 현재 페이지
+              itemsCountPerPage={perPage} // 한페이지당 보여줄 아이템 갯수
+              totalItemsCount={pointList.length} // 총 아이템 갯수
+              pageRangeDisplayed={5} // 페이지네이터 내에서 보여줄 페이지 범위
+              prevPageText={"<"}
+              nextPageText={">"}
+              onChange={setCurrntPage} // 페이지가 바뀔때 핸들링해주는 함수
             />
           </div>
         )}

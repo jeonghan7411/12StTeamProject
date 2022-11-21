@@ -1,9 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import MyPageListTitle from "./MyPageListTitle";
+import MyPageWriteForm from "./MyPageWriteForm";
 import { authCheck } from "../../../util/authCheck";
 import { getUser } from "../../../util/getUser";
-import MyPageWriteForm from "./MyPageWriteForm";
+import classes from "./ReviewWrite.module.css";
 
 const ReviewWrite = () => {
   const [user, setUser] = useState({});
@@ -54,8 +56,6 @@ const ReviewWrite = () => {
     }
   };
 
-  console.log(bBoardtype);
-
   useEffect(() => {
     authCheck();
     getUser(setUser);
@@ -63,18 +63,21 @@ const ReviewWrite = () => {
 
   return (
     <React.Fragment>
-      <form onSubmit={writeReview}>
-        <MyPageWriteForm
-          bTitle={bTitle}
-          bBoardtype={bBoardtype}
-          bContent={bContent}
-          setBtitle={setBtitle}
-          setBboardtype={setBboardtype}
-          setBcontent={setBcontent}
-          optionItem={optionItem}
-          orderData={orderData}
-        />
-      </form>
+      <div className={classes.review}>
+        <form onSubmit={writeReview}>
+          <MyPageListTitle text={"리뷰 작성"} />
+          <MyPageWriteForm
+            bTitle={bTitle}
+            bBoardtype={bBoardtype}
+            bContent={bContent}
+            setBtitle={setBtitle}
+            setBboardtype={setBboardtype}
+            setBcontent={setBcontent}
+            optionItem={optionItem}
+            orderData={orderData}
+          />
+        </form>
+      </div>
     </React.Fragment>
   );
 };
