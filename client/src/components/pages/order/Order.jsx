@@ -2,14 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import ModalOrderDeliveryMemo from "./orderInfo/ModalOrderDeliveryMemo";
 import OrderConsumer from "./orderInfo/OrderConsumer";
 import OrderDeliveryInfo from "./orderInfo/OrderDeliveryInfo";
 import OrderPaymentInfo from "./orderInfo/OrderPaymentInfo";
 import OrderProduct from "./orderInfo/OrderProduct";
 
 import classes from "./Order.module.css";
-import ModalOrderDeliveryInfoChange from "./orderInfo/ModalOrderDeliveryInfoChange";
+
 import { getUser } from "../../../util/getUser";
 import { authCheck } from "../../../util/authCheck";
 
@@ -28,6 +27,7 @@ const Order = () => {
     isValid: true,
     mileMsg: "",
   });
+  console.log(orderData);
 
   // 구매자정보(유저db)
   const [userData, setUserData] = useState();
@@ -103,19 +103,6 @@ const Order = () => {
   useEffect(() => {
     authCheck();
     getUser(setUser);
-    // 구매자 정보 가져오기
-    // const fetchUserData = async () => {
-    //   await axios
-    //     .get("http://localhost:5000/mypage", { withCredentials: true })
-    //     .then((response) => {
-    //       if (response.data.status === 401) {
-    //         alert(response.data.message);
-    //         navigate("/login", { replace: true });
-    //       } else if (response.data.status === 200) {
-    //         getUser(setUser);
-    //       }
-    //     });
-    // };
 
     let totalprice = 0;
     let totalDeliveryFee = 0;
@@ -132,8 +119,6 @@ const Order = () => {
       oGetMile: Math.ceil(totalprice * 0.03),
       oMethod: "",
     });
-
-    // fetchUserData();
   }, []);
 
   return (

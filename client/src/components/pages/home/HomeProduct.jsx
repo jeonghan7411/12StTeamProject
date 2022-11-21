@@ -8,7 +8,10 @@ import classes from "./HomeProduct.module.css";
 const HomeProduct = (props) => {
   // SQL에서 할인율 컬럼에 랜덤난수 0~40 부여하고 여기 구문 수정하기
   return (
-    <Link to={`/products/${props.data.productId}`}>
+    <Link
+      className={classes["product-link"]}
+      to={`/products/${props.data.productId}`}
+    >
       <Card className={`${classes.product} ${props.className}`}>
         {props.children}
         <Card className={classes["product-img"]}>
