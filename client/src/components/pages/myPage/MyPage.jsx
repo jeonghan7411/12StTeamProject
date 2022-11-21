@@ -1,17 +1,15 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 
-import MyPageSide from "./MyPageSide";
-
 import Profile from "../../../assets/profile.jpg";
 
+import MyPageSide from "./MyPageSide";
+
 import { FaCog } from "react-icons/fa";
-import classes from "./MyPage.module.css";
-
-import axios from "axios";
-
 import { getUser } from "../../../util/getUser";
 import { authCheck } from "../../../util/authCheck";
+import classes from "./MyPage.module.css";
 
 const MyPage = () => {
   const navigate = useNavigate();

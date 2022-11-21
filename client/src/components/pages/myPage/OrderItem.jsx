@@ -9,6 +9,7 @@ const OrderItem = ({ orderList }) => {
   useEffect(() => {
     authCheck();
   }, []);
+
   return (
     <React.Fragment>
       <div className={classes.OrderItem}>
@@ -74,7 +75,9 @@ const OrderItem = ({ orderList }) => {
             >
               교환,반품 신청
             </button>
-            <button>재구매</button>
+            <button onClick={() => navigate(`/products/${orderList.pId}`)}>
+              재구매
+            </button>
             <button
               onClick={() =>
                 navigate("/mypage/mypageinquiry", { state: { orderList } })

@@ -8,19 +8,24 @@ import { authCheck } from "../../../util/authCheck";
 import { getUser } from "../../../util/getUser";
 import { getBoard } from "../../../util/getBoard";
 import axios from "axios";
-import Pagination from "./Pagination";
+import Pagination from "react-js-pagination";
 
 const MyPageInquiryList = () => {
   const [boardData, setBoarData] = useState([]);
   const [user, setUser] = useState({});
 
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
-  const offset = (page - 1) * limit;
+  const [currentPage, setCurrntPage] = useState(1); // 현재페이지
+  const [indexOfLastQnA, setIndexOfLastQnA] = useState(0);
+  const [indexOfFirstQnA, setIndexOfFirstQnA] = useState(0);
+  const [perPage, setPerPage] = useState(10);
 
   useEffect(() => {
+    authCheck();
+    getUser(setUser);
     getBoard(setBoarData);
-  }, []);
+    setIndexOfLastQnA(currentPage * perPage);
+    setIndexOfFirstQnA(indexOfLastQnA - perPage);
+  }, [currentPage, indexOfFirstQnA, indexOfLastQnA, perPage]);
 
   const getInfo = boardData.filter(
     (it) =>
@@ -38,8 +43,8 @@ const MyPageInquiryList = () => {
           <label>표시할 게시물</label>
           <select
             // type={Number}
-            value={limit}
-            onChange={({ target: { value } }) => setLimit(Number(value))}
+            value={perPage}
+            onChange={({ target: { value } }) => setPerPage(Number(value))}
           >
             <option value="1">1개씩 보기</option>
             <option value="3">3개씩 보기</option>
@@ -54,7 +59,7 @@ const MyPageInquiryList = () => {
               text={"문의 내역이 없습니다."}
             />
           )}
-          {getInfo.slice(offset, offset + limit).map((item, key) => {
+          {getInfo.slice(indexOfFirstQnA, indexOfLastQnA).map((item, key) => {
             return <MyPageListForm key={key} props={item} title={"상품명"} />;
           })}
         </div>
@@ -62,10 +67,13 @@ const MyPageInquiryList = () => {
         {getInfo.length != 0 && (
           <div>
             <Pagination
-              total={getInfo.length}
-              limit={limit}
-              page={page}
-              setPage={setPage}
+              activePage={currentPage} // 현재 페이지
+              itemsCountPerPage={perPage} // 한페이지당 보여줄 아이템 갯수
+              totalItemsCount={getInfo.length} // 총 아이템 갯수
+              pageRangeDisplayed={5} // 페이지네이터 내에서 보여줄 페이지 범위
+              prevPageText={"<"}
+              nextPageText={">"}
+              onChange={setCurrntPage} // 페이지가 바뀔때 핸들링해주는 함수
             />
           </div>
         )}

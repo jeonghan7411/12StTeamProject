@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 
+import Pagination from "react-js-pagination";
 import OrderItem from "./OrderItem";
 
 import { FaSearch, FaTimesCircle } from "react-icons/fa";
@@ -10,20 +11,24 @@ import MyPageNullMsg from "./MyPageNullMsg";
 import { authCheck } from "../../../util/authCheck";
 import { getUser } from "../../../util/getUser";
 import axios from "axios";
-import Pagination from "./Pagination";
 
 const OrderList = () => {
   const [user, setUser] = useState();
   const [orderList, setOrderList] = useState([]);
+
+  const [searchState, setSearchState] = useState(false);
+  const [searchList, setSearchList] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
 
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
-  const offset = (page - 1) * limit;
+  const [currentPage, setCurrntPage] = useState(1); // 현재페이지
+  const [indexOfLastQnA, setIndexOfLastQnA] = useState(0);
+  const [indexOfFirstQnA, setIndexOfFirstQnA] = useState(0);
+  // const perPage = 10;
+  const [perPage, setPerPage] = useState(10);
 
   useEffect(() => {
-    // authCheck();
-    // getUser(setUser);
+    authCheck();
+    getUser(setUser);
     const fetchData = async () => {
       await axios
         .get("http://localhost:5000/mypage/api/orderlist", {
@@ -35,19 +40,39 @@ const OrderList = () => {
           }
         });
     };
-
     fetchData();
-  }, []);
+    setIndexOfLastQnA(currentPage * perPage);
+    setIndexOfFirstQnA(indexOfLastQnA - perPage);
+  }, [currentPage, indexOfFirstQnA, indexOfLastQnA, perPage]);
 
-  console.log(searchKeyword);
+  const [searchResult, setSearchResult] = useState([]);
 
   const searchDb = async (e) => {
+    const result = [];
     e.preventDefault();
-    await axios.post("http://localhost:5000/mypage/searchlist", {
-      withCredentials: true,
-    });
+    if (searchKeyword === "") {
+      alert("검색어를 입력해 주세요");
+    } else {
+      orderList.forEach((it) => {
+        if (it.ptitle.includes(searchKeyword)) {
+          result.push(it);
+          setSearchState(true);
+        }
+        // await axios
+        //   .post(
+        //     "http://localhost:5000/mypage/searchlist",
+        //     // {withCredentials: true,}
+        //     { orderList, searchKeyword }
+        //   )
+        //   .then((response) => {
+        //     setSearchList(response.data.result);
+        //     setSearchState(true);
+        //   });
+      });
+    }
+    setSearchResult(result);
   };
-
+  console.log(searchResult);
   return (
     <React.Fragment>
       <div className={classes.OrderList}>
@@ -89,8 +114,8 @@ const OrderList = () => {
           <label>표시할 게시물</label>
           <select
             // type={Number}
-            value={limit}
-            onChange={({ target: { value } }) => setLimit(Number(value))}
+            value={perPage}
+            onChange={({ target: { value } }) => setPerPage(Number(value))}
           >
             <option value="1">1개씩 보기</option>
             <option value="3">3개씩 보기</option>
@@ -100,25 +125,54 @@ const OrderList = () => {
         </div>
 
         <div className={classes["orderlist-wrap-list"]}>
-          {orderList.length === 0 && (
+          {orderList.length === 0 && searchList.length === 0 && (
             <MyPageNullMsg
               text={"주문내역이 없습니다."}
               className={classes["orderlist-content-null"]}
               orderList={orderList}
             />
           )}
-          {orderList.slice(offset, offset + limit).map((item, key) => {
-            return <OrderItem orderList={item} key={key} />;
-          })}
-
-          {orderList.length != 0 && (
+          {searchState === false ? (
             <div>
-              <Pagination
-                total={orderList.length}
-                limit={limit}
-                page={page}
-                setPage={setPage}
-              />
+              {orderList
+                .slice(indexOfFirstQnA, indexOfLastQnA)
+                .map((item, key) => {
+                  return <OrderItem orderList={item} key={key} />;
+                })}
+              {orderList.length != 0 && (
+                <div>
+                  <Pagination
+                    activePage={currentPage} // 현재 페이지
+                    itemsCountPerPage={perPage} // 한페이지당 보여줄 아이템 갯수
+                    totalItemsCount={orderList.length} // 총 아이템 갯수
+                    pageRangeDisplayed={5} // 페이지네이터 내에서 보여줄 페이지 범위
+                    prevPageText={"<"}
+                    nextPageText={">"}
+                    onChange={setCurrntPage} // 페이지가 바뀔때 핸들링해주는 함수
+                  />
+                </div>
+              )}
+            </div>
+          ) : (
+            <div>
+              {searchResult
+                .slice(indexOfFirstQnA, indexOfLastQnA)
+                .map((item, key) => {
+                  return <OrderItem orderList={item} key={key} />;
+                })}
+              {searchResult.length != 0 && (
+                <div>
+                  <Pagination
+                    activePage={currentPage} // 현재 페이지
+                    itemsCountPerPage={perPage} // 한페이지당 보여줄 아이템 갯수
+                    totalItemsCount={searchResult.length} // 총 아이템 갯수
+                    pageRangeDisplayed={5} // 페이지네이터 내에서 보여줄 페이지 범위
+                    prevPageText={"<"}
+                    nextPageText={">"}
+                    onChange={setCurrntPage} // 페이지가 바뀔때 핸들링해주는 함수
+                  />
+                </div>
+              )}
             </div>
           )}
         </div>
