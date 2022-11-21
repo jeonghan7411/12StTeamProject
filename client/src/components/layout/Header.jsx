@@ -9,11 +9,20 @@ import { ImEyePlus } from "react-icons/im";
 import classes from "./Header.module.css";
 import { useNavigate } from "react-router-dom";
 import HeaderCartegory from "./HeaderCartegory";
+import axios from "axios";
 
 const Header = () => {
-  const [isShow, setIsShow] = useState(false);
   const [ishShownCartegory, setIsShowncategory] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
+
+  console.log(searchValue);
+
+  const handlesearchSubmit = async (e) => {
+    e.preventDefault();
+
+    await axios.post();
+  };
 
   return (
     <React.Fragment>
@@ -31,19 +40,23 @@ const Header = () => {
           <h1 onClick={() => navigate("/")}>12st</h1>
         </div>
 
-        <form className={classes["header-wrap-center"]}>
+        <form
+          onSubmit={handlesearchSubmit}
+          className={classes["header-wrap-center"]}
+        >
           <div>
-            <span onClick={() => setIsShow(!isShow)}>통합검색</span>
+            <span>통합검색</span>
           </div>
           <div className={classes["header-search-input"]}>
-            <input type="text" />
+            <input
+              type="text"
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
           </div>
           <div>
-            <button
-              className={classes["header-search-btn"]}
-              type="submit"
-              text={<FaSearch />}
-            />
+            <button className={classes["header-search-btn"]} type="submit">
+              <FaSearch />
+            </button>
           </div>
         </form>
 
@@ -59,15 +72,6 @@ const Header = () => {
           <ImEyePlus className={classes["header-control"]} />
         </div>
       </header>
-
-      {isShow && (
-        <div className={classes.category}>
-          <div>asdsad</div>
-          <div>asdsad</div>
-          <div>sadasd</div>
-          <div>sadasd</div>
-        </div>
-      )}
     </React.Fragment>
   );
 };

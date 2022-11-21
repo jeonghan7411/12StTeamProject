@@ -11,6 +11,8 @@ import MyPageNullMsg from "./MyPageNullMsg";
 import { authCheck } from "../../../util/authCheck";
 import { getUser } from "../../../util/getUser";
 import axios from "axios";
+import Pagination from "./Pagination";
+import { RiCreativeCommonsZeroLine } from "react-icons/ri";
 
 const OrderList = () => {
   const [user, setUser] = useState();

@@ -21,7 +21,7 @@ const Product = () => {
     productInquire: [],
   });
 
-  const [currentMenu, setCurrentMenu] = useState("상품문의");
+  const [currentMenu, setCurrentMenu] = useState("상품평");
   const [currentImg, setCurrentImg] = useState();
   const [orderValue, setOrderValue] = useState(1);
   const [order, setOrder] = useState([]);
@@ -274,15 +274,19 @@ const Product = () => {
           onClick={() => setCurrentMenu("상품평")}
         >
           상품평
-          <span className={classes["product-infos__amount"]}>{`( 0 )`}</span>
+          <span className={classes["product-infos__amount"]}>{`( ${
+            productInquire.filter((it) => it.bBoardtype === "리뷰").length
+          } )`}</span>
         </li>
         <li
-          className={currentMenu === "상품문의" ? classes.click : ""}
-          onClick={() => setCurrentMenu("상품문의")}
+          className={currentMenu === "문의" ? classes.click : ""}
+          onClick={() => setCurrentMenu("문의")}
         >
-          상품문의
+          문의
           <span className={classes["product-infos__amount"]}>
-            {`( ${productInquire.length} )`}
+            {`( ${
+              productInquire.filter((it) => it.bBoardtype !== "리뷰").length
+            } )`}
           </span>
         </li>
 
@@ -295,14 +299,11 @@ const Product = () => {
       </div>
       <div>
         {currentMenu === "상품평" ? (
-          <ProductReview />
-        ) : currentMenu === "상품문의" ? (
+          <ProductReview productInquire={productInquire} />
+        ) : currentMenu === "문의" ? (
           <ProductQnA productInquire={productInquire} />
         ) : currentMenu === "상품배송교환" ? (
-          <ProductShippingAnnounce
-            productInquire={productInquire}
-            productData={productData}
-          />
+          <ProductShippingAnnounce productData={productData} />
         ) : (
           <ProductDetail productData={productData} />
         )}

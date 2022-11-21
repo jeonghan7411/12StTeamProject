@@ -64,12 +64,13 @@ router.post("/api/order/Complete", (req, res) => {
 
   orderData.forEach((data) => {
     let sql =
-      "INSERT INTO orderTable VALUES( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW());";
+      "INSERT INTO orderTable VALUES( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW());";
     db.query(
       sql,
       [
         user.uId,
         data.productId,
+        data.title,
         data.sQuantity,
         user.uName,
         user.uPhone,
