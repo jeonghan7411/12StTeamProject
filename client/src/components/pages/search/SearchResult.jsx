@@ -3,13 +3,16 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import SearchItem from "./SearchItem";
 
+import sibaicon from "../../../assets/icons/siba.png";
+
 import classes from "./SearchResult.module.css";
 
 const SearchResult = () => {
   const location = useLocation();
   const [searchData, setSearchData] = useState(location.state.result);
+  const [searchValue] = useState(location.state.keyword);
 
-  console.log(searchData);
+  console.log(searchValue);
   return (
     <div className={classes.searchResult}>
       <h4 className={classes["searchResult-title"]}>
@@ -19,11 +22,25 @@ const SearchResult = () => {
         </span>
         건
       </h4>
+      {searchData.length !== 0 && (
+        <p
+          className={classes["searchResult-searchKeyword"]}
+        >{`${searchValue} 검색결과 입니다.`}</p>
+      )}
+
+      {searchData.length === 0 && (
+        <div className={classes["searchResult-noneItem"]}>
+          <img src={sibaicon} alt="시바 그림" />
+
+          <p className={classes["searchResult-noneItem__content"]}>
+            시바! 찾으시는 결과가 없네요.
+          </p>
+        </div>
+      )}
 
       <div className={classes["searchResult-items"]}>
-        {searchData.map((it) => (
-          <SearchItem key={it} data={it} />
-        ))}
+        {searchData.length !== 0 &&
+          searchData.map((it, idx) => <SearchItem key={idx} data={it} />)}
       </div>
     </div>
   );

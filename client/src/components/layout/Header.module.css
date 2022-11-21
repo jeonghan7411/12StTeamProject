@@ -6,17 +6,26 @@
   height: 120px;
   font-size: 20px;
 
-  padding: 0 50px;
+  padding: 0 80px;
+  border-bottom: 1px solid var(--navy-color);
 }
 
 .header-wrap-left {
   margin-right: 50px;
-  color: white;
 }
 
-.header-wrap-left h1 {
-  font-size: 30px;
+.header-logo {
   cursor: pointer;
+}
+
+.header-logo img {
+  width: 60px;
+}
+
+.header-logo__name {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--navy-color);
 }
 
 .header-wrap-center {
@@ -26,7 +35,7 @@
   background-color: white;
   border-radius: 50px;
   width: 40%;
-  min-width: 500px;
+  width: 500px;
   padding: 10px;
 
   border: 1px solid var(--red-color);
@@ -34,8 +43,8 @@
 
 .header-wrap-center span {
   font-size: 16px;
-  margin-left: 10px;
-  padding-right: 40px;
+  padding: 0 20px;
+  font-weight: bold;
 
   border-right: 1px solid #ccc;
   color: var(--black-color);
@@ -48,8 +57,10 @@
 .header-search-input input {
   width: 100%;
   border: none;
-
+  font-size: 18px;
+  letter-spacing: 2px;
   font-family: inherit;
+  color: rgb(100, 100, 100);
 }
 
 .header-search-btn {
@@ -74,13 +85,13 @@
 }
 
 .header-wrap-right {
-  width: 180px;
+  width: 100px;
   display: flex;
   justify-content: space-between;
 }
 
 .header-control {
-  color: white;
+  color: var(--navy-color);
   font-size: 32px;
   font-weight: bold;
   cursor: pointer;
