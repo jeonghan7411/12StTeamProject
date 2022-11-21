@@ -16,23 +16,48 @@ const MyPage = () => {
   const [user, setUser] = useState({});
   const mile = parseInt(user.uMile);
   const [basketCount, setBasketCount] = useState("");
+  const [boardData, setBoardData] = useState([]);
+  // const [c, setReviewCount] = useState([]);
+  // const [inquiryCount, setInquiryCount] = useState([]);
 
   useEffect(() => {
     authCheck();
     getUser(setUser);
+  }, []);
 
-    const fetchData = async () => {
+  useEffect(() => {
+    const basketData = async () => {
       await axios
-        .get("http://localhost:5000/mypage/getbasket", {
+        .get("http://localhost:5000/mypage/api/getbasket", {
           withCredentials: true,
         })
         .then((response) => {
           setBasketCount(response.data.count[0]);
+          setBoardData(response.data.result[1]);
         });
     };
 
-    fetchData();
+    // const boardData = async () => {
+    //   await axios.get("http://localhost:5000/mypage/api/getboard");
+    // };
+    basketData();
+    // boardData();
   }, []);
+
+  const reviewCount = boardData.filter((it) => {
+    return it.bBoardtype === "리뷰";
+  });
+  const inquiryCount = boardData.filter((it) => {
+    return (
+      it.bBoardtype === "상품문의" ||
+      it.bBoardtype === "배송문의" ||
+      it.bBoardtype === "교환/환불문의" ||
+      it.bBoardtype === "반품" ||
+      it.bBoardtype === "취소" ||
+      it.bBoardtype === "환불" ||
+      it.bBoardtype === "교환"
+    );
+  });
 
   return (
     <React.Fragment>
@@ -60,13 +85,13 @@ const MyPage = () => {
         <div className={classes["mypage-quick-btn"]}>
           <div className={classes["mypage-quick-item"]}>
             <div>
-              <NavLink to="">0</NavLink>
+              <NavLink to="">{inquiryCount.length}</NavLink>
             </div>
-            <div>문의 글</div>
+            <div>문의/교환 환불 내역 </div>
           </div>
           <div className={classes["mypage-quick-item"]}>
             <div>
-              <NavLink to="">0</NavLink>
+              <NavLink to="reviewlist">{reviewCount.length}</NavLink>
             </div>
             <div>상품평</div>
           </div>

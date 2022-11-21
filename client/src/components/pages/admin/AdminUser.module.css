@@ -1,0 +1,16 @@
+.user-table-user table {
+  text-align: center;
+
+  width: 100%;
+
+  border-top: 1px solid var(--navy-color);
+}
+
+.user-table-user table thead tr {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.user-table-user table td {
+  padding: 10px;
+}

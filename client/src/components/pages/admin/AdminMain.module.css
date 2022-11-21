@@ -1,0 +1,32 @@
+.main-content-top {
+  width: 1000px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin: 0 auto;
+  padding: 20px 20px 10px 20px;
+
+  border: 2px solid rgba(128, 128, 128, 0.363);
+  border-radius: 15px;
+}
+
+.main-content-top p {
+  text-align: left;
+
+  margin-bottom: 10px;
+}
+
+.main-content-sub {
+  width: 1000px;
+
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.main-content-sub p {
+  text-align: left;
+
+  margin-bottom: 10px;
+}
