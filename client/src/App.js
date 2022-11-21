@@ -30,8 +30,11 @@ import React from "react";
 import ReviewWrite from "./components/pages/myPage/ReviewWrite";
 import AdminHome from "./components/pages/admin/AdminHome";
 
+import { getUser } from "./util/getUser";
+
 function App() {
   const [userToken, setUserToken] = useState();
+  const [user, setUser] = useState({});
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -44,19 +47,22 @@ function App() {
     };
 
     fetchData();
+
+    getUser(setUser);
   }, []);
+  console.log("user");
 
   return (
     <div className={classes.App}>
       <Reset />
       <Router>
+        {user.uAuth === 2 && <AdminHome />}
         <Header />
         <Nav />
 
         <main className={classes.main}>
           <Routes>
             <Route path="/" element={<Home data={data} />} />
-            <Route path="/adminindex" element={<AdminHome />} />
             <Route
               path="/login"
               element={<Login setUserToken={setUserToken} />}

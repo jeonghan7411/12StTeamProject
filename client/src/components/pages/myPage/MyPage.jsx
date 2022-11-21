@@ -15,7 +15,7 @@ const MyPage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const mile = parseInt(user.uMile);
-  const [count, setCount] = useState("");
+  const [basketCount, setBasketCount] = useState("");
 
   useEffect(() => {
     authCheck();
@@ -27,7 +27,7 @@ const MyPage = () => {
           withCredentials: true,
         })
         .then((response) => {
-          setCount(response.data.count[0]);
+          setBasketCount(response.data.count[0]);
         });
     };
 
@@ -62,7 +62,7 @@ const MyPage = () => {
             <div>
               <NavLink to="">0</NavLink>
             </div>
-            <div>배송중</div>
+            <div>문의 글</div>
           </div>
           <div className={classes["mypage-quick-item"]}>
             <div>
@@ -72,7 +72,7 @@ const MyPage = () => {
           </div>
           <div className={classes["mypage-quick-item"]}>
             <div>
-              <NavLink to="/cart">{Object.values(count)}</NavLink>
+              <NavLink to="/cart">{Object.values(basketCount)}</NavLink>
             </div>
             <div>장바구니</div>
           </div>

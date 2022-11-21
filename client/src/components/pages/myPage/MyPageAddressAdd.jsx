@@ -6,7 +6,13 @@ import { useState } from "react";
 import AddressModal from "../../layout/AddressModal";
 
 import classes from "./MyPageAddressAdd.module.css";
-const MyPageAddressAdd = ({ user, setAddAddress, reset, setReset }) => {
+const MyPageAddressAdd = ({
+  user,
+  addAddress,
+  setAddAddress,
+  reset,
+  setReset,
+}) => {
   const [showAddr, setShowAddr] = useState(false);
 
   const [updateAddr, setUpdateAddr] = useState(false);
@@ -143,26 +149,31 @@ const MyPageAddressAdd = ({ user, setAddAddress, reset, setReset }) => {
     }
   };
 
-  const addAddress = async () => {
+  const addAddressHandler = async () => {
     const uId = user.uId;
-    await axios
-      .post("http://localhost:5000/mypage/api/adddeliver", {
-        uId,
-        uName,
-        uPhone,
-        uZipcode,
-        uAddress,
-        uAdditionalAddr,
-        uMemo,
-      })
-      .then((response) => {
-        if (response.data.status === 200) {
-          alert(response.data.message);
-          setReset(!reset);
-          // window.location.href = "http://localhost:3000/mypage/mypageaddress";
-        }
-      });
-    setAddAddress(!addAddress);
+
+    if (nameErr === true || phoneErr === true || addrErr === true) {
+      alert("입력 형식이 올바르지 않습니다.");
+    } else {
+      await axios
+        .post("http://localhost:5000/mypage/api/adddeliver", {
+          uId,
+          uName,
+          uPhone,
+          uZipcode,
+          uAddress,
+          uAdditionalAddr,
+          uMemo,
+        })
+        .then((response) => {
+          if (response.data.status === 200) {
+            alert(response.data.message);
+            setReset(!reset);
+            // window.location.href = "http://localhost:3000/mypage/mypageaddress";
+          }
+        });
+      setAddAddress(!addAddress);
+    }
   };
 
   return (
@@ -285,7 +296,7 @@ const MyPageAddressAdd = ({ user, setAddAddress, reset, setReset }) => {
 
         <div className={classes["addr-wrap-button"]}>
           <div>
-            <button type="button" onClick={addAddress}>
+            <button type="button" onClick={addAddressHandler}>
               추가
             </button>
           </div>

@@ -1,12 +1,12 @@
 import React from "react";
 import classes from "./AdminHome.module.css";
+
+import AdminModal from "./AdminModal";
 const AdminHome = () => {
   return (
     <React.Fragment>
       <div className={classes.AdminHome}>
-        <nav>ㅁㄴㅇㅁㄴㅇㅁㄴㅇㄴㅁ</nav>
-        <main>ㅊㅁㄴㅁㄴㅁㄴㅊㅁㄴㅊㅁㄴ</main>
-        <footer>ㅁㄴㅊㅁㄴㅊㅁㄴㅊㅁㄴㅊ</footer>
+        <AdminModal />
       </div>
     </React.Fragment>
   );
