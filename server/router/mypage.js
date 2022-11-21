@@ -272,7 +272,7 @@ router.post("/api/addrupdate", (req, res) => {
   const uIdx = parseInt(req.body.uIdx);
   console.log(req.body);
   const { uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo } = req.body;
-
+  console.log(req.body);
   let sql =
     "UPDATE deliveryaddr SET uName= ?,dZipcode =? ,dAddr =?,dAdditionalAddr=?,dPhone=?,dMemo=? WHERE idx =?;";
   db.query(
@@ -283,6 +283,28 @@ router.post("/api/addrupdate", (req, res) => {
         throw err;
       }
       res.send({ status: 200, message: "수정 완료" });
+    }
+  );
+});
+
+router.post("/api/chocieaddr", (req, res) => {
+  const uId = req.body.addUser.uId;
+  const uName = req.body.addUser.uName;
+  const dZipcode = req.body.addUser.dZipcode;
+  const dAddr = req.body.addUser.dAddr;
+  const dAdditionalAddr = req.body.addUser.dAdditionalAddr;
+  const dPhone = req.body.addUser.dPhone;
+  const dMemo = req.body.addUser.dMemo;
+  let sql =
+    "UPDATE defaultaddress SET uName= ? ,dZipcode=?,dAddr=?,dAdditionalAddr=?,dPhone=?,dMemo=? WHERE uId =?;";
+  db.query(
+    sql,
+    [uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo, uId],
+    (err) => {
+      if (err) {
+        throw err;
+      }
+      res.send({ status: 200, message: "배송지 선택 완료" });
     }
   );
 });

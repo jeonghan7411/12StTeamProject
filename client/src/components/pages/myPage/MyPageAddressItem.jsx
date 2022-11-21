@@ -25,34 +25,9 @@ const MyPageAddressItem = ({ addUser, setTargetNum, setUpdateSate }) => {
     }
   };
 
-  // const updateInput = (e) => {
-  //   setUpdateInfo({
-  //     ...updateInfo,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-  const updateAddr = async (e) => {
-    await axios
-      .post("http://localhost:5000/mypage/api/addrupdate", {
-        uIdx,
-        uName,
-        dZipcode,
-        dAddr,
-        dAdditionalAddr,
-        dPhone,
-        dMemo,
-      })
-      .then((response) => {
-        if (response.data.status === 200) {
-          alert(response.data.message);
-          window.location.href = "http://localhost:3000/mypage/mypageaddress";
-          // setUpdateSate(true);
-        }
-      });
-  };
-
   const [uIdx, setUidx] = useState(addUser.idx);
   const [uName, setUname] = useState(addUser.uName);
+
   const [dZipcode, setDzipcode] = useState(addUser.dZipcode);
   const [dAddr, setDaddr] = useState(addUser.dAddr);
   const [dAdditionalAddr, setDAdditionalAddr] = useState(
@@ -66,13 +41,29 @@ const MyPageAddressItem = ({ addUser, setTargetNum, setUpdateSate }) => {
   const [inputAddr, setInputAddr] = useState("");
   const [showAddr, setShowAddr] = useState(false);
 
-  const updateZipcode = useRef();
-  const updateAddrCode = useRef();
-
   const handleAddrClose = () => {
     setShowAddr(false);
   };
 
+  const [nameErr, setNameErr] = useState(false);
+  const [phoneErr, setPhoneErr] = useState(false);
+  const [addrErr, setAddrErr] = useState(false);
+
+  const [errNameMsg, setErrNameMsg] = useState("");
+  const [errPhoneMsg, setErrPhoneMsg] = useState("");
+  const [errAddrMsg, setErrAddrMsg] = useState("");
+
+  const addrUname = useRef();
+  const addrUphone = useRef();
+  const updateZipcode = useRef();
+  const updateAddrCode = useRef();
+  const updateUdetail = useRef();
+
+  useEffect(() => {
+    if (updateInput === true) {
+      getAddrINfo();
+    }
+  }, [inputZipCode]);
   const getAddrINfo = () => {
     if (inputZipCode === "") {
       updateZipcode.current.value = dZipcode;
@@ -88,11 +79,124 @@ const MyPageAddressItem = ({ addUser, setTargetNum, setUpdateSate }) => {
     }
   };
 
-  useEffect(() => {
-    if (updateInput === true) {
-      getAddrINfo();
+  const choiceAddr = async () => {
+    await axios
+      .post("http://localhost:5000/mypage/api/chocieaddr", {
+        addUser,
+      })
+      .then((response) => {
+        if (response.data.status === 200) {
+          alert(response.data.message);
+        }
+      });
+  };
+
+  const infoHandler = (e) => {
+    const nullMsg = "공백값은 입력할수 없습니다. ";
+    const newInfoName = e.target.name;
+    const newInfo = e.target.value;
+
+    const nullCheck = /\s/; //공백체크
+    const nameCheck = /^[가-힝a-zA-Z]{2,}$/;
+    const spcCheck = /[!@#]/;
+    const numCheck = /[0-9]/g;
+    const telPhoneCheck = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
+
+    switch (newInfoName) {
+      case "uName":
+        if (nullCheck.exec(newInfo) || newInfo === "") {
+          setUname("");
+          setNameErr(true);
+          setErrNameMsg(nullMsg);
+          addrUname.current.value = "";
+          return;
+        } else if (!nameCheck.exec(newInfo)) {
+          setUname("");
+          setNameErr(true);
+          setErrNameMsg("올바른 이름의 형식이 아닙니다.");
+          return;
+        } else if (nameCheck.exec(newInfo)) {
+          setNameErr(false);
+          setUname(newInfo);
+        }
+        break;
+
+      case "uPhone":
+        if (nullCheck.exec(newInfo) || newInfo === "") {
+          setDphone("");
+          setPhoneErr(true);
+          setErrPhoneMsg(nullMsg);
+          addrUphone.current.value = "";
+          return;
+        } else if (!numCheck.exec(newInfo) || spcCheck.exec(newInfo)) {
+          setDphone("");
+          setPhoneErr(true);
+          setErrPhoneMsg("휴대폰번호는 숫자만 입력 가능합니다.");
+          addrUphone.current.value = "";
+          return;
+        } else if (newInfo.length < 11) {
+          setDphone("");
+          setPhoneErr(true);
+          setErrPhoneMsg("휴대폰번호는 10자리에서 11자리를 입력해주세요 ");
+          return;
+        } else if (newInfo.length > 11) {
+          setDphone("");
+          setPhoneErr(true);
+          setErrPhoneMsg("휴대폰번호는 최대 11자리를 넘길수 없습니다. ");
+          return;
+        } else if (!telPhoneCheck.exec(newInfo)) {
+          setDphone("");
+          setPhoneErr(true);
+          setErrPhoneMsg("휴대폰번호 앞자리를 확인해주세요.");
+          return;
+        } else {
+          setPhoneErr(false);
+          setDphone(newInfo);
+        }
+        break;
+
+      case "uDetail":
+        if (spcCheck.exec(newInfo)) {
+          updateUdetail.current.value = "";
+          setDAdditionalAddr("");
+          setAddrErr(true);
+          setErrAddrMsg("특수 문자를 제외한 정보만 입력해주세요");
+          return;
+        } else {
+          setAddrErr(false);
+          setDAdditionalAddr(newInfo);
+        }
+
+      default:
+        break;
     }
-  }, [inputZipCode]);
+  };
+
+  const updateAddr = async (e) => {
+    e.preventDefault();
+
+    if (nameErr === true || phoneErr === true || addrErr === true) {
+      alert("입력 형식이 올바르지 않습니다.");
+    } else {
+      await axios
+        .post("http://localhost:5000/mypage/api/addrupdate", {
+          uIdx,
+          uName,
+          dZipcode,
+          dAddr,
+          dAdditionalAddr,
+          dPhone,
+          dMemo,
+        })
+        .then((response) => {
+          if (response.data.status === 200) {
+            alert(response.data.message);
+            window.location.href = "http://localhost:3000/mypage/mypageaddress";
+            // setUpdateSate(true);
+          }
+        });
+    }
+  };
 
   return (
     <React.Fragment>
@@ -103,14 +207,17 @@ const MyPageAddressItem = ({ addUser, setTargetNum, setUpdateSate }) => {
             {updateInput === true ? (
               <input
                 type="text"
+                name="uName"
+                ref={addrUname}
                 defaultValue={addUser.uName}
-                onChange={(e) => setUname(e.target.value)}
+                onChange={infoHandler}
               />
             ) : (
               <h2> {addUser.uName}</h2>
             )}
           </span>
         </div>
+        {nameErr && <small className={classes["err"]}>{errNameMsg}</small>}
         <div className={classes["address-item-addr"]}>
           <span>우편번호 :</span>
 
@@ -171,34 +278,41 @@ const MyPageAddressItem = ({ addUser, setTargetNum, setUpdateSate }) => {
             {updateInput === true ? (
               <input
                 type="text"
+                name="uDetail"
                 defaultValue={addUser.dAdditionalAddr}
-                onChange={(e) => setDAdditionalAddr(e.target.value)}
+                onChange={infoHandler}
               />
             ) : (
               <h2>{addUser.dAdditionalAddr}</h2>
             )}
           </span>
         </div>
+        {addrErr && <small className={classes["err"]}>{errAddrMsg}</small>}
         <div className={classes["address-item-addr"]}>
           <span>전화번호 :</span>
           <span>
             {updateInput === true ? (
               <input
                 type="text"
+                name="uPhone"
+                ref={addrUphone}
+                maxLength={11}
                 defaultValue={addUser.dPhone}
-                onChange={(e) => setDphone(e.target.value)}
+                onChange={infoHandler}
               />
             ) : (
               <h2> {addUser.dPhone}</h2>
             )}
           </span>
         </div>
+        {phoneErr && <small className={classes["err"]}>{errPhoneMsg}</small>}
         <div className={classes["address-item-addr"]}>
           <span>요청 사항 :</span>
           <span>
             {updateInput === true ? (
               <input
                 type="text"
+                ref={updateUdetail}
                 defaultValue={addUser.dMemo}
                 onChange={(e) => setDmemo(e.target.value)}
               />
@@ -210,8 +324,10 @@ const MyPageAddressItem = ({ addUser, setTargetNum, setUpdateSate }) => {
         <div className={classes["address-item-update"]}>
           {!updateInput ? (
             <>
-              <button type="button">선택</button>
-              {/* 선택전용 db만들어서 넣어야함*/}
+              <button type="button" onClick={choiceAddr}>
+                선택
+              </button>
+
               <button
                 type="button"
                 onClick={(e) => {
@@ -237,6 +353,9 @@ const MyPageAddressItem = ({ addUser, setTargetNum, setUpdateSate }) => {
                 onClick={() => {
                   setUpdateInput(!updateInput);
                   setUpdateSate(false);
+                  setNameErr(false);
+                  setPhoneErr(false);
+                  setAddrErr(false);
                 }}
               >
                 취소

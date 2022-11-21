@@ -80,6 +80,7 @@ const MyPageAddress = () => {
         {addAddress === true ? (
           <MyPageAddressAdd
             user={user}
+            addAddress={addAddress}
             setAddAddress={setAddAddress}
             reset={reset}
             setReset={setReset}

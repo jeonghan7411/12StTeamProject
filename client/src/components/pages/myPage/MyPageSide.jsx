@@ -33,6 +33,7 @@ const MyPageSide = () => {
 
         <div className={classes["side-item"]}>
           <h2>MY 활동</h2>
+
           <div>
             <MyPageSideLink to="mypageinquirylist" text={"문의내역"} />
           </div>
