@@ -180,13 +180,15 @@ const ProductCart = () => {
           <div className={classes["productcart-order-purchase-product"]}>
             <h4>상품금액</h4>
             <p>
-              <strong>{totalPrice.productPrice}</strong>원
+              <strong>{totalPrice.productPrice.toLocaleString("ko-kr")}</strong>
+              원
             </p>
           </div>
           <div className={classes["productcart-order-purchase-discount"]}>
             <h4>총 배송비</h4>
             <p>
-              <strong>{totalPrice.deliveryFee}</strong>원
+              <strong>{totalPrice.deliveryFee.toLocaleString("ko-kr")}</strong>
+              원
             </p>
           </div>
           <div className={classes["productcart-order-purchase-total"]}>
@@ -196,7 +198,10 @@ const ProductCart = () => {
             <span
               className={classes["productcart-order-purchase-total__price"]}
             >
-              {totalPrice.productPrice + totalPrice.deliveryFee}원
+              {(
+                totalPrice.productPrice + totalPrice.deliveryFee
+              ).toLocaleString("ko-kr")}
+              원
             </span>
           </div>
           <div className={classes["productcart-order-purchase-btn"]}>

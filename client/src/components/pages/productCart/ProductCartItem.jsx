@@ -48,11 +48,12 @@ const ProductCartItem = React.memo(
                 <p className={classes["productcart-item-price__amount"]}>
                   수량 : {data.sQuantity}
                 </p>
-                <p>가격 : {data.price}원</p>
+                <p>가격 : {data.price.toLocaleString("ko-kr")}원</p>
               </div>
 
               <div className={classes["productcart-item-deliveryFee"]}>
-                배송비 <strong>{data.pDeliveryFee}</strong>원
+                배송비
+                <strong>{data.pDeliveryFee.toLocaleString("ko-kr")}</strong>원
               </div>
             </li>
           ))}

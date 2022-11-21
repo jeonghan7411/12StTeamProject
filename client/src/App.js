@@ -29,6 +29,7 @@ import MyPageUserDelete from "./components/pages/myPage/MyPageUserDelete";
 import React from "react";
 import ReviewWrite from "./components/pages/myPage/ReviewWrite";
 import AdminHome from "./components/pages/admin/AdminHome";
+import SearchResult from "./components/pages/search/SearchResult";
 
 function App() {
   const [userToken, setUserToken] = useState();
@@ -87,6 +88,7 @@ function App() {
             {/* 결제 */}
             <Route path="/order" element={<Order />} />
             <Route path="/orderComplete" element={<OrderComplete />} />
+            <Route path="/searchResult" element={<SearchResult />} />
           </Routes>
         </main>
 
