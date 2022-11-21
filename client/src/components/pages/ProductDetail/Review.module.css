@@ -1,0 +1,30 @@
+.review {
+  margin-bottom: 50px;
+}
+
+.review-writeInfo {
+  text-align: start;
+  margin-bottom: 10px;
+  color: rgb(200, 200, 200);
+}
+
+.review-title {
+  font-size: 18px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 10px;
+}
+
+.review-title__icon {
+  color: var(--red-color);
+
+  margin-right: 20px;
+}
+
+.review-content {
+  display: flex;
+  padding-left: 38px;
+}
