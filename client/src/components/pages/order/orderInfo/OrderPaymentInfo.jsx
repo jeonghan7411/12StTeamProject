@@ -60,8 +60,7 @@ const OrderPaymentInfo = ({
                   적용
                 </button>
                 <span className={classes["orderPaymentInfo-table__totalMile"]}>
-                  보유 마일리지 :{" "}
-                  <span>{userData.uMile.toLocaleString("ko-kr")}</span>원
+                  보유 마일리지 :<span>{userData.uMile}</span>원
                 </span>
                 {!useMileInput.isValid && (
                   <span
@@ -105,7 +104,12 @@ const OrderPaymentInfo = ({
                 className={classes["orderPaymentInfo-table__payment__select"]}
               >
                 {paymentMethod.map((it, idx) => (
-                  <div key={idx}>
+                  <div
+                    key={idx}
+                    className={
+                      classes["orderPaymentInfo-table__payment__select__item"]
+                    }
+                  >
                     <input
                       type="radio"
                       onClick={() => onOrderMethod(it)}

@@ -33,6 +33,10 @@ const ProductCart = () => {
     });
 
     setCart(newCart.filter((it) => it !== 0));
+    setTotalPrice({
+      productPrice: 0,
+      deliveryFee: 0,
+    });
 
     await axios.post("http://localhost:5000/order/api/cart/delete", {
       cartIdx,
@@ -107,6 +111,7 @@ const ProductCart = () => {
   useEffect(() => {
     //권한체크 겸 토큰갱신
     authCheck();
+    getUser(setUser);
     // 사용자 장바구니 정보 가져오기
     const fetchCartData = async () => {
       await axios
@@ -122,21 +127,6 @@ const ProductCart = () => {
         });
     };
 
-    // 사용지 정보 가져오기
-    const fetchUserData = async () => {
-      await axios
-        .get("http://localhost:5000/mypage", { withCredentials: true })
-        .then((response) => {
-          if (response.data.status === 401) {
-            alert(response.data.message);
-            navigate("/login", { replace: true });
-          } else if (response.data.status === 200) {
-            getUser(setUser);
-          }
-        });
-    };
-
-    fetchUserData();
     fetchCartData();
   }, []);
 

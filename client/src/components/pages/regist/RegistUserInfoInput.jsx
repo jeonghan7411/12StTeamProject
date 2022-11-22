@@ -160,15 +160,6 @@ const RegistUserInfoInput = () => {
     checkedItems.length === 2;
 
   const handleRegist = async () => {
-    console.log(`uId: ${enteredId},
-      uName: ${enteredName},
-      uPasswd: ${enteredPasswd},
-      uEamil: ${enteredEmail}@${enteredAdditionalEmail},
-      uPhone: ${enteredPhone},
-      uZipcode: ${enteredZipcode},
-      uAddress: ${enteredAddress} ${enteredAdditionalAddress},
-      uBirth: ${enteredBirth}`);
-
     // 나중에 본인인증도 추가하기
     if (!isDuplication) {
       window.alert("아이디 중복 검사를 해주세요.");
@@ -177,33 +168,33 @@ const RegistUserInfoInput = () => {
 
     if (!registIsValid) {
       return console.log("fail");
+    } else {
+      // 서버 전송
+      await axios
+        .post("http://localhost:5000/regist/api/regist", {
+          uId: enteredId,
+          uName: enteredName,
+          uPasswd: enteredPasswd,
+          uEamil: `${enteredEmail}@${enteredAdditionalEmail}`,
+          uPhone: enteredPhone,
+          uZipcode: enteredZipcode,
+          uAddress: enteredAddress,
+          uAdditionalAddr: enteredAdditionalAddress,
+          uBirth: enteredBirth,
+        })
+        .then((response) => {
+          if (response.data.status === "200") {
+            window.alert("회원가입을 축하드립니다.");
+
+            reset();
+
+            navigate("/");
+          } else if (response.data.status === "400") {
+            window.alert("관리자에게 문의 부탁드립니다.");
+          }
+        });
+      navigate("/");
     }
-
-    // 서버 전송
-    await axios
-      .post("http://localhost:5000/regist/api/regist", {
-        uId: enteredId,
-        uName: enteredName,
-        uPasswd: enteredPasswd,
-        uEamil: `${enteredEmail}@${enteredAdditionalEmail}`,
-        uPhone: enteredPhone,
-        uZipcode: enteredZipcode,
-        uAddress: enteredAddress,
-        uAdditionalAddr: enteredAdditionalAddress,
-        uBirth: enteredBirth,
-      })
-      .then((response) => {
-        if (response.data.status === "200") {
-          window.alert("회원가입을 축하드립니다.");
-
-          reset();
-
-          navigate("/");
-        } else if (response.data.status === "400") {
-          window.alert("관리자에게 문의 부탁드립니다.");
-        }
-      });
-    navigate("/");
   };
 
   const handleAdditionalEmail = (selected) => {
