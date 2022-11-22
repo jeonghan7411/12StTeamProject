@@ -14,3 +14,13 @@
 .user-table-user table td {
   padding: 10px;
 }
+
+.user-view {
+  font-weight: bold;
+
+  border-bottom: 1px solid black;
+}
+
+.user-view:hover {
+  color: var(--red-color);
+}

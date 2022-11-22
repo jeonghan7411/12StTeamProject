@@ -121,56 +121,6 @@ const MyPageAddress = () => {
             <></>
           )}
         </div>
-
-        {/* <div>
-          <MyPageListTitle text={"배송지 관리"} />
-        </div>
-
-        <form method="post" onSubmit={addAddressItem}>
-          <div className={classes["address-wrap-content"]}>
-            {!addAddress ? (
-              <div>
-                {addUser.length === 0 && (
-                  <MyPageNullMsg
-                    className={classes["address-content-null"]}
-                    text={"등록된 주소가 없습니다."}
-                  />
-                )}
-
-                {addUser.map((user, key) => (
-                  <>
-                    <MyPageAddressItem
-                      key={key}
-                      addUser={user}
-                      getNum={getNum}
-                      targetNum={targetNum}
-                      setTargetNum={setTargetNum}
-                    />
-                  </>
-                ))}
-              </div>
-            ) : (
-              <MyPageAddressAdd user={user} setUser={setUser} />
-            )}
-          </div>
-
-          <div className={classes["address-wrap-button"]}>
-            {addAddress === false && updateState === false ? (
-              <button onClick={() => setAddAddress(true)}>추가하기</button>
-            ) : (
-              <div className={classes["additem-button"]}>
-                {!updateState && (
-                  <>
-                    <button type="submit">추가</button>
-                    <button type="button" onClick={() => setAddAddress(false)}>
-                      취소
-                    </button>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-        </form> */}
       </div>
     </React.Fragment>
   );
