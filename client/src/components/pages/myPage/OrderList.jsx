@@ -56,7 +56,7 @@ const OrderList = () => {
       alert("검색어를 입력해 주세요");
     } else {
       orderList.forEach((it) => {
-        if (it.ptitle.includes(searchKeyword)) {
+        if (it.ptitle.toLowerCase().includes(searchKeyword.toLowerCase())) {
           result.push(it);
           setSearchState(true);
         }
@@ -74,7 +74,7 @@ const OrderList = () => {
     }
     setSearchResult(result);
   };
-  console.log(searchResult);
+  console.log(searchKeyword);
   return (
     <React.Fragment>
       <div className={classes.OrderList}>
@@ -87,7 +87,9 @@ const OrderList = () => {
                 <input
                   defaultValue={searchKeyword}
                   placeholder={"주문한 상품을 검색할 수 있어요!"}
-                  onChange={(e) => setSearchKeyword(e.target.value)}
+                  onChange={(e) =>
+                    setSearchKeyword(e.target.value.replace(/(\s*)/g, ""))
+                  }
                 />
               </div>
 

@@ -209,11 +209,11 @@ const MyPageAddressItem = ({ addUser, setTargetNum, setUpdateSate }) => {
                 type="text"
                 name="uName"
                 ref={addrUname}
-                defaultValue={addUser.uName}
+                defaultValue={addUser.dName}
                 onChange={infoHandler}
               />
             ) : (
-              <h2> {addUser.uName}</h2>
+              <h2> {addUser.dName}</h2>
             )}
           </span>
         </div>

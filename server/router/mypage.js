@@ -42,40 +42,6 @@ router.get("/api/getbasket", (req, res) => {
   });
 });
 
-// router.get("/api/getboard", (req, res) => {
-//   const token = req.cookies.accessToken;
-
-//   jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
-//     const token = req.cookies.refreshToken;
-//     const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
-
-//     let sql = "SELECT * FROM board WHERE uId = ?;";
-//     db.query(sql, [data.id], (err, result) => {
-//       if (err) {
-//         throw err;
-//       }
-//       res.send({
-//         count: result,
-//       });
-//     });
-//   });
-// });
-// router.post("/searchlist", (req, res) => {
-//   const uId = req.body.orderList[0].uId;
-//   const keyWord = "%" + req.body.searchKeyword + "%";
-//   let sql = "SELECT * FROM ordertable WHERE uId = ? AND ptitle like ?";
-//   console.log(req.body);
-//   db.query(sql, [uId, keyWord], (err, orderResult) => {
-//     if (err) {
-//       throw err;
-//     } else {
-//       res.send({
-//         result: orderResult,
-//       });
-//     }
-//   });
-// });
-
 router.get("/api/login/getuser", (req, res) => {
   const token = req.cookies.accessToken;
 
@@ -295,7 +261,7 @@ router.post("/api/addrupdate", (req, res) => {
   const { uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo } = req.body;
   console.log(req.body);
   let sql =
-    "UPDATE deliveryaddr SET uName= ?,dZipcode =? ,dAddr =?,dAdditionalAddr=?,dPhone=?,dMemo=? WHERE idx =?;";
+    "UPDATE deliveryaddr SET dName= ?,dZipcode =? ,dAddr =?,dAdditionalAddr=?,dPhone=?,dMemo=? WHERE idx =?;";
   db.query(
     sql,
     [uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo, uIdx],
@@ -317,7 +283,7 @@ router.post("/api/chocieaddr", (req, res) => {
   const dPhone = req.body.addUser.dPhone;
   const dMemo = req.body.addUser.dMemo;
   let sql =
-    "UPDATE defaultaddress SET uName= ? ,dZipcode=?,dAddr=?,dAdditionalAddr=?,dPhone=?,dMemo=? WHERE uId =?;";
+    "UPDATE defaultaddress SET dName= ? ,dZipcode=?,dAddr=?,dAdditionalAddr=?,dPhone=?,dMemo=? WHERE uId =?;";
   db.query(
     sql,
     [uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo, uId],
@@ -371,21 +337,6 @@ router.post("/api/write", (req, res) => {
   });
 });
 
-// router.post("/api/inquiry", (req, res) => {
-//   const { uId, pId, bTitle, bBoardtype, bContent } = req.body;
-//   let sql = "INSERT INTO board VALUES (NULL,?,?,?,?,?,NOW());";
-
-//   db.query(sql, [uId, pId, bBoardtype, bTitle, bContent], (err) => {
-//     if (err) {
-//       throw err;
-//     }
-//     res.send({
-//       status: 200,
-//       message: "작성 완료",
-//     });
-//   });
-// });
-
 router.get("/api/pointlist", (req, res) => {
   const token = req.cookies.accessToken;
 
@@ -409,6 +360,23 @@ router.get("/api/pointlist", (req, res) => {
           res.send({ status: 200, data });
         }
       });
+    });
+  });
+});
+
+router.post("/api/searchpoint", (req, res) => {
+  const uId = req.body.uId;
+  const start = req.body.startDate;
+  const end = req.body.endDate;
+  //SELECT * FROM ordertable WHERE uId = 'qwe123123@' AND oDate BETWEEN date_sub('2022-11-18',INTERVAL 1 Day) AND '2022-11-21';
+  let sql =
+    "SELECT * FROM ordertable WHERE uId = ? AND oDate BETWEEN date_sub(?,INTERVAL 1 Day) AND ?";
+  db.query(sql, [uId, start, end], (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.send({
+      result,
     });
   });
 });

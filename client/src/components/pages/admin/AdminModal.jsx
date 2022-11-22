@@ -155,7 +155,7 @@ const AdminModal = () => {
     },
   ];
 
-  const [userlist, setUserList] = useState([]);
+  const [userList, setUserList] = useState([]);
 
   useEffect(() => {
     const userData = async () => {
@@ -168,6 +168,8 @@ const AdminModal = () => {
         });
     };
     userData();
+    document.body.style = `overflow:hidden`;
+    return () => (document.body.style = `overlflow:auto`);
   }, []);
 
   return (
@@ -186,7 +188,7 @@ const AdminModal = () => {
         {main && <AdminMain />}
         {product && <AdminProduct />}
         {order && <AdminOrder />}
-        {user && <AdminUser userlist={userlist} />}
+        {user && <AdminUser userList={userList} />}
         {board && <AdminBoard />}
         {design && <AdminDesign />}
         {mobile && <AdminMobile />}

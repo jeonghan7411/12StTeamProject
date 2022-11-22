@@ -37,11 +37,7 @@ const MyPage = () => {
         });
     };
 
-    // const boardData = async () => {
-    //   await axios.get("http://localhost:5000/mypage/api/getboard");
-    // };
     basketData();
-    // boardData();
   }, []);
 
   const reviewCount = boardData.filter((it) => {
@@ -69,7 +65,6 @@ const MyPage = () => {
             </div>
             <div>
               안녕하세요 <span>{user.uName}</span>님.
-              <a href="adminindex">dd</a>
             </div>
           </div>
           <div className={classes["mypage-title-right"]}>

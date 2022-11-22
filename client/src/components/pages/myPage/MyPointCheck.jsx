@@ -11,10 +11,12 @@ import { authCheck } from "../../../util/authCheck";
 import Pagination from "react-js-pagination";
 
 const MyPointCheck = () => {
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [showSearch, setShowSearch] = useState(false);
+  const [startDate, setStartDate] = useState("1");
+  const [endDate, setEndDate] = useState("1");
 
   const [pointList, setPointList] = useState([]);
+  const [searchPoint, setSearchPoint] = useState([]);
 
   const [user, setUser] = useState({});
 
@@ -27,20 +29,6 @@ const MyPointCheck = () => {
   const pointCheck = true;
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   await axios
-    //     .get("http://localhost:5000/mypage", { withCredentials: true })
-    //     .then((response) => {
-    //       if (response.data.status === 401) {
-    //         alert(response.data.message);
-    //         navigate("/login", { replace: true });
-    //       } else if (response.data.status === 200) {
-    //         getUser(setUser);
-    //       }
-    //     });
-    // };
-    // fetchData();
-
     const fetchData = async () => {
       await axios
         .get("http://localhost:5000/mypage/api/pointlist", {
@@ -57,8 +45,27 @@ const MyPointCheck = () => {
     setIndexOfFirstQnA(indexOfLastQnA - perPage);
   }, [currentPage, indexOfFirstQnA, indexOfLastQnA, perPage]);
 
-  const searchDate = (e) => {
+  const searchDate = async (e) => {
+    const uId = pointList[0].uId;
+    let startReplace = parseInt(startDate.replace(/-/g, ""));
+    let endReplace = parseInt(endDate.replace(/-/g, ""));
     e.preventDefault();
+    if (startReplace === 1 || endReplace === 1) {
+      alert("날짜를 선택해 주세요");
+    } else if (startReplace > endReplace) {
+      alert("시작일이 종료일 보다 뒤에 있습니다.");
+    } else {
+      setShowSearch(true);
+      await axios
+        .post("http://localhost:5000/mypage/api/searchpoint", {
+          startDate,
+          endDate,
+          uId,
+        })
+        .then((response) => {
+          setSearchPoint(response.data.result);
+        });
+    }
   };
 
   return (
@@ -120,13 +127,53 @@ const MyPointCheck = () => {
             <option value="10">10개씩 보기</option>
           </select>
         </div>
-        {pointList.length === 0 && (
-          <MyPageNullMsg
-            className={classes["pointcheck-content-null"]}
-            text={"적립 내역이 없습니다."}
-          />
+        {showSearch === false && (
+          <>
+            {pointList.length === 0 && (
+              <MyPageNullMsg
+                className={classes["pointcheck-content-null"]}
+                text={"적립 내역이 없습니다."}
+              />
+            )}
+            {pointList
+              .slice(indexOfFirstQnA, indexOfLastQnA)
+              .map((item, key) => {
+                return (
+                  <MyPageListForm
+                    props={item}
+                    title={"내역"}
+                    key={key}
+                    pointCheck={pointCheck}
+                  />
+                );
+              })}
+            {pointList.length != 0 && (
+              <div>
+                <Pagination
+                  activePage={currentPage} // 현재 페이지
+                  itemsCountPerPage={perPage} // 한페이지당 보여줄 아이템 갯수
+                  totalItemsCount={pointList.length} // 총 아이템 갯수
+                  pageRangeDisplayed={5} // 페이지네이터 내에서 보여줄 페이지 범위
+                  prevPageText={"<"}
+                  nextPageText={">"}
+                  onChange={setCurrntPage} // 페이지가 바뀔때 핸들링해주는 함수
+                />
+              </div>
+            )}
+          </>
         )}
-        {pointList.slice(indexOfFirstQnA, indexOfLastQnA).map((item, key) => {
+
+        {showSearch === true && (
+          <>
+            {searchPoint.length === 0 && (
+              <MyPageNullMsg
+                className={classes["pointcheck-content-null"]}
+                text={"검색 내역이 없습니다."}
+              />
+            )}
+          </>
+        )}
+        {searchPoint.slice(indexOfFirstQnA, indexOfLastQnA).map((item, key) => {
           return (
             <MyPageListForm
               props={item}
@@ -136,12 +183,12 @@ const MyPointCheck = () => {
             />
           );
         })}
-        {pointList.length != 0 && (
+        {searchPoint.length != 0 && (
           <div>
             <Pagination
               activePage={currentPage} // 현재 페이지
               itemsCountPerPage={perPage} // 한페이지당 보여줄 아이템 갯수
-              totalItemsCount={pointList.length} // 총 아이템 갯수
+              totalItemsCount={searchPoint.length} // 총 아이템 갯수
               pageRangeDisplayed={5} // 페이지네이터 내에서 보여줄 페이지 범위
               prevPageText={"<"}
               nextPageText={">"}
