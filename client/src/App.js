@@ -38,13 +38,15 @@ function App() {
   const [userToken, setUserToken] = useState();
   const [user, setUser] = useState({});
   const [data, setData] = useState([]);
+  const [bestProduct, setBestProduct] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       await axios
         .get("http://localhost:5000/product/api/get/products")
         .then((response) => {
-          setData(response.data.result);
+          setData(response.data.result[0]);
+          setBestProduct(response.data.result[1]);
         });
     };
 
@@ -52,7 +54,6 @@ function App() {
 
     getUser(setUser);
   }, []);
-  console.log("user");
 
   return (
     <div className={classes.App}>
@@ -64,7 +65,10 @@ function App() {
 
         <main className={classes.main}>
           <Routes>
-            <Route path="/" element={<Home data={data} />} />
+            <Route
+              path="/"
+              element={<Home data={data} bestProduct={bestProduct} />}
+            />
             <Route
               path="/login"
               element={<Login setUserToken={setUserToken} />}
@@ -90,7 +94,10 @@ function App() {
               <Route path="deleteuser" element={<MyPageUserDelete />} />
             </Route>
             <Route path="/products/:getIdx" element={<Product />} />
-            <Route path="/productsBest" element={<ProductsBest />} />
+            <Route
+              path="/productsBest"
+              element={<ProductsBest bestProduct={bestProduct} />}
+            />
             <Route path="/categories" element={<ProductsCategory />} />
             <Route path="/cart" element={<ProductCart />} />
 

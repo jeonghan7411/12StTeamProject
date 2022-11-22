@@ -117,3 +117,12 @@
   color: white;
   border-radius: 5px;
 }
+
+.orderComplete-barcode {
+  text-align: center;
+}
+
+.orderComplete-barcode img {
+  width: 350px;
+  height: 100px;
+}

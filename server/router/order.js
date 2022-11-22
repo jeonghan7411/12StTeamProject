@@ -81,12 +81,14 @@ router.get("/api/get/cartData", (req, res) => {
 
 router.post("/api/order/Complete", (req, res) => {
   const { orderData, addrData, user, oUseMile, oGetMile, oMethod } = req.body;
+  let sql1 =
+    "INSERT INTO orderTable VALUES( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW());";
+  let sql2 =
+    "UPDATE products SET pSellCount = pSellCount + ? WHERE productId = ?;";
 
   orderData.forEach((data) => {
-    let sql =
-      "INSERT INTO orderTable VALUES( NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW());";
     db.query(
-      sql,
+      sql1 + sql2,
       [
         user.uId,
         data.productId,
@@ -101,6 +103,8 @@ router.post("/api/order/Complete", (req, res) => {
         oUseMile,
         oGetMile,
         oMethod,
+        data.sQuantity,
+        data.productId,
       ],
       (err) => {
         if (err) {

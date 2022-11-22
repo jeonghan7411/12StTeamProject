@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Banner from "./Banner";
+import React from "react";
+
 import Cartegory from "./Cartegory";
-import HomeProducts from "./HomeProducts";
 
 import classes from "./Home.module.css";
 import { authCheck, handleLogout } from "../../../util/authCheck";
@@ -13,8 +11,12 @@ import lifelogo from "../../../assets/icons/life.png";
 import clotheslogo from "../../../assets/icons/clothes.png";
 import salelogo from "../../../assets/icons/sale.png";
 import SaleProduct from "./SaleProduct";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Home = ({ data }) => {
+const Home = ({ data, bestProduct }) => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <Cartegory />
@@ -24,10 +26,15 @@ const Home = ({ data }) => {
             <img src={bestlogo} alt="bestProduct" /> 12st 베스트 상품인데
             할인까지 !?
           </h3>
-          <span className={classes["home-section__expansion"]}>+ 더보기</span>
+          <span
+            className={classes["home-section__expansion"]}
+            onClick={() => navigate("/productsBest")}
+          >
+            + 더보기
+          </span>
         </div>
         <div className={classes["home-section-product"]}>
-          {data.slice(15, 19).map((it, key) => (
+          {bestProduct.slice(0, 4).map((it, key) => (
             <SearchItem key={key} data={it} />
           ))}
         </div>
