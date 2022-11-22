@@ -27,10 +27,11 @@ const Order = () => {
     isValid: true,
     mileMsg: "",
   });
-  console.log(orderData);
 
-  // 구매자정보(유저db)
-  const [userData, setUserData] = useState();
+  const [addrData, setAddrData] = useState({
+    addrs: [],
+    defaultAddr: { dName: "" },
+  });
 
   // 주문 내역 db에 저장할 정보
   const [orderInfo, setOrderInfo] = useState({
@@ -38,6 +39,33 @@ const Order = () => {
     oGetMile: 0,
     oMethod: "",
   });
+
+  console.log(addrData.defaultAddr);
+
+  // 배송지 변경 선택
+  const handleChangeAddr = (
+    dName,
+    dZipcode,
+    dAddr,
+    dAdditionalAddr,
+    dPhone,
+    dMemo
+  ) => {
+    setAddrData((prev) => {
+      return {
+        ...prev,
+        defaultAddr: {
+          ...prev.defaultAddr,
+          dName,
+          dZipcode,
+          dAddr,
+          dAdditionalAddr,
+          dPhone,
+          dMemo,
+        },
+      };
+    });
+  };
 
   // 결제 방법 선택
   const hadleOrderMethod = (select) => {
@@ -83,16 +111,18 @@ const Order = () => {
       state: {
         orderProducts: orderData,
         orderData: {
-          ...userData,
           ...orderInfo,
           totalDeliveyFee,
           totalPrice,
         },
+
+        addrData: addrData,
       },
     });
 
     await axios.post("http://localhost:5000/order/api/order/Complete", {
       user: user,
+      addrData: addrData.defaultAddr,
       orderData,
       oUseMile: orderInfo.oUseMile,
       oGetMile: orderInfo.oGetMile,
@@ -104,6 +134,21 @@ const Order = () => {
     authCheck();
     getUser(setUser);
 
+    const getAddr = async () => {
+      await axios
+        .get("http://localhost:5000/order/api/get/addr", {
+          withCredentials: true,
+        })
+        .then((response) => {
+          if (response.data.status === 200) {
+            console.log(response.data);
+            setAddrData({
+              addrs: response.data.deliveryAddr,
+              defaultAddr: response.data.defaultAddr[0],
+            });
+          }
+        });
+    };
     let totalprice = 0;
     let totalDeliveryFee = 0;
     orderData.forEach((data) => {
@@ -119,6 +164,7 @@ const Order = () => {
       oGetMile: Math.ceil(totalprice * 0.03),
       oMethod: "",
     });
+    getAddr();
   }, []);
 
   return (
@@ -130,7 +176,12 @@ const Order = () => {
       <OrderConsumer userData={user} />
 
       {/* 받는 사람 정보 컴포넌트 */}
-      <OrderDeliveryInfo userData={user} />
+      <OrderDeliveryInfo
+        userData={user}
+        addrData={addrData}
+        onAddrChange={handleChangeAddr}
+      />
+
       {/* 배송 상품 정보 컴포넌트 */}
       <OrderProduct orderData={orderData} />
 

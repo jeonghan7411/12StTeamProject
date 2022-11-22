@@ -19,6 +19,26 @@ router.use(
   })
 );
 
+router.get("/api/get/addr", (req, res) => {
+  const token = req.cookies.accessToken;
+  const data = jwt.verify(token, process.env.ACCESS_SECRET_KEY);
+
+  let sql1 = "SELECT * FROM deliveryaddr WHERE uId = ?;";
+  let sql2 = "SELECT * FROM defaultaddress WHERE uId = ?;";
+
+  db.query(sql1 + sql2, [data.id, data.id], (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send({
+        status: 200,
+        deliveryAddr: result[0],
+        defaultAddr: result[1],
+      });
+    }
+  });
+});
+
 router.post("/api/cart/insert", (req, res) => {
   const { uId, productId, sQuantity } = req.body;
   let sql = "INSERT INTO shoppingbasket VALUES ( NULL, ?, ?, ? );";
@@ -60,7 +80,7 @@ router.get("/api/get/cartData", (req, res) => {
 });
 
 router.post("/api/order/Complete", (req, res) => {
-  const { orderData, user, oUseMile, oGetMile, oMethod } = req.body;
+  const { orderData, addrData, user, oUseMile, oGetMile, oMethod } = req.body;
 
   orderData.forEach((data) => {
     let sql =
@@ -72,12 +92,12 @@ router.post("/api/order/Complete", (req, res) => {
         data.productId,
         data.title,
         data.sQuantity,
-        user.uName,
-        user.uPhone,
-        user.uZipcode,
-        user.uAddress,
-        user.uAdditionalAddr,
-        "메모",
+        addrData.dName,
+        addrData.dPhone,
+        addrData.dZipcode,
+        addrData.dAddr,
+        addrData.dAdditionalAddr,
+        addrData.dMemo,
         oUseMile,
         oGetMile,
         oMethod,

@@ -92,6 +92,10 @@
   display: flex;
   align-items: center;
 }
+.orderPaymentInfo-table__payment__select__item {
+  display: flex;
+  align-items: center;
+}
 
 .orderPaymentInfo-table__payment__select input {
   margin-right: 5px;

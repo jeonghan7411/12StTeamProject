@@ -1,3 +1,7 @@
+.product-link:hover {
+  text-decoration: none;
+}
+
 .saleProduct {
   background-color: rgb(245, 245, 245);
   padding: 20px;

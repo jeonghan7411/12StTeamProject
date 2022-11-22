@@ -1,5 +1,6 @@
 import React from "react";
-import { RiItalic, RiShoppingCart2Line } from "react-icons/ri";
+import { RiShoppingCart2Line } from "react-icons/ri";
+import { Link } from "react-router-dom";
 import Card from "../../UI/Card";
 
 import classes from "./SaleProduct.module.css";
@@ -7,9 +8,14 @@ import classes from "./SaleProduct.module.css";
 const SaleProduct = ({ data }) => {
   return (
     <Card className={classes.saleProduct}>
-      <div className={classes["saleProduct-img"]}>
-        <img src={data.image} alt={data.title} />
-      </div>
+      <Link
+        className={classes["product-link"]}
+        to={`/products/${data.productId}`}
+      >
+        <div className={classes["saleProduct-img"]}>
+          <img src={data.image} alt={data.title} />
+        </div>
+      </Link>
 
       <div className={classes["saleProduct-infoWrap"]}>
         <div className={classes["saleProduct-info"]}>
@@ -19,7 +25,13 @@ const SaleProduct = ({ data }) => {
               {data.pDiscount}%
             </span>
           </p>
-          <p className={classes["saleProduct-info-title"]}>{data.title}</p>
+
+          <Link
+            className={classes["product-link"]}
+            to={`/products/${data.productId}`}
+          >
+            <p className={classes["saleProduct-info-title"]}>{data.title}</p>
+          </Link>
         </div>
 
         <p className={classes["saleProduct-info-review"]}>

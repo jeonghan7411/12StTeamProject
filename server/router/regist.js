@@ -62,9 +62,22 @@ router.post("/api/regist", (req, res) => {
     uAdditionalAddr,
     uPhone,
   ]);
+
+  let defaultAddrSql =
+    "INSERT INTO defaultaddress VALUES(NULL, ?, ?, ?, ?, ?, ?, '문앞에놔둬주세요');";
+
+  let defaultAddrSql2 = mysql.format(defaultAddrSql, [
+    uId,
+    uName,
+    uZipcode,
+    uAddress,
+    uAdditionalAddr,
+    uPhone,
+  ]);
+
   bcrypt.hash(uPasswd, saltRounds, (err, hash_passwd) => {
     db.query(
-      sql + addrSql2,
+      sql + addrSql2 + defaultAddrSql2,
       [
         uId,
         uName,

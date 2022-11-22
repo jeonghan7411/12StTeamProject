@@ -17,10 +17,13 @@ const OrderComplete = () => {
   // 구매시간
   const buyDate = new Date();
 
-  const [orderCompleteData, setOrderCompleteData] = useState({
+  const [orderCompleteData] = useState({
     orderProducts: location.state.orderProducts,
     orderData: location.state.orderData,
+    orderAddr: location.state.addrData,
   });
+
+  console.log(orderCompleteData.orderAddr);
 
   useEffect(() => {
     authCheck();
@@ -46,7 +49,7 @@ const OrderComplete = () => {
         </section>
 
         <section className={classes["orderComplete-recript-section"]}>
-          <OrderDeliveryInfo userData={user} />
+          <OrderDeliveryInfo addrData={orderCompleteData.orderAddr} />
         </section>
 
         <section className={classes["orderComplete-recript-section"]}>
