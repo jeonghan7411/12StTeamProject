@@ -20,8 +20,10 @@ router.use(
 );
 
 router.get("/api/get/products", (req, res) => {
-  let sql = "SELECT DISTINCT * FROM products;";
-  db.query(sql, (err, result) => {
+  let sql1 = "SELECT DISTINCT * FROM products;";
+  let sql2 =
+    "SELECT DISTINCT * FROM products ORDER BY products.pSellCount DESC LIMIT 0,100;";
+  db.query(sql1 + sql2, (err, result) => {
     if (err) {
       throw err;
     } else {

@@ -10,6 +10,8 @@ import OrderConsumer from "./orderInfo/OrderConsumer";
 import OrderDeliveryInfo from "./orderInfo/OrderDeliveryInfo";
 import OrderProduct from "./orderInfo/OrderProduct";
 
+import barcodeIcons from "../../../assets/icons/barcode.png";
+
 const OrderComplete = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -49,7 +51,10 @@ const OrderComplete = () => {
         </section>
 
         <section className={classes["orderComplete-recript-section"]}>
-          <OrderDeliveryInfo addrData={orderCompleteData.orderAddr} />
+          <OrderDeliveryInfo
+            addrData={orderCompleteData.orderAddr}
+            isOrderComplete={true}
+          />
         </section>
 
         <section className={classes["orderComplete-recript-section"]}>
@@ -131,6 +136,10 @@ const OrderComplete = () => {
             </tbody>
           </table>
         </section>
+
+        <div className={classes["orderComplete-barcode"]}>
+          <img src={barcodeIcons} alt="barcode" />
+        </div>
       </div>
 
       <div className={classes["orderComplete-control"]}>

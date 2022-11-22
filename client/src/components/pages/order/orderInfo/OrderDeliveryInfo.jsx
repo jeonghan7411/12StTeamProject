@@ -7,7 +7,7 @@ import { GrClose } from "react-icons/gr";
 
 import classes from "./OrderDeliveryInfo.module.css";
 
-const OrderDeliveryInfo = ({ addrData, onAddrChange }) => {
+const OrderDeliveryInfo = ({ addrData, onAddrChange, isOrderComplete }) => {
   const [isShowModal, setIsShowModal] = useState(false);
 
   const { dAdditionalAddr, dAddr, dMemo, dPhone, dZipcode, dName } =
@@ -96,9 +96,12 @@ const OrderDeliveryInfo = ({ addrData, onAddrChange }) => {
       <div className={classes["orderDeliveryInfo"]}>
         <div className={classes["orderDeliveryInfo-deliveryChange"]}>
           <h4>받는 사람 정보</h4>
-          <button onClick={() => setIsShowModal(true)}>
-            받는 사람 정보 변경
-          </button>
+
+          {!isOrderComplete && (
+            <button onClick={() => setIsShowModal(true)}>
+              받는 사람 정보 변경
+            </button>
+          )}
         </div>
 
         <table className={classes["orderDeliveryInfo-table"]}>
