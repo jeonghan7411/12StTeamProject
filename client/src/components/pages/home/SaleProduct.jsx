@@ -1,11 +1,40 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { RiShoppingCart2Line } from "react-icons/ri";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { authCheck } from "../../../util/authCheck";
+import { getUser } from "../../../util/getUser";
 import Card from "../../UI/Card";
 
 import classes from "./SaleProduct.module.css";
 
 const SaleProduct = ({ data }) => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState();
+
+  const handleInsertCart = async () => {
+    if (user) {
+      await axios
+        .post("http://localhost:5000/order/api/cart/insert", {
+          sQuantity: 1,
+          uId: user.uId,
+          productId: data.productId,
+        })
+        .then((response) => {
+          if (response.data.status === 200) {
+            if (window.confirm(response.data.message)) {
+              navigate("/cart");
+            }
+          }
+        });
+    } else {
+      authCheck();
+    }
+  };
+
+  useEffect(() => {
+    getUser(setUser);
+  }, []);
   return (
     <Card className={classes.saleProduct}>
       <Link
@@ -41,7 +70,7 @@ const SaleProduct = ({ data }) => {
 
           <span>{`누적 판매량 ( ${data.pReviewCount} )`}</span>
           <span className={classes["saleProduct-info-review__cart"]}>
-            <RiShoppingCart2Line />
+            <RiShoppingCart2Line onClick={handleInsertCart} />
           </span>
         </p>
       </div>

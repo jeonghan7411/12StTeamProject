@@ -1,9 +1,9 @@
 .title {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: bold;
+  color: rgb(120, 120, 120);
 }
 
 .title-wrap {
-  margin-top: 20px;
-  margin-left: 30px;
+  margin-bottom: 20px;
 }

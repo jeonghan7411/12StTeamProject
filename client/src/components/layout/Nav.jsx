@@ -30,6 +30,7 @@ const Nav = () => {
     getUser(setUser);
     isLogin();
   }, []);
+
   if (location.pathname === "/admin") {
     return null;
   }

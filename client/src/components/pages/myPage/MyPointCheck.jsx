@@ -92,7 +92,6 @@ const MyPointCheck = () => {
           <form onSubmit={searchDate}>
             <div className={classes["check-wrap-date"]}>
               <div className={classes["check-date-item"]}>
-                <div>시작일 :</div>
                 <div>
                   <input
                     type="date"
@@ -100,8 +99,8 @@ const MyPointCheck = () => {
                   />
                 </div>
               </div>
+              <span className={classes["check-date-item__span"]}>~</span>
               <div className={classes["check-date-item"]}>
-                <div>종료일 :</div>
                 <div>
                   <input
                     type="date"
@@ -114,22 +113,25 @@ const MyPointCheck = () => {
                   검색
                 </button>
               </div>
+              <div className={classes["select-wrap"]}>
+                <label>표시할 게시물</label>
+                <select
+                  // type={Number}
+                  value={perPage}
+                  onChange={({ target: { value } }) =>
+                    setPerPage(Number(value))
+                  }
+                >
+                  <option value="1">1개씩 보기</option>
+                  <option value="3">3개씩 보기</option>
+                  <option value="5">5개씩 보기</option>
+                  <option value="10">10개씩 보기</option>
+                </select>
+              </div>
             </div>
           </form>
         </div>
-        <div className={classes["select-wrap"]}>
-          <label>표시할 게시물</label>
-          <select
-            // type={Number}
-            value={perPage}
-            onChange={({ target: { value } }) => setPerPage(Number(value))}
-          >
-            <option value="1">1개씩 보기</option>
-            <option value="3">3개씩 보기</option>
-            <option value="5">5개씩 보기</option>
-            <option value="10">10개씩 보기</option>
-          </select>
-        </div>
+
         {showSearch === false && (
           <>
             {pointList.length === 0 && (

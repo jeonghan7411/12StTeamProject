@@ -1,5 +1,4 @@
 .MyPointCheck {
-  margin-top: 20px;
   margin-left: 30px;
 }
 
@@ -9,35 +8,37 @@
   text-align: center;
   margin-top: 20px;
   margin-bottom: 50px;
-  border: 1px solid var(--gray-color);
+
   width: 1000px;
 }
 
 .check-content-wrap div {
-  background-color: var(--gray-color);
-  padding: 15px;
+  background-color: rgb(250, 250, 250);
+  padding: 10px;
   width: 100%;
 }
 .check-content-item {
-  border: 1px solid var(--navy-color);
+  margin-right: 30px;
+  border: 1px solid rgb(220, 220, 220);
+  border-radius: 5px;
 }
 
 .check-content-item div:first-child {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .check-content-item span {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: bold;
-  margin-right: 10px;
 }
 
 .check-wrap-date {
   font-size: 18px;
-  align-items: center;
   display: flex;
+  align-items: center;
+
   justify-content: center;
-  border: 1px solid var(--navy-color);
+  border-bottom: 1px solid rgb(220, 220, 220);
   margin-top: 30px;
   padding: 15px;
 }
@@ -45,17 +46,18 @@
 .check-date-item {
   align-items: center;
   display: flex;
-  margin-right: 50px;
+
+  font-size: 16px;
 }
 
 .check-date-item input {
   cursor: pointer;
 
-  padding: 5px;
+  padding: 3px;
 }
 
-.check-date-item div {
-  margin-right: 10px;
+.check-date-item__span {
+  margin: 0 10px;
 }
 
 .check-date-button button {
