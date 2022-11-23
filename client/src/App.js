@@ -69,69 +69,63 @@ function App() {
     <div className={classes.App}>
       <Reset />
       <Router>
-        {!isAdmin ? (
-          <>
-            <Header />
-            <Nav />
+        <>
+          <Header />
+          <Nav />
 
-            <main className={classes.main}>
-              <Routes>
-                <Route>
+          <main className={classes.main}>
+            <Routes>
+              <Route>
+                <Route path="/admin" element={<AdminHome />} />
+                <Route
+                  path="/"
+                  element={<Home data={data} bestProduct={bestProduct} />}
+                />
+                <Route
+                  path="/login"
+                  element={<Login setUserToken={setUserToken} />}
+                />
+
+                <Route path="/regist" element={<Regist />} />
+                <Route path="/updateuser" element={<MyPageUpdateUser />} />
+                <Route path="/mypage" element={<MyPage />}>
+                  <Route index element={<OrderList />} />
                   <Route
-                    path="/"
-                    element={<Home data={data} bestProduct={bestProduct} />}
+                    path="cancel-return-exchange-write"
+                    element={<CrlWrite />}
                   />
+                  <Route path="reviewwrite" element={<ReviewWrite />} />
+                  <Route path="reviewlist" element={<ReviewList />} />
+
+                  <Route path="cancel-return-exchange" element={<CrlList />} />
+                  <Route path="mypointcheck" element={<MyPointCheck />} />
+                  <Route path="mypageinquiry" element={<MyPageInquiry />} />
                   <Route
-                    path="/login"
-                    element={<Login setUserToken={setUserToken} />}
+                    path="mypageinquirylist"
+                    element={<MyPageInquiryList />}
                   />
-
-                  <Route path="/regist" element={<Regist />} />
-                  <Route path="/updateuser" element={<MyPageUpdateUser />} />
-                  <Route path="/mypage" element={<MyPage />}>
-                    <Route index element={<OrderList />} />
-                    <Route
-                      path="cancel-return-exchange-write"
-                      element={<CrlWrite />}
-                    />
-                    <Route path="reviewwrite" element={<ReviewWrite />} />
-                    <Route path="reviewlist" element={<ReviewList />} />
-
-                    <Route
-                      path="cancel-return-exchange"
-                      element={<CrlList />}
-                    />
-                    <Route path="mypointcheck" element={<MyPointCheck />} />
-                    <Route path="mypageinquiry" element={<MyPageInquiry />} />
-                    <Route
-                      path="mypageinquirylist"
-                      element={<MyPageInquiryList />}
-                    />
-                    <Route path="mypageaddress" element={<MyPageAddress />} />
-                    <Route path="orderdetail" element={<OrderDetail />} />
-                    <Route path="deleteuser" element={<MyPageUserDelete />} />
-                  </Route>
-                  <Route path="/products/:getIdx" element={<Product />} />
-                  <Route
-                    path="/productsBest"
-                    element={<ProductsBest bestProduct={bestProduct} />}
-                  />
-                  <Route path="/categories" element={<ProductsCategory />} />
-                  <Route path="/cart" element={<ProductCart />} />
-
-                  {/* 결제 */}
-                  <Route path="/order" element={<Order />} />
-                  <Route path="/orderComplete" element={<OrderComplete />} />
-                  <Route path="/searchResult" element={<SearchResult />} />
+                  <Route path="mypageaddress" element={<MyPageAddress />} />
+                  <Route path="orderdetail" element={<OrderDetail />} />
+                  <Route path="deleteuser" element={<MyPageUserDelete />} />
                 </Route>
-              </Routes>
-            </main>
+                <Route path="/products/:getIdx" element={<Product />} />
+                <Route
+                  path="/productsBest"
+                  element={<ProductsBest bestProduct={bestProduct} />}
+                />
+                <Route path="/categories" element={<ProductsCategory />} />
+                <Route path="/cart" element={<ProductCart />} />
 
-            <Footer />
-          </>
-        ) : (
-          <AdminHome />
-        )}
+                {/* 결제 */}
+                <Route path="/order" element={<Order />} />
+                <Route path="/orderComplete" element={<OrderComplete />} />
+                <Route path="/searchResult" element={<SearchResult />} />
+              </Route>
+            </Routes>
+          </main>
+
+          <Footer />
+        </>
       </Router>
     </div>
   );

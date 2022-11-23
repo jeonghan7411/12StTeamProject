@@ -162,10 +162,10 @@ const Product = () => {
               <img src={productData.image} alt="" onClick={setPreviewImg} />
             </div>
             <div className={classes["product-content-img-item"]}>
-              <img src={testImg2} alt="" onClick={setPreviewImg} />
+              <img src={productData.image} alt="" onClick={setPreviewImg} />
             </div>
             <div className={classes["product-content-img-item"]}>
-              <img src={productImg} alt="" onClick={setPreviewImg} />
+              <img src={productData.image} alt="" onClick={setPreviewImg} />
             </div>
           </div>
           <Card className={classes["product-content-img-main"]}>
@@ -197,11 +197,11 @@ const Product = () => {
             </h3>
             {/*  할인율 적용된 가격 */}
             <h2 className={classes["product-content-detail-price__realPrice"]}>
-              {realPrice}원
+              {realPrice.toLocaleString("ko-kr")}원
             </h2>
             {/* 원가 */}
             <h3 className={classes["product-content-detail-price__price"]}>
-              {productData.price}원
+              {productData.price}
             </h3>
           </div>
           <p className={classes["product-content-detail__getMile"]}>
