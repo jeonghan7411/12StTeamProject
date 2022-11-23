@@ -60,16 +60,6 @@ const OrderList = () => {
           result.push(it);
           setSearchState(true);
         }
-        // await axios
-        //   .post(
-        //     "http://localhost:5000/mypage/searchlist",
-        //     // {withCredentials: true,}
-        //     { orderList, searchKeyword }
-        //   )
-        //   .then((response) => {
-        //     setSearchList(response.data.result);
-        //     setSearchState(true);
-        //   });
       });
     }
     setSearchResult(result);

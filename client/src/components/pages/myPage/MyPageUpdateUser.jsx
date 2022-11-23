@@ -9,19 +9,6 @@ const MyPageUpdateUser = () => {
   const [userPw, setUserPw] = useState(false);
   const [user, setUser] = useState({});
   useEffect(() => {
-    // const fetchData = async () => {
-    //   await axios
-    //     .get("http://localhost:5000/", { withCredentials: true })
-    //     .then((response) => {
-    //       if (response.data.status === 401) {
-    //         alert(response.data.message);
-    //         navigate("/login", { replace: true });
-    //       } else if (response.data.status === 200) {
-    //         getUser(setUser);
-    //       }
-    //     });
-    // };
-    // fetchData();
     authCheck();
     getUser(setUser);
   }, []);

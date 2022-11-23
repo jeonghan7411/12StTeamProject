@@ -170,6 +170,23 @@ const MyPagePassPw = ({ user, setUserPw }) => {
           setErrPwMsg(nullMsg);
           updateUpasswd.current.value = "";
           return;
+        } else if (!pwCheck.exec(newInfo)) {
+          setUpasswd("");
+          setPwErr(true);
+          setErrPwMsg("문자는 1개이상 포함되어야 합니다.");
+          return;
+        } else if (!numCheck.exec(newInfo)) {
+          setUpasswd("");
+          setPwErr(true);
+          setErrPwMsg("숫자는 1개이상 포함되어야 합니다.");
+          return;
+        } else if (!spcCheck.exec(newInfo)) {
+          setUpasswd("");
+          setPwErr(true);
+          setErrPwMsg(
+            "! @ # 중 하나를 포함 해야하며 이외 특수문자는 사용이 불가합니다."
+          );
+          return;
         } else if (newInfo.length < 8) {
           setUpasswd("");
           setPwErr(true);
@@ -179,18 +196,6 @@ const MyPagePassPw = ({ user, setUserPw }) => {
           setUpasswd("");
           setPwErr(true);
           setErrPwMsg("비밀번호는 최대 15 자를 넘길수 없습니다.");
-          return;
-        } else if (!spcCheck.exec(newInfo)) {
-          setUpasswd("");
-          setPwErr(true);
-          setErrPwMsg(
-            "! @ # 중 하나를 포함 해야하며 이외 특수문자는 사용이 불가합니다."
-          );
-          return;
-        } else if (!pwCheck.exec(newInfo) || !numCheck.exec(newInfo)) {
-          setUpasswd("");
-          setPwErr(true);
-          setErrPwMsg("문자 와 숫자는 1개이상 포함되어야 합니다.");
           return;
         } else if (pwCheck.exec(newInfo)) {
           setPwErr(false);
@@ -316,6 +321,8 @@ const MyPagePassPw = ({ user, setUserPw }) => {
         break;
     }
   };
+
+  console.log(uPasswd.length);
 
   //마지막 유효성 검사
 

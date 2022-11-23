@@ -18,7 +18,6 @@ const OrderItem = ({ orderList }) => {
             <h2>{orderList.oDate}</h2>
           </div>
           <div>
-            {/* <Link to={"orderdetail"}>주문 상세</Link> */}
             <button
               onClick={() =>
                 navigate("/mypage/orderdetail", { state: { orderList } })
@@ -43,7 +42,11 @@ const OrderItem = ({ orderList }) => {
 
               <div className={classes["orderitem-item-porfile"]}>
                 <div className={classes["orderitem-porfile-title"]}>
-                  <h4>{orderList.title}</h4>
+                  <button
+                    onClick={() => navigate(`/products/${orderList.pId}`)}
+                  >
+                    <h4>{orderList.title}</h4>
+                  </button>
                 </div>
                 <div className={classes["orderitem-porfile-content"]}>
                   <span>

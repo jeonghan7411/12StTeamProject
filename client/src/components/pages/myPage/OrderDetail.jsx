@@ -28,7 +28,7 @@ const OrderDetail = () => {
           </div>
           <div className={classes["detail-top-item"]}>
             <label>주문번호</label>
-            <span>123123123123</span>
+            <span>{orderData.idx}</span>
           </div>
         </div>
         <div className={classes["detail-wrap-content"]}>
@@ -43,7 +43,7 @@ const OrderDetail = () => {
             </thead>
             <tbody>
               <tr>
-                <td>234534534</td>
+                <td>{orderData.idx}</td>
                 <td>{orderData.title}</td>
                 <td>
                   <div className={classes["price-td"]}>
