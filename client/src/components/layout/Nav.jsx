@@ -3,32 +3,16 @@ import axios from "axios";
 import classes from "./Nav.module.css";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { getUserName, handleLogout } from "../../util/authCheck";
+import { cookieCheck, getUserName, handleLogout } from "../../util/authCheck";
 import { getUser } from "../../util/getUser";
 const Nav = () => {
   const location = useLocation();
-  const [isLogin, setIsLogin] = useState(false);
+
   const [user, setUser] = useState({});
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    const isLogin = async () => {
-      await axios
-        .get("http://localhost:5000/login/api/login/success", {
-          withCredentials: true,
-        })
-        .then((response) => {
-          if (response.data === "timeout") {
-            handleLogout();
-          } else if (response.data === "noInfo") {
-            setIsLogin(false);
-          } else if (response.data === "login") {
-            setIsLogin(true);
-          }
-        });
-    };
-
-    getUser(setUser);
-    isLogin();
+    cookieCheck(setIsLogin, setUser);
   }, []);
 
   if (location.pathname === "/admin") {
@@ -71,8 +55,8 @@ const Nav = () => {
               <span> | </span>
               <span>🌱 {user.uMile}</span>
               <span> | </span>
-              <button className={classes["nav-onOff"]}>
-                <button onClick={handleLogout}>로그아웃</button>
+              <button className={classes["nav-onOff"]} onClick={handleLogout}>
+                로그아웃
               </button>
             </div>
           )}

@@ -7,7 +7,7 @@ import { RiShoppingCart2Line } from "react-icons/ri";
 import classes from "./SearchItem.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { authCheck } from "../../../util/authCheck";
+import { authCheck, cookieCheck } from "../../../util/authCheck";
 import { useState } from "react";
 import { getUser } from "../../../util/getUser";
 import { useEffect } from "react";
@@ -15,9 +15,10 @@ import { useEffect } from "react";
 const SearchItem = ({ data }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState();
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleInsertCart = async () => {
-    if (user) {
+    if (isLogin) {
       await axios
         .post("http://localhost:5000/order/api/cart/insert", {
           sQuantity: 1,
@@ -32,12 +33,13 @@ const SearchItem = ({ data }) => {
           }
         });
     } else {
-      authCheck();
+      alert("로그인이 필요합니다.");
+      navigate("/login");
     }
   };
 
   useEffect(() => {
-    getUser(setUser);
+    cookieCheck(setIsLogin, setUser);
   }, []);
 
   return (

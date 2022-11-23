@@ -8,11 +8,12 @@ import MyPageSide from "./MyPageSide";
 
 import { FaCog } from "react-icons/fa";
 import { getUser } from "../../../util/getUser";
-import { authCheck } from "../../../util/authCheck";
+import { authCheck, cookieCheck } from "../../../util/authCheck";
 import classes from "./MyPage.module.css";
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
   const mile = parseInt(user.uMile);
   const [basketCount, setBasketCount] = useState("");
@@ -21,23 +22,28 @@ const MyPage = () => {
   // const [inquiryCount, setInquiryCount] = useState([]);
 
   useEffect(() => {
-    authCheck();
-    getUser(setUser);
+    cookieCheck(setIsLogin, setUser);
   }, []);
 
   useEffect(() => {
-    const basketData = async () => {
-      await axios
-        .get("http://localhost:5000/mypage/api/getbasket", {
-          withCredentials: true,
-        })
-        .then((response) => {
-          setBasketCount(response.data.count[0]);
-          setBoardData(response.data.result[1]);
-        });
-    };
+    if (isLogin) {
+      const basketData = async () => {
+        await axios
+          .get("http://localhost:5000/mypage/api/getbasket", {
+            withCredentials: true,
+          })
+          .then((response) => {
+            setBasketCount(response.data.count[0]);
+            setBoardData(response.data.result[1]);
+          });
+      };
 
-    basketData();
+      basketData();
+    } else {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+      return;
+    }
   }, []);
 
   const reviewCount = boardData.filter((it) => {
