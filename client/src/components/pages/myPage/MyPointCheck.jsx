@@ -50,6 +50,7 @@ const MyPointCheck = () => {
     let startReplace = parseInt(startDate.replace(/-/g, ""));
     let endReplace = parseInt(endDate.replace(/-/g, ""));
     e.preventDefault();
+
     if (startReplace === 1 || endReplace === 1) {
       alert("날짜를 선택해 주세요");
     } else if (startReplace > endReplace) {
@@ -109,7 +110,9 @@ const MyPointCheck = () => {
                 </div>
               </div>
               <div className={classes["check-date-button"]}>
-                <button type="submit">검색</button>
+                <button type="submit" disabled={pointList.length === 0}>
+                  검색
+                </button>
               </div>
             </div>
           </form>
@@ -147,7 +150,7 @@ const MyPointCheck = () => {
                   />
                 );
               })}
-            {pointList.length != 0 && (
+            {pointList.length !== 0 && (
               <div>
                 <Pagination
                   activePage={currentPage} // 현재 페이지
@@ -183,7 +186,7 @@ const MyPointCheck = () => {
             />
           );
         })}
-        {searchPoint.length != 0 && (
+        {searchPoint.length !== 0 && (
           <div>
             <Pagination
               activePage={currentPage} // 현재 페이지

@@ -1,8 +1,8 @@
 .DetailModal {
-  background-color: rgba(236, 236, 236, 0.466);
+  background-color: rgba(236, 236, 236, 0.2);
 
   width: 100%;
-  height: 100vh;
+  height: 100%;
 
   position: fixed;
   z-index: 10;
@@ -16,8 +16,8 @@
   width: 20%;
   height: auto;
   min-width: 600px;
-  top: 30vh;
-  left: 35%;
+  top: 10vh;
+  left: 25%;
 
   border: 3px solid #ccc;
   border-radius: 15px;
