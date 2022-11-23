@@ -15,7 +15,7 @@ import classes from "./AdminModal.module.css";
 import { useEffect } from "react";
 import axios from "axios";
 
-const AdminModal = () => {
+const AdminModal = ({ check }) => {
   const navigate = useNavigate();
   const [main, setMain] = useState(true);
   const [product, setProduct] = useState(false);
@@ -26,6 +26,7 @@ const AdminModal = () => {
   const [mobile, setMobile] = useState(false);
   const [promotion, setPromotion] = useState(false);
   const [setting, setSetting] = useState(false);
+
   const navInfo = [
     {
       title: "메인",

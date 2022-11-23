@@ -6,13 +6,14 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { RiShoppingCart2Line } from "react-icons/ri";
 
 import classes from "./Header.module.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import HeaderCartegory from "./HeaderCartegory";
 import axios from "axios";
 
 import logo from "../../assets/icons/siba.png";
 
 const Header = () => {
+  const location = useLocation();
   const [ishShownCartegory, setIsShowncategory] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
@@ -31,7 +32,9 @@ const Header = () => {
         });
       });
   };
-
+  if (location.pathname === "/admin") {
+    return null;
+  }
   return (
     <React.Fragment>
       {ishShownCartegory && (

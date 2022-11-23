@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import classes from "./Nav.module.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { getUserName, handleLogout } from "../../util/authCheck";
+import { getUser } from "../../util/getUser";
 const Nav = () => {
+  const location = useLocation();
   const [isLogin, setIsLogin] = useState(false);
-  const [username, setUsername] = useState({});
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     const isLogin = async () => {
@@ -25,10 +27,12 @@ const Nav = () => {
         });
     };
 
-    getUserName(setUsername);
+    getUser(setUser);
     isLogin();
   }, []);
-
+  if (location.pathname === "/admin") {
+    return null;
+  }
   return (
     <React.Fragment>
       <nav className={classes.nav}>
@@ -53,11 +57,18 @@ const Nav = () => {
             </div>
           ) : (
             <div className={classes["nav-Login"]}>
+              {user.uAuth === 2 && (
+                <span>
+                  <Link to="/admin" state={{ user: user }}>
+                    관리자페이지
+                  </Link>
+                </span>
+              )}
               <span>
-                🐣 <Link to="/mypage">{username.uName}</Link> 님
+                🐣 <Link to="/mypage">{user.uName}</Link> 님
               </span>
               <span> | </span>
-              <span>🌱 {username.uMile}</span>
+              <span>🌱 {user.uMile}</span>
               <span> | </span>
               <button className={classes["nav-onOff"]}>
                 <button onClick={handleLogout}>로그아웃</button>
