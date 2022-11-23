@@ -1,0 +1,18 @@
+.sliderBanner {
+  height: 220px;
+  border: 1px solid rgb(230, 230, 230);
+  margin-bottom: 100px;
+}
+
+.sliderBanner-banner {
+  height: 180px;
+}
+
+.sliderBanner-banner ul li button::before {
+  color: white;
+}
+
+.sliderBanner-banner__item {
+  height: 220px;
+  background-color: rgb(230, 230, 230);
+}

@@ -1,4 +1,5 @@
 import React from "react";
+
 import AdminContentTitle from "./AdminContentTitle";
 
 import classes from "./AdminProduct.module.css";

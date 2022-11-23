@@ -17,6 +17,16 @@ router.use(
   })
 );
 
+router.get("/api/get/orderList", (req, res) => {
+  let sql = "SELECT * FROM ordertable;";
+
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+
+    res.send(result);
+  });
+});
+
 router.get("/api/userlist", (req, res) => {
   let sql = "SELECT * FROM users ORDER BY idx DESC;";
 
