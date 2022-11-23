@@ -40,6 +40,10 @@ function App() {
   const [data, setData] = useState([]);
   const [bestProduct, setBestProduct] = useState([]);
 
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  console.log(user);
+
   useEffect(() => {
     const fetchData = async () => {
       await axios
@@ -52,6 +56,12 @@ function App() {
 
     fetchData();
 
+    if (user) {
+      if (user.uAuth === 2) {
+        setIsAdmin(true);
+      }
+    }
+
     getUser(setUser);
   }, []);
 
@@ -59,56 +69,69 @@ function App() {
     <div className={classes.App}>
       <Reset />
       <Router>
-        {user.uAuth === 2 && <AdminHome />}
-        <Header />
-        <Nav />
+        {!isAdmin ? (
+          <>
+            <Header />
+            <Nav />
 
-        <main className={classes.main}>
-          <Routes>
-            <Route
-              path="/"
-              element={<Home data={data} bestProduct={bestProduct} />}
-            />
-            <Route
-              path="/login"
-              element={<Login setUserToken={setUserToken} />}
-            />
+            <main className={classes.main}>
+              <Routes>
+                <Route>
+                  <Route
+                    path="/"
+                    element={<Home data={data} bestProduct={bestProduct} />}
+                  />
+                  <Route
+                    path="/login"
+                    element={<Login setUserToken={setUserToken} />}
+                  />
 
-            <Route path="/regist" element={<Regist />} />
-            <Route path="/updateuser" element={<MyPageUpdateUser />} />
-            <Route path="/mypage" element={<MyPage />}>
-              <Route index element={<OrderList />} />
-              <Route
-                path="cancel-return-exchange-write"
-                element={<CrlWrite />}
-              />
-              <Route path="reviewwrite" element={<ReviewWrite />} />
-              <Route path="reviewlist" element={<ReviewList />} />
+                  <Route path="/regist" element={<Regist />} />
+                  <Route path="/updateuser" element={<MyPageUpdateUser />} />
+                  <Route path="/mypage" element={<MyPage />}>
+                    <Route index element={<OrderList />} />
+                    <Route
+                      path="cancel-return-exchange-write"
+                      element={<CrlWrite />}
+                    />
+                    <Route path="reviewwrite" element={<ReviewWrite />} />
+                    <Route path="reviewlist" element={<ReviewList />} />
 
-              <Route path="cancel-return-exchange" element={<CrlList />} />
-              <Route path="mypointcheck" element={<MyPointCheck />} />
-              <Route path="mypageinquiry" element={<MyPageInquiry />} />
-              <Route path="mypageinquirylist" element={<MyPageInquiryList />} />
-              <Route path="mypageaddress" element={<MyPageAddress />} />
-              <Route path="orderdetail" element={<OrderDetail />} />
-              <Route path="deleteuser" element={<MyPageUserDelete />} />
-            </Route>
-            <Route path="/products/:getIdx" element={<Product />} />
-            <Route
-              path="/productsBest"
-              element={<ProductsBest bestProduct={bestProduct} />}
-            />
-            <Route path="/categories" element={<ProductsCategory />} />
-            <Route path="/cart" element={<ProductCart />} />
+                    <Route
+                      path="cancel-return-exchange"
+                      element={<CrlList />}
+                    />
+                    <Route path="mypointcheck" element={<MyPointCheck />} />
+                    <Route path="mypageinquiry" element={<MyPageInquiry />} />
+                    <Route
+                      path="mypageinquirylist"
+                      element={<MyPageInquiryList />}
+                    />
+                    <Route path="mypageaddress" element={<MyPageAddress />} />
+                    <Route path="orderdetail" element={<OrderDetail />} />
+                    <Route path="deleteuser" element={<MyPageUserDelete />} />
+                  </Route>
+                  <Route path="/products/:getIdx" element={<Product />} />
+                  <Route
+                    path="/productsBest"
+                    element={<ProductsBest bestProduct={bestProduct} />}
+                  />
+                  <Route path="/categories" element={<ProductsCategory />} />
+                  <Route path="/cart" element={<ProductCart />} />
 
-            {/* 결제 */}
-            <Route path="/order" element={<Order />} />
-            <Route path="/orderComplete" element={<OrderComplete />} />
-            <Route path="/searchResult" element={<SearchResult />} />
-          </Routes>
-        </main>
+                  {/* 결제 */}
+                  <Route path="/order" element={<Order />} />
+                  <Route path="/orderComplete" element={<OrderComplete />} />
+                  <Route path="/searchResult" element={<SearchResult />} />
+                </Route>
+              </Routes>
+            </main>
 
-        <Footer />
+            <Footer />
+          </>
+        ) : (
+          <AdminHome />
+        )}
       </Router>
     </div>
   );

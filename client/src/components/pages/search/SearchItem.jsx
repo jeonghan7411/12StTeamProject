@@ -17,23 +17,26 @@ const SearchItem = ({ data }) => {
   const [user, setUser] = useState();
 
   const handleInsertCart = async () => {
-    await axios
-      .post("http://localhost:5000/order/api/cart/insert", {
-        sQuantity: 1,
-        uId: user.uId,
-        productId: data.productId,
-      })
-      .then((response) => {
-        if (response.data.status === 200) {
-          if (window.confirm(response.data.message)) {
-            navigate("/cart");
+    if (user) {
+      await axios
+        .post("http://localhost:5000/order/api/cart/insert", {
+          sQuantity: 1,
+          uId: user.uId,
+          productId: data.productId,
+        })
+        .then((response) => {
+          if (response.data.status === 200) {
+            if (window.confirm(response.data.message)) {
+              navigate("/cart");
+            }
           }
-        }
-      });
+        });
+    } else {
+      authCheck();
+    }
   };
 
   useEffect(() => {
-    authCheck();
     getUser(setUser);
   }, []);
 

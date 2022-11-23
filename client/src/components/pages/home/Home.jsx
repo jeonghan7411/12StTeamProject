@@ -13,12 +13,14 @@ import salelogo from "../../../assets/icons/sale.png";
 import SaleProduct from "./SaleProduct";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import SliderBanner from "./SliderBanner";
 
 const Home = ({ data, bestProduct }) => {
   const navigate = useNavigate();
 
   return (
     <div>
+      <SliderBanner />
       <Cartegory />
       <section className={classes["home-section"]}>
         <div className={classes["home-section__titleWrap"]}>
