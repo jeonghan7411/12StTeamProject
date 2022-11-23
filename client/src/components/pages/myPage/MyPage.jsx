@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 
-import Profile from "../../../assets/profile.jpg";
+import Profile from "../../../assets/icons/siba.png";
 
 import MyPageSide from "./MyPageSide";
 
