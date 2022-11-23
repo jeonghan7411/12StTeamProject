@@ -18,32 +18,24 @@ const MyPage = () => {
   const mile = parseInt(user.uMile);
   const [basketCount, setBasketCount] = useState("");
   const [boardData, setBoardData] = useState([]);
-  // const [c, setReviewCount] = useState([]);
-  // const [inquiryCount, setInquiryCount] = useState([]);
 
   useEffect(() => {
     cookieCheck(setIsLogin, setUser);
   }, []);
 
   useEffect(() => {
-    if (isLogin) {
-      const basketData = async () => {
-        await axios
-          .get("http://localhost:5000/mypage/api/getbasket", {
-            withCredentials: true,
-          })
-          .then((response) => {
-            setBasketCount(response.data.count[0]);
-            setBoardData(response.data.result[1]);
-          });
-      };
+    const basketData = async () => {
+      await axios
+        .get("http://localhost:5000/mypage/api/getbasket", {
+          withCredentials: true,
+        })
+        .then((response) => {
+          setBasketCount(response.data.count[0]);
+          setBoardData(response.data.result[1]);
+        });
+    };
 
-      basketData();
-    } else {
-      alert("로그인이 필요합니다.");
-      navigate("/login");
-      return;
-    }
+    basketData();
   }, []);
 
   const reviewCount = boardData.filter((it) => {
@@ -86,9 +78,9 @@ const MyPage = () => {
         <div className={classes["mypage-quick-btn"]}>
           <div className={classes["mypage-quick-item"]}>
             <div>
-              <NavLink to="">{inquiryCount.length}</NavLink>
+              <NavLink to="mypageinquirylist">{inquiryCount.length}</NavLink>
             </div>
-            <div>문의/교환 환불 내역 </div>
+            <div>문의 내역 </div>
           </div>
           <div className={classes["mypage-quick-item"]}>
             <div>

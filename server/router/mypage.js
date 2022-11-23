@@ -26,10 +26,9 @@ router.get("/api/getbasket", (req, res) => {
     const token = req.cookies.refreshToken;
     const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
 
-    // let sql = "SELECT COUNT(uId) FROM shoppingbasket WHERE uId = ?;";
     let sql1 = "SELECT COUNT(uId) FROM shoppingbasket WHERE uId = ?;";
     let sql2 = "SELECT * FROM board WHERE uId=?;";
-    // db.query(sql, [data.id], (err, result) => {
+
     db.query(sql1 + sql2, [data.id, data.id], (err, result) => {
       if (err) {
         throw err;
@@ -240,7 +239,7 @@ router.get("/api/addlist", (req, res) => {
   });
 });
 
-router.get("/api/defaultaddr", (req, res) => {
+router.get("/api/defaultadd", (req, res) => {
   const token = req.cookies.accessToken;
 
   jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
@@ -252,14 +251,14 @@ router.get("/api/defaultaddr", (req, res) => {
       if (err) {
         throw err;
       }
+      console.log(user[0].uId);
 
       let addrSql = "SELECT * FROM defaultaddress where uId = ?;";
-      db.query(addrSql, [user[0].uId], (err, user) => {
+      db.query(addrSql, [user[0].uId], (err, result) => {
         if (err) {
           throw err;
         } else {
-          res.send({ status: 200, user });
-          console.log(user[0]);
+          res.send({ status: 200, result: result[0] });
         }
       });
     });
@@ -283,12 +282,13 @@ router.post("/api/addrdelete", (req, res) => {
 
 router.post("/api/addrupdate", (req, res) => {
   const uIdx = parseInt(req.body.uIdx);
-  const { uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo } = req.body;
+  const { dName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo } = req.body;
+
   let sql =
     "UPDATE deliveryaddr SET dName= ?,dZipcode =? ,dAddr =?,dAdditionalAddr=?,dPhone=?,dMemo=? WHERE idx =?;";
   db.query(
     sql,
-    [uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo, uIdx],
+    [dName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo, uIdx],
     (err) => {
       if (err) {
         throw err;
@@ -298,7 +298,7 @@ router.post("/api/addrupdate", (req, res) => {
   );
 });
 
-router.post("/api/chocieaddr", (req, res) => {
+router.post("/api/choiceaddr", (req, res) => {
   const uId = req.body.addUser.uId;
   const uName = req.body.addUser.dName;
   const dZipcode = req.body.addUser.dZipcode;

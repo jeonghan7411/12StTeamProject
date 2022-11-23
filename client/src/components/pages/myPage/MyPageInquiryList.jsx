@@ -12,7 +12,6 @@ import Pagination from "react-js-pagination";
 
 const MyPageInquiryList = () => {
   const [boardData, setBoarData] = useState([]);
-  const [user, setUser] = useState({});
 
   const [currentPage, setCurrntPage] = useState(1); // 현재페이지
   const [indexOfLastQnA, setIndexOfLastQnA] = useState(0);
@@ -21,7 +20,6 @@ const MyPageInquiryList = () => {
 
   useEffect(() => {
     authCheck();
-    getUser(setUser);
     getBoard(setBoarData);
     setIndexOfLastQnA(currentPage * perPage);
     setIndexOfFirstQnA(indexOfLastQnA - perPage);
@@ -31,7 +29,11 @@ const MyPageInquiryList = () => {
     (it) =>
       it.bBoardtype === "교환/환불문의" ||
       it.bBoardtype === "배송문의" ||
-      it.bBoardtype === "상품문의"
+      it.bBoardtype === "상품문의" ||
+      it.bBoardtype === "교환" ||
+      it.bBoardtype === "취소" ||
+      it.bBoardtype === "반품" ||
+      it.bBoardtype === "환불"
   );
 
   return (
@@ -44,7 +46,10 @@ const MyPageInquiryList = () => {
           <select
             // type={Number}
             value={perPage}
-            onChange={({ target: { value } }) => setPerPage(Number(value))}
+            onChange={({ target: { value } }) => {
+              setPerPage(Number(value));
+              setCurrntPage(1);
+            }}
           >
             <option value="1">1개씩 보기</option>
             <option value="3">3개씩 보기</option>

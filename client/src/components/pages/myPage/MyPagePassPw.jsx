@@ -164,6 +164,45 @@ const MyPagePassPw = ({ user, setUserPw }) => {
         break;
 
       case "uPasswd":
+        // if (nullCheck.exec(newInfo) || newInfo === "" || newInfo === null) {
+        //   setUpasswd("");
+        //   setPwErr(true);
+        //   setErrPwMsg(nullMsg);
+        //   updateUpasswd.current.value = "";
+        //   return;
+        // } else if (!pwCheck.exec(newInfo)) {
+        //   setUpasswd("");
+        //   setPwErr(true);
+        //   setErrPwMsg("문자는 1개이상 포함되어야 합니다.");
+        //   return;
+        // } else if (!numCheck.exec(newInfo)) {
+        //   setUpasswd("");
+        //   setPwErr(true);
+        //   setErrPwMsg("숫자는 1개이상 포함되어야 합니다.");
+        //   return;
+        // } else if (!spcCheck.exec(newInfo)) {
+        //   setUpasswd("");
+        //   setPwErr(true);
+        //   setErrPwMsg(
+        //     "! @ # 중 하나를 포함 해야하며 이외 특수문자는 사용이 불가합니다."
+        //   );
+        //   return;
+        // } else if (newInfo.length <= 7) {
+        //   setUpasswd("");
+        //   setPwErr(true);
+        //   setErrPwMsg("비밀번호는 최소 8글자 이상 입력해주세요. ");
+        //   return;
+        // } else if (newInfo.length > 15) {
+        //   setUpasswd("");
+        //   setPwErr(true);
+        //   setErrPwMsg("비밀번호는 최대 15 자를 넘길수 없습니다.");
+        //   return;
+        // } else if (pwCheck.exec(newInfo)) {
+        //   setPwErr(false);
+        //   setUpasswd(newInfo);
+        //   setErrPwMsg("");
+        // }
+
         if (nullCheck.exec(newInfo) || newInfo === "" || newInfo === null) {
           setUpasswd("");
           setPwErr(true);
@@ -197,7 +236,7 @@ const MyPagePassPw = ({ user, setUserPw }) => {
           setPwErr(true);
           setErrPwMsg("비밀번호는 최대 15 자를 넘길수 없습니다.");
           return;
-        } else if (pwCheck.exec(newInfo)) {
+        } else {
           setPwErr(false);
           setUpasswd(newInfo);
           setErrPwMsg("");
@@ -238,7 +277,7 @@ const MyPagePassPw = ({ user, setUserPw }) => {
           setCheckPasswd("");
           setPwCheckErr(true);
           setErrPwCheckMsg("비밀번호가 일치하지 않습니다.");
-        } else if (pwCheck.exec(newInfo)) {
+        } else {
           setPwCheckErr(false);
           setCheckPasswd(newInfo);
           setErrPwCheckMsg("");
@@ -322,8 +361,6 @@ const MyPagePassPw = ({ user, setUserPw }) => {
         break;
     }
   };
-
-  console.log(uPasswd.length);
 
   //마지막 유효성 검사
 
