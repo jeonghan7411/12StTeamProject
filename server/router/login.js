@@ -92,48 +92,43 @@ router.get("/api/login/success", (req, res) => {
       }
     });
   }
-  if (token === undefined) {
-    //토큰이 없을때 -> 비로그인상태 = 리턴
-    res.send("noInfo");
-  } else {
-    jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
-      // 토큰이 있을때 에러핸들링
-      if (err) {
-        // err = expired, 만료되었을때 리프레쉬
-        const token = req.cookies.refreshToken;
-        const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
+    // 토큰이 있을때 에러핸들링
+    if (err) {
+      // err = expired, 만료되었을때 리프레쉬
+      const token = req.cookies.refreshToken;
+      const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
 
-        let sql = "SELECT * from users WHERE uId = ?;";
-        db.query(sql, [data.id], (err, rows) => {
-          if (err) {
-            throw err;
+      let sql = "SELECT * from users WHERE uId = ?;";
+      db.query(sql, [data.id], (err, rows) => {
+        if (err) {
+          throw err;
+        }
+        //비밀번호 빼고 전달
+        const { uPasswd, ...others } = rows[0];
+
+        //accessToken 새로 발급
+        const accessToken = jwt.sign(
+          {
+            id: others.uId,
+          },
+          process.env.ACCESS_SECRET_KEY,
+          {
+            expiresIn: "10m",
+            issuer: "12St",
           }
-          //비밀번호 빼고 전달
-          const { uPasswd, ...others } = rows[0];
+        );
 
-          //accessToken 새로 발급
-          const accessToken = jwt.sign(
-            {
-              id: others.uId,
-            },
-            process.env.ACCESS_SECRET_KEY,
-            {
-              expiresIn: "10m",
-              issuer: "12St",
-            }
-          );
-
-          res.cookie("accessToken", accessToken, { httpOnly: true });
-          res.status(201).json({
-            result: "ok",
-          });
-          console.log("액세스토큰만료 재발급");
+        res.cookie("accessToken", accessToken, { httpOnly: true });
+        res.status(201).json({
+          result: "ok",
         });
-      } else {
-        res.send("login");
-      }
-    });
-  }
+        console.log("액세스토큰만료 재발급");
+      });
+    } else {
+      res.send("login");
+    }
+  });
 });
 //로그아웃
 
@@ -165,11 +160,11 @@ router.get("/api/login/getusername", (req, res) => {
 });
 // 쿠키 여부 체크
 router.get("/api/login/cookiecheck", (req, res) => {
-  const token = req.cookies.token;
+  const token = req.cookies.accessToken;
   if (token === undefined) {
     res.send("checkFail");
   } else {
-    console.log("checkSuccess");
+    res.send("checkSuccess");
   }
 });
 

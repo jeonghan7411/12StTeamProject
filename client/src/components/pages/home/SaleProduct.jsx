@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { RiShoppingCart2Line } from "react-icons/ri";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { authCheck } from "../../../util/authCheck";
+import { authCheck, cookieCheck } from "../../../util/authCheck";
 import { getUser } from "../../../util/getUser";
 import Card from "../../UI/Card";
 
@@ -11,9 +11,10 @@ import classes from "./SaleProduct.module.css";
 const SaleProduct = ({ data }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState();
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleInsertCart = async () => {
-    if (user) {
+    if (isLogin) {
       await axios
         .post("http://localhost:5000/order/api/cart/insert", {
           sQuantity: 1,
@@ -28,12 +29,13 @@ const SaleProduct = ({ data }) => {
           }
         });
     } else {
-      authCheck();
+      alert("로그인이 필요합니다.");
+      navigate("/login");
     }
   };
 
   useEffect(() => {
-    getUser(setUser);
+    cookieCheck(setIsLogin, setUser);
   }, []);
   return (
     <Card className={classes.saleProduct}>

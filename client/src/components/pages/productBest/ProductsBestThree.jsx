@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { RiShoppingCart2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { authCheck } from "../../../util/authCheck";
+import { authCheck, cookieCheck } from "../../../util/authCheck";
 import { getUser } from "../../../util/getUser";
 import Card from "../../UI/Card";
 
@@ -11,26 +11,31 @@ import classes from "./ProductsBestThree.module.css";
 const ProductsBestTen = ({ data }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState();
+  const [isLogin, setIsLogin] = useState(false);
 
   const handleInsertCart = async () => {
-    await axios
-      .post("http://localhost:5000/order/api/cart/insert", {
-        sQuantity: 1,
-        uId: user.uId,
-        productId: data.productId,
-      })
-      .then((response) => {
-        if (response.data.status === 200) {
-          if (window.confirm(response.data.message)) {
-            navigate("/cart");
+    if (isLogin) {
+      await axios
+        .post("http://localhost:5000/order/api/cart/insert", {
+          sQuantity: 1,
+          uId: user.uId,
+          productId: data.productId,
+        })
+        .then((response) => {
+          if (response.data.status === 200) {
+            if (window.confirm(response.data.message)) {
+              navigate("/cart");
+            }
           }
-        }
-      });
+        });
+    } else {
+      alert("로그인이 필요합니다.");
+      navigate("/login");
+    }
   };
 
   useEffect(() => {
-    authCheck();
-    getUser(setUser);
+    cookieCheck(setIsLogin, setUser);
   }, []);
   return (
     <Card className={classes.productsBestTen}>

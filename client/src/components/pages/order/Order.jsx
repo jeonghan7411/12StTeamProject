@@ -118,6 +118,7 @@ const Order = () => {
 
         addrData: addrData,
       },
+      replace: true,
     });
 
     await axios.post("http://localhost:5000/order/api/order/Complete", {

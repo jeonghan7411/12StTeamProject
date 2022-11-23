@@ -62,11 +62,12 @@ const ProductsCategory = () => {
       {/* 좌측 카테고리 정렬 (상단 카테고리 중분류 + 소분류, 하단 대분류) */}
       <div className={classes["productsCategory-left"]} onClick={() => {}}>
         <h4>{category}</h4>
-        {category2.map((it) => (
+        {category2.map((it, idx) => (
           <ProductCategoryList
             title={it.category2}
             type={type}
             setProducts={setProducts}
+            key={idx}
           />
         ))}
       </div>

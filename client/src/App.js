@@ -42,8 +42,6 @@ function App() {
 
   const [isAdmin, setIsAdmin] = useState(false);
 
-  console.log(user);
-
   useEffect(() => {
     const fetchData = async () => {
       await axios
@@ -55,14 +53,6 @@ function App() {
     };
 
     fetchData();
-
-    if (user) {
-      if (user.uAuth === 2) {
-        setIsAdmin(true);
-      }
-    }
-
-    getUser(setUser);
   }, []);
 
   return (
