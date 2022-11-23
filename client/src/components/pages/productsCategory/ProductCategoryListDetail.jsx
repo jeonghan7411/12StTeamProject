@@ -23,7 +23,7 @@ const ProductCategoryListDetail = ({ title, type, subtitle, setProducts }) => {
         setProducts(response.data.result);
       });
   };
-  // console.log(title);
+
   return (
     <div className={classes["productsCategory-categoryList-items"]}>
       <li>

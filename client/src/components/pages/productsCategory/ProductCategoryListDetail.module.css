@@ -1,9 +1,13 @@
 .productsCategory-categoryList-items {
-  background-color: white;
-  text-align: center;
+  margin-top: 30px;
 }
 
 .productsCategory-categoryList-items li {
-  padding: 5px;
+  padding: 5px 0;
   color: RGB(96, 96, 96);
+
+  margin: 10px 0;
+  text-align: left;
+  padding-bottom: 10px;
+  border-bottom: 1px solid RGB(230, 230, 230);
 }

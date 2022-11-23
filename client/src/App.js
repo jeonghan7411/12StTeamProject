@@ -32,14 +32,13 @@ import SearchResult from "./components/pages/search/SearchResult";
 
 import { getUser } from "./util/getUser";
 import ReviewList from "./components/pages/myPage/ReviewList";
+import Admin from "./components/pages/admin/admin/Admin";
 
 function App() {
   const [userToken, setUserToken] = useState();
-  const [user, setUser] = useState({});
+
   const [data, setData] = useState([]);
   const [bestProduct, setBestProduct] = useState([]);
-
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,6 +64,8 @@ function App() {
           <main className={classes.main}>
             <Routes>
               <Route>
+                {/* element={} */}
+                {/* <Admin /> */}
                 <Route path="/admin" element={<AdminHome />} />
                 <Route
                   path="/"

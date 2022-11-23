@@ -40,8 +40,6 @@ const Order = () => {
     oMethod: "",
   });
 
-  console.log(addrData.defaultAddr);
-
   // 배송지 변경 선택
   const handleChangeAddr = (
     dName,
@@ -142,7 +140,6 @@ const Order = () => {
         })
         .then((response) => {
           if (response.data.status === 200) {
-            console.log(response.data);
             setAddrData({
               addrs: response.data.deliveryAddr,
               defaultAddr: response.data.defaultAddr[0],
@@ -181,6 +178,7 @@ const Order = () => {
         userData={user}
         addrData={addrData}
         onAddrChange={handleChangeAddr}
+        onAddrDate={setAddrData}
       />
 
       {/* 배송 상품 정보 컴포넌트 */}

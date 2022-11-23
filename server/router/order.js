@@ -19,6 +19,40 @@ router.use(
   })
 );
 
+router.post("/api/addAddr", (req, res) => {
+  const { uId, dName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo } =
+    req.body.addInfoValue;
+
+  console.log(req.body);
+  let sql1 = "INSERT INTO deliveryaddr VALUES(NULL, ?, ?, ?, ?, ?, ?, ?);";
+  let sql2 =
+    "UPDATE defaultaddress SET dName = ? , dZipcode = ?, dAddr = ?, dAdditionalAddr = ?, dPhone=?, dMemo=?  WHERE uId = ?;";
+
+  db.query(
+    sql1 + sql2,
+    [
+      uId,
+      dName,
+      dZipcode,
+      dAddr,
+      dAdditionalAddr,
+      dPhone,
+      dMemo,
+
+      dName,
+      dZipcode,
+      dAddr,
+      dAdditionalAddr,
+      dPhone,
+      dMemo,
+      uId,
+    ],
+    (err) => {
+      if (err) throw err;
+    }
+  );
+});
+
 router.get("/api/get/addr", (req, res) => {
   const token = req.cookies.accessToken;
   const data = jwt.verify(token, process.env.ACCESS_SECRET_KEY);

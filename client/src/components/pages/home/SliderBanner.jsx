@@ -21,9 +21,26 @@ const SliderBanner = () => {
   return (
     <div className={classes.sliderBanner}>
       <Slider {...settings} className={classes["sliderBanner-banner"]}>
-        <div className={classes["sliderBanner-banner__item"]}>1</div>
-        <div className={classes["sliderBanner-banner__item"]}>2</div>
-        <div className={classes["sliderBanner-banner__item"]}>3</div>
+        <div className={`${classes["sliderBanner-banner__item1"]}`}>
+          <p className={`${classes["sliderBanner-banner__item1__title"]}`}>
+            WELCOME
+            <br /> 12ST SALE
+          </p>
+          <p className={`${classes["sliderBanner-banner__item1__sale"]}`}>
+            <span className={classes["sliderBanner-banner__item1__count"]}>
+              12
+            </span>
+            %
+          </p>
+          <p className={classes["sliderBanner-banner__item1__subTitle"]}>
+            전상품 세일
+          </p>
+          <p className={classes["sliderBanner-banner__item1__period"]}>
+            2022.11.12 ~
+          </p>
+        </div>
+        <div className={classes["sliderBanner-banner__item2"]}></div>
+        <div className={classes["sliderBanner-banner__item3"]}></div>
       </Slider>
     </div>
   );

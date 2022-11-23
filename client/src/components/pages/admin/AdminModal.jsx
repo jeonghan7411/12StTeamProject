@@ -176,6 +176,7 @@ const AdminModal = ({ check }) => {
   return (
     <React.Fragment>
       <div className={classes.AdminModal}></div>
+
       <div className={classes["modal-container"]}>
         <div className={classes["admin-nav-wrap"]}>
           {navInfo.map((it, key) => {
