@@ -18,7 +18,7 @@ router.use(
 );
 
 router.get("/api/get/orderList", (req, res) => {
-  let sql = "SELECT * FROM ordertable;";
+  let sql = "SELECT * FROM ordertable ORDER BY idx DESC;";
 
   db.query(sql, (err, result) => {
     if (err) throw err;

@@ -1,21 +1,13 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import AdminMain from "./AdminMain";
-import AdminProduct from "./AdminProduct";
-import AdminOrder from "./AdminOrder";
-import AdminUser from "./AdminUser";
-import AdminBoard from "./AdminBoard";
-import AdminDesign from "./AdminDesign";
-import AdminMobile from "./AdminMobile";
-import AdminPromotion from "./AdminPromotion";
-import AdminSetting from "./AdminSetting";
+import adminlogo from "../../../../assets/icons/setting.png";
+import AdminOrder from "../AdminOrder";
+import classes from "./Admin.module.css";
+import SubOrder from "./SubOrder";
 
-import classes from "./AdminModal.module.css";
-import { useEffect } from "react";
-import axios from "axios";
-
-const AdminModal = ({ check }) => {
+const Admin = () => {
   const navigate = useNavigate();
   const [main, setMain] = useState(true);
   const [product, setProduct] = useState(false);
@@ -26,6 +18,11 @@ const AdminModal = ({ check }) => {
   const [mobile, setMobile] = useState(false);
   const [promotion, setPromotion] = useState(false);
   const [setting, setSetting] = useState(false);
+
+  const [userList, setUserList] = useState([]);
+
+  const [orderList, setOrderList] = useState([]);
+  const [detailOrder, setDetailOrder] = useState({});
 
   const navInfo = [
     {
@@ -156,8 +153,6 @@ const AdminModal = ({ check }) => {
     },
   ];
 
-  const [userList, setUserList] = useState([]);
-
   useEffect(() => {
     const userData = async () => {
       await axios
@@ -167,38 +162,59 @@ const AdminModal = ({ check }) => {
             setUserList(response.data.result);
           }
         });
+
+      await axios
+        .get("http://localhost:5000/admin/api/get/orderList")
+        .then((response) => {
+          setOrderList(response.data);
+        });
     };
     userData();
     document.body.style = `overflow:hidden`;
     return () => (document.body.style = `overlflow:auto`);
   }, []);
-
   return (
-    <React.Fragment>
-      <div className={classes.AdminModal}></div>
+    <Fragment>
+      <div className={classes.backDrop}></div>
+      <div className={classes.admin}>
+        <nav className={classes["admin-nav"]}>
+          <div className={classes["admin-nav-logo"]}>
+            <img
+              className={classes["admin-nav-logo__img"]}
+              src={adminlogo}
+              alt="어드민 로고"
+            />
+            12st Admin
+          </div>
 
-      <div className={classes["modal-container"]}>
-        <div className={classes["admin-nav-wrap"]}>
-          {navInfo.map((it, key) => {
-            return (
-              <button key={key} onClick={it.onClick}>
+          <div className={classes["admin-nav-list"]}>
+            {navInfo.map((it) => (
+              <div
+                className={classes["admin-nav-list__item"]}
+                onClick={it.onClick}
+              >
                 {it.title}
-              </button>
-            );
-          })}
-        </div>
-        {main && <AdminMain />}
-        {product && <AdminProduct />}
-        {order && <AdminOrder />}
-        {user && <AdminUser userList={userList} />}
+              </div>
+            ))}
+          </div>
+        </nav>
+        {/* {main && <AdminMain />}
+        {product && <AdminProduct />} */}
+        {order && (
+          <section className={classes["admin-section"]}>
+            <AdminOrder orderList={orderList} onDetailOrder={setDetailOrder} />
+            <SubOrder detailOrder={detailOrder} />
+          </section>
+        )}
+        {/* {user && <AdminUser userList={userList} />}
         {board && <AdminBoard />}
         {design && <AdminDesign />}
         {mobile && <AdminMobile />}
         {promotion && <AdminPromotion />}
-        {setting && <AdminSetting />}
+        {setting && <AdminSetting />} */}
       </div>
-    </React.Fragment>
+    </Fragment>
   );
 };
 
-export default AdminModal;
+export default Admin;

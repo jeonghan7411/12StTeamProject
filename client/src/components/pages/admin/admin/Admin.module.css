@@ -1,0 +1,67 @@
+.backDrop {
+  position: fixed;
+  background-color: rgb(240, 240, 240);
+
+  width: 100%;
+  height: 100vh;
+
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+}
+
+.admin {
+  background-color: rgb(237, 237, 237);
+  position: fixed;
+  top: 5vh;
+  height: 90%;
+  z-index: 20;
+  width: 1300px;
+
+  border: 1px solid var(--navy-color);
+  border-radius: 5px;
+
+  display: flex;
+  padding: 20px;
+}
+
+.admin-nav {
+  width: 180px;
+  text-align: center;
+}
+
+.admin-nav-logo__img {
+  width: 30px;
+}
+
+.admin-nav-logo {
+  font-weight: bold;
+  font-size: 18px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 30px;
+}
+
+.admin-nav-list {
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 38px;
+}
+
+.admin-nav-list__item {
+  text-align: left;
+  padding: 5px;
+
+  margin-bottom: 20px;
+
+  cursor: pointer;
+}
+
+.admin-section {
+  display: flex;
+}

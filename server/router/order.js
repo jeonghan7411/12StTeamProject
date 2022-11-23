@@ -23,8 +23,6 @@ router.post("/api/addAddr", (req, res) => {
   const { uId, dName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo } =
     req.body.addInfoValue;
 
-  console.log(uId);
-
   console.log(req.body);
   let sql1 = "INSERT INTO deliveryaddr VALUES(NULL, ?, ?, ?, ?, ?, ?, ?);";
   let sql2 =
