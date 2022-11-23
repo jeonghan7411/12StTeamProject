@@ -12,6 +12,7 @@ const User = ({ userList }) => {
   // const perPage = 10;
   const [perPage, setPerPage] = useState(10);
 
+  const [selectUser, setSelectUser] = useState({});
   const [userView, setUserView] = useState(false);
 
   useEffect(() => {
@@ -19,6 +20,16 @@ const User = ({ userList }) => {
     setIndexOfFirstQnA(indexOfLastQnA - perPage);
   }, [currentPage, indexOfFirstQnA, indexOfLastQnA, perPage]);
 
+  const userInfo = (e) => {
+    const user = parseInt(e.target.name);
+    setUserView(true);
+
+    setSelectUser(userList.filter((it) => it.idx === user));
+  };
+
+  const closeUserView = () => {
+    setUserView(false);
+  };
   return (
     <React.Fragment>
       <div className={classes.User}>
@@ -44,32 +55,46 @@ const User = ({ userList }) => {
               </tr>
             </thead>
             <tbody>
-              {userList.slice(indexOfFirstQnA, indexOfLastQnA).map((it) => (
-                <tr>
-                  <td>
-                    <div>
-                      <input type="checkbox" />
-                    </div>
-                  </td>
-                  <td>{it.idx}</td>
-                  <td>
-                    <button
-                      className={classes["user-view"]}
-                      onClick={() => setUserView(true)}
-                      // navigate로 아이디 보내서 select으로 찾기
-                    >
-                      {it.uId}
-                    </button>
-                  </td>
-                  <td>{it.uName}</td>
-                  <td>{it.uEmail}</td>
-                  <td>{it.uBirth}</td>
-                  <td>{it.uRegdate}</td>
-                  <td>{it.uAuth}</td>
-                  <td>Delete</td>
-                </tr>
-              ))}
-              {userView === true && <UserViewModal props={userList} />}
+              {userList
+                .slice(indexOfFirstQnA, indexOfLastQnA)
+                .map((it, key) => (
+                  <tr key={key}>
+                    <td>
+                      <div>
+                        <input type="checkbox" />
+                      </div>
+                    </td>
+                    <td>{it.idx}</td>
+                    <td>
+                      <button
+                        className={classes["user-view"]}
+                        name={it.idx}
+                        onClick={
+                          userInfo
+                          // (e) => {
+                          // setUserView(true);
+                          // setSelectUser(e.target.name);
+                          // }
+                        }
+                        // navigate로 아이디 보내서 select으로 찾기
+                      >
+                        {it.uId}
+                      </button>
+                      {userView === true && (
+                        <UserViewModal
+                          props={selectUser}
+                          onClose={closeUserView}
+                        />
+                      )}
+                    </td>
+                    <td>{it.uName}</td>
+                    <td>{it.uEmail}</td>
+                    <td>{it.uBirth}</td>
+                    <td>{it.uRegdate}</td>
+                    <td>{it.uAuth}</td>
+                    <td>Delete</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

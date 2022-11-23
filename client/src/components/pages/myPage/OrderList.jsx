@@ -74,7 +74,7 @@ const OrderList = () => {
     }
     setSearchResult(result);
   };
-  console.log(searchKeyword);
+
   return (
     <React.Fragment>
       <div className={classes.OrderList}>
