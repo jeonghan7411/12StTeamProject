@@ -32,8 +32,8 @@ const ModalOrderDeliveryInfoChange = ({ onShow, onAddrDate, defalutAddr }) => {
     if (
       !addInfoValue.dName ||
       !addInfoValue.dZipcode ||
-      addInfoValue.dPhone ||
-      addInfoValue.dMemo
+      !addInfoValue.dPhone ||
+      !addInfoValue.dMemo
     ) {
       setFormIsValid(false);
       return;
