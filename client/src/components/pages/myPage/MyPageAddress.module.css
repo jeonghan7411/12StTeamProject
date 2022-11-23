@@ -43,3 +43,11 @@
   background-color: var(--navy-color);
   color: white;
 }
+
+.default-addr {
+  border-top: 2px solid gray;
+
+  margin-top: 100px;
+  padding-top: 30px;
+  width: 800px;
+}

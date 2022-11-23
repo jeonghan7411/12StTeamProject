@@ -202,6 +202,7 @@ const MyPagePassPw = ({ user, setUserPw }) => {
           setUpasswd(newInfo);
           setErrPwMsg("");
         }
+
         break;
 
       case "CheckPasswd":
