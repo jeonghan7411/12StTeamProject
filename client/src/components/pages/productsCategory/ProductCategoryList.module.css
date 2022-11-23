@@ -1,10 +1,11 @@
 .productsCategory-categoryList-wrap {
-  margin-bottom: 20px;
+  margin-bottom: 28px;
   cursor: pointer;
 }
 
 .productsCategory-categoryList {
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: bold;
   display: flex;
   justify-content: space-between;
   align-items: center;

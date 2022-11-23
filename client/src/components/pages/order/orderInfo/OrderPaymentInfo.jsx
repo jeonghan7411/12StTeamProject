@@ -112,7 +112,8 @@ const OrderPaymentInfo = ({
                   >
                     <input
                       type="radio"
-                      onClick={() => onOrderMethod(it)}
+                      value={it}
+                      onChange={(e) => onOrderMethod(e.target.value)}
                       checked={orderInfo.oMethod === it}
                     />
                     <span>{it}</span>

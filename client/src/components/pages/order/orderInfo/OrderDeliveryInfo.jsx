@@ -7,15 +7,22 @@ import { GrClose } from "react-icons/gr";
 
 import classes from "./OrderDeliveryInfo.module.css";
 import { useNavigate } from "react-router-dom";
+import ModalOrderDeliveryInfoChange from "./ModalOrderDeliveryInfoChange";
 
-const OrderDeliveryInfo = ({ addrData, onAddrChange, isOrderComplete }) => {
+const OrderDeliveryInfo = ({
+  addrData,
+  onAddrChange,
+  isOrderComplete,
+  onAddrDate,
+}) => {
   const navigate = useNavigate();
-  const [isShowModal, setIsShowModal] = useState(false);
-  const [addPlace, setAddPlace] = useState(false); //이거써서 밑에 인풋창 띄우고 다시 접기
+  const [isShowModal, setIsShowModal] = useState({
+    changeInfo: false,
+    addInfo: false,
+  });
+
   const { dAdditionalAddr, dAddr, dMemo, dPhone, dZipcode, dName } =
     addrData.defaultAddr;
-
-  console.log(addrData);
 
   const handleSelectAddr = (
     dName,
@@ -31,9 +38,13 @@ const OrderDeliveryInfo = ({ addrData, onAddrChange, isOrderComplete }) => {
 
   return (
     <Fragment>
-      {isShowModal && (
+      {isShowModal.changeInfo && (
         <Modal
-          onClose={() => setIsShowModal(false)}
+          onClose={() =>
+            setIsShowModal((prev) => {
+              return { ...prev, changeInfo: false };
+            })
+          }
           className={classes.modalChangeAddr}
         >
           <header className={classes["modalChangeAddr-header"]}>
@@ -43,6 +54,54 @@ const OrderDeliveryInfo = ({ addrData, onAddrChange, isOrderComplete }) => {
               onClick={() => setIsShowModal(false)}
             />
           </header>
+          <section
+            className={`${classes["modalChangeAddr-section"]} ${classes.defaultAddr}`}
+          >
+            <h4 className={`${classes["modalChangeAddr-section-title"]}`}>
+              기본 배송지
+            </h4>
+            <Card className={classes["modalChangeAddr-section__item"]}>
+              <p className={classes["modalChangeAddr-section__item__name"]}>
+                {dName}
+              </p>
+
+              <p className={classes["modalChangeAddr-section__item__addr"]}>
+                {`${dAddr} [ ${dZipcode} ]`}
+              </p>
+              <p
+                className={
+                  classes["modalChangeAddr-section__item__additionalAddr"]
+                }
+              >
+                {dAdditionalAddr}
+              </p>
+
+              <p className={classes["modalChangeAddr-section__item__phone"]}>
+                {dPhone}
+              </p>
+
+              <p className={classes["modalChangeAddr-section__item__memo"]}>
+                배송요청사항 : {dMemo}
+              </p>
+
+              <div className={classes["modalChangeAddr-section__item__select"]}>
+                <button
+                  onClick={handleSelectAddr.bind(
+                    null,
+                    dName,
+                    dZipcode,
+                    dAddr,
+                    dAdditionalAddr,
+                    dPhone,
+                    dMemo
+                  )}
+                >
+                  선택
+                </button>
+              </div>
+            </Card>
+          </section>
+
           <section className={classes["modalChangeAddr-section"]}>
             {addrData.addrs.map((it, idx) => (
               <Card
@@ -95,16 +154,39 @@ const OrderDeliveryInfo = ({ addrData, onAddrChange, isOrderComplete }) => {
         </Modal>
       )}
 
+      {/* 배송지 추가 */}
+      {isShowModal.addInfo && (
+        <ModalOrderDeliveryInfoChange
+          onShow={setIsShowModal}
+          onAddrDate={onAddrDate}
+          defalutAddr={addrData.defaultAddr}
+        />
+      )}
+
       <div className={classes["orderDeliveryInfo"]}>
         <div className={classes["orderDeliveryInfo-deliveryChange"]}>
           <h4>받는 사람 정보</h4>
 
           {!isOrderComplete && (
             <>
-              <button onClick={() => setIsShowModal(true)}>
+              <button
+                onClick={() =>
+                  setIsShowModal((prev) => {
+                    return { ...prev, changeInfo: true };
+                  })
+                }
+              >
                 받는 사람 정보 변경
               </button>
-              <button onClick={() => setAddPlace(true)}>배송지 변경</button>
+              <button
+                onClick={() =>
+                  setIsShowModal((prev) => {
+                    return { ...prev, addInfo: true };
+                  })
+                }
+              >
+                배송지 추가
+              </button>
             </>
           )}
         </div>
@@ -124,7 +206,6 @@ const OrderDeliveryInfo = ({ addrData, onAddrChange, isOrderComplete }) => {
               <td className={classes["orderDeliveryInfo-table__col2"]}>
                 {`${dAddr} [ ${dZipcode} ] ${dAdditionalAddr}`}
               </td>
-              <button></button>
             </tr>
             <tr>
               <td className={classes["orderDeliveryInfo-table__col1"]}>

@@ -25,8 +25,6 @@ const OrderComplete = () => {
     orderAddr: location.state.addrData,
   });
 
-  console.log(orderCompleteData.orderAddr);
-
   useEffect(() => {
     authCheck();
     getUser(setUser);
