@@ -5,7 +5,7 @@ import classes from "./MyPageUserDelete.module.css";
 
 import axios from "axios";
 import { getUser } from "../../../util/getUser";
-import { authCheck } from "../../../util/authCheck";
+import { authCheck, handleLogout } from "../../../util/authCheck";
 
 const MyPageUserDelete = () => {
   const [userPw, setUserPw] = useState(false);
@@ -22,8 +22,8 @@ const MyPageUserDelete = () => {
         .post("http://localhost:5000/mypage/api/deleteuser", { user })
         .then((response) => {
           if (response.data.status === 200) {
+            handleLogout();
             alert(response.data.message);
-            navigate("/", { replace: true });
           } else {
             navigate(-1, { replace: true });
           }

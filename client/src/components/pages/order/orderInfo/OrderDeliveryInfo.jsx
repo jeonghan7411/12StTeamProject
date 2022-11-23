@@ -6,10 +6,12 @@ import Modal from "../../../UI/Modal";
 import { GrClose } from "react-icons/gr";
 
 import classes from "./OrderDeliveryInfo.module.css";
+import { useNavigate } from "react-router-dom";
 
 const OrderDeliveryInfo = ({ addrData, onAddrChange, isOrderComplete }) => {
+  const navigate = useNavigate();
   const [isShowModal, setIsShowModal] = useState(false);
-
+  const [addPlace, setAddPlace] = useState(false); //이거써서 밑에 인풋창 띄우고 다시 접기
   const { dAdditionalAddr, dAddr, dMemo, dPhone, dZipcode, dName } =
     addrData.defaultAddr;
 
@@ -98,9 +100,12 @@ const OrderDeliveryInfo = ({ addrData, onAddrChange, isOrderComplete }) => {
           <h4>받는 사람 정보</h4>
 
           {!isOrderComplete && (
-            <button onClick={() => setIsShowModal(true)}>
-              받는 사람 정보 변경
-            </button>
+            <>
+              <button onClick={() => setIsShowModal(true)}>
+                받는 사람 정보 변경
+              </button>
+              <button onClick={() => setAddPlace(true)}>배송지 변경</button>
+            </>
           )}
         </div>
 

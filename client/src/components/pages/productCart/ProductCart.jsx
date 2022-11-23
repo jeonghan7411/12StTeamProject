@@ -46,7 +46,9 @@ const ProductCart = () => {
   // 결제 버튼 클릭
   const handlePayment = () => {
     // 상품 전체 선택시
-    if (checkedItems.length === cart.length) {
+    if (checkedItems.length === 0) {
+      alert("상품을 선택해주세요");
+    } else if (checkedItems.length === cart.length) {
       navigate("/order", { state: { order: cart } });
     } else {
       const orderData = checkedItems.map((it) => cart[it - 1]);

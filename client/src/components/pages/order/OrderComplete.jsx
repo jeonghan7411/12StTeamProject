@@ -143,7 +143,7 @@ const OrderComplete = () => {
       </div>
 
       <div className={classes["orderComplete-control"]}>
-        <button onClick={(window.location.href = "/")}>확인</button>
+        <button onClick={() => window.location.replace("/")}>확인</button>
       </div>
     </div>
   );

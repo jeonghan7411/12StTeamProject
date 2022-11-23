@@ -8,6 +8,7 @@ import iconKakao from "../../../assets/icons/kakaoLogin.png";
 import iconApple from "../../../assets/icons/appleLogin.png";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
+import { cookieCheck } from "../../../util/authCheck";
 const Login = ({ setUserToken }) => {
   const [userID, setUserID] = useState("");
   const [userPW, setUserPW] = useState("");
@@ -29,7 +30,7 @@ const Login = ({ setUserToken }) => {
         console.log(response.data);
         window.alert("로그인 성공!");
         setUserToken(response.data.accessToken);
-        window.location.href = "/";
+        window.location.replace("/");
       })
       .catch((error) => {
         console.log(error);
