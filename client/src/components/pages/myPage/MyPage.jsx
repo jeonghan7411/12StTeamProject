@@ -26,24 +26,18 @@ const MyPage = () => {
   }, []);
 
   useEffect(() => {
-    if (isLogin) {
-      const basketData = async () => {
-        await axios
-          .get("http://localhost:5000/mypage/api/getbasket", {
-            withCredentials: true,
-          })
-          .then((response) => {
-            setBasketCount(response.data.count[0]);
-            setBoardData(response.data.result[1]);
-          });
-      };
+    const basketData = async () => {
+      await axios
+        .get("http://localhost:5000/mypage/api/getbasket", {
+          withCredentials: true,
+        })
+        .then((response) => {
+          setBasketCount(response.data.count[0]);
+          setBoardData(response.data.result[1]);
+        });
+    };
 
-      basketData();
-    } else {
-      alert("로그인이 필요합니다.");
-      navigate("/login");
-      return;
-    }
+    basketData();
   }, []);
 
   const reviewCount = boardData.filter((it) => {

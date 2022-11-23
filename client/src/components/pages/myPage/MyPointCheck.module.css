@@ -37,7 +37,7 @@
   display: flex;
   align-items: center;
 
-  justify-content: center;
+  justify-content: space-between;
   border-bottom: 1px solid rgb(220, 220, 220);
   margin-top: 30px;
   padding: 15px;
@@ -60,14 +60,14 @@
   margin: 0 10px;
 }
 
-.check-date-button button {
-  cursor: pointer;
-  font-size: 16px;
+.check-date-button {
+  font-size: 12px;
   font-weight: bold;
   background-color: var(--navy-color);
   color: white;
-  border-radius: 10px;
-  padding: 10px 15px;
+  border-radius: 5px;
+  padding: 8px 15px;
+  margin-left: 15px;
 }
 
 .pointcheck-content-null {
@@ -76,14 +76,8 @@
 }
 
 .select-wrap {
-  margin-top: 30px;
   display: flex;
   justify-content: flex-end;
 
   align-items: center;
-}
-
-.select-wrap label {
-  font-weight: bold;
-  margin-right: 15px;
 }

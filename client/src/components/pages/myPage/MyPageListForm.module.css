@@ -13,12 +13,12 @@
   background-color: var(--navy-color);
   color: white;
   font-weight: bold;
-  font-size: 22px;
+  font-size: 16px;
 }
 
 .pointlist tr,
 .pointlist td {
-  border: 1px solid var(--navy-color);
+  border: 1px solid rgb(220, 220, 220);
 }
 
 .pointlist td {
