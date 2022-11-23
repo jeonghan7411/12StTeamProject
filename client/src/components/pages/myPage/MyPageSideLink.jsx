@@ -7,7 +7,7 @@ const MyPageSideLink = ({ to, text, first }) => {
     <React.Fragment>
       <NavLink
         to={to}
-        className={({ isActive }) => isActive && classes.active}
+        className={({ isActive }) => (isActive ? classes.active : "")}
         end={first && true}
       >
         {text}

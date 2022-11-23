@@ -240,6 +240,32 @@ router.get("/api/addlist", (req, res) => {
   });
 });
 
+router.get("/api/defaultaddr", (req, res) => {
+  const token = req.cookies.accessToken;
+
+  jwt.verify(token, process.env.ACCESS_SECRET_KEY, (err) => {
+    const token = req.cookies.refreshToken;
+    const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
+
+    let sql = "SELECT * from users WHERE uId = ?;";
+    db.query(sql, data.id, (err, user) => {
+      if (err) {
+        throw err;
+      }
+
+      let addrSql = "SELECT * FROM defaultaddress where uId = ?;";
+      db.query(addrSql, [user[0].uId], (err, user) => {
+        if (err) {
+          throw err;
+        } else {
+          res.send({ status: 200, user });
+          console.log(user[0]);
+        }
+      });
+    });
+  });
+});
+
 router.post("/api/addrdelete", (req, res) => {
   const idx = req.body.addUser.idx;
 
@@ -257,9 +283,7 @@ router.post("/api/addrdelete", (req, res) => {
 
 router.post("/api/addrupdate", (req, res) => {
   const uIdx = parseInt(req.body.uIdx);
-  console.log(req.body);
   const { uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo } = req.body;
-  console.log(req.body);
   let sql =
     "UPDATE deliveryaddr SET dName= ?,dZipcode =? ,dAddr =?,dAdditionalAddr=?,dPhone=?,dMemo=? WHERE idx =?;";
   db.query(
@@ -276,7 +300,7 @@ router.post("/api/addrupdate", (req, res) => {
 
 router.post("/api/chocieaddr", (req, res) => {
   const uId = req.body.addUser.uId;
-  const uName = req.body.addUser.uName;
+  const uName = req.body.addUser.dName;
   const dZipcode = req.body.addUser.dZipcode;
   const dAddr = req.body.addUser.dAddr;
   const dAdditionalAddr = req.body.addUser.dAdditionalAddr;
@@ -284,6 +308,7 @@ router.post("/api/chocieaddr", (req, res) => {
   const dMemo = req.body.addUser.dMemo;
   let sql =
     "UPDATE defaultaddress SET dName= ? ,dZipcode=?,dAddr=?,dAdditionalAddr=?,dPhone=?,dMemo=? WHERE uId =?;";
+
   db.query(
     sql,
     [uName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo, uId],

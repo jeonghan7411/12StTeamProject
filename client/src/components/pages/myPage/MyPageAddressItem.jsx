@@ -8,7 +8,13 @@ import MyPageAddressAdd from "./MyPageAddressAdd";
 
 import classes from "./MyPageAddressItem.module.css";
 
-const MyPageAddressItem = ({ addUser, setTargetNum, setUpdateSate }) => {
+const MyPageAddressItem = ({
+  addUser,
+  setTargetNum,
+  setUpdateSate,
+  // reset,
+  // setReset,
+}) => {
   const navigate = useNavigate();
 
   const deleteAddr = async () => {
@@ -79,6 +85,7 @@ const MyPageAddressItem = ({ addUser, setTargetNum, setUpdateSate }) => {
     }
   };
 
+  const [choicedefault, setChoiceDefault] = useState(false);
   const choiceAddr = async () => {
     await axios
       .post("http://localhost:5000/mypage/api/chocieaddr", {
@@ -87,6 +94,8 @@ const MyPageAddressItem = ({ addUser, setTargetNum, setUpdateSate }) => {
       .then((response) => {
         if (response.data.status === 200) {
           alert(response.data.message);
+          setChoiceDefault(true);
+          // setReset(!reset);
         }
       });
   };

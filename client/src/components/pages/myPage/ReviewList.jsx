@@ -26,7 +26,6 @@ const ReviewList = () => {
     setIndexOfFirstQnA(indexOfLastQnA - perPage);
   }, [currentPage, indexOfFirstQnA, indexOfLastQnA, perPage]);
 
-  console.log(boardData);
   const getInfo = boardData.filter((it) => it.bBoardtype === "리뷰");
   return (
     <React.Fragment>

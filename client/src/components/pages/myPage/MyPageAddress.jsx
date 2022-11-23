@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import classes from "./MyPageAddress.module.css";
+import axios from "axios";
 import MyPageAddressAdd from "./MyPageAddressAdd";
 import MyPageAddressItem from "./MyPageAddressItem";
 import MyPageListTitle from "./MyPageListTitle";
 import MyPageNullMsg from "./MyPageNullMsg";
 
-import axios from "axios";
-
 import { getUser } from "../../../util/getUser";
-import { authCheck } from "../../../util/authCheck";
+import { authCheck, cookieCheck } from "../../../util/authCheck";
 
+import classes from "./MyPageAddress.module.css";
 const MyPageAddress = () => {
   const [user, setUser] = useState({}); //유저 정보 받아오는 곳
 
@@ -18,13 +16,9 @@ const MyPageAddress = () => {
   const [reset, setReset] = useState(false);
 
   const [addAddress, setAddAddress] = useState(false);
-
-  const navigate = useNavigate();
+  const [defaultAddr, setDefaultAddr] = useState([]);
 
   useEffect(() => {
-    authCheck();
-    getUser(setUser);
-
     const addlist = async () => {
       await axios
         .get(
@@ -40,24 +34,23 @@ const MyPageAddress = () => {
           }
         });
     };
+
+    const defaultaddr = async () => {
+      await axios
+        .get("http://localhost:5000/mypage/api/defaultaddr", {
+          withCredentials: true,
+        })
+        .then((response) => {
+          if (response.data.status === 200) {
+            setDefaultAddr(response.data.user);
+          }
+        });
+    };
+    defaultaddr();
     addlist();
   }, [reset]);
 
-  // const addDeliver = async () => {
-  //   await axios
-  //     .post("http://localhost:5000/mypage/api/adddeliver", { user, uMemo })
-  //     .then((response) => {
-  //       if (response.data.status === 200) {
-  //         alert(response.data.message);
-  //         setReset(!reset);
-  //         // window.location.href = "http://localhost:3000/mypage/mypageaddress";
-  //       }
-  //     });
-  //   setAddAddress(!addAddress);
-  // };
-
   const [updateState, setUpdateSate] = useState(false);
-  // const [testa, setTestA] = useState({});
 
   const [targetNum, setTargetNum] = useState("");
 
@@ -66,15 +59,18 @@ const MyPageAddress = () => {
     setTargetNum(e.target.name);
   };
 
-  const addAddressItem = async (e) => {
-    e.preventDefault();
-    // addDeliver();
-  };
-
+  console.log(defaultAddr[0]);
   return (
     <React.Fragment>
       <div className={classes.MyPageAddress}>
         <div>
+          <MyPageListTitle text={"기본 배송지"} />
+        </div>
+        {/* <div>
+          <MyPageAddressItem addUser={defaultAddr[0]} />
+        </div> */}
+
+        <div className={classes["default-addr"]}>
           <MyPageListTitle text={"배송지 관리"} />
         </div>
         {addAddress === true ? (
@@ -86,32 +82,29 @@ const MyPageAddress = () => {
             setReset={setReset}
           />
         ) : (
-          <>
-            <div>
-              {addUser.length === 0 && (
-                <MyPageNullMsg
-                  className={classes["address-content-null"]}
-                  text={"등록된 주소가 없습니다."}
-                />
-              )}
+          <div>
+            {addUser.length === 0 && (
+              <MyPageNullMsg
+                className={classes["address-content-null"]}
+                text={"등록된 주소가 없습니다."}
+              />
+            )}
 
-              {addUser.map((user, key) => (
-                <>
-                  <MyPageAddressItem
-                    key={key}
-                    addUser={user}
-                    getNum={getNum}
-                    targetNum={targetNum}
-                    setTargetNum={setTargetNum}
-                    setUpdateSate={setUpdateSate}
-                  />
-                </>
-              ))}
-            </div>
-          </>
+            {addUser.map((user, idx) => (
+              <MyPageAddressItem
+                key={idx}
+                addUser={user}
+                getNum={getNum}
+                targetNum={targetNum}
+                setTargetNum={setTargetNum}
+                setUpdateSate={setUpdateSate}
+                reset={reset}
+                setReset={setReset}
+              />
+            ))}
+          </div>
         )}
         <div className={classes["address-wrap-content"]}></div>
-
         <div className={classes["address-wrap-button"]}>
           {addAddress === false && updateState === false ? (
             <button type="button" onClick={() => setAddAddress(true)}>
