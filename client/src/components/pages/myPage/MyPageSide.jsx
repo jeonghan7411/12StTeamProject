@@ -13,12 +13,6 @@ const MyPageSide = () => {
             <MyPageSideLink to="/mypage" text={"주문목록"} first={true} />
           </div>
 
-          <div>
-            <MyPageSideLink
-              to="cancel-return-exchange"
-              text={"취소/반품/교환/환불 내역"}
-            />
-          </div>
           <hr />
         </div>
 

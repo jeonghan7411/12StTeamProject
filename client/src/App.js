@@ -11,7 +11,6 @@ import Login from "./components/pages/login/Login";
 import Regist from "./components/pages/regist/Regist";
 import MyPage from "./components/pages/myPage/MyPage";
 import OrderList from "./components/pages/myPage/OrderList";
-import CrlList from "./components/pages/myPage/CrlList";
 import ProductsBest from "./components/pages/productBest/ProductsBest";
 import ProductsCategory from "./components/pages/productsCategory/ProductsCategory";
 import MyPointCheck from "./components/pages/myPage/MyPointCheck";
@@ -87,7 +86,6 @@ function App() {
                   <Route path="reviewwrite" element={<ReviewWrite />} />
                   <Route path="reviewlist" element={<ReviewList />} />
 
-                  <Route path="cancel-return-exchange" element={<CrlList />} />
                   <Route path="mypointcheck" element={<MyPointCheck />} />
                   <Route path="mypageinquiry" element={<MyPageInquiry />} />
                   <Route

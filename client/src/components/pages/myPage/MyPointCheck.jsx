@@ -23,7 +23,7 @@ const MyPointCheck = () => {
   const [currentPage, setCurrntPage] = useState(1); // 현재페이지
   const [indexOfLastQnA, setIndexOfLastQnA] = useState(0);
   const [indexOfFirstQnA, setIndexOfFirstQnA] = useState(0);
-  const [perPage, setPerPage] = useState(10);
+  const [perPage, setPerPage] = useState(5);
 
   const mile = parseInt(user.uMile);
   const pointCheck = true;
@@ -118,9 +118,10 @@ const MyPointCheck = () => {
                 <select
                   // type={Number}
                   value={perPage}
-                  onChange={({ target: { value } }) =>
-                    setPerPage(Number(value))
-                  }
+                  onChange={({ target: { value } }) => {
+                    setPerPage(Number(value));
+                    setCurrntPage(1);
+                  }}
                 >
                   <option value="1">1개씩 보기</option>
                   <option value="3">3개씩 보기</option>

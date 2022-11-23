@@ -9,10 +9,13 @@
 
 .address-wrap-button {
   width: 400px;
-  margin-top: 50px;
+
   display: flex;
   justify-content: center;
+
+  margin-top: 50px;
   margin-left: 300px;
+  margin-bottom: 50px;
 }
 
 .address-wrap-button button {

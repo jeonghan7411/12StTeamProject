@@ -9,6 +9,9 @@ import { getUser } from "../../../util/getUser";
 import { authCheck, cookieCheck } from "../../../util/authCheck";
 
 import classes from "./MyPageAddress.module.css";
+
+import Pagination from "react-js-pagination";
+import DefaultAddr from "./DefaultAddr";
 const MyPageAddress = () => {
   const [user, setUser] = useState({}); //유저 정보 받아오는 곳
 
@@ -16,9 +19,20 @@ const MyPageAddress = () => {
   const [reset, setReset] = useState(false);
 
   const [addAddress, setAddAddress] = useState(false);
-  const [defaultAddr, setDefaultAddr] = useState([]);
+
+  const [currentPage, setCurrntPage] = useState(1); // 현재페이지
+  const [indexOfLastQnA, setIndexOfLastQnA] = useState(0);
+  const [indexOfFirstQnA, setIndexOfFirstQnA] = useState(0);
+  const [perPage, setPerPage] = useState(3);
+
+  const [choicedefault, setChoiceDefault] = useState(false);
+
+  const [updateState, setUpdateSate] = useState(false);
+
+  const [targetNum, setTargetNum] = useState("");
 
   useEffect(() => {
+    getUser(setUser);
     const addlist = async () => {
       await axios
         .get(
@@ -35,44 +49,47 @@ const MyPageAddress = () => {
         });
     };
 
-    const defaultaddr = async () => {
-      await axios
-        .get("http://localhost:5000/mypage/api/defaultaddr", {
-          withCredentials: true,
-        })
-        .then((response) => {
-          if (response.data.status === 200) {
-            setDefaultAddr(response.data.user);
-          }
-        });
-    };
-    defaultaddr();
     addlist();
-  }, [reset]);
-
-  const [updateState, setUpdateSate] = useState(false);
-
-  const [targetNum, setTargetNum] = useState("");
+    setIndexOfLastQnA(currentPage * perPage);
+    setIndexOfFirstQnA(indexOfLastQnA - perPage);
+  }, [reset, currentPage, indexOfFirstQnA, indexOfLastQnA, perPage]);
 
   const getNum = (e) => {
     setUpdateSate(true);
     setTargetNum(e.target.name);
   };
 
-  console.log(defaultAddr[0]);
   return (
     <React.Fragment>
       <div className={classes.MyPageAddress}>
-        <div>
-          <MyPageListTitle text={"기본 배송지"} />
-        </div>
-        {/* <div>
-          <MyPageAddressItem addUser={defaultAddr[0]} />
-        </div> */}
+        {addAddress === false && (
+          <>
+            <div>
+              <MyPageListTitle text={"기본 배송지"} />
+            </div>
+            <DefaultAddr user={addUser} choicedefault={choicedefault} />
+            <div className={classes["default-addr"]}>
+              <div>
+                <MyPageListTitle text={"배송지 관리"} />
+              </div>
+              <div className={classes["select-wrap"]}>
+                <label>표시할 게시물</label>
+                <select
+                  // type={Number}
+                  value={perPage}
+                  onChange={({ target: { value } }) => {
+                    setPerPage(Number(value));
+                    setCurrntPage(1);
+                  }}
+                >
+                  <option value="1">1개씩 보기</option>
+                  <option value="3">3개씩 보기</option>
+                </select>
+              </div>
+            </div>
+          </>
+        )}
 
-        <div className={classes["default-addr"]}>
-          <MyPageListTitle text={"배송지 관리"} />
-        </div>
         {addAddress === true ? (
           <MyPageAddressAdd
             user={user}
@@ -90,17 +107,19 @@ const MyPageAddress = () => {
               />
             )}
 
-            {addUser.map((user, idx) => (
-              <MyPageAddressItem
-                key={idx}
-                addUser={user}
-                getNum={getNum}
-                targetNum={targetNum}
-                setTargetNum={setTargetNum}
-                setUpdateSate={setUpdateSate}
-                reset={reset}
-                setReset={setReset}
-              />
+            {addUser.slice(indexOfFirstQnA, indexOfLastQnA).map((user, idx) => (
+              <div className={classes["addr-wrap-item"]}>
+                <MyPageAddressItem
+                  key={idx}
+                  addUser={user}
+                  getNum={getNum}
+                  targetNum={targetNum}
+                  setTargetNum={setTargetNum}
+                  setUpdateSate={setUpdateSate}
+                  choicedefault={choicedefault}
+                  setChoiceDefault={setChoiceDefault}
+                />
+              </div>
             ))}
           </div>
         )}
@@ -114,6 +133,20 @@ const MyPageAddress = () => {
             <></>
           )}
         </div>
+
+        {addUser.length != 0 && (
+          <div>
+            <Pagination
+              activePage={currentPage} // 현재 페이지
+              itemsCountPerPage={perPage} // 한페이지당 보여줄 아이템 갯수
+              totalItemsCount={addUser.length} // 총 아이템 갯수
+              pageRangeDisplayed={5} // 페이지네이터 내에서 보여줄 페이지 범위
+              prevPageText={"<"}
+              nextPageText={">"}
+              onChange={setCurrntPage} // 페이지가 바뀔때 핸들링해주는 함수
+            />
+          </div>
+        )}
       </div>
     </React.Fragment>
   );
