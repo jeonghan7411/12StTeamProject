@@ -109,7 +109,9 @@ const OrderList = () => {
           <select
             // type={Number}
             value={perPage}
-            onChange={({ target: { value } }) => setPerPage(Number(value))}
+            onChange={({ target: { value } }) =>
+              setPerPage(Number(value), setCurrntPage(1))
+            }
           >
             <option value="1">1개씩 보기</option>
             <option value="3">3개씩 보기</option>

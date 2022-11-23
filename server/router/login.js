@@ -163,5 +163,14 @@ router.get("/api/login/getusername", (req, res) => {
     return;
   }
 });
+// 쿠키 여부 체크
+router.get("/api/login/cookiecheck", (req, res) => {
+  const token = req.cookies.token;
+  if (token === undefined) {
+    res.send("checkFail");
+  } else {
+    console.log("checkSuccess");
+  }
+});
 
 module.exports = router;
