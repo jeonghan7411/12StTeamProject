@@ -23,6 +23,19 @@ export const cookieCheck = async (setIsLogin, setUser) => {
       }
     });
 };
+export const cookieCheckLogin = async (setIsLogin) => {
+  await axios
+    .get("http://localhost:5000/login/api/login/cookiecheck", {
+      withCredentials: true,
+    })
+    .then((response) => {
+      if (response.data === "checkSuccess") {
+        setIsLogin(true);
+      } else {
+        setIsLogin(false);
+      }
+    });
+};
 export const authCheck = async () => {
   await axios
     .get("http://localhost:5000/login/api/login/success", {
