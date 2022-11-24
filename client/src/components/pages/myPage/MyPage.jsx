@@ -80,19 +80,27 @@ const MyPage = ({ isLogin }) => {
         <div className={classes["mypage-quick-btn"]}>
           <div className={classes["mypage-quick-item"]}>
             <div>
-              <NavLink to="mypageinquirylist">{inquiryCount.length}</NavLink>
+              <NavLink to="mypageinquirylist">
+                {inquiryCount.length === "NaN" ? 0 : inquiryCount.length}
+              </NavLink>
             </div>
             <div>문의 내역 </div>
           </div>
           <div className={classes["mypage-quick-item"]}>
             <div>
-              <NavLink to="reviewlist">{reviewCount.length}</NavLink>
+              <NavLink to="reviewlist">
+                {reviewCount.length === "NaN" ? 0 : reviewCount.length}
+              </NavLink>
             </div>
             <div>상품평</div>
           </div>
           <div className={classes["mypage-quick-item"]}>
             <div>
-              <NavLink to="/cart">{Object.values(basketCount)}</NavLink>
+              <NavLink to="/cart">
+                {Object.values(basketCount).length === 0
+                  ? 0
+                  : Object.values(basketCount)}
+              </NavLink>
             </div>
             <div>장바구니</div>
           </div>

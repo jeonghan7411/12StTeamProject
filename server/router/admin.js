@@ -71,6 +71,22 @@ router.get("/api/userlist", (req, res) => {
   });
 });
 
+router.post("/api/updateUser", (req, res) => {
+  const idx = req.body.detailUser.idx;
+  const auth = req.body.sendAuth;
+  let sql = "UPDATE users SET uAuth = ? WHERE idx = ?";
+
+  db.query(sql, [auth, idx], (err) => {
+    if (err) {
+      throw err;
+    }
+    res.send({
+      status: 200,
+      message: "권한 변경 완료",
+    });
+  });
+});
+
 router.post("/api/userOut", (req, res) => {
   const uId = req.body.uId;
   let sql = "UPDATE users SET uAuth = 0 WHERE uId = ?";
