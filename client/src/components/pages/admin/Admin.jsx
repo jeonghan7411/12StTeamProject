@@ -6,9 +6,10 @@ import adminlogo from "../../../assets/icons/setting.png";
 import { authCheck } from "../../../util/authCheck";
 import { getUser } from "../../../util/getUser";
 import AdminOrder from "./AdminOrder";
-import classes from "./Admin.module.css";
 import SubOrder from "./SubOrder";
+import SubUser from "./SubUser";
 import AdminUser from "./AdminUser";
+import classes from "./Admin.module.css";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -23,6 +24,9 @@ const Admin = () => {
   const [setting, setSetting] = useState(false);
 
   const [userList, setUserList] = useState([]);
+  const [detailUser, setDetailUser] = useState({});
+
+  const [showDetail, setShowDetail] = useState(false);
 
   const [orderList, setOrderList] = useState([]);
   const [detailOrder, setDetailOrder] = useState({});
@@ -189,6 +193,7 @@ const Admin = () => {
     window.location.href = "/";
     return null;
   }
+
   return (
     <Fragment>
       <div className={classes.backDrop}></div>
@@ -222,7 +227,22 @@ const Admin = () => {
             <SubOrder detailOrder={detailOrder} />
           </section>
         )}
-        {userinfo && <AdminUser userList={userList} setReset={setReset} />}
+        {userinfo && (
+          <section className={classes["admin-section"]}>
+            <AdminUser
+              userList={userList}
+              setReset={setReset}
+              setDetailUser={setDetailUser}
+              showDetail={showDetail}
+              setShowDetail={setShowDetail}
+            />
+            <SubUser
+              detailUser={detailUser}
+              showDetail={showDetail}
+              setShowDetail={setShowDetail}
+            />
+          </section>
+        )}
         {/* {board && <AdminBoard />}
         {design && <AdminDesign />}
         {mobile && <AdminMobile />}
