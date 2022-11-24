@@ -11,7 +11,6 @@ import Login from "./components/pages/login/Login";
 import Regist from "./components/pages/regist/Regist";
 import MyPage from "./components/pages/myPage/MyPage";
 import OrderList from "./components/pages/myPage/OrderList";
-import CrlList from "./components/pages/myPage/CrlList";
 import ProductsBest from "./components/pages/productBest/ProductsBest";
 import ProductsCategory from "./components/pages/productsCategory/ProductsCategory";
 import MyPointCheck from "./components/pages/myPage/MyPointCheck";
@@ -33,14 +32,13 @@ import SearchResult from "./components/pages/search/SearchResult";
 
 import { getUser } from "./util/getUser";
 import ReviewList from "./components/pages/myPage/ReviewList";
+import Admin from "./components/pages/admin/admin/Admin";
 
 function App() {
   const [userToken, setUserToken] = useState();
-  const [user, setUser] = useState({});
+
   const [data, setData] = useState([]);
   const [bestProduct, setBestProduct] = useState([]);
-
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,6 +64,8 @@ function App() {
           <main className={classes.main}>
             <Routes>
               <Route>
+                {/* element={} */}
+                {/* <Admin /> */}
                 <Route path="/admin" element={<AdminHome />} />
                 <Route
                   path="/"
@@ -87,7 +87,6 @@ function App() {
                   <Route path="reviewwrite" element={<ReviewWrite />} />
                   <Route path="reviewlist" element={<ReviewList />} />
 
-                  <Route path="cancel-return-exchange" element={<CrlList />} />
                   <Route path="mypointcheck" element={<MyPointCheck />} />
                   <Route path="mypageinquiry" element={<MyPageInquiry />} />
                   <Route

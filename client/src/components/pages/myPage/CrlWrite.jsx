@@ -50,8 +50,9 @@ const CrlWrite = () => {
 
   const crlWriteSubmit = (e) => {
     e.preventDefault();
-
-    if (bBoardtype === undefined || bBoardtype === "0") {
+    if (bContent === undefined || bContent.replace(/(\s*)/g, "").length < 10) {
+      alert("최소 10글자를 작성해주세요.");
+    } else if (bBoardtype === undefined || bBoardtype === "0") {
       alert("문의 유형을 선택해주세요");
     } else {
       const uId = user.uId;
@@ -69,7 +70,7 @@ const CrlWrite = () => {
             if (response.data.status === 200) {
               alert(response.data.message);
               window.location.href =
-                "http://localhost:3000/mypage/cancel-return-exchange";
+                "http://localhost:3000/mypage/mypageinquirylist";
             }
           });
       };

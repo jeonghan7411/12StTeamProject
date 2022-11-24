@@ -9,21 +9,21 @@
 
 .modalOrderDeliveryInfoChange header {
   width: 100%;
-  height: 50px;
-  background-color: var(--navy-color);
-  color: white;
+  height: 80px;
+  border-bottom: 1px solid rgb(230, 230, 230);
+
+  font-size: 20px;
+  font-weight: bold;
 
   display: flex;
-  justify-content: center;
   align-items: center;
-
-  font-size: 18px;
-
-  margin-bottom: 50px;
+  justify-content: center;
 }
 
 .modalOrderDeliveryInfoChange-inputWrap {
-  width: 90%;
+  width: 100%;
+  background-color: rgb(230, 230, 230);
+  padding: 40px 20px;
 }
 
 .modalOrderDeliveryInfoChange-inputWrap input::placeholder {
@@ -31,8 +31,6 @@
 }
 
 .modalOrderDeliveryInfoChange-input {
-  width: 100%;
-
   border: 1px solid #ccc;
 
   display: flex;
@@ -44,6 +42,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: white;
 
   border-right: 1px solid #ccc;
 }
@@ -83,11 +82,20 @@
   justify-content: center;
   color: var(--red-color);
   cursor: pointer;
+  background-color: white;
+}
+
+.modalOrderDeliveryInfoChange-err {
+  font-size: 16px;
+  color: var(--red-color);
 }
 
 .modalOrderDeliveryInfoChange-control {
+  width: 100%;
   text-align: center;
-  margin-bottom: 50px;
+  padding-bottom: 50px;
+  border-radius: 0 0 18px 18px;
+  background-color: rgb(230, 230, 230);
 }
 
 .modalOrderDeliveryInfoChange-control button {
@@ -97,7 +105,7 @@
 }
 
 .modalOrderDeliveryInfoChange-control__cancle {
-  background-color: #e4e4e4;
+  background-color: white;
   margin-right: 30px;
 }
 

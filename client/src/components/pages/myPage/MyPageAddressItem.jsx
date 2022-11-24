@@ -2,9 +2,8 @@ import axios from "axios";
 import React, { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 import AddressModal from "../../layout/AddressModal";
-import MyPageAddressAdd from "./MyPageAddressAdd";
 
 import classes from "./MyPageAddressItem.module.css";
 
@@ -12,11 +11,9 @@ const MyPageAddressItem = ({
   addUser,
   setTargetNum,
   setUpdateSate,
-  // reset,
-  // setReset,
+  choicedefault,
+  setChoiceDefault,
 }) => {
-  const navigate = useNavigate();
-
   const deleteAddr = async () => {
     if (window.confirm("삭제 하시겠습니까?")) {
       await axios
@@ -32,7 +29,7 @@ const MyPageAddressItem = ({
   };
 
   const [uIdx, setUidx] = useState(addUser.idx);
-  const [uName, setUname] = useState(addUser.uName);
+  const [dName, setUname] = useState(addUser.dName);
 
   const [dZipcode, setDzipcode] = useState(addUser.dZipcode);
   const [dAddr, setDaddr] = useState(addUser.dAddr);
@@ -85,16 +82,15 @@ const MyPageAddressItem = ({
     }
   };
 
-  const [choicedefault, setChoiceDefault] = useState(false);
   const choiceAddr = async () => {
     await axios
-      .post("http://localhost:5000/mypage/api/chocieaddr", {
+      .post("http://localhost:5000/mypage/api/choiceaddr", {
         addUser,
       })
       .then((response) => {
         if (response.data.status === 200) {
           alert(response.data.message);
-          setChoiceDefault(true);
+          setChoiceDefault(!choicedefault);
           // setReset(!reset);
         }
       });
@@ -190,7 +186,7 @@ const MyPageAddressItem = ({
       await axios
         .post("http://localhost:5000/mypage/api/addrupdate", {
           uIdx,
-          uName,
+          dName,
           dZipcode,
           dAddr,
           dAdditionalAddr,
@@ -201,7 +197,6 @@ const MyPageAddressItem = ({
           if (response.data.status === 200) {
             alert(response.data.message);
             window.location.href = "http://localhost:3000/mypage/mypageaddress";
-            // setUpdateSate(true);
           }
         });
     }

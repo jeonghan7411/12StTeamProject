@@ -32,24 +32,10 @@ const MyPageUserDelete = () => {
   };
 
   useEffect(() => {
-    // const fetchData = async () => {
-    //   await axios
-    //     .get("http://localhost:5000/mypage", { withCredentials: true })
-    //     .then((response) => {
-    //       if (response.data.status === 401) {
-    //         alert(response.data.message);
-    //         navigate("/login", { replace: true });
-    //       } else if (response.data.status === 200) {
-    //         getUser(setUser);
-    //       }
-    //     });
-    // };
-
-    // fetchData();
     authCheck();
     getUser(setUser);
   }, []);
-  console.log(user);
+
   return (
     <React.Fragment>
       <div className={classes.MyPageUserDelete}>

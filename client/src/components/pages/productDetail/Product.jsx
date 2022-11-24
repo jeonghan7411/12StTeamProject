@@ -21,7 +21,7 @@ const Product = () => {
     productInquire: [],
   });
 
-  const [currentMenu, setCurrentMenu] = useState("상품평");
+  const [currentMenu, setCurrentMenu] = useState("상품상세");
   const [currentImg, setCurrentImg] = useState();
   const [orderValue, setOrderValue] = useState(1);
   const [order, setOrder] = useState([]);

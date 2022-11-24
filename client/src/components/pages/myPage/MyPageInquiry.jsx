@@ -45,8 +45,9 @@ const MyPageInquiry = () => {
 
   const inquirySubmit = (e) => {
     e.preventDefault();
-
-    if (bBoardtype === undefined || bBoardtype === "0") {
+    if (bContent === undefined || bContent.replace(/(\s*)/g, "").length < 10) {
+      alert("최소 10글자를 작성해주세요.");
+    } else if (bBoardtype === undefined || bBoardtype === "0") {
       alert("문의 유형을 선택해주세요");
     } else {
       const uId = user.uId;

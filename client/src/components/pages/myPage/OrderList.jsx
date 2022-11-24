@@ -13,9 +13,11 @@ import { getUser } from "../../../util/getUser";
 import axios from "axios";
 
 import { RiCreativeCommonsZeroLine } from "react-icons/ri";
+import { useOutletContext } from "react-router-dom";
 
 const OrderList = () => {
-  const [user, setUser] = useState();
+  // const [user, setUser] = useState();
+
   const [orderList, setOrderList] = useState([]);
 
   const [searchState, setSearchState] = useState(false);
@@ -26,11 +28,11 @@ const OrderList = () => {
   const [indexOfLastQnA, setIndexOfLastQnA] = useState(0);
   const [indexOfFirstQnA, setIndexOfFirstQnA] = useState(0);
   // const perPage = 10;
-  const [perPage, setPerPage] = useState(10);
+  const [perPage, setPerPage] = useState(5);
 
   useEffect(() => {
     authCheck();
-    getUser(setUser);
+    // getUser(setUser);
     const fetchData = async () => {
       await axios
         .get("http://localhost:5000/mypage/api/orderlist", {

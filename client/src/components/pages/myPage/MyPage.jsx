@@ -18,8 +18,6 @@ const MyPage = () => {
   const mile = parseInt(user.uMile);
   const [basketCount, setBasketCount] = useState("");
   const [boardData, setBoardData] = useState([]);
-  // const [c, setReviewCount] = useState([]);
-  // const [inquiryCount, setInquiryCount] = useState([]);
 
   useEffect(() => {
     cookieCheck(setIsLogin, setUser);
@@ -80,9 +78,9 @@ const MyPage = () => {
         <div className={classes["mypage-quick-btn"]}>
           <div className={classes["mypage-quick-item"]}>
             <div>
-              <NavLink to="">{inquiryCount.length}</NavLink>
+              <NavLink to="mypageinquirylist">{inquiryCount.length}</NavLink>
             </div>
-            <div>문의/교환 환불 내역 </div>
+            <div>문의 내역 </div>
           </div>
           <div className={classes["mypage-quick-item"]}>
             <div>

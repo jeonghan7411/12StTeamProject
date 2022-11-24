@@ -71,7 +71,7 @@ const MyPageCheckPw = ({ user, setUserPw }) => {
               <div
                 className={`${classes["checkpw-input"]} ${classes["checkpw-input-id"]}`}
               >
-                <input type="text" readOnly value={user.uName} />
+                <input type="text" readOnly defaultValue={user.uName} />
               </div>
             </div>
 
