@@ -27,10 +27,14 @@ const Login = ({ setUserToken }) => {
         { withCredentials: true }
       )
       .then((response) => {
-        console.log(response.data);
-        window.alert("로그인 성공!");
-        setUserToken(response.data.accessToken);
-        window.location.replace("/");
+        if (response.data === "secession") {
+          window.location.reload();
+          alert("이미 탈퇴한 회원입니다");
+        } else {
+          window.alert("로그인 성공!");
+          setUserToken(response.data.accessToken);
+          window.location.replace("/");
+        }
       })
       .catch((error) => {
         console.log(error);
