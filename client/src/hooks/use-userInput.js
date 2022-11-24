@@ -1,22 +1,39 @@
 import { useReducer } from "react";
 
 // 유효성 검사 로직
+const nameCheck = /^[가-힝a-zA-Z]{2,}$/;
+const pwCheck = /[a-zA-Zㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g;
+const numCheck = /[0-9]/g;
+const spcCheck = /[!@#]/;
+// const phoneCheck = /^\d{3}\d{3,4}\d{4}$/;
+const telPhoneCheck = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
+
 const checkId = (value) =>
   value.trim().length >= 5 && value.trim().length <= 20;
 
-const checkName = (value) => value.trim().length >= 2;
+const checkName = (value) => nameCheck.exec(value);
 
-const checkPasswd = (value) => value.trim().length >= 8;
+const checkPasswd = (value) =>
+  value.trim().length >= 8 &&
+  value.trim().length < 15 &&
+  pwCheck.exec(value) &&
+  numCheck.exec(value) &&
+  spcCheck.exec(value);
 
 const checkEmail = (value) => value.trim().length >= 2;
 
 const checkAdditionalEmail = (value) => value.trim().length >= 1;
 
-const checkPhone = (value) => value.trim().length >= 11;
+const checkPhone = (value) =>
+  value.trim().length <= 11 &&
+  value.trim().length >= 10 &&
+  numCheck.exec(value);
 
-const checkAdditionalAddress = (value) => value.trim().length >= 1;
+const checkAdditionalAddress = (value) =>
+  value.trim().length >= 1 && !spcCheck.exec(value);
 
-const checkBirth = (value) => value.trim().length === 8;
+const checkBirth = (value) =>
+  value.trim().length === 8 && !numCheck.exec(value);
 
 // 초기값 설정
 const initialInputState = {

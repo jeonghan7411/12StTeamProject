@@ -4,17 +4,18 @@ import React, { useState } from "react";
 import classes from "./SubProducts.module.css";
 const SubProducts = ({ detailProduct, onDetailProduct, setReset }) => {
   const [isUpdate, setIsUpdate] = useState(false);
+  const [isValid, setIsValid] = useState(true);
 
   const stringCheck = /[a-zA-Zㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g;
   const numCheck = /[0-9]/g;
 
-  let isValid =
-    stringCheck.exec(detailProduct.title) &&
-    numCheck.exec(detailProduct.price) &&
-    numCheck.exec(detailProduct.pDiscount) &&
-    detailProduct.mallname.length !== 0;
-
   const handleUpdate = async () => {
+    setIsValid(
+      stringCheck.exec(detailProduct.title) &&
+        numCheck.exec(detailProduct.price) &&
+        numCheck.exec(detailProduct.pDiscount) &&
+        detailProduct.mallname.length !== 0
+    );
     if (!isValid) {
       return;
     } else {
