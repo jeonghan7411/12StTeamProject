@@ -183,17 +183,14 @@ const RegistUserInfoInput = () => {
           uBirth: enteredBirth,
         })
         .then((response) => {
-          if (response.data.status === "200") {
+          if (response.data.status === 200) {
             window.alert("회원가입을 축하드립니다.");
 
             reset();
 
             navigate("/");
-          } else if (response.data.status === "400") {
-            window.alert("관리자에게 문의 부탁드립니다.");
           }
         });
-      navigate("/");
     }
   };
 
@@ -238,6 +235,7 @@ const RegistUserInfoInput = () => {
               id="id"
               type="text"
               text="아이디"
+              readOnly={isDuplication}
               value={enteredId}
               className={idInputClasses}
               onChange={handleIdChange}
@@ -254,7 +252,7 @@ const RegistUserInfoInput = () => {
           <div className={classes["sectionUserInfoInput-feedback"]}>
             {idHasError && (
               <p className={classes["sectionUserInfoInput-error"]}>
-                5~20자의 영문 소문자, 숫자와 특수기호(_), (-)만 사용 가능합니다.
+                5~20자의 영문 소문자만 사용 가능합니다.
               </p>
             )}
           </div>
@@ -271,7 +269,7 @@ const RegistUserInfoInput = () => {
           <div className={classes["sectionUserInfoInput-feedback"]}>
             {nameHasError && (
               <p className={classes["sectionUserInfoInput-error"]}>
-                유효한 형식이 아닙니다.
+                이름은 최소 2글자에서 최대 5글자 입력이 가능합니다.
               </p>
             )}
           </div>
@@ -288,8 +286,8 @@ const RegistUserInfoInput = () => {
           <div className={classes["sectionUserInfoInput-feedback"]}>
             {passwdHasError && (
               <p className={classes["sectionUserInfoInput-error"]}>
-                영문, 숫자, 특수문자를 포함한 8자 이상의 비밀번호를
-                입력해주세요.
+                비밀번호는 8~15글자 입력이 가능하며, ! @ # 중 하나를 포함,
+                문자와 숫자는 1개 이상 포함되어야합니다.
               </p>
             )}
           </div>
@@ -349,7 +347,7 @@ const RegistUserInfoInput = () => {
           <div className={classes["sectionUserInfoInput-feedback"]}>
             {phoneHasError && (
               <p className={classes["sectionUserInfoInput-error"]}>
-                유효하지 않은 전화번호 입력입니다.
+                전화번호는 10~11자리를 입력해야하며, 숫자만 입력이 가능합니다.
               </p>
             )}
           </div>
@@ -399,7 +397,7 @@ const RegistUserInfoInput = () => {
           <div className={classes["sectionUserInfoInput-feedback"]}>
             {additionalAddressHasError && (
               <p className={classes["sectionUserInfoInput-error"]}>
-                정확한 배송을 위해 추가 정보를 입력해주세요.
+                상세주소는 특수 문자를 제외한 1글자 이상을 입력해야합니다.
               </p>
             )}
           </div>

@@ -25,9 +25,11 @@ const SubOrder = ({ detailOrder }) => {
       <p className={classes["subOrder-content__data"]}>{detailOrder.oName}</p>
 
       <p className={classes["subOrder-content__title"]}>배송지</p>
-      <p
-        className={classes["subOrder-content__data"]}
-      >{`${detailOrder.oAddr} [${detailOrder.oZipcode}]  ${detailOrder.oAdditionalAddr}`}</p>
+      <p className={classes["subOrder-content__data"]}>
+        {detailOrder.oAddr
+          ? `${detailOrder.oAddr} [${detailOrder.oZipcode}]  ${detailOrder.oAdditionalAddr}`
+          : ""}
+      </p>
 
       <p className={classes["subOrder-content__title"]}>연락처</p>
       <p className={classes["subOrder-content__data"]}>{detailOrder.oPhone}</p>

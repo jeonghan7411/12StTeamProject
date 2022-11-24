@@ -27,8 +27,25 @@
 }
 
 .admin-nav {
-  width: 180px;
   text-align: center;
+  margin-right: 20px;
+}
+
+.admin-nav-list__logout {
+  border: 1px solid var(--navy-color);
+  border-radius: 50px;
+  padding: 6px;
+  margin-top: 330px;
+  margin-left: 30px;
+  font-size: 12px;
+  display: flex;
+  background-color: white;
+
+  align-items: center;
+}
+
+.admin-nav-list__logout__icon {
+  margin-right: 10px;
 }
 
 .admin-nav-logo__img {

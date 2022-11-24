@@ -16,6 +16,7 @@ import {
   MdEventAvailable,
 } from "react-icons/md";
 import { FaProductHunt, FaShoppingBasket, FaClipboard } from "react-icons/fa";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 
 import { BiMobileAlt } from "react-icons/bi";
 import { IoMdSettings } from "react-icons/io";
@@ -27,17 +28,6 @@ import AdminBoard from "./AdminBoard";
 import SubBoard from "./SubBoard";
 
 const Admin = () => {
-  const navigate = useNavigate();
-  const [main, setMain] = useState(true);
-  const [product, setProduct] = useState(false);
-  const [order, setOrder] = useState(false);
-  const [userinfo, setUserinfo] = useState(false);
-  const [board, setBoard] = useState(false);
-  const [design, setDesign] = useState(false);
-  const [mobile, setMobile] = useState(false);
-  const [promotion, setPromotion] = useState(false);
-  const [setting, setSetting] = useState(false);
-
   const [category, setCategody] = useState({
     main: false,
     product: false,
@@ -57,134 +47,6 @@ const Admin = () => {
   const [detailProduct, setDetailProduct] = useState({});
   const [detailBoard, setDetailBoard] = useState({});
   const [reset, setReset] = useState(false);
-  const navInfo = [
-    {
-      title: "메인",
-      onClick: () => {
-        setMain(true);
-        setProduct(false);
-        setOrder(false);
-        setUserinfo(false);
-        setBoard(false);
-        setDesign(false);
-        setMobile(false);
-        setPromotion(false);
-        setSetting(false);
-      },
-    },
-    {
-      title: "상품관리",
-      onClick: () => {
-        setMain(false);
-        setProduct(true);
-        setOrder(false);
-        setUserinfo(false);
-        setBoard(false);
-        setDesign(false);
-        setMobile(false);
-        setPromotion(false);
-        setSetting(false);
-      },
-    },
-    {
-      title: "주문관리",
-      onClick: () => {
-        setMain(false);
-        setProduct(false);
-        setOrder(true);
-        setUserinfo(false);
-        setBoard(false);
-        setDesign(false);
-        setMobile(false);
-        setPromotion(false);
-        setSetting(false);
-      },
-    },
-    {
-      title: "고객관리",
-      onClick: () => {
-        setMain(false);
-        setProduct(false);
-        setOrder(false);
-        setUserinfo(true);
-        setBoard(false);
-        setDesign(false);
-        setMobile(false);
-        setPromotion(false);
-        setSetting(false);
-      },
-    },
-    {
-      title: "게시판관리",
-      onClick: () => {
-        setMain(false);
-        setProduct(false);
-        setOrder(false);
-        setUserinfo(false);
-        setBoard(true);
-        setDesign(false);
-        setMobile(false);
-        setPromotion(false);
-        setSetting(false);
-      },
-    },
-    {
-      title: "디자인관리",
-      onClick: () => {
-        setMain(false);
-        setProduct(false);
-        setOrder(false);
-        setUserinfo(false);
-        setBoard(false);
-        setDesign(true);
-        setMobile(false);
-        setPromotion(false);
-        setSetting(false);
-      },
-    },
-    {
-      title: "모바일쇼핑몰",
-      onClick: () => {
-        setMain(false);
-        setProduct(false);
-        setOrder(false);
-        setUserinfo(false);
-        setBoard(false);
-        setDesign(false);
-        setMobile(true);
-        setPromotion(false);
-        setSetting(false);
-      },
-    },
-    {
-      title: "프로모션",
-      onClick: () => {
-        setMain(false);
-        setProduct(false);
-        setOrder(false);
-        setUserinfo(false);
-        setBoard(false);
-        setDesign(false);
-        setMobile(false);
-        setPromotion(true);
-        setSetting(false);
-      },
-    },
-    {
-      title: "쇼핑몰 설정",
-      onClick: () => {
-        setMain(false);
-        setProduct(false);
-        setOrder(false);
-        setUserinfo(false);
-        setBoard(false);
-        setDesign(false);
-        setMobile(false);
-        setPromotion(false);
-        setSetting(true);
-      },
-    },
-  ];
 
   useEffect(() => {
     const userData = async () => {
@@ -351,6 +213,12 @@ const Admin = () => {
               쇼핑몰 설정
             </div>
           </div>
+          <button className={classes["admin-nav-list__logout"]}>
+            <RiLogoutBoxRLine
+              className={classes["admin-nav-list__logout__icon"]}
+            />
+            로그아웃
+          </button>
         </nav>
 
         {category.order && (

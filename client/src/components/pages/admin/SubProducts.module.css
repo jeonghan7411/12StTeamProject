@@ -3,6 +3,7 @@
   width: 250px;
   border-radius: 5px;
   padding: 20px;
+  position: relative;
 }
 
 .subOrder-title {
@@ -49,7 +50,7 @@
   color: var(--red-color);
   font-size: 14px;
   text-align: left;
-  left: 1.2;
+  line-height: 1.5;
   margin-bottom: 10px;
 }
 
@@ -59,10 +60,14 @@
 
 .subOrder-content__update button {
   padding: 4px 8px;
-  border: 1px solid #999;
+  background-color: var(--navy-color);
+  color: white;
   font-family: inherit;
   border-radius: 5px;
   font-size: 12px;
   margin-left: 10px;
-  background-color: white;
+
+  position: absolute;
+  top: 15px;
+  right: 10px;
 }
