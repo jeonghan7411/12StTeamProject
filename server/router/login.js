@@ -37,36 +37,40 @@ router.post("/api/login", (req, res) => {
         } else if (result) {
           isUser = true;
           if (isUser) {
-            const ACCESS_SECRET_KEY = process.env.ACCESS_SECRET_KEY;
-            const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
-            //accessToken 발급
-            const accessToken = jwt.sign(
-              {
-                id: userData.uId,
-              },
-              ACCESS_SECRET_KEY,
-              {
-                expiresIn: "10m",
-                issuer: "12St",
-              }
-            );
-            //refreshToken 발급
-            const refreshToken = jwt.sign(
-              {
-                id: userData.uId,
-              },
-              REFRESH_SECRET_KEY,
-              {
-                expiresIn: "24h",
-                issuer: "12St",
-              }
-            );
-            res.cookie("accessToken", accessToken, { httpOnly: true });
-            res.cookie("refreshToken", refreshToken, { httpOnly: true });
-            res.status(201).json({
-              result: "ok",
-              accessToken,
-            });
+            if (userData.uAuth === 0) {
+              res.send("secession");
+            } else {
+              const ACCESS_SECRET_KEY = process.env.ACCESS_SECRET_KEY;
+              const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
+              //accessToken 발급
+              const accessToken = jwt.sign(
+                {
+                  id: userData.uId,
+                },
+                ACCESS_SECRET_KEY,
+                {
+                  expiresIn: "10m",
+                  issuer: "12St",
+                }
+              );
+              //refreshToken 발급
+              const refreshToken = jwt.sign(
+                {
+                  id: userData.uId,
+                },
+                REFRESH_SECRET_KEY,
+                {
+                  expiresIn: "24h",
+                  issuer: "12St",
+                }
+              );
+              res.cookie("accessToken", accessToken, { httpOnly: true });
+              res.cookie("refreshToken", refreshToken, { httpOnly: true });
+              res.status(201).json({
+                result: "ok",
+                accessToken,
+              });
+            }
           } else {
             res.status(400).json({ error: "invalid user" });
           }
