@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import adminlogo from "../../../../assets/icons/setting.png";
+import { authCheck } from "../../../../util/authCheck";
+import { getUser } from "../../../../util/getUser";
 import AdminOrder from "../AdminOrder";
 import classes from "./Admin.module.css";
 import SubOrder from "./SubOrder";
@@ -12,7 +14,7 @@ const Admin = () => {
   const [main, setMain] = useState(true);
   const [product, setProduct] = useState(false);
   const [order, setOrder] = useState(false);
-  const [user, setUser] = useState(false);
+  const [userinfo, setUserinfo] = useState(false);
   const [board, setBoard] = useState(false);
   const [design, setDesign] = useState(false);
   const [mobile, setMobile] = useState(false);
@@ -31,7 +33,7 @@ const Admin = () => {
         setMain(true);
         setProduct(false);
         setOrder(false);
-        setUser(false);
+        setUserinfo(false);
         setBoard(false);
         setDesign(false);
         setMobile(false);
@@ -45,7 +47,7 @@ const Admin = () => {
         setMain(false);
         setProduct(true);
         setOrder(false);
-        setUser(false);
+        setUserinfo(false);
         setBoard(false);
         setDesign(false);
         setMobile(false);
@@ -59,7 +61,7 @@ const Admin = () => {
         setMain(false);
         setProduct(false);
         setOrder(true);
-        setUser(false);
+        setUserinfo(false);
         setBoard(false);
         setDesign(false);
         setMobile(false);
@@ -73,7 +75,7 @@ const Admin = () => {
         setMain(false);
         setProduct(false);
         setOrder(false);
-        setUser(true);
+        setUserinfo(true);
         setBoard(false);
         setDesign(false);
         setMobile(false);
@@ -87,7 +89,7 @@ const Admin = () => {
         setMain(false);
         setProduct(false);
         setOrder(false);
-        setUser(false);
+        setUserinfo(false);
         setBoard(true);
         setDesign(false);
         setMobile(false);
@@ -101,7 +103,7 @@ const Admin = () => {
         setMain(false);
         setProduct(false);
         setOrder(false);
-        setUser(false);
+        setUserinfo(false);
         setBoard(false);
         setDesign(true);
         setMobile(false);
@@ -115,7 +117,7 @@ const Admin = () => {
         setMain(false);
         setProduct(false);
         setOrder(false);
-        setUser(false);
+        setUserinfo(false);
         setBoard(false);
         setDesign(false);
         setMobile(true);
@@ -129,7 +131,7 @@ const Admin = () => {
         setMain(false);
         setProduct(false);
         setOrder(false);
-        setUser(false);
+        setUserinfo(false);
         setBoard(false);
         setDesign(false);
         setMobile(false);
@@ -143,7 +145,7 @@ const Admin = () => {
         setMain(false);
         setProduct(false);
         setOrder(false);
-        setUser(false);
+        setUserinfo(false);
         setBoard(false);
         setDesign(false);
         setMobile(false);
@@ -173,6 +175,19 @@ const Admin = () => {
     document.body.style = `overflow:hidden`;
     return () => (document.body.style = `overlflow:auto`);
   }, []);
+
+  const [user, setUser] = useState({});
+  const location = useLocation();
+  useEffect(() => {
+    authCheck();
+    getUser(setUser);
+  }, []);
+  // console.log(location);
+  if (location.state === null || location.state.user.uAuth !== 2) {
+    alert("관리자가 아닙니다");
+    window.location.href = "/";
+    return null;
+  }
   return (
     <Fragment>
       <div className={classes.backDrop}></div>

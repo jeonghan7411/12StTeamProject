@@ -98,23 +98,26 @@ const MyPointCheck = () => {
                     onChange={(e) => setStartDate(e.target.value)}
                   />
                 </div>
-              </div>
-              <span className={classes["check-date-item__span"]}>~</span>
-              <div className={classes["check-date-item"]}>
+
+                <span className={classes["check-date-item__span"]}>~</span>
+
                 <div>
                   <input
                     type="date"
                     onChange={(e) => setEndDate(e.target.value)}
                   />
                 </div>
-              </div>
-              <div className={classes["check-date-button"]}>
-                <button type="submit" disabled={pointList.length === 0}>
+
+                <button
+                  className={classes["check-date-button"]}
+                  type="submit"
+                  disabled={pointList.length === 0}
+                >
                   검색
                 </button>
               </div>
+
               <div className={classes["select-wrap"]}>
-                <label>표시할 게시물</label>
                 <select
                   // type={Number}
                   value={perPage}
