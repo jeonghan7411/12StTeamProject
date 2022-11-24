@@ -9,7 +9,7 @@ import iconApple from "../../../assets/icons/appleLogin.png";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { cookieCheck } from "../../../util/authCheck";
-const Login = ({ setUserToken }) => {
+const Login = ({ setUserToken, setIsLogin }) => {
   const [userID, setUserID] = useState("");
   const [userPW, setUserPW] = useState("");
   const [showPW, setShowPW] = useState(false);
@@ -33,6 +33,7 @@ const Login = ({ setUserToken }) => {
         } else {
           window.alert("로그인 성공!");
           setUserToken(response.data.accessToken);
+          setIsLogin(true);
           window.location.replace("/");
         }
       })

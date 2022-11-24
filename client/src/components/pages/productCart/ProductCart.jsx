@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { getUser } from "../../../util/getUser";
 import { useEffect } from "react";
-import { authCheck } from "../../../util/authCheck";
+import { authCheck, cookieCheck } from "../../../util/authCheck";
 import Card from "../../UI/Card";
 import ProductCartItem from "./ProductCartItem";
-const ProductCart = () => {
+const ProductCart = ({ isLogin }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   const [cart, setCart] = useState([]);
@@ -112,8 +112,10 @@ const ProductCart = () => {
 
   useEffect(() => {
     //권한체크 겸 토큰갱신
-    authCheck();
-    getUser(setUser);
+    if (isLogin) {
+      authCheck();
+      getUser(setUser);
+    }
     // 사용자 장바구니 정보 가져오기
     const fetchCartData = async () => {
       await axios
@@ -131,7 +133,11 @@ const ProductCart = () => {
 
     fetchCartData();
   }, []);
-
+  if (!isLogin) {
+    alert("로그인이 필요합니다");
+    window.location.href = "/login";
+    return null;
+  }
   return (
     <div className={classes["productcart-wrapper"]}>
       <div className={classes["productcart-cart"]}>
