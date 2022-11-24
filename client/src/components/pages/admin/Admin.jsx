@@ -9,6 +9,19 @@ import AdminOrder from "./AdminOrder";
 import SubOrder from "./SubOrder";
 import SubUser from "./SubUser";
 import AdminUser from "./AdminUser";
+import { AiOutlineUserSwitch } from "react-icons/ai";
+import {
+  MdOutlineDomainVerification,
+  MdDesignServices,
+  MdEventAvailable,
+} from "react-icons/md";
+import { FaProductHunt, FaShoppingBasket, FaClipboard } from "react-icons/fa";
+
+import { BiMobileAlt } from "react-icons/bi";
+import { IoMdSettings } from "react-icons/io";
+// import { AiOutlineUserSwitch } from "react-icons/ai";
+import AdminProducts from "./AdminProducts";
+import SubProducts from "./SubProducts";
 import classes from "./Admin.module.css";
 import AdminBoard from "./AdminBoard";
 import SubBoard from "./SubBoard";
@@ -25,6 +38,14 @@ const Admin = () => {
   const [promotion, setPromotion] = useState(false);
   const [setting, setSetting] = useState(false);
 
+  const [category, setCategody] = useState({
+    main: false,
+    product: false,
+    userinfo: false,
+    board: false,
+    order: false,
+  });
+
   const [userList, setUserList] = useState([]);
   const [detailUser, setDetailUser] = useState({});
 
@@ -32,6 +53,8 @@ const Admin = () => {
   const [boardList, setBoardList] = useState([]);
   const [orderList, setOrderList] = useState([]);
   const [detailOrder, setDetailOrder] = useState({});
+  const [productList, setProductList] = useState([]);
+  const [detailProduct, setDetailProduct] = useState({});
   const [detailBoard, setDetailBoard] = useState({});
   const [reset, setReset] = useState(false);
   const navInfo = [
@@ -180,7 +203,12 @@ const Admin = () => {
         });
 
       await axios
-        .get("http://localhost:5000/admin/api/boardList")
+        .get("http://localhost:5000/admin/api/get/productList")
+        .then((response) => {
+          setProductList(response.data);
+        });
+        
+       await axios.get("http://localhost:5000/admin/api/boardList")
         .then((response) => {
           setBoardList(response.data);
         });
@@ -218,22 +246,125 @@ const Admin = () => {
           </div>
 
           <div className={classes["admin-nav-list"]}>
-            {navInfo.map((it) => (
-              <div
-                className={classes["admin-nav-list__item"]}
-                onClick={it.onClick}
-              >
-                {it.title}
-              </div>
-            ))}
+            <div
+              className={classes["admin-nav-list__item"]}
+              onClick={() =>
+                setCategody({
+                  main: true,
+                  product: false,
+                  userinfo: false,
+                  board: false,
+                  order: false,
+                })
+              }
+            >
+              <MdOutlineDomainVerification
+                className={classes["admin-nav-list__icon"]}
+              />
+              메인
+            </div>
+            <div
+              className={classes["admin-nav-list__item"]}
+              onClick={() =>
+                setCategody({
+                  main: false,
+                  product: true,
+                  userinfo: false,
+                  board: false,
+                  order: false,
+                })
+              }
+            >
+              <FaProductHunt className={classes["admin-nav-list__icon"]} />
+              상품관리
+            </div>
+            <div
+              className={classes["admin-nav-list__item"]}
+              onClick={() =>
+                setCategody({
+                  main: false,
+                  product: false,
+                  userinfo: false,
+                  board: false,
+                  order: true,
+                })
+              }
+            >
+              <FaShoppingBasket className={classes["admin-nav-list__icon"]} />
+              주문관리
+            </div>
+            <div
+              className={classes["admin-nav-list__item"]}
+              onClick={() =>
+                setCategody({
+                  main: false,
+                  product: false,
+                  userinfo: true,
+                  board: false,
+                  order: false,
+                })
+              }
+            >
+              <AiOutlineUserSwitch
+                className={classes["admin-nav-list__icon"]}
+              />
+              고객관리
+            </div>
+            <div
+              className={classes["admin-nav-list__item"]}
+              onClick={() =>
+                setCategody({
+                  main: false,
+                  product: false,
+                  userinfo: false,
+                  board: true,
+                  order: false,
+                })
+              }
+            >
+              <FaClipboard className={classes["admin-nav-list__icon"]} />
+              게시판관리
+            </div>
+            <div className={classes["admin-nav-list__item"]}>
+              <MdDesignServices className={classes["admin-nav-list__icon"]} />
+              디자인관리
+            </div>
+            <div className={classes["admin-nav-list__item"]}>
+              <BiMobileAlt />
+              모바일쇼핑몰
+            </div>
+            <div className={classes["admin-nav-list__item"]}>
+              <MdEventAvailable className={classes["admin-nav-list__icon"]} />
+              프로모션
+            </div>
+            <div className={classes["admin-nav-list__item"]}>
+              <IoMdSettings className={classes["admin-nav-list__icon"]} />
+              쇼핑몰 설정
+            </div>
           </div>
         </nav>
-        {/* {main && <AdminMain />}
-        {product && <AdminProduct />} */}
-        {order && (
+
+        {category.order && (
           <section className={classes["admin-section"]}>
             <AdminOrder orderList={orderList} onDetailOrder={setDetailOrder} />
             <SubOrder detailOrder={detailOrder} />
+          </section>
+        )}
+        {category.userinfo && (
+          <AdminUser userList={userList} setReset={setReset} />
+        )}
+
+        {category.product && (
+          <section className={classes["admin-section"]}>
+            <AdminProducts
+              productList={productList}
+              setReset={setReset}
+              onDetailProduct={setDetailProduct}
+            />
+            <SubProducts
+              detailProduct={detailProduct}
+              onDetailProduct={setDetailProduct}
+            />
           </section>
         )}
         {userinfo && (

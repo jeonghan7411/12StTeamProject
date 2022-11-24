@@ -17,6 +17,16 @@ router.use(
   })
 );
 
+router.post("/api/product/update", (req, res) => {
+  const { productId, title, price, mallname, pDiscount } = req.body;
+
+  let sql =
+    "UPDATE products SET title = ?, price = ?, mallname = ?, pDiscount = ? WHERE productId = ?;";
+  db.query(sql, [title, price, mallname, pDiscount, productId], (err) => {
+    if (err) throw err;
+  });
+});
+
 router.get("/api/get/orderList", (req, res) => {
   let sql = "SELECT * FROM ordertable ORDER BY idx DESC;";
 
@@ -27,8 +37,8 @@ router.get("/api/get/orderList", (req, res) => {
   });
 });
 
-router.get("/api/productList", (req, res) => {
-  let sql = "SELECT * FROM products ORDER BY idx DESC";
+router.get("/api/get/productList", (req, res) => {
+  let sql = "SELECT * FROM products";
 
   db.query(sql, (err, result) => {
     if (err) throw err;

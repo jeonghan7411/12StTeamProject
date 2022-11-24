@@ -52,6 +52,10 @@
   font-weight: bold;
   margin-left: 38px;
 }
+.admin-nav-list__icon {
+  color: var(--navy-color);
+  margin-right: 5px;
+}
 
 .admin-nav-list__item {
   text-align: left;
@@ -60,6 +64,9 @@
   margin-bottom: 20px;
 
   cursor: pointer;
+
+  display: flex;
+  align-items: center;
 }
 
 .admin-section {
