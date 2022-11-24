@@ -22,54 +22,62 @@ router.post("/api/login", (req, res) => {
   const { userID, userPW } = req.body;
   let sql = "SELECT * from users where uId = ?;";
 
-  db.query(sql, [userID], (err, rows) => {
-    const userData = rows[0];
-    if (err) {
-      console.log(err);
+  db.query(sql, [userID], (err, result) => {
+    if (result.length === 0) {
+      res.send("invalid");
     } else {
-      bcrypt.compare(userPW, userData.uPasswd, (err, result) => {
+      db.query(sql, [userID], (err, rows) => {
+        const userData = rows[0];
         if (err) {
-          throw err;
-        } else if (result) {
-          isUser = true;
-          if (isUser) {
-            if (userData.uAuth === 0) {
-              res.send("secession");
+          console.log(err);
+        } else {
+          bcrypt.compare(userPW, userData.uPasswd, (err, result) => {
+            if (err) {
+              throw err;
+            } else if (result) {
+              isUser = true;
+              if (isUser) {
+                if (userData.uAuth === 0) {
+                  res.send("secession");
+                } else {
+                  const ACCESS_SECRET_KEY = process.env.ACCESS_SECRET_KEY;
+                  const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
+                  //accessToken 발급
+                  const accessToken = jwt.sign(
+                    {
+                      id: userData.uId,
+                    },
+                    ACCESS_SECRET_KEY,
+                    {
+                      expiresIn: "30m",
+                      issuer: "12St",
+                    }
+                  );
+                  //refreshToken 발급
+                  const refreshToken = jwt.sign(
+                    {
+                      id: userData.uId,
+                    },
+                    REFRESH_SECRET_KEY,
+                    {
+                      expiresIn: "14d",
+                      issuer: "12St",
+                    }
+                  );
+                  res.cookie("accessToken", accessToken, { httpOnly: true });
+                  res.cookie("refreshToken", refreshToken, { httpOnly: true });
+                  res.status(201).json({
+                    result: "ok",
+                    accessToken,
+                  });
+                }
+              } else {
+                res.status(400).json({ error: "invalid user" });
+              }
             } else {
-              const ACCESS_SECRET_KEY = process.env.ACCESS_SECRET_KEY;
-              const REFRESH_SECRET_KEY = process.env.REFRESH_SECRET_KEY;
-              //accessToken 발급
-              const accessToken = jwt.sign(
-                {
-                  id: userData.uId,
-                },
-                ACCESS_SECRET_KEY,
-                {
-                  expiresIn: "1m",
-                  issuer: "12St",
-                }
-              );
-              //refreshToken 발급
-              const refreshToken = jwt.sign(
-                {
-                  id: userData.uId,
-                },
-                REFRESH_SECRET_KEY,
-                {
-                  expiresIn: "14d",
-                  issuer: "12St",
-                }
-              );
-              res.cookie("accessToken", accessToken, { httpOnly: true });
-              res.cookie("refreshToken", refreshToken, { httpOnly: true });
-              res.status(201).json({
-                result: "ok",
-                accessToken,
-              });
+              res.send("invalid");
             }
-          } else {
-            res.status(400).json({ error: "invalid user" });
-          }
+          });
         }
       });
     }
@@ -114,7 +122,7 @@ router.get("/api/login/success", (req, res) => {
           },
           process.env.ACCESS_SECRET_KEY,
           {
-            expiresIn: "1m",
+            expiresIn: "30m",
             issuer: "12St",
           }
         );
