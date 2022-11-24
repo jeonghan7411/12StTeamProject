@@ -64,9 +64,9 @@ function App() {
           <main className={classes.main}>
             <Routes>
               <Route>
-                {/* element={} */}
+                {/* element={<AdminHome />} */}
                 {/* <Admin /> */}
-                <Route path="/admin" element={<AdminHome />} />
+                <Route path="/admin" element={<Admin />} />
                 <Route
                   path="/"
                   element={<Home data={data} bestProduct={bestProduct} />}
