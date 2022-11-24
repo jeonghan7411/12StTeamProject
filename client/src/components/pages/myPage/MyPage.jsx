@@ -11,33 +11,31 @@ import { getUser } from "../../../util/getUser";
 import { authCheck, cookieCheck } from "../../../util/authCheck";
 import classes from "./MyPage.module.css";
 
-const MyPage = () => {
+const MyPage = ({ isLogin }) => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
   const [user, setUser] = useState({});
   const mile = parseInt(user.uMile);
   const [basketCount, setBasketCount] = useState("");
   const [boardData, setBoardData] = useState([]);
 
   useEffect(() => {
-    cookieCheck(setIsLogin, setUser);
+    if (isLogin) {
+      authCheck();
+      getUser(setUser);
+      const basketData = async () => {
+        await axios
+          .get("http://localhost:5000/mypage/api/getbasket", {
+            withCredentials: true,
+          })
+          .then((response) => {
+            setBasketCount(response.data.count[0]);
+            setBoardData(response.data.result[1]);
+          });
+      };
+
+      basketData();
+    }
   }, []);
-
-  useEffect(() => {
-    const basketData = async () => {
-      await axios
-        .get("http://localhost:5000/mypage/api/getbasket", {
-          withCredentials: true,
-        })
-        .then((response) => {
-          setBasketCount(response.data.count[0]);
-          setBoardData(response.data.result[1]);
-        });
-    };
-
-    basketData();
-  }, []);
-
   const reviewCount = boardData.filter((it) => {
     return it.bBoardtype === "리뷰";
   });
@@ -52,7 +50,11 @@ const MyPage = () => {
       it.bBoardtype === "교환"
     );
   });
-
+  if (!isLogin) {
+    alert("로그인이 필요합니다");
+    window.location.href = "/login";
+    return null;
+  }
   return (
     <React.Fragment>
       <div className={classes.MyPage}>
@@ -78,19 +80,27 @@ const MyPage = () => {
         <div className={classes["mypage-quick-btn"]}>
           <div className={classes["mypage-quick-item"]}>
             <div>
-              <NavLink to="mypageinquirylist">{inquiryCount.length}</NavLink>
+              <NavLink to="mypageinquirylist">
+                {inquiryCount.length === "NaN" ? 0 : inquiryCount.length}
+              </NavLink>
             </div>
             <div>문의 내역 </div>
           </div>
           <div className={classes["mypage-quick-item"]}>
             <div>
-              <NavLink to="reviewlist">{reviewCount.length}</NavLink>
+              <NavLink to="reviewlist">
+                {reviewCount.length === "NaN" ? 0 : reviewCount.length}
+              </NavLink>
             </div>
             <div>상품평</div>
           </div>
           <div className={classes["mypage-quick-item"]}>
             <div>
-              <NavLink to="/cart">{Object.values(basketCount)}</NavLink>
+              <NavLink to="/cart">
+                {Object.values(basketCount).length === 0
+                  ? 0
+                  : Object.values(basketCount)}
+              </NavLink>
             </div>
             <div>장바구니</div>
           </div>

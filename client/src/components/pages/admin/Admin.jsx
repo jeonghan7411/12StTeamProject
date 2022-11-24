@@ -6,8 +6,8 @@ import adminlogo from "../../../assets/icons/setting.png";
 import { authCheck } from "../../../util/authCheck";
 import { getUser } from "../../../util/getUser";
 import AdminOrder from "./AdminOrder";
-import classes from "./Admin.module.css";
 import SubOrder from "./SubOrder";
+import SubUser from "./SubUser";
 import AdminUser from "./AdminUser";
 import { AiOutlineUserSwitch } from "react-icons/ai";
 import {
@@ -22,6 +22,9 @@ import { IoMdSettings } from "react-icons/io";
 // import { AiOutlineUserSwitch } from "react-icons/ai";
 import AdminProducts from "./AdminProducts";
 import SubProducts from "./SubProducts";
+import classes from "./Admin.module.css";
+import AdminBoard from "./AdminBoard";
+import SubBoard from "./SubBoard";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -44,13 +47,15 @@ const Admin = () => {
   });
 
   const [userList, setUserList] = useState([]);
+  const [detailUser, setDetailUser] = useState({});
 
+  const [showDetail, setShowDetail] = useState(false);
+  const [boardList, setBoardList] = useState([]);
   const [orderList, setOrderList] = useState([]);
   const [detailOrder, setDetailOrder] = useState({});
-
   const [productList, setProductList] = useState([]);
   const [detailProduct, setDetailProduct] = useState({});
-
+  const [detailBoard, setDetailBoard] = useState({});
   const [reset, setReset] = useState(false);
   const navInfo = [
     {
@@ -202,6 +207,11 @@ const Admin = () => {
         .then((response) => {
           setProductList(response.data);
         });
+        
+       await axios.get("http://localhost:5000/admin/api/boardList")
+        .then((response) => {
+          setBoardList(response.data);
+        });
     };
     userData();
     document.body.style = `overflow:hidden`;
@@ -220,6 +230,7 @@ const Admin = () => {
     window.location.href = "/";
     return null;
   }
+
   return (
     <Fragment>
       <div className={classes.backDrop}></div>
@@ -339,7 +350,6 @@ const Admin = () => {
             <SubOrder detailOrder={detailOrder} />
           </section>
         )}
-
         {category.userinfo && (
           <AdminUser userList={userList} setReset={setReset} />
         )}
@@ -357,6 +367,39 @@ const Admin = () => {
             />
           </section>
         )}
+        {userinfo && (
+          <section className={classes["admin-section"]}>
+            <AdminUser
+              userList={userList}
+              setReset={setReset}
+              setDetailUser={setDetailUser}
+              showDetail={showDetail}
+              setShowDetail={setShowDetail}
+            />
+            <SubUser
+              detailUser={detailUser}
+              showDetail={showDetail}
+              setShowDetail={setShowDetail}
+            />
+          </section>
+        )}
+        {/* {board && <AdminBoard />}
+        {design && <AdminDesign />}
+        {userinfo && <AdminUser userList={userList} setReset={setReset} />}
+        {board && (
+          <section className={classes["admin-section"]}>
+            <AdminBoard
+              boardList={boardList}
+              setReset={setReset}
+              onDetailBoard={setDetailBoard}
+            />
+            <SubBoard detailBoard={detailBoard} />
+          </section>
+        )}
+        {/* {design && <AdminDesign />}
+        {mobile && <AdminMobile />}
+        {promotion && <AdminPromotion />}
+        {setting && <AdminSetting />} */}
       </div>
     </Fragment>
   );

@@ -32,6 +32,7 @@ const MyPageAddress = () => {
   const [targetNum, setTargetNum] = useState("");
 
   useEffect(() => {
+    authCheck();
     getUser(setUser);
     const addlist = async () => {
       await axios
