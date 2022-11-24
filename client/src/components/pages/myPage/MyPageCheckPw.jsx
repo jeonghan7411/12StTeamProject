@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import classes from "./MyPageCheckPw.module.css";
@@ -7,7 +7,6 @@ import MyPageListTitle from "./MyPageListTitle";
 const MyPageCheckPw = ({ user, setUserPw }) => {
   const [checkInputPw, setCheckInputPw] = useState();
 
-  // const [user, setUser] = useState({});
   const pwInput = useRef();
 
   const navigate = useNavigate();
