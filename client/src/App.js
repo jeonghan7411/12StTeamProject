@@ -1,8 +1,9 @@
+import { React, useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Reset } from "styled-reset";
 import classes from "./App.module.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from "axios";
-import { useEffect, useState } from "react";
+
 import Header from "./components/layout/Header";
 import Nav from "./components/layout/Nav";
 import Footer from "./components/layout/Footer";
@@ -25,18 +26,12 @@ import CrlWrite from "./components/pages/myPage/CrlWrite";
 import Product from "./components/pages/productDetail/Product";
 import OrderDetail from "./components/pages/myPage/OrderDetail";
 import MyPageUserDelete from "./components/pages/myPage/MyPageUserDelete";
-import React from "react";
 import ReviewWrite from "./components/pages/myPage/ReviewWrite";
-
 import SearchResult from "./components/pages/search/SearchResult";
-
 import ReviewList from "./components/pages/myPage/ReviewList";
 import Admin from "./components/pages/admin/Admin";
-import { cookieCheckLogin } from "./util/authCheck";
 
 function App() {
-  const [userToken, setUserToken] = useState();
-  const [isLogin, setIsLogin] = useState(false);
   const [data, setData] = useState([]);
   const [bestProduct, setBestProduct] = useState([]);
 
@@ -49,10 +44,8 @@ function App() {
           setBestProduct(response.data.result[1]);
         });
     };
-    cookieCheckLogin(setIsLogin);
     fetchData();
-  }, [isLogin]);
-  // console.log(isLogin);
+  }, []);
   return (
     <div className={classes.App}>
       <Reset />
@@ -71,19 +64,11 @@ function App() {
                   path="/"
                   element={<Home data={data} bestProduct={bestProduct} />}
                 />
-                <Route
-                  path="/login"
-                  element={
-                    <Login
-                      setUserToken={setUserToken}
-                      setIsLogin={setIsLogin}
-                    />
-                  }
-                />
+                <Route path="/login" element={<Login />} />
 
                 <Route path="/regist" element={<Regist />} />
                 <Route path="/updateuser" element={<MyPageUpdateUser />} />
-                <Route path="/mypage" element={<MyPage isLogin={isLogin} />}>
+                <Route path="/mypage" element={<MyPage />}>
                   <Route index element={<OrderList />} />
                   <Route
                     path="cancel-return-exchange-write"
@@ -108,10 +93,7 @@ function App() {
                   element={<ProductsBest bestProduct={bestProduct} />}
                 />
                 <Route path="/categories" element={<ProductsCategory />} />
-                <Route
-                  path="/cart"
-                  element={<ProductCart isLogin={isLogin} />}
-                />
+                <Route path="/cart" element={<ProductCart />} />
 
                 {/* 결제 */}
                 <Route path="/order" element={<Order />} />

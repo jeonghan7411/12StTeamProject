@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import classes from "./Login.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import iconGoogle from "../../../assets/icons/googleLogin.png";
 import iconNaver from "../../../assets/icons/naverLogin.png";
@@ -8,13 +8,13 @@ import iconKakao from "../../../assets/icons/kakaoLogin.png";
 import iconApple from "../../../assets/icons/appleLogin.png";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
-import { cookieCheck } from "../../../util/authCheck";
-const Login = ({ setUserToken, setIsLogin }) => {
+const Login = () => {
   const [userID, setUserID] = useState("");
   const [userPW, setUserPW] = useState("");
   const [showPW, setShowPW] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const pwTab = useRef();
-  const navigate = useNavigate();
+
   const onClickShowPW = () => {
     setShowPW(!showPW);
   };
@@ -32,7 +32,6 @@ const Login = ({ setUserToken, setIsLogin }) => {
           alert("이미 탈퇴한 회원입니다");
         } else {
           window.alert("로그인 성공!");
-          setUserToken(response.data.accessToken);
           setIsLogin(true);
           window.location.replace("/");
         }

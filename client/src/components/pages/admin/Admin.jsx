@@ -207,15 +207,14 @@ const Admin = () => {
         .then((response) => {
           setProductList(response.data);
         });
-        
-       await axios.get("http://localhost:5000/admin/api/boardList")
+
+      await axios
+        .get("http://localhost:5000/admin/api/boardList")
         .then((response) => {
           setBoardList(response.data);
         });
     };
     userData();
-    document.body.style = `overflow:hidden`;
-    return () => (document.body.style = `overlflow:auto`);
   }, [reset]);
 
   const [user, setUser] = useState({});
@@ -247,7 +246,9 @@ const Admin = () => {
 
           <div className={classes["admin-nav-list"]}>
             <div
-              className={classes["admin-nav-list__item"]}
+              className={`${classes["admin-nav-list__item"]}  ${
+                category.main ? classes.active : ""
+              }`}
               onClick={() =>
                 setCategody({
                   main: true,
@@ -264,7 +265,9 @@ const Admin = () => {
               메인
             </div>
             <div
-              className={classes["admin-nav-list__item"]}
+              className={`${classes["admin-nav-list__item"]}  ${
+                category.product ? classes.active : ""
+              }`}
               onClick={() =>
                 setCategody({
                   main: false,
@@ -279,7 +282,9 @@ const Admin = () => {
               상품관리
             </div>
             <div
-              className={classes["admin-nav-list__item"]}
+              className={`${classes["admin-nav-list__item"]}  ${
+                category.order ? classes.active : ""
+              }`}
               onClick={() =>
                 setCategody({
                   main: false,
@@ -294,7 +299,9 @@ const Admin = () => {
               주문관리
             </div>
             <div
-              className={classes["admin-nav-list__item"]}
+              className={`${classes["admin-nav-list__item"]}  ${
+                category.userinfo ? classes.active : ""
+              }`}
               onClick={() =>
                 setCategody({
                   main: false,
@@ -311,7 +318,9 @@ const Admin = () => {
               고객관리
             </div>
             <div
-              className={classes["admin-nav-list__item"]}
+              className={`${classes["admin-nav-list__item"]}  ${
+                category.board ? classes.active : ""
+              }`}
               onClick={() =>
                 setCategody({
                   main: false,
@@ -351,23 +360,6 @@ const Admin = () => {
           </section>
         )}
         {category.userinfo && (
-          <AdminUser userList={userList} setReset={setReset} />
-        )}
-
-        {category.product && (
-          <section className={classes["admin-section"]}>
-            <AdminProducts
-              productList={productList}
-              setReset={setReset}
-              onDetailProduct={setDetailProduct}
-            />
-            <SubProducts
-              detailProduct={detailProduct}
-              onDetailProduct={setDetailProduct}
-            />
-          </section>
-        )}
-        {userinfo && (
           <section className={classes["admin-section"]}>
             <AdminUser
               userList={userList}
@@ -380,13 +372,27 @@ const Admin = () => {
               detailUser={detailUser}
               showDetail={showDetail}
               setShowDetail={setShowDetail}
+              setReset={setReset}
             />
           </section>
         )}
-        {/* {board && <AdminBoard />}
-        {design && <AdminDesign />}
-        {userinfo && <AdminUser userList={userList} setReset={setReset} />}
-        {board && (
+
+        {category.product && (
+          <section className={classes["admin-section"]}>
+            <AdminProducts
+              productList={productList}
+              onDetailProduct={setDetailProduct}
+              setReset={setReset}
+            />
+            <SubProducts
+              detailProduct={detailProduct}
+              onDetailProduct={setDetailProduct}
+              setReset={setReset}
+            />
+          </section>
+        )}
+
+        {category.board && (
           <section className={classes["admin-section"]}>
             <AdminBoard
               boardList={boardList}
@@ -396,10 +402,6 @@ const Admin = () => {
             <SubBoard detailBoard={detailBoard} />
           </section>
         )}
-        {/* {design && <AdminDesign />}
-        {mobile && <AdminMobile />}
-        {promotion && <AdminPromotion />}
-        {setting && <AdminSetting />} */}
       </div>
     </Fragment>
   );

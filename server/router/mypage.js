@@ -1,5 +1,4 @@
 const express = require("express");
-const mysql = require("mysql");
 require("dotenv").config();
 const db = require("../db/db");
 const router = express.Router();
@@ -101,17 +100,6 @@ router.post("/api/updateuser", (req, res) => {
     uAdditionalAddr,
   } = req.body;
 
-  console.log(
-    idx,
-    uName,
-    uPasswd,
-    uPhone,
-    uEmail,
-    uBirth,
-    uZipcode,
-    uAddress,
-    uAdditionalAddr
-  );
   let sql =
     "update users set uName=?, uPasswd=?, uEmail=?, uPhone=?, uZipcode=?,uAddress=?,uBirth=?,uAdditionalAddr =? where idx = ?;";
 
@@ -133,7 +121,6 @@ router.post("/api/updateuser", (req, res) => {
         if (err) {
           throw err;
         }
-        console.log("ok");
         res.send({
           status: 200,
           message: "회원수정 완료",
@@ -151,7 +138,6 @@ router.post("/api/checkingpw", (req, res) => {
 
   db.query(sql, [req.body.user.uId], (err, user) => {
     if (user[0] === undefined) {
-      console.log("No UserData");
       res.send({
         status: 404,
         message: "해당 아이디 정보가 없습니다.",
@@ -159,14 +145,12 @@ router.post("/api/checkingpw", (req, res) => {
     } else {
       bcrypt.compare(inputPw, dataPw, (err, result) => {
         if (result) {
-          console.log("사용자 인증");
           res.send({
             status: 200,
             message: "회원정보 인증 성공!",
             searchPw: dataPw,
           });
         } else {
-          console.log("사용자 인증 실패");
           res.send({
             status: 400,
             message: "비밀번호를 확인해주세요.",
@@ -184,7 +168,6 @@ router.post("/api/deleteuser", (req, res) => {
     if (err) {
       throw err;
     }
-    console.log("회원 비활성화");
     res.send({
       status: 200,
       message: "탈퇴가 정상적으로 완료 되었습니다.",
@@ -196,7 +179,6 @@ router.post("/api/adddeliver", (req, res) => {
   const { uId, uName, uPhone, uZipcode, uAddress, uAdditionalAddr, uMemo } =
     req.body;
 
-  console.log(req.body);
   let sql = "INSERT INTO deliveryaddr VALUES(NULL,?,?,?,?,?,?,?);";
   db.query(
     sql,
@@ -251,7 +233,6 @@ router.get("/api/defaultadd", (req, res) => {
       if (err) {
         throw err;
       }
-      console.log(user[0].uId);
 
       let addrSql = "SELECT * FROM defaultaddress where uId = ?;";
       db.query(addrSql, [user[0].uId], (err, result) => {

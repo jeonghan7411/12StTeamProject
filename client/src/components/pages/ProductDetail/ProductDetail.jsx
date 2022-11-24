@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { TbZoomQuestion } from "react-icons/tb";

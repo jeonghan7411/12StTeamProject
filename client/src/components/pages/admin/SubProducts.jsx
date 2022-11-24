@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 
 import classes from "./SubProducts.module.css";
-const SubProducts = ({ detailProduct, onDetailProduct }) => {
+const SubProducts = ({ detailProduct, onDetailProduct, setReset }) => {
   const [isUpdate, setIsUpdate] = useState(false);
 
   const stringCheck = /[a-zA-Zㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g;
@@ -20,13 +20,15 @@ const SubProducts = ({ detailProduct, onDetailProduct }) => {
     } else {
       setIsUpdate(false);
 
-      await axios.post("http://localhost:5000/admin/api/product/update", {
-        productId: +detailProduct.productId,
-        title: detailProduct.title,
-        price: +detailProduct.price,
-        mallname: detailProduct.mallname,
-        pDiscount: +detailProduct.pDiscount,
-      });
+      await axios
+        .post("http://localhost:5000/admin/api/product/update", {
+          productId: +detailProduct.productId,
+          title: detailProduct.title,
+          price: +detailProduct.price,
+          mallname: detailProduct.mallname,
+          pDiscount: +detailProduct.pDiscount,
+        })
+        .then(setReset((prev) => !prev));
     }
   };
 

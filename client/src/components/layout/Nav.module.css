@@ -3,7 +3,7 @@
   height: 60px;
   padding: 0 50px;
   margin-bottom: 50px;
-
+  min-width: 1400px;
   font-size: 15px;
 
   display: flex;

@@ -42,11 +42,6 @@ const User = ({
         <table className={classes["adminUser-userList"]}>
           <thead>
             <tr>
-              <td>
-                <div>
-                  <input type="checkbox" />
-                </div>
-              </td>
               <td>No.</td>
               <td>아이디</td>
               <td>이름</td>
@@ -60,11 +55,6 @@ const User = ({
           <tbody>
             {userList.slice(indexOfFirstQnA, indexOfLastQnA).map((it, key) => (
               <tr key={key}>
-                <td>
-                  <div>
-                    <input type="checkbox" />
-                  </div>
-                </td>
                 <td>{it.idx}</td>
                 <td>
                   <button

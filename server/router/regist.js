@@ -3,7 +3,6 @@ const mysql = require("mysql");
 require("dotenv").config();
 const db = require("../db/db");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
@@ -24,14 +23,14 @@ router.post("/api/duplication", (req, res) => {
   const { uId } = req.body;
   let sql = "SELECT COUNT(uId) FROM users WHERE uId = ?;";
   db.query(sql, [uId], (err, result) => {
-    if (err) throw err;
-
-    console.log(result[0]["COUNT(uId)"]);
-
-    if (result[0]["COUNT(uId)"]) {
-      res.send({ status: 409, message: "이미 존재하는 아이디입니다." });
+    if (err) {
+      throw err;
     } else {
-      res.send({ status: 200, message: "사용 가능한 아이디입니다." });
+      if (result[0]["COUNT(uId)"]) {
+        res.send({ status: 409, message: "이미 존재하는 아이디입니다." });
+      } else {
+        res.send({ status: 200, message: "사용 가능한 아이디입니다." });
+      }
     }
   });
 });

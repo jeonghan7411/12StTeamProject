@@ -14,21 +14,17 @@ const RegistClause = ({ checkedItems, onCheckedItems }) => {
       if (id === "allCheck") {
         setIsAllChecked(true);
         onCheckedItems(["check1", "check2"]);
-        console.log("전체 체크 성공");
         return;
       }
       onCheckedItems([...checkedItems, id]);
-      console.log(`${id}번 체크 성공`);
     } else {
       if (id === "allCheck") {
         setIsAllChecked(false);
         onCheckedItems([]);
-        console.log("전체 체크 해체 성공");
         return;
       }
 
       onCheckedItems(checkedItems.filter((it) => it !== id));
-      console.log(`${id}번 체크 해체 성공`);
     }
   };
 

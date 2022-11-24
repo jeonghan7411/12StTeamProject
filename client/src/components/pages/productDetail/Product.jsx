@@ -6,9 +6,6 @@ import ProductQnA from "./ProductQnA";
 import ProductReview from "./ProductReview";
 import ProductShippingAnnounce from "./ProductShippingAnnounce";
 import classes from "./Product.module.css";
-import productImg from "../../../assets/profile.jpg";
-
-import testImg2 from "../../../assets/icons/kakaoLogin.png";
 import { FaAngleUp, FaAngleDown, FaAngleRight } from "react-icons/fa";
 import Card from "../../UI/Card";
 import { getUser } from "../../../util/getUser";

@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import classes from "./Nav.module.css";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { cookieCheck, getUserName, handleLogout } from "../../util/authCheck";
-import { getUser } from "../../util/getUser";
+import { cookieCheck, handleLogout } from "../../util/authCheck";
 const Nav = () => {
   const location = useLocation();
 

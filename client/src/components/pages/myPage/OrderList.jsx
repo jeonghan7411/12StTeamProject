@@ -9,11 +9,7 @@ import classes from "./OrderList.module.css";
 import MyPageListTitle from "./MyPageListTitle";
 import MyPageNullMsg from "./MyPageNullMsg";
 import { authCheck } from "../../../util/authCheck";
-import { getUser } from "../../../util/getUser";
 import axios from "axios";
-
-import { RiCreativeCommonsZeroLine } from "react-icons/ri";
-import { useOutletContext } from "react-router-dom";
 
 const OrderList = () => {
   // const [user, setUser] = useState();

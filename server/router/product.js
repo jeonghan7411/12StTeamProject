@@ -3,11 +3,8 @@ const mysql = require("mysql");
 require("dotenv").config();
 const db = require("../db/db");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-const bcrypt = require("bcrypt");
 const cors = require("cors");
-const saltRounds = 10;
 
 router.use(cookieParser());
 router.use(express.json());
@@ -97,7 +94,6 @@ router.get("/api/get/products/category", (req, res) => {
 
 router.get("/api/get/productinfo/:getIdx", (req, res) => {
   const { getIdx } = req.params;
-  console.log(getIdx);
   let sql1 = "SELECT * FROM products WHERE productId = ?;";
   let sql2 = "SELECT * FROM board WHERE productId = ? ORDER BY bId DESC;";
   db.query(sql1 + sql2, [getIdx, getIdx], (err, result, asd) => {
@@ -141,7 +137,6 @@ router.get("/api/get/products/category/fetchdata", (req, res) => {
       category = "스포츠/레저";
       break;
   }
-  console.log(category);
   let startNum = Number.parseInt(req.query.startNum) || 0;
   let offsetNum = Number.parseInt(req.query.offsetNum) || 20;
 

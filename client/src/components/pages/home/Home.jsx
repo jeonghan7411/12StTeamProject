@@ -1,7 +1,5 @@
 import React from "react";
 
-import Cartegory from "./Cartegory";
-
 import classes from "./Home.module.css";
 import { authCheck, handleLogout } from "../../../util/authCheck";
 import SearchItem from "../search/SearchItem";
@@ -21,7 +19,6 @@ const Home = ({ data, bestProduct }) => {
   return (
     <div>
       <SliderBanner />
-      <Cartegory />
       <section className={classes["home-section"]}>
         <div className={classes["home-section__titleWrap"]}>
           <h3 className={classes["home-section__title"]}>

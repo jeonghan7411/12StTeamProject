@@ -6,7 +6,7 @@ import MyPageListTitle from "./MyPageListTitle";
 import MyPageNullMsg from "./MyPageNullMsg";
 
 import { getUser } from "../../../util/getUser";
-import { authCheck, cookieCheck } from "../../../util/authCheck";
+import { authCheck } from "../../../util/authCheck";
 
 import classes from "./MyPageAddress.module.css";
 
@@ -109,9 +109,8 @@ const MyPageAddress = () => {
             )}
 
             {addUser.slice(indexOfFirstQnA, indexOfLastQnA).map((user, idx) => (
-              <div className={classes["addr-wrap-item"]}>
+              <div className={classes["addr-wrap-item"]} key={idx}>
                 <MyPageAddressItem
-                  key={idx}
                   addUser={user}
                   getNum={getNum}
                   targetNum={targetNum}

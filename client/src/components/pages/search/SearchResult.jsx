@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import SearchItem from "./SearchItem";
 
 import sibaicon from "../../../assets/icons/siba.png";
@@ -9,11 +9,12 @@ import classes from "./SearchResult.module.css";
 
 const SearchResult = () => {
   const location = useLocation();
-  const [searchData] = useState(location.state.result);
-  const [searchValue] = useState(location.state.keyword);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchData, setSearchData] = useState([]);
 
-  console.log(searchValue);
-
+  useEffect(() => {
+    setSearchData(location.state.result);
+  }, [searchParams]);
   return (
     <div className={classes.searchResult}>
       <h4 className={classes["searchResult-title"]}>
@@ -26,7 +27,7 @@ const SearchResult = () => {
       {searchData.length !== 0 && (
         <p
           className={classes["searchResult-searchKeyword"]}
-        >{`${searchValue} 검색결과 입니다.`}</p>
+        >{`${searchParams.get("keyword")} 검색결과 입니다.`}</p>
       )}
 
       {searchData.length === 0 && (

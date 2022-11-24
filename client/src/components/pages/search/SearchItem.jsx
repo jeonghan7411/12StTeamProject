@@ -7,9 +7,8 @@ import { RiShoppingCart2Line } from "react-icons/ri";
 import classes from "./SearchItem.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { authCheck, cookieCheck } from "../../../util/authCheck";
+import { cookieCheck } from "../../../util/authCheck";
 import { useState } from "react";
-import { getUser } from "../../../util/getUser";
 import { useEffect } from "react";
 
 const SearchItem = ({ data }) => {

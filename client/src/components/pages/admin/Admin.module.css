@@ -72,3 +72,6 @@
 .admin-section {
   display: flex;
 }
+.active {
+  color: var(--red-color);
+}

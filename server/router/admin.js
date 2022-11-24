@@ -1,10 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
-const mysql = require("mysql");
 const db = require("../db/db");
 const cors = require("cors");
-const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 
 router.use(cookieParser());

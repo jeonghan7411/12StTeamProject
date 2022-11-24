@@ -2,10 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import ProductCategoryList from "./ProductCategoryList";
 import Banner from "../home/Banner";
-import HomeProduct from "../home/HomeProduct";
 import InfiniteScroll from "react-infinite-scroll-component";
 import classes from "./ProductsCategory.module.css";
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 const ProductsCategory = () => {

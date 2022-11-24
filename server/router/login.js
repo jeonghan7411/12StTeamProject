@@ -1,5 +1,4 @@
 const express = require("express");
-const mysql = require("mysql");
 require("dotenv").config();
 const db = require("../db/db");
 const router = express.Router();
@@ -7,7 +6,6 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
-const saltRounds = 10;
 
 router.use(cookieParser());
 router.use(express.json());
@@ -22,8 +20,6 @@ router.use(
 router.post("/api/login", (req, res) => {
   let isUser = false;
   const { userID, userPW } = req.body;
-  console.log(userID);
-  console.log(userPW);
   let sql = "SELECT * from users where uId = ?;";
 
   db.query(sql, [userID], (err, rows) => {
@@ -49,7 +45,7 @@ router.post("/api/login", (req, res) => {
                 },
                 ACCESS_SECRET_KEY,
                 {
-                  expiresIn: "10m",
+                  expiresIn: "1m",
                   issuer: "12St",
                 }
               );
@@ -60,7 +56,7 @@ router.post("/api/login", (req, res) => {
                 },
                 REFRESH_SECRET_KEY,
                 {
-                  expiresIn: "24h",
+                  expiresIn: "14d",
                   issuer: "12St",
                 }
               );
@@ -90,7 +86,7 @@ router.get("/api/login/success", (req, res) => {
     jwt.verify(reftoken, process.env.REFRESH_SECRET_KEY, (err) => {
       if (err) {
         res.send("timeout");
-        console.log("리프레시토큰만료");
+        // console.log("리프레시토큰만료");
       } else {
         return;
       }
@@ -118,7 +114,7 @@ router.get("/api/login/success", (req, res) => {
           },
           process.env.ACCESS_SECRET_KEY,
           {
-            expiresIn: "10m",
+            expiresIn: "1m",
             issuer: "12St",
           }
         );
@@ -127,7 +123,7 @@ router.get("/api/login/success", (req, res) => {
         res.status(201).json({
           result: "ok",
         });
-        console.log("액세스토큰만료 재발급");
+        // console.log("액세스토큰만료 재발급");
       });
     } else {
       res.send("login");
