@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
@@ -37,7 +38,9 @@ const User = ({
     <React.Fragment>
       <div className={classes.adminUser}>
         {/* <AdminContentTitle title={"고객관리"} /> */}
-        <h3 className={classes["adminUser-title"]}>회원관리</h3>
+        <h3 className={classes["adminUser-title"]}>
+          회원관리 {`(${userList.length}명)`}
+        </h3>
 
         <table className={classes["adminUser-userList"]}>
           <thead>
@@ -82,7 +85,7 @@ const User = ({
           </tbody>
         </table>
 
-        {userList.length != 0 && (
+        {userList.length !== 0 && (
           <div>
             <Pagination
               activePage={currentPage}

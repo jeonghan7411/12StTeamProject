@@ -25,6 +25,7 @@ import SubProducts from "./SubProducts";
 import classes from "./Admin.module.css";
 import AdminBoard from "./AdminBoard";
 import SubBoard from "./SubBoard";
+import AdminMain from "./AdminMain";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const Admin = () => {
   const [setting, setSetting] = useState(false);
 
   const [category, setCategody] = useState({
-    main: false,
+    main: true,
     product: false,
     userinfo: false,
     board: false,
@@ -352,6 +353,12 @@ const Admin = () => {
             </div>
           </div>
         </nav>
+
+        {category.main && (
+          <section className={classes["admin-section"]}>
+            <AdminMain />
+          </section>
+        )}
 
         {category.order && (
           <section className={classes["admin-section"]}>

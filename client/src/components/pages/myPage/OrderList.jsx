@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect } from "react";
 import { useState } from "react";
 
@@ -133,7 +134,7 @@ const OrderList = () => {
                 .map((item, key) => {
                   return <OrderItem orderList={item} key={key} />;
                 })}
-              {orderList.length != 0 && (
+              {orderList.length !== 0 && (
                 <div>
                   <Pagination
                     activePage={currentPage} // 현재 페이지
@@ -154,7 +155,7 @@ const OrderList = () => {
                 .map((item, key) => {
                   return <OrderItem orderList={item} key={key} />;
                 })}
-              {searchResult.length != 0 && (
+              {searchResult.length !== 0 && (
                 <div>
                   <Pagination
                     activePage={currentPage} // 현재 페이지
