@@ -3,6 +3,7 @@ import React from "react";
 import classes from "./SubOrder.module.css";
 
 const SubOrder = ({ detailOrder }) => {
+  console.log(detailOrder);
   return (
     <div className={classes.subOrder}>
       <h4 className={classes["subOrder-title"]}>주문 상세 조회</h4>
@@ -27,7 +28,7 @@ const SubOrder = ({ detailOrder }) => {
       <p className={classes["subOrder-content__title"]}>배송지</p>
       <p
         className={classes["subOrder-content__data"]}
-      >{`${detailOrder.addr} [${detailOrder.oZipcode}]  ${detailOrder.oAdditionalAddr}`}</p>
+      >{`${detailOrder.oAddr} [${detailOrder.oZipcode}]  ${detailOrder.oAdditionalAddr}`}</p>
 
       <p className={classes["subOrder-content__title"]}>연락처</p>
       <p className={classes["subOrder-content__data"]}>{detailOrder.oPhone}</p>
