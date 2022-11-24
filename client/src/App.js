@@ -30,13 +30,13 @@ import ReviewWrite from "./components/pages/myPage/ReviewWrite";
 
 import SearchResult from "./components/pages/search/SearchResult";
 
-import { getUser } from "./util/getUser";
 import ReviewList from "./components/pages/myPage/ReviewList";
 import Admin from "./components/pages/admin/Admin";
+import { cookieCheckLogin } from "./util/authCheck";
 
 function App() {
   const [userToken, setUserToken] = useState();
-
+  const [isLogin, setIsLogin] = useState(false);
   const [data, setData] = useState([]);
   const [bestProduct, setBestProduct] = useState([]);
 
@@ -49,10 +49,10 @@ function App() {
           setBestProduct(response.data.result[1]);
         });
     };
-
+    cookieCheckLogin(setIsLogin);
     fetchData();
-  }, []);
-
+  }, [isLogin]);
+  // console.log(isLogin);
   return (
     <div className={classes.App}>
       <Reset />
@@ -73,12 +73,17 @@ function App() {
                 />
                 <Route
                   path="/login"
-                  element={<Login setUserToken={setUserToken} />}
+                  element={
+                    <Login
+                      setUserToken={setUserToken}
+                      setIsLogin={setIsLogin}
+                    />
+                  }
                 />
 
                 <Route path="/regist" element={<Regist />} />
                 <Route path="/updateuser" element={<MyPageUpdateUser />} />
-                <Route path="/mypage" element={<MyPage />}>
+                <Route path="/mypage" element={<MyPage isLogin={isLogin} />}>
                   <Route index element={<OrderList />} />
                   <Route
                     path="cancel-return-exchange-write"
@@ -103,7 +108,10 @@ function App() {
                   element={<ProductsBest bestProduct={bestProduct} />}
                 />
                 <Route path="/categories" element={<ProductsCategory />} />
-                <Route path="/cart" element={<ProductCart />} />
+                <Route
+                  path="/cart"
+                  element={<ProductCart isLogin={isLogin} />}
+                />
 
                 {/* 결제 */}
                 <Route path="/order" element={<Order />} />

@@ -9,6 +9,8 @@ import AdminOrder from "./AdminOrder";
 import classes from "./Admin.module.css";
 import SubOrder from "./SubOrder";
 import AdminUser from "./AdminUser";
+import AdminBoard from "./AdminBoard";
+import SubBoard from "./SubBoard";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -23,9 +25,10 @@ const Admin = () => {
   const [setting, setSetting] = useState(false);
 
   const [userList, setUserList] = useState([]);
-
+  const [boardList, setBoardList] = useState([]);
   const [orderList, setOrderList] = useState([]);
   const [detailOrder, setDetailOrder] = useState({});
+  const [detailBoard, setDetailBoard] = useState({});
   const [reset, setReset] = useState(false);
   const navInfo = [
     {
@@ -171,6 +174,12 @@ const Admin = () => {
         .then((response) => {
           setOrderList(response.data);
         });
+
+      await axios
+        .get("http://localhost:5000/admin/api/boardList")
+        .then((response) => {
+          setBoardList(response.data);
+        });
     };
     userData();
     document.body.style = `overflow:hidden`;
@@ -223,8 +232,17 @@ const Admin = () => {
           </section>
         )}
         {userinfo && <AdminUser userList={userList} setReset={setReset} />}
-        {/* {board && <AdminBoard />}
-        {design && <AdminDesign />}
+        {board && (
+          <section className={classes["admin-section"]}>
+            <AdminBoard
+              boardList={boardList}
+              setReset={setReset}
+              onDetailBoard={setDetailBoard}
+            />
+            <SubBoard detailBoard={detailBoard} />
+          </section>
+        )}
+        {/* {design && <AdminDesign />}
         {mobile && <AdminMobile />}
         {promotion && <AdminPromotion />}
         {setting && <AdminSetting />} */}
