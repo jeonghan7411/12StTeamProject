@@ -30,6 +30,8 @@ const Login = () => {
         if (response.data === "secession") {
           window.location.reload();
           alert("이미 탈퇴한 회원입니다");
+        } else if (response.data === "invalid") {
+          alert("아이디 혹은 비밀번호를 확인해주세요");
         } else {
           window.alert("로그인 성공!");
           setIsLogin(true);
@@ -96,6 +98,7 @@ const Login = () => {
               type={"text"}
               onChange={(e) => setUserID(e.target.value)}
               placeholder={"아이디를 입력해주세요"}
+              required
             />
           </div>
           <div className={classes["form-login-pw"]}>
@@ -104,6 +107,7 @@ const Login = () => {
               onChange={(e) => setUserPW(e.target.value)}
               placeholder={"비밀번호를 입력해주세요"}
               ref={pwTab}
+              required
             />
             {!showPW ? (
               <FaEyeSlash
