@@ -27,6 +27,26 @@ router.get("/api/get/orderList", (req, res) => {
   });
 });
 
+router.get("/api/productList", (req, res) => {
+  let sql = "SELECT * FROM products ORDER BY idx DESC";
+
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+
+    res.send(result);
+  });
+});
+
+router.get("/api/boardList", (req, res) => {
+  let sql = "SELECT * FROM board ORDER BY idx DESC";
+
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+
+    res.send(result);
+  });
+});
+
 router.get("/api/userlist", (req, res) => {
   let sql = "SELECT * FROM users ORDER BY idx DESC;";
 
@@ -38,6 +58,18 @@ router.get("/api/userlist", (req, res) => {
       status: 200,
       result,
     });
+  });
+});
+
+router.post("/api/userOut", (req, res) => {
+  const uId = req.body.uId;
+  let sql = "UPDATE users SET uAuth = 0 WHERE uId = ?";
+  db.query(sql, [uId], (err) => {
+    if (err) {
+      throw err;
+    } else {
+      res.send("탈퇴 처리 완료");
+    }
   });
 });
 

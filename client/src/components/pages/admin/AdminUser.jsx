@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import Pagination from "react-js-pagination";
@@ -5,7 +6,7 @@ import AdminContentTitle from "./AdminContentTitle";
 
 import classes from "./AdminUser.module.css";
 import UserViewModal from "./UserViewModal";
-const User = ({ userList }) => {
+const User = ({ userList, setReset }) => {
   const [currentPage, setCurrntPage] = useState(1); // 현재페이지
   const [indexOfLastQnA, setIndexOfLastQnA] = useState(0);
   const [indexOfFirstQnA, setIndexOfFirstQnA] = useState(0);
@@ -30,6 +31,15 @@ const User = ({ userList }) => {
   const closeUserView = () => {
     setUserView(false);
   };
+
+  const userOut = async (uId) => {
+    await axios
+      .post("http://www.localhost:5000/admin/api/userOut", { uId })
+      .then((response) => {
+        alert(response.data);
+        setReset((prev) => !prev);
+      });
+  };
   return (
     <React.Fragment>
       <div className={classes.User}>
@@ -51,7 +61,7 @@ const User = ({ userList }) => {
                 <td>Birth</td>
                 <td>RegDate</td>
                 <td>Auth</td>
-                <td>비고</td>
+                <td>관리</td>
               </tr>
             </thead>
             <tbody>
@@ -92,7 +102,9 @@ const User = ({ userList }) => {
                     <td>{it.uBirth}</td>
                     <td>{it.uRegdate}</td>
                     <td>{it.uAuth}</td>
-                    <td>Delete</td>
+                    <td>
+                      <button onClick={() => userOut(it.uId)}>탈퇴처리</button>
+                    </td>
                   </tr>
                 ))}
             </tbody>

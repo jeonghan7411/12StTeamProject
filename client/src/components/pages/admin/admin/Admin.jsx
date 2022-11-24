@@ -8,6 +8,7 @@ import { getUser } from "../../../../util/getUser";
 import AdminOrder from "../AdminOrder";
 import classes from "./Admin.module.css";
 import SubOrder from "./SubOrder";
+import AdminUser from "../AdminUser";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Admin = () => {
 
   const [orderList, setOrderList] = useState([]);
   const [detailOrder, setDetailOrder] = useState({});
-
+  const [reset, setReset] = useState(false);
   const navInfo = [
     {
       title: "메인",
@@ -174,7 +175,7 @@ const Admin = () => {
     userData();
     document.body.style = `overflow:hidden`;
     return () => (document.body.style = `overlflow:auto`);
-  }, []);
+  }, [reset]);
 
   const [user, setUser] = useState({});
   const location = useLocation();
@@ -221,8 +222,8 @@ const Admin = () => {
             <SubOrder detailOrder={detailOrder} />
           </section>
         )}
-        {/* {user && <AdminUser userList={userList} />}
-        {board && <AdminBoard />}
+        {user && <AdminUser userList={userList} setReset={setReset} />}
+        {/* {board && <AdminBoard />}
         {design && <AdminDesign />}
         {mobile && <AdminMobile />}
         {promotion && <AdminPromotion />}
