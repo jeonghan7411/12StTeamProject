@@ -167,7 +167,7 @@ const RegistUserInfoInput = () => {
     }
 
     if (!registIsValid) {
-      return console.log("fail");
+      return;
     } else {
       // 서버 전송
       await axios

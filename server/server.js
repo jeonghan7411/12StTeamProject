@@ -1,17 +1,10 @@
 // import
 const express = require("express");
 const cors = require("cors");
-const bcrypt = require("bcrypt");
-const multer = require("multer");
-const moment = require("moment");
 require("dotenv").config();
-const mysql = require("mysql");
-const db = require("./db/db");
 const fs = require("fs");
 const app = express();
-const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-const { send } = require("process");
 const admin = require("./router/admin");
 const mypage = require("./router/mypage");
 const product = require("./router/product");
@@ -38,41 +31,7 @@ app.use(
     credentials: true,
   })
 );
-//나중에 멀터 업로드 처리
-
 // url
-
-// 리프레시
-/*
-app.get("/api/login/refresh", (req, res) => {
-  const token = req.cookies.refreshToken;
-  const data = jwt.verify(token, process.env.REFRESH_SECRET_KEY);
-
-  let sql = "SELECT * from users WHERE uId = ?;";
-  db.query(sql, [data.id], (err, rows) => {
-    if (err) {
-      throw err;
-    }
-    //비밀번호 빼고 전달
-    const { uPasswd, ...others } = rows[0];
-
-    //accessToken 새로 발급
-    const accessToken = jwt.sign(
-      {
-        id: others.uId,
-      },
-      ACCESS_SECRET_KEY,
-      {
-        expiresIn: "1m",
-        issuer: "12St",
-      }
-    );
-
-    res.cookie("accessToken", accessToken, { httpOnly: true });
-    res.status(200).json("Access Token Recreated");
-  });
-});
-*/
 
 //네이버 api 받아와서 db에 넣은 흔적
 /*

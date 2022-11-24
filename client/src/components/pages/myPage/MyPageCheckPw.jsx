@@ -4,9 +4,6 @@ import axios from "axios";
 import classes from "./MyPageCheckPw.module.css";
 import MyPageListTitle from "./MyPageListTitle";
 
-import { getUser } from "../../../util/getUser";
-import { authCheck } from "../../../util/authCheck";
-
 const MyPageCheckPw = ({ user, setUserPw }) => {
   const [checkInputPw, setCheckInputPw] = useState();
 

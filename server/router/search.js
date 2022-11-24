@@ -1,13 +1,9 @@
 const express = require("express");
-const mysql = require("mysql");
 require("dotenv").config();
 const db = require("../db/db");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-const bcrypt = require("bcrypt");
 const cors = require("cors");
-const saltRounds = 10;
 
 router.use(cookieParser());
 router.use(express.json());
@@ -20,7 +16,7 @@ router.use(
 );
 
 router.post("/api/getData", (req, res) => {
-  const { searchValue } = req.body;
+  const searchValue = req.query.keyword;
   const keyWord = `%${searchValue}%`;
 
   let sql =
@@ -30,6 +26,7 @@ router.post("/api/getData", (req, res) => {
     sql,
     [keyWord, keyWord, keyWord, keyWord, keyWord, keyWord, keyWord, keyWord],
     (err, result) => {
+      if (err) throw err;
       res.send(result);
     }
   );

@@ -1,16 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { HiArrowCircleDown } from "react-icons/hi";
 
 import classes from "./ProductCategoryList.module.css";
 import ProductCategoryListDetail from "./ProductCategoryListDetail";
 
-const DUMMY_DATA = [1, 2, 3, 4, 5];
-
 const ProductCategoryList = ({ title, type, setProducts }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const type2 = searchParams.get("type2");
   const navigate = useNavigate();
   const [isShown, setIsShown] = useState(false);
   const [subtitle, setSubtitle] = useState("");
@@ -19,7 +15,6 @@ const ProductCategoryList = ({ title, type, setProducts }) => {
     setSubtitle(title);
   }, [subtitle]);
 
-  // console.log(type);
   const fetchData = async () => {
     await axios
       .get(

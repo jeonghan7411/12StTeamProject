@@ -2,8 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { RiShoppingCart2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
-import { authCheck, cookieCheck } from "../../../util/authCheck";
-import { getUser } from "../../../util/getUser";
+import { cookieCheck } from "../../../util/authCheck";
 import Card from "../../UI/Card";
 
 import classes from "./ProductsBestThree.module.css";

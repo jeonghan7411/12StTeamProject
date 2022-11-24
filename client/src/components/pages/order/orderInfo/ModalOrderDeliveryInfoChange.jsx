@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import Modal from "../../../UI/Modal";
 import DaumPostcode from "react-daum-postcode";
 
@@ -23,8 +23,6 @@ const ModalOrderDeliveryInfoChange = ({ onShow, onAddrDate, defalutAddr }) => {
   });
 
   const [formIsValid, setFormIsValid] = useState(true);
-
-  console.log(addInfoValue);
 
   const [isShowAddrSearch, setIsShowAddrSearch] = useState(false);
 
@@ -94,8 +92,6 @@ const ModalOrderDeliveryInfoChange = ({ onShow, onAddrDate, defalutAddr }) => {
       return { ...prev, uId: defalutAddr.uId };
     });
   }, []);
-
-  console.log(addInfoValue);
 
   return (
     <Modal
@@ -233,6 +229,11 @@ const ModalOrderDeliveryInfoChange = ({ onShow, onAddrDate, defalutAddr }) => {
       <div className={classes["modalOrderDeliveryInfoChange-control"]}>
         <button
           className={classes["modalOrderDeliveryInfoChange-control__cancle"]}
+          onClick={() =>
+            onShow((prev) => {
+              return { ...prev, addInfo: false };
+            })
+          }
         >
           취소
         </button>

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { deliveryDate } from "../../../../util/deliveryDate";
 import Card from "../../../UI/Card";
@@ -6,8 +6,6 @@ import Card from "../../../UI/Card";
 import classes from "./OrderProduct.module.css";
 
 const OrderProduct = ({ orderData }) => {
-  // console.log(orderData);
-
   return (
     <div className={classes["orderProduct"]}>
       {orderData.map((data, key) => {

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 import classes from "./SubUser.module.css";
 
-const SubUser = ({ detailUser, showDetail, setShowDetail }) => {
+const SubUser = ({ detailUser, showDetail, setShowDetail, setReset }) => {
   const [auth, setAuth] = useState();
 
   const updateUserHandler = async (e) => {
@@ -23,6 +23,7 @@ const SubUser = ({ detailUser, showDetail, setShowDetail }) => {
         .then((response) => {
           if (response.data.status === 200) {
             alert(response.data.message);
+            setReset((prev) => !prev);
           }
         });
     }

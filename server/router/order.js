@@ -1,13 +1,10 @@
 const express = require("express");
-const mysql = require("mysql");
 require("dotenv").config();
 const db = require("../db/db");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-const bcrypt = require("bcrypt");
 const cors = require("cors");
-const saltRounds = 10;
 
 router.use(cookieParser());
 router.use(express.json());
@@ -23,7 +20,6 @@ router.post("/api/addAddr", (req, res) => {
   const { uId, dName, dZipcode, dAddr, dAdditionalAddr, dPhone, dMemo } =
     req.body.addInfoValue;
 
-  console.log(req.body);
   let sql1 = "INSERT INTO deliveryaddr VALUES(NULL, ?, ?, ?, ?, ?, ?, ?);";
   let sql2 =
     "UPDATE defaultaddress SET dName = ? , dZipcode = ?, dAddr = ?, dAdditionalAddr = ?, dPhone=?, dMemo=?  WHERE uId = ?;";

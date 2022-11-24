@@ -17,24 +17,22 @@ const Header = () => {
   const [ishShownCartegory, setIsShowncategory] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
-
   const handlesearchSubmit = async (e) => {
     e.preventDefault();
 
     await axios
-      .post("http://localhost:5000/search/api/getData", {
-        searchValue,
-      })
+      .post("http://localhost:5000/search/api/getData?keyword=" + searchValue)
       .then((response) => {
-        setSearchValue("");
-        navigate("/searchResult", {
-          state: { result: response.data, keyword: searchValue },
+        navigate("/searchResult?keyword=" + searchValue, {
+          state: { result: response.data },
         });
       });
   };
+  // console.log(searchValue);
   if (location.pathname === "/admin") {
     return null;
   }
+
   return (
     <React.Fragment>
       {ishShownCartegory && (
@@ -63,7 +61,7 @@ const Header = () => {
           <div className={classes["header-search-input"]}>
             <input
               type="text"
-              value={searchValue}
+              defaultValue={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
             />
           </div>

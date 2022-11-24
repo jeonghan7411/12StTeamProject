@@ -3,7 +3,6 @@ import React from "react";
 import classes from "./SubBoard.module.css";
 
 const SubBoard = ({ detailBoard }) => {
-  console.log(detailBoard);
   return (
     <div className={classes.subOrder}>
       <h4 className={classes["subOrder-title"]}>게시판 상세 조회</h4>

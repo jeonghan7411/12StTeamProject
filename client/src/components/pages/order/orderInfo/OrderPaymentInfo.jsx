@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React from "react";
 import { paymentMethod } from "../../../../util/payment";
 import OrderAccount from "../orderMethod/OrderAccount";
 import OrderCard from "../orderMethod/OrderCard";

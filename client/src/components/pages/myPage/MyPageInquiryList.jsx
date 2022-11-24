@@ -5,9 +5,7 @@ import MyPageListForm from "./MyPageListForm";
 import classes from "./MyPageInquiryList.module.css";
 import MyPageNullMsg from "./MyPageNullMsg";
 import { authCheck } from "../../../util/authCheck";
-import { getUser } from "../../../util/getUser";
 import { getBoard } from "../../../util/getBoard";
-import axios from "axios";
 import Pagination from "react-js-pagination";
 
 const MyPageInquiryList = () => {

@@ -5,7 +5,7 @@ import Pagination from "react-js-pagination";
 
 import classes from "./AdminProducts.module.css";
 
-const AdminProducts = ({ productList, reset, onDetailProduct }) => {
+const AdminProducts = ({ productList, setReset, onDetailProduct }) => {
   const [currentPage, setCurrntPage] = useState(1); // 현재페이지
   const [indexOfLastQnA, setIndexOfLastQnA] = useState(0);
   const [indexOfFirstQnA, setIndexOfFirstQnA] = useState(0);

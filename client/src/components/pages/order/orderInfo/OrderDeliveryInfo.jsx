@@ -6,7 +6,6 @@ import Modal from "../../../UI/Modal";
 import { GrClose } from "react-icons/gr";
 
 import classes from "./OrderDeliveryInfo.module.css";
-import { useNavigate } from "react-router-dom";
 import ModalOrderDeliveryInfoChange from "./ModalOrderDeliveryInfoChange";
 
 const OrderDeliveryInfo = ({
@@ -15,7 +14,6 @@ const OrderDeliveryInfo = ({
   isOrderComplete,
   onAddrDate,
 }) => {
-  const navigate = useNavigate();
   const [isShowModal, setIsShowModal] = useState({
     changeInfo: false,
     addInfo: false,

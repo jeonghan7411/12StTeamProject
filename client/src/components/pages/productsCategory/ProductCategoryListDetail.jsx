@@ -1,9 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import classes from "./ProductCategoryListDetail.module.css";
 const ProductCategoryListDetail = ({ title, type, subtitle, setProducts }) => {
-  const location = useLocation();
   const [subtitle2, setSubtitle2] = useState("");
   const handleSubtitle2 = () => {
     setSubtitle2(title);

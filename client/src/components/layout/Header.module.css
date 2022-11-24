@@ -3,10 +3,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 120px;
+
   font-size: 20px;
 
-  padding: 0 80px;
+  padding: 30px 80px 30px 80px;
   border-bottom: 1px solid var(--navy-color);
 }
 
