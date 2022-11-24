@@ -27,12 +27,12 @@ import OrderDetail from "./components/pages/myPage/OrderDetail";
 import MyPageUserDelete from "./components/pages/myPage/MyPageUserDelete";
 import React from "react";
 import ReviewWrite from "./components/pages/myPage/ReviewWrite";
-import AdminHome from "./components/pages/admin/AdminHome";
+
 import SearchResult from "./components/pages/search/SearchResult";
 
 import { getUser } from "./util/getUser";
 import ReviewList from "./components/pages/myPage/ReviewList";
-import Admin from "./components/pages/admin/admin/Admin";
+import Admin from "./components/pages/admin/Admin";
 
 function App() {
   const [userToken, setUserToken] = useState();

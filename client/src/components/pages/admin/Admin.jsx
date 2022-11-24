@@ -2,13 +2,13 @@ import axios from "axios";
 import React, { Fragment, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import adminlogo from "../../../../assets/icons/setting.png";
-import { authCheck } from "../../../../util/authCheck";
-import { getUser } from "../../../../util/getUser";
-import AdminOrder from "../AdminOrder";
+import adminlogo from "../../../assets/icons/setting.png";
+import { authCheck } from "../../../util/authCheck";
+import { getUser } from "../../../util/getUser";
+import AdminOrder from "./AdminOrder";
 import classes from "./Admin.module.css";
 import SubOrder from "./SubOrder";
-import AdminUser from "../AdminUser";
+import AdminUser from "./AdminUser";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -222,7 +222,7 @@ const Admin = () => {
             <SubOrder detailOrder={detailOrder} />
           </section>
         )}
-        {user && <AdminUser userList={userList} setReset={setReset} />}
+        {userinfo && <AdminUser userList={userList} setReset={setReset} />}
         {/* {board && <AdminBoard />}
         {design && <AdminDesign />}
         {mobile && <AdminMobile />}

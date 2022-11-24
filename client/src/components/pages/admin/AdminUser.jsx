@@ -2,10 +2,10 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import Pagination from "react-js-pagination";
-import AdminContentTitle from "./AdminContentTitle";
+// import AdminContentTitle from "./AdminContentTitle";
 
 import classes from "./AdminUser.module.css";
-import UserViewModal from "./UserViewModal";
+// import UserViewModal from "../UserViewModal";
 const User = ({ userList, setReset }) => {
   const [currentPage, setCurrntPage] = useState(1); // 현재페이지
   const [indexOfLastQnA, setIndexOfLastQnA] = useState(0);
@@ -43,7 +43,7 @@ const User = ({ userList, setReset }) => {
   return (
     <React.Fragment>
       <div className={classes.User}>
-        <AdminContentTitle title={"고객관리"} />
+        {/* <AdminContentTitle title={"고객관리"} /> */}
 
         <div className={classes["user-table-user"]}>
           <table>
@@ -90,12 +90,12 @@ const User = ({ userList, setReset }) => {
                       >
                         {it.uId}
                       </button>
-                      {userView === true && (
+                      {/* {userView === true && (
                         <UserViewModal
                           props={selectUser}
                           onClose={closeUserView}
                         />
-                      )}
+                      )} */}
                     </td>
                     <td>{it.uName}</td>
                     <td>{it.uEmail}</td>
