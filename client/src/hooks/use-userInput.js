@@ -2,8 +2,8 @@ import { useReducer } from "react";
 
 // 유효성 검사 로직
 const nameCheck = /^[가-힝a-zA-Z]{2,}$/;
-const pwCheck = /[a-zA-Zㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g;
-const numCheck = /[0-9]/g;
+const pwCheck = /[a-zA-Zㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
+const numCheck = /[0-9]/;
 const spcCheck = /[!@#]/;
 // const phoneCheck = /^\d{3}\d{3,4}\d{4}$/;
 const telPhoneCheck = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
@@ -32,8 +32,7 @@ const checkPhone = (value) =>
 const checkAdditionalAddress = (value) =>
   value.trim().length >= 1 && !spcCheck.exec(value);
 
-const checkBirth = (value) =>
-  value.trim().length === 8 && !numCheck.exec(value);
+const checkBirth = (value) => value.trim().length === 8 && numCheck.exec(value);
 
 // 초기값 설정
 const initialInputState = {

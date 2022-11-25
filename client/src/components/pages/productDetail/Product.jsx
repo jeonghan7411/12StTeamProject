@@ -194,7 +194,7 @@ const Product = () => {
             </h3>
             {/*  할인율 적용된 가격 */}
             <h2 className={classes["product-content-detail-price__realPrice"]}>
-              {realPrice.toLocaleString("ko-kr")}원
+              {Math.round(realPrice).toLocaleString("ko-kr")}원
             </h2>
             {/* 원가 */}
             <h3 className={classes["product-content-detail-price__price"]}>

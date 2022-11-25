@@ -75,7 +75,10 @@ const Header = () => {
         <div className={classes["header-wrap-right"]}>
           {/* <MdOutlineNaturePeople className={classes["header-control"]} /> */}
 
-          <TbTruckDelivery className={classes["header-control"]} />
+          <TbTruckDelivery
+            className={classes["header-control"]}
+            onClick={() => navigate("/mypage")}
+          />
 
           <RiShoppingCart2Line
             onClick={() => navigate("/cart")}

@@ -38,9 +38,12 @@ const User = ({
     <React.Fragment>
       <div className={classes.adminUser}>
         {/* <AdminContentTitle title={"고객관리"} /> */}
-        <h3 className={classes["adminUser-title"]}>
-          회원관리 {`(${userList.length}명)`}
-        </h3>
+        <div className={classes["adminUser-wrap"]}>
+          <h3 className={classes["adminUser-title"]}>고객관리</h3>
+          <span
+            className={classes["adminUser-list"]}
+          >{`총 회원 수 : ${userList.length}명`}</span>
+        </div>
 
         <table className={classes["adminUser-userList"]}>
           <thead>
