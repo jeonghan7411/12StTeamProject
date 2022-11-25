@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import adminlogo from "../../../assets/icons/setting.png";
-import { authCheck } from "../../../util/authCheck";
+import { authCheck, handleLogout } from "../../../util/authCheck";
 import { getUser } from "../../../util/getUser";
 import AdminOrder from "./AdminOrder";
 import SubOrder from "./SubOrder";
@@ -214,7 +214,10 @@ const Admin = () => {
               쇼핑몰 설정
             </div>
           </div>
-          <button className={classes["admin-nav-list__logout"]}>
+          <button
+            className={classes["admin-nav-list__logout"]}
+            onClick={handleLogout}
+          >
             <RiLogoutBoxRLine
               className={classes["admin-nav-list__logout__icon"]}
             />

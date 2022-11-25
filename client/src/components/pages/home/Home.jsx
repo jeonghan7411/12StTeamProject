@@ -71,15 +71,14 @@ const Home = ({ data, bestProduct }) => {
       <section className={classes["home-section"]}>
         <div className={classes["home-section__titleWrap"]}>
           <h3 className={classes["home-section__title"]}>
-            <img src={salelogo} alt="bestProduct" /> 12st 지금안사면 일주일 뒤에
-            더 비싸게 구매하겠지
+            <img src={salelogo} alt="bestProduct" /> 12st 지금이 제일 싼 가격
           </h3>
           <span className={classes["home-section__expansion"]}>+ 더보기</span>
         </div>
         <div className={classes["home-section-saleProduct"]}>
           {data
             .filter((it) => it.pDiscount > 25)
-            .slice(30, 48)
+            .slice(30, 38)
             .map((it, key) => (
               <SaleProduct key={key} data={it} />
             ))}

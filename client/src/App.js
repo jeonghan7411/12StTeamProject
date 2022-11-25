@@ -30,11 +30,13 @@ import ReviewWrite from "./components/pages/myPage/ReviewWrite";
 import SearchResult from "./components/pages/search/SearchResult";
 import ReviewList from "./components/pages/myPage/ReviewList";
 import Admin from "./components/pages/admin/Admin";
+import Error404 from "./components/pages/nonPage/Error404";
+import Loading from "./components/pages/loading/Loading";
 
 function App() {
   const [data, setData] = useState([]);
   const [bestProduct, setBestProduct] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       await axios
@@ -42,10 +44,14 @@ function App() {
         .then((response) => {
           setData(response.data.result[0]);
           setBestProduct(response.data.result[1]);
+          setIsLoading(true);
         });
     };
     fetchData();
   }, []);
+  if (!isLoading) {
+    return <Loading />;
+  }
   return (
     <div className={classes.App}>
       <Reset />
@@ -99,6 +105,7 @@ function App() {
                 <Route path="/order" element={<Order />} />
                 <Route path="/orderComplete" element={<OrderComplete />} />
                 <Route path="/searchResult" element={<SearchResult />} />
+                <Route path="/*" element={<Error404 />} />
               </Route>
             </Routes>
           </main>

@@ -20,7 +20,7 @@ const AdminProducts = ({ productList, setReset, onDetailProduct }) => {
   return (
     <div>
       <div className={classes.adminOrder}>
-        <h3 className={classes["adminOrder-title"]}>주문관리</h3>
+        <h3 className={classes["adminOrder-title"]}>상품관리</h3>
 
         <table className={classes["adminOrder-orderList"]}>
           <thead>
