@@ -5,6 +5,8 @@
 --
 개발 환경 :JS / ReactJs    /  Express.Js   /   MySQL /  git
 ---
+담방 페이지 backend & frontend 구현 
+---
 
 PDF 파일 링크 [PDF](https://useful-terrier-333.notion.site/12St-Team-Project-8a749eae4a914893ae10a476ea385a46)
 
